@@ -1,0 +1,126 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-plano
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: plano
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: gen_random_uuid(), constraints: { primaryKey: true } }
+              - column: { name: codigo, type: varchar(40), constraints: { nullable: false, unique: true } }
+              - column: { name: nome, type: varchar(100), constraints: { nullable: false } }
+              - column: { name: preco_mensal, type: 'numeric(10,2)', constraints: { nullable: false } }
+              - column: { name: limite_pacientes, type: int, constraints: { nullable: false } }
+              - column: { name: ativo, type: boolean, defaultValueBoolean: true, constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+
+  - changeSet:
+      id: 001-plano-dados-iniciais
+      author: dietamais
+      changes:
+        - insert:
+            tableName: plano
+            columns:
+              - column: { name: codigo, value: TESTE }
+              - column: { name: nome, value: Teste }
+              - column: { name: preco_mensal, valueNumeric: 0 }
+              - column: { name: limite_pacientes, valueNumeric: 5 }
+        - insert:
+            tableName: plano
+            columns:
+              - column: { name: codigo, value: BASICO_20 }
+              - column: { name: nome, value: Básico }
+              - column: { name: preco_mensal, valueNumeric: 29.90 }
+              - column: { name: limite_pacientes, valueNumeric: 20 }
+
+  - changeSet:
+      id: 001-organizacao
+      author: dietamais
+      comment: Uma nutri sozinha é uma organização de uma pessoa; clínicas entram depois sem mudar o modelo
+      changes:
+        - createTable:
+            tableName: organizacao
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: gen_random_uuid(), constraints: { primaryKey: true } }
+              - column: { name: nome, type: varchar(150), constraints: { nullable: false } }
+              - column: { name: tipo, type: varchar(20), defaultValue: INDIVIDUAL, constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+
+  - changeSet:
+      id: 001-usuario
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: usuario
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: gen_random_uuid(), constraints: { primaryKey: true } }
+              - column: { name: email, type: varchar(255), constraints: { nullable: false, unique: true } }
+              - column: { name: senha_hash, type: varchar(255), constraints: { nullable: false } }
+              - column: { name: nome, type: varchar(150), constraints: { nullable: false } }
+              - column: { name: perfil, type: varchar(20), constraints: { nullable: false } }
+              - column: { name: ativo, type: boolean, defaultValueBoolean: true, constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: atualizado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+
+  - changeSet:
+      id: 001-nutricionista
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: nutricionista
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: gen_random_uuid(), constraints: { primaryKey: true } }
+              - column: { name: usuario_id, type: uuid, constraints: { nullable: false, unique: true, foreignKeyName: fk_nutricionista_usuario, references: usuario(id) } }
+              - column: { name: organizacao_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_nutricionista_organizacao, references: organizacao(id) } }
+              - column: { name: crn, type: varchar(20), constraints: { nullable: false } }
+              - column: { name: telefone, type: varchar(20) }
+
+  - changeSet:
+      id: 001-paciente
+      author: dietamais
+      comment: Conta global do paciente; usuario_id fica nulo até ele aceitar o convite da nutri
+      changes:
+        - createTable:
+            tableName: paciente
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: gen_random_uuid(), constraints: { primaryKey: true } }
+              - column: { name: usuario_id, type: uuid, constraints: { unique: true, foreignKeyName: fk_paciente_usuario, references: usuario(id) } }
+              - column: { name: nome, type: varchar(150), constraints: { nullable: false } }
+              - column: { name: email, type: varchar(255) }
+              - column: { name: data_nascimento, type: date }
+              - column: { name: sexo, type: varchar(20) }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+
+  - changeSet:
+      id: 001-vinculo
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: vinculo
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: gen_random_uuid(), constraints: { primaryKey: true } }
+              - column: { name: nutricionista_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_vinculo_nutricionista, references: nutricionista(id) } }
+              - column: { name: paciente_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_vinculo_paciente, references: paciente(id) } }
+              - column: { name: status, type: varchar(20), defaultValue: CONVIDADO, constraints: { nullable: false } }
+              - column: { name: consentimento_em, type: timestamptz }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: encerrado_em, type: timestamptz }
+        - addUniqueConstraint:
+            tableName: vinculo
+            columnNames: nutricionista_id, paciente_id
+            constraintName: uk_vinculo_nutricionista_paciente
+
+  - changeSet:
+      id: 001-assinatura
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: assinatura
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: gen_random_uuid(), constraints: { primaryKey: true } }
+              - column: { name: organizacao_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_assinatura_organizacao, references: organizacao(id) } }
+              - column: { name: plano_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_assinatura_plano, references: plano(id) } }
+              - column: { name: status, type: varchar(20), constraints: { nullable: false } }
+              - column: { name: inicio_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: fim_periodo_em, type: timestamptz }
+              - column: { name: gateway_assinatura_id, type: varchar(100) }
