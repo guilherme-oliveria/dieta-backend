@@ -63,6 +63,17 @@ Health: `GET http://localhost:8080/actuator/health`. OpenAPI (a partir de BE-01)
 5. No mesmo PR, marque a tarefa como `[x]` em `docs/arquitetura/plano-de-acao.md`.
 6. Uma tarefa por PR. Se a tarefa for grande demais, divida em `BE-NNa`, `BE-NNb` no plano.
 
+## Revisão por QA (vale para Codex, Claude e qualquer agente)
+
+Quem escreve o código nunca aprova o próprio trabalho. O fluxo de todo PR de tarefa é:
+
+1. **Agente de código** (Codex ou outro) abre o PR para a `develop` com o ID da tarefa no título (`BE-NN …`, `MOB-NN …`). Ele **nunca** aprova, faz merge, fecha PR alheio ou resolve comentário do QA.
+2. **Agente QA** (Claude, um por repositório) revisa o PR contra a tarefa do `plano-de-acao.md`, a definição de pronto deste arquivo, as regras `RN-xxx` citadas, o contrato (`integracao.md` e os JSONs de `contrato/`) e, no mobile, `docs/design/`. Confere também o CI verde. E publica o veredito:
+   - **Aprovado:** review "Approve" ou, se o GitHub não deixar (mesma conta), comentário que começa com `QA: APROVADO`. Depois o QA faz o merge na `develop`. Merge na `main` é só do Guilherme.
+   - **Corrigir:** review "Request changes" ou comentário que começa com `QA: CORRIGIR`, com a lista do que falta.
+3. **Agente de código**, ao receber `QA: CORRIGIR`: corrige na **mesma branch**, faz push, responde cada apontamento dizendo o que mudou e comenta `QA: PRONTO PARA REVISAR`. Discordou de um apontamento? Responde explicando, sem ignorar.
+4. **Próxima tarefa só depois do veredito.** Antes de começar qualquer tarefa nova, o agente de código confere os PRs que abriu: com `QA: CORRIGIR` pendente, corrige primeiro; sem veredito ainda, para e avisa "aguardando QA" (pode adiantar só tarefas que não dependem daquele PR, saindo da branch dele).
+
 ## Definição de pronto
 
 Changeset novo (se mexeu no banco) · testes de regra, de API e de isolamento · OpenAPI anotado · `CodigoErro` com ID da regra · CI verde · docs atualizados se mudou contrato/regra.
