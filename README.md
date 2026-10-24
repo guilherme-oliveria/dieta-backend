@@ -49,3 +49,7 @@ Schema inicial (`001-contas-e-planos.yaml`): `plano` (com os planos Teste, 5 pac
 | `DB_URL` | `jdbc:postgresql://localhost:5432/dietamais` |
 | `DB_USERNAME` | `dietamais` |
 | `DB_PASSWORD` | `dietamais` |
+
+## Documentação e plano de ação
+
+Arquitetura, regras de negócio, contrato entre as aplicações e o plano de ação ficam em [`docs/arquitetura/`](docs/arquitetura/). Agentes de código (Claude Code, Codex) leem o [`AGENTS.md`](AGENTS.md).
