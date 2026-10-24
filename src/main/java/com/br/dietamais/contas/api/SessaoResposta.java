@@ -1,0 +1,14 @@
+package com.br.dietamais.contas.api;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.time.Instant;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
+public record SessaoResposta(
+		@Schema(nullable = true) String accessToken,
+		@Schema(nullable = true) String refreshToken,
+		@Schema(nullable = true) Instant expiraEm,
+		@Valid @NotNull UsuarioResposta usuario) {
+}

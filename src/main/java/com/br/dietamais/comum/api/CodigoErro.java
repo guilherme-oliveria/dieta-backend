@@ -1,0 +1,45 @@
+package com.br.dietamais.comum.api;
+
+import java.util.List;
+
+public enum CodigoErro {
+	LOGIN_BLOQUEADO(429, "RN-CON-03"),
+	CREDENCIAIS_INVALIDAS(401, "RN-CON-03"),
+	EMAIL_NAO_CONFIRMADO(422, "RN-CON-05"),
+	EMAIL_JA_CADASTRADO(409, "RN-CON-01"),
+	TOKEN_INVALIDO(401, "RN-CON-05", "RN-CON-07"),
+	LIMITE_PACIENTES_ATINGIDO(422, "RN-ASS-03"),
+	ASSINATURA_INATIVA(422, "RN-ASS-04"),
+	CONVITE_INVALIDO(422, "RN-VIN-02"),
+	CONVITE_EXPIRADO(422, "RN-VIN-02"),
+	VINCULO_JA_EXISTE(409, "RN-VIN-07"),
+	CONSENTIMENTO_OBRIGATORIO(422, "RN-VIN-04"),
+	PERFIL_INVALIDO(403),
+	RECURSO_NAO_ENCONTRADO(404),
+	NAO_AUTENTICADO(401),
+	ACESSO_NEGADO(403),
+	TAXA_EXCEDIDA(429),
+	CONFLITO_VERSAO(409, "RN-SYN-02"),
+	OBRIGATORIO(400),
+	FORMATO_INVALIDO(400),
+	DIETA_VAZIA(422, "RN-DIE-06"),
+	DIETA_NAO_EDITAVEL(422, "RN-DIE-04"),
+	VALOR_FORA_DO_INTERVALO(422, "RN-AVA-03"),
+	NAO_IMPLEMENTADO(501);
+
+	private final int status;
+	private final List<String> regras;
+
+	CodigoErro(int status, String... regras) {
+		this.status = status;
+		this.regras = List.of(regras);
+	}
+
+	public int status() {
+		return status;
+	}
+
+	public List<String> regras() {
+		return regras;
+	}
+}
