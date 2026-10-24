@@ -39,7 +39,7 @@ Health: `GET http://localhost:8080/actuator/health`. OpenAPI (a partir de BE-01)
 
 - **O backend decide.** Toda permissão, limite de plano e regra é validada aqui, em toda requisição e também no `/sync`.
 - **Isolamento:** dado clínico sempre filtrado pelo dono (`nutricionista_id` ou `paciente_id` vindo de `UsuarioAtual`). Nunca use id do corpo da requisição para isso. De outra nutri = `404`. Todo endpoint novo de dado clínico tem teste de isolamento (`TesteIsolamento`).
-- **Liquibase:** mudança de banco = arquivo novo em `src/main/resources/db/changelog/changes/` com o próximo número. Nunca edite changeset que já está na `main`. Hibernate fica em `ddl-auto=validate`.
+- **Liquibase:** mudança de banco = arquivo novo em `src/main/resources/db/changelog/changes/` com o próximo número. Nunca edite changeset que já está na `develop` ou na `main`. Hibernate fica em `ddl-auto=validate`.
 - **Erros:** `ExcecaoNegocio(CodigoErro.X, "RN-...")` → ProblemDetail. Código novo também vai para `docs/arquitetura/integracao.md`.
 - **Contrato:** mudança incompatível de API só em nova versão (`/api/v2`). Campos novos são opcionais.
 - **Segredos** só em variáveis de ambiente. Nada de chave, senha ou token no Git. Não logue senha, token nem dado de saúde.
@@ -56,7 +56,7 @@ Health: `GET http://localhost:8080/actuator/health`. OpenAPI (a partir de BE-01)
 
 ## Fluxo de trabalho
 
-1. Branch a partir da `main`: `feature/BE-NN-descricao-curta` (ex.: `feature/BE-02-cadastro-nutri`). Se o ambiente já definiu uma branch para você, use a dele.
+1. Branch a partir da `develop` (Gitflow; ver `docs/arquitetura/plano-de-execucao.md`), com PR de volta para `develop`: `feature/BE-NN-descricao-curta` (ex.: `feature/BE-02-cadastro-nutri`). Se o ambiente já definiu uma branch para você, use a dele.
 2. Commits pequenos, mensagem em português no imperativo (`Adiciona cadastro da nutri`).
 3. Rode `./gradlew build` antes do PR. Se não houver Docker no ambiente, diga isso no PR e confie no CI.
 4. PR com o template `.github/pull_request_template.md`: tarefa (`BE-NN`), regras aplicadas, mudanças de contrato, como testar.
