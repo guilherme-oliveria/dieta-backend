@@ -37,6 +37,8 @@ import tools.jackson.databind.json.JsonMapper;
 		"spring.autoconfigure.exclude=org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration",
 		"spring.docker.compose.enabled=false", "springdoc.swagger-ui.enabled=false" })
 class ContratoHttpFase1Test {
+	@org.springframework.test.context.bean.override.mockito.MockitoBean
+	com.br.dietamais.contas.aplicacao.CadastrarNutri cadastro;
 
 	@Configuration(proxyBeanMethods = false)
 	@EnableAutoConfiguration
@@ -64,9 +66,12 @@ class ContratoHttpFase1Test {
 
 	@Test
 	@WithMockUser
-	void endpointsPublicadosRespondem501SemExecutarRegrasOuExporDados() throws Exception {
+	void endpointsPendentesRespondem501SemExecutarRegrasOuExporDados() throws Exception {
 		var manifesto = mapper.readTree(recurso("manifesto.json"));
+		int pendentes = 0;
 		for (var endpoint : manifesto) {
+			if (endpoint.get("caminho").asString().equals("/api/v1/auth/cadastro-nutri")) continue;
+			pendentes++;
 			String caminho = endpoint.get("caminho").asText()
 					.replace("{id}", "019a0f32-5000-7000-8000-000000000003")
 					.replace("{codigo}", "AB2CD3EF");
@@ -83,6 +88,7 @@ class ContratoHttpFase1Test {
 					.as("%s %s", endpoint.get("metodo"), caminho)
 					.isEqualTo(mapper.readTree(recurso("nao-implementado.json")));
 		}
+		assertThat(pendentes).isEqualTo(16);
 	}
 
 	@Test
@@ -97,7 +103,9 @@ class ContratoHttpFase1Test {
 			assertThat(operacao.isMissingNode()).isFalse();
 			String sucesso = endpoint.get("status").asText();
 			assertThat(operacao.path("responses").has(sucesso)).isTrue();
-			assertThat(operacao.path("responses").has("501")).isTrue();
+			if (!endpoint.get("caminho").asString().equals("/api/v1/auth/cadastro-nutri")) {
+				assertThat(operacao.path("responses").has("501")).isTrue();
+			}
 		}
 		assertThat(openApi.path("components").path("schemas").propertyNames())
 				.containsAll(List.of("SessaoResposta", "EuResposta", "PacienteResposta", "SyncResposta", "ProblemaResposta"));
