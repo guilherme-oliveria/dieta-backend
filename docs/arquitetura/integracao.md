@@ -55,30 +55,27 @@ Formato **RFC 9457 Problem Details** (`application/problem+json`), já nativo no
 - Os clientes decidem o que mostrar **pelo `codigo`**, nunca pelo texto.
 - `400` JSON inválido · `401` sem token/expirado (cliente tenta refresh uma vez) · `403` sem permissão · `404` não existe **ou não é seu** (não revelar existência) · `409` conflito de versão/duplicado · `422` regra de negócio · `429` limite de taxa · `5xx` erro do servidor (cliente pode repetir com a mesma `Idempotency-Key`).
 
-Códigos já definidos: `LOGIN_BLOQUEADO`, `CREDENCIAIS_INVALIDAS`, `EMAIL_NAO_CONFIRMADO`, `EMAIL_JA_CADASTRADO`, `TOKEN_INVALIDO`, `LIMITE_PACIENTES_ATINGIDO`, `ASSINATURA_INATIVA`, `CONVITE_INVALIDO`, `CONVITE_EXPIRADO`, `VINCULO_JA_EXISTE`, `DIETA_VAZIA`, `DIETA_NAO_EDITAVEL`, `VALOR_FORA_DO_INTERVALO`, `CONFLITO_VERSAO`, `OBRIGATORIO`, `FORMATO_INVALIDO`. Novo código: adicione aqui e na classe `CodigoErro` do backend.
+Códigos já definidos: `LOGIN_BLOQUEADO`, `CREDENCIAIS_INVALIDAS`, `EMAIL_NAO_CONFIRMADO`, `EMAIL_JA_CADASTRADO`, `TOKEN_INVALIDO`, `LIMITE_PACIENTES_ATINGIDO`, `ASSINATURA_INATIVA`, `CONVITE_INVALIDO`, `CONVITE_EXPIRADO`, `VINCULO_JA_EXISTE`, `DIETA_VAZIA`, `DIETA_NAO_EDITAVEL`, `VALOR_FORA_DO_INTERVALO`, `CONFLITO_VERSAO`, `OBRIGATORIO`, `FORMATO_INVALIDO`, `CONSENTIMENTO_OBRIGATORIO`, `PERFIL_INVALIDO`, `RECURSO_NAO_ENCONTRADO`, `NAO_AUTENTICADO`, `ACESSO_NEGADO`, `TAXA_EXCEDIDA`, `NAO_IMPLEMENTADO`, `ERRO_INTERNO`, `METODO_NAO_PERMITIDO`, `TIPO_CONTEUDO_NAO_SUPORTADO`, `CHAVE_IDEMPOTENCIA_REUTILIZADA`. Novo código: adicione aqui e na classe `CodigoErro` do backend.
+
+Códigos acrescentados em BE-C1: `CONSENTIMENTO_OBRIGATORIO` (422, RN-VIN-04), `PERFIL_INVALIDO` (403), `RECURSO_NAO_ENCONTRADO` (404, inclusive recurso de outro dono), `NAO_AUTENTICADO` (401), `ACESSO_NEGADO` (403), `TAXA_EXCEDIDA` (429) e `NAO_IMPLEMENTADO` (501). `campos` é sempre lista; `regra`, `traceId` e `atual` podem ser nulos. Conflito de versão traz o registro vigente em `atual`. O ID de regra de `TOKEN_INVALIDO` depende da operação (confirmação ou recuperação); erros técnicos sem RN usam `regra: null`.
+
+BE-01 acrescenta `ERRO_INTERNO` (500), `METODO_NAO_PERMITIDO` (405), `TIPO_CONTEUDO_NAO_SUPORTADO` (415) e `CHAVE_IDEMPOTENCIA_REUTILIZADA` (409, mesma chave com outra requisição). São códigos técnicos, com `regra: null`. Erros inesperados nunca expõem mensagem interna, corpo da requisição ou valor rejeitado.
 
 ### Contrato da fase 1
 
 Contrato completo da fase 1: [contrato-fase-1.md](contrato-fase-1.md). BE-C1 publica 17 stubs 501, records e exemplos de sucesso futuro/erro em `src/test/resources/contrato/manifesto.json`; regras e infraestrutura entram em BE-01 a BE-08. Perfis múltiplos seguem BE-05: `perfis` disponíveis e `perfil` ativo em `usuario`, usando `NUTRICIONISTA` no JSON/JWT.
 
-Códigos acrescentados em BE-C1: `CONSENTIMENTO_OBRIGATORIO` (422, RN-VIN-04), `PERFIL_INVALIDO` (403), `RECURSO_NAO_ENCONTRADO` (404, inclusive recurso de outro dono), `NAO_AUTENTICADO` (401), `ACESSO_NEGADO` (403), `TAXA_EXCEDIDA` (429) e `NAO_IMPLEMENTADO` (501). `campos` é sempre lista; `regra`, `traceId` e `atual` podem ser nulos. Conflito de versão traz o registro vigente em `atual`. O ID de regra de `TOKEN_INVALIDO` depende da operação (confirmação ou recuperação); erros técnicos sem RN usam `regra: null`.
-
 ## Convenções REST
-
-O corpo armazenado para replay é cifrado, inclusive quando a resposta contém uma sessão. `IDEMPOTENCIA_CHAVE` precisa estar configurada no servidor antes de operações idempotentes reais; sua ausência desfaz a operação e responde `ERRO_INTERNO`, sem fallback para armazenamento em texto puro. A chave nunca é enviada pelo cliente.
-
-Método HTTP e tipo de conteúdo inválidos usam `METODO_NAO_PERMITIDO` (405) e `TIPO_CONTEUDO_NAO_SUPORTADO` (415), respectivamente, com `regra: null`.
-
-BE-01 acrescenta `ERRO_INTERNO` (500) e `CHAVE_IDEMPOTENCIA_REUTILIZADA` (409, mesma chave com outra requisição). Ambos são técnicos, com `regra: null`. O `X-Trace-Id` acompanha respostas, inclusive erros; valores recebidos só são reaproveitados se tiverem 16 a 64 caracteres hexadecimais. Caso contrário, o servidor gera outro identificador. Erros inesperados nunca expõem mensagem interna, corpo da requisição ou valor rejeitado.
-
-Nas operações de criação, `Idempotency-Key` é UUID opcional. A chave é isolada pelo usuário/perfil autenticado (ou pelo escopo público), e o hash inclui método, rota, query, tipo de conteúdo e corpo. Repetição idêntica em 24 h devolve status/corpo/headers funcionais originais, com novo rastreio da requisição. Chave reutilizada com conteúdo diferente retorna 409. Só respostas 2xx são armazenadas; erros e stubs 501 não são cacheados. A reserva da chave, a operação e a resposta são gravadas na mesma transação; um erro desfaz a operação e libera a chave. O prazo é configurável. O banco guarda apenas hash da requisição, nunca seu corpo; a resposta persistida é dado restrito e acompanha o isolamento da chave.
 
 - Recursos no plural, em português: `/api/v1/pacientes`, `/api/v1/pacientes/{id}/avaliacoes`, `/api/v1/dietas/{id}/publicar` (ação = `POST` em subrecurso verbal).
 - Nutri acessa por `/api/v1/pacientes/...` (só os vinculados a ela). Paciente acessa o que é dele por `/api/v1/eu/...` (`/eu/dietas`, `/eu/checkins`).
 - Paginação: `?pagina=0&tamanho=20&ordem=nome,asc` → `{ "itens": [], "pagina": 0, "tamanho": 20, "total": 57 }`. Máximo 100 por página.
 - Escrita concorrente: `PUT`/`PATCH` exigem `If-Match: "<versao>"` (ou campo `versao` no corpo). Versão diferente → `409 CONFLITO_VERSAO` com o registro atual no corpo (`atual`). Resposta de leitura traz `ETag: "<versao>"`.
-- **Idempotência**: todo `POST` que cria algo aceita `Idempotency-Key: <uuid>`. Repetir com a mesma chave em 24 h devolve a mesma resposta. Mobile sempre envia (é o que torna seguro reenviar a fila offline).
-- Rastreio: o backend devolve `X-Trace-Id`; clientes logam junto com o erro.
+- **Idempotência**: todo `POST` que cria algo aceita `Idempotency-Key: <uuid>` opcional. Mobile sempre envia (é o que torna seguro reenviar a fila offline). A chave é isolada pelo usuário/perfil autenticado (ou pelo escopo público), e o hash inclui método, rota, query, tipo de conteúdo e corpo. Repetição idêntica em 24 h devolve status/corpo/headers funcionais originais, com novo rastreio da requisição. Chave reutilizada com conteúdo diferente retorna 409. Só respostas 2xx são armazenadas; erros e stubs 501 não são cacheados. A reserva da chave, a operação e a resposta são gravadas na mesma transação; um erro desfaz a operação e libera a chave. O prazo é configurável. O banco guarda apenas hash da requisição, nunca seu corpo; a resposta persistida é dado restrito e acompanha o isolamento da chave.
+
+  O corpo armazenado para replay é cifrado, inclusive quando a resposta contém uma sessão. `IDEMPOTENCIA_CHAVE` precisa estar configurada no servidor antes de operações idempotentes reais; sua ausência desfaz a operação e responde `ERRO_INTERNO`, sem fallback para armazenamento em texto puro. A chave nunca é enviada pelo cliente.
+
+- **Rastreio**: o backend devolve `X-Trace-Id` em respostas, inclusive erros; clientes logam junto com o erro. Valores recebidos só são reaproveitados se tiverem 16 a 64 caracteres hexadecimais. Caso contrário, o servidor gera outro identificador.
 
 ## Mapa de endpoints do MVP
 

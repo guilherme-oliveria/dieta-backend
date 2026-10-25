@@ -21,6 +21,7 @@ services:
 
   mailpit:
     image: ${MAILPIT_IMAGE:-axllent/mailpit:v1.27.4}
+    profiles: [extras]
     labels:
       org.springframework.boot.ignore: "true"
     ports:
@@ -29,12 +30,14 @@ services:
 
   minio:
     image: ${MINIO_IMAGE:-quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z}
+    profiles: [extras]
     labels:
       org.springframework.boot.ignore: "true"
     command: server /data --console-address ":9001"
     environment:
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER:?Defina MINIO_ROOT_USER no ambiente local}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?Defina MINIO_ROOT_PASSWORD no ambiente local}
+      # Defaults exclusivos do desenvolvimento local, com portas restritas a localhost.
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-dietamais}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-dietamais-dev}
     ports:
       - "127.0.0.1:${MINIO_API_PORT:-9000}:9000"
       - "127.0.0.1:${MINIO_UI_PORT:-9001}:9001"
