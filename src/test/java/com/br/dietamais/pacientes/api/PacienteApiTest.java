@@ -8,6 +8,12 @@ import java.util.concurrent.*;
 import org.junit.jupiter.api.Test;
 
 class PacienteApiTest extends TesteIsolamento {
+	private static final String CHAVE_TESTE=chaveEfemera();
+	@org.springframework.test.context.DynamicPropertySource
+	static void propriedades(org.springframework.test.context.DynamicPropertyRegistry registro){registro.add("IDEMPOTENCIA_CHAVE",()->CHAVE_TESTE);}
+	private static String chaveEfemera() {
+		byte[] chave=new byte[32];new java.security.SecureRandom().nextBytes(chave);return Base64.getEncoder().encodeToString(chave);
+	}
 	@Test void cadastroConsultaEEdicaoVersionamFichaEAuditamSemDadosClinicos() throws Exception {
 		var nutri=cadastrarNutri();
 		var primeira=criar(nutri.token(),Map.of("nome","  Paciente fictício  ","email","PACIENTE@EXAMPLE.INVALID","objetivo","Objetivo sensível fictício"));
@@ -79,7 +85,7 @@ class PacienteApiTest extends TesteIsolamento {
 	}
 	@Test void duplicidadeValidacaoEIdempotenciaNaoCriamFichasExtras() throws Exception {
 		var a=cadastrarNutri();var corpo=Map.of("nome","Fictício","email","unico@example.invalid");String chave=UUID.randomUUID().toString();
-		var primeira=requisitar("POST","/pacientes",a.token(),corpo,Map.of("Idempotency-Key",chave));assertThat(primeira.statusCode()).isEqualTo(201);
+		var primeira=requisitar("POST","/pacientes",a.token(),corpo,Map.of("Idempotency-Key",chave));assertThat(primeira.statusCode()).as(primeira.body()).isEqualTo(201);
 		var repetida=requisitar("POST","/pacientes",a.token(),corpo,Map.of("Idempotency-Key",chave));assertThat(repetida.body()).isEqualTo(primeira.body());
 		erro(criar(a.token(),corpo),409,"VINCULO_JA_EXISTE");
 		erro(criar(a.token(),Map.of("nome","   ")),400,"OBRIGATORIO");
