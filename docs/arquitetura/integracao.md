@@ -65,6 +65,14 @@ Códigos acrescentados em BE-C1: `CONSENTIMENTO_OBRIGATORIO` (422, RN-VIN-04), `
 
 ## Convenções REST
 
+O corpo armazenado para replay é cifrado, inclusive quando a resposta contém uma sessão. `IDEMPOTENCIA_CHAVE` precisa estar configurada no servidor antes de operações idempotentes reais; sua ausência desfaz a operação e responde `ERRO_INTERNO`, sem fallback para armazenamento em texto puro. A chave nunca é enviada pelo cliente.
+
+Método HTTP e tipo de conteúdo inválidos usam `METODO_NAO_PERMITIDO` (405) e `TIPO_CONTEUDO_NAO_SUPORTADO` (415), respectivamente, com `regra: null`.
+
+BE-01 acrescenta `ERRO_INTERNO` (500) e `CHAVE_IDEMPOTENCIA_REUTILIZADA` (409, mesma chave com outra requisição). Ambos são técnicos, com `regra: null`. O `X-Trace-Id` acompanha respostas, inclusive erros; valores recebidos só são reaproveitados se tiverem 16 a 64 caracteres hexadecimais. Caso contrário, o servidor gera outro identificador. Erros inesperados nunca expõem mensagem interna, corpo da requisição ou valor rejeitado.
+
+Nas operações de criação, `Idempotency-Key` é UUID opcional. A chave é isolada pelo usuário/perfil autenticado (ou pelo escopo público), e o hash inclui método, rota, query, tipo de conteúdo e corpo. Repetição idêntica em 24 h devolve status/corpo/headers funcionais originais, com novo rastreio da requisição. Chave reutilizada com conteúdo diferente retorna 409. Só respostas 2xx são armazenadas; erros e stubs 501 não são cacheados. A reserva da chave, a operação e a resposta são gravadas na mesma transação; um erro desfaz a operação e libera a chave. O prazo é configurável. O banco guarda apenas hash da requisição, nunca seu corpo; a resposta persistida é dado restrito e acompanha o isolamento da chave.
+
 - Recursos no plural, em português: `/api/v1/pacientes`, `/api/v1/pacientes/{id}/avaliacoes`, `/api/v1/dietas/{id}/publicar` (ação = `POST` em subrecurso verbal).
 - Nutri acessa por `/api/v1/pacientes/...` (só os vinculados a ela). Paciente acessa o que é dele por `/api/v1/eu/...` (`/eu/dietas`, `/eu/checkins`).
 - Paginação: `?pagina=0&tamanho=20&ordem=nome,asc` → `{ "itens": [], "pagina": 0, "tamanho": 20, "total": 57 }`. Máximo 100 por página.

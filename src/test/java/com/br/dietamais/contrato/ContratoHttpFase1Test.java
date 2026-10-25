@@ -41,7 +41,7 @@ class ContratoHttpFase1Test {
 	@Configuration(proxyBeanMethods = false)
 	@EnableAutoConfiguration
 	@Import({ AuthController.class, EuController.class, ConviteController.class, PacienteController.class,
-			SyncController.class, OpenApiConfig.class, SecurityConfig.class })
+			SyncController.class, OpenApiConfig.class, SecurityConfig.class, com.br.dietamais.comum.api.FabricaProblema.class })
 	static class AplicacaoContrato {
 		@Bean
 		UserDetailsService semCredenciaisReais() {
@@ -105,7 +105,12 @@ class ContratoHttpFase1Test {
 
 	@Test
 	void configuracaoAtualMantemRotasProtegidasEnquantoJwtNaoFoiImplementado() throws Exception {
-		mvc.perform(get("/api/v1/eu")).andExpect(status().isUnauthorized());
+		mvc.perform(get("/api/v1/eu")).andExpect(status().isUnauthorized())
+				.andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.codigo").value("NAO_AUTENTICADO"));
+		mvc.perform(get("/api/v1/eu").header("Authorization", "Basic " + java.util.Base64.getEncoder()
+				.encodeToString("ficticio:SEM_VALIDADE".getBytes(StandardCharsets.UTF_8))))
+				.andExpect(status().isUnauthorized())
+				.andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.codigo").value("NAO_AUTENTICADO"));
 	}
 
 	private String recurso(String arquivo) throws Exception {

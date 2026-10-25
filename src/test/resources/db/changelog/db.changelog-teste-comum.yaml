@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/db.changelog-master.yaml
+  - changeSet:
+      id: teste-entidade-sincronizavel
+      author: teste
+      changes:
+        - createTable:
+            tableName: entidade_sincronizavel_teste
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true } }
+              - column: { name: descricao, type: varchar(100) }
+              - column: { name: versao, type: bigint, constraints: { nullable: false } }
+              - column: { name: seq, type: bigint, constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: atualizado_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: excluido_em, type: timestamptz }
