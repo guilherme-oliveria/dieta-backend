@@ -4,9 +4,9 @@ Complementa `integracao.md`. Cópia oficial no backend; mobile e frontend devem 
 
 ## Entrega e limites
 
-Os 17 endpoints de BE-02 a BE-08 estão publicados como stubs `501 NAO_IMPLEMENTADO`, anotados no OpenAPI (`/v3/api-docs`). O `manifesto.json` em `src/test/resources/contrato/` indexa cada método/caminho, status de sucesso futuro e exemplos de requisição/resposta/erro, todos validados contra os records Java. Exemplos são dados fictícios, com endereços `example.invalid` e credenciais explicitamente sem validade. O mobile pode copiá-los e usar `MockEngine` assim que o PR de BE-C1 estiver aberto.
+Os 17 endpoints de BE-02 a BE-08 estão anotados no OpenAPI (`/v3/api-docs`). BE-02 implementa `POST /auth/cadastro-nutri`; os outros 16 continuam stubs `501 NAO_IMPLEMENTADO`. O `manifesto.json` em `src/test/resources/contrato/` indexa cada método/caminho, status de sucesso e exemplos de requisição/resposta/erro, todos validados contra os records Java. Exemplos são dados fictícios, com endereços `example.invalid` e credenciais explicitamente sem validade. O mobile pode usá-los com `MockEngine` até integrar cada endpoint real.
 
-Os JSONs de sucesso representam o contrato **futuro**; os controllers ainda não retornam esses dados. BE-01 adiciona a base de erros, rastreio, idempotência e persistência transversal, descrita em `backend.md`; JWT, e-mail, validação de dono/plano, auditoria clínica e regras reais entram em BE-02 a BE-08. A configuração Basic continua protegendo todas as rotas, inclusive as futuramente públicas. Os testes HTTP usam usuário simulado, sem credenciais reais.
+Os JSONs são exemplos de formato; seus valores fictícios não são dados fixos do servidor. BE-01 fornece erros, rastreio, idempotência e persistência transversal. BE-02 aplica as regras do cadastro, expõe apenas esse POST publicamente e cria conta/organização/assinatura numa transação. As demais rotas seguem protegidas pelo Basic até BE-03. JWT, envio de e-mail, vínculos e auditoria clínica ainda entram nas respectivas tarefas; o cadastro não faz login automático. Testes usam somente dados fictícios e chaves geradas em memória.
 
 O OpenAPI segue protegido pela configuração atual. A Swagger UI só é habilitada em desenvolvimento com `SWAGGER_UI_ENABLED=true`. Desde BE-01, o filtro cria `X-Trace-Id` e preenche o rastreio dos erros/stubs; o `traceId: null` dos exemplos continua válido como campo opcional do contrato. Datas fixas dos exemplos são insumos de serialização; prazos reais usam `Clock` injetado. A dependência springdoc 3.2.0 é compatível com Boot 4.1 segundo a [matriz oficial](https://springdoc.org/#what-is-the-compatibility-matrix-of-springdoc-openapi-with-spring-boot).
 
@@ -14,7 +14,7 @@ O OpenAPI segue protegido pela configuração atual. A Swagger UI só é habilit
 
 Todos os caminhos recebem `/api/v1`. Os nomes de diretório dos exemplos correspondem aos `operationId` do OpenAPI.
 
-| Operação | Requisição / resposta futura | Status futuro | Exemplos |
+| Operação | Requisição / resposta | Status de sucesso | Exemplos |
 | --- | --- | --- | --- |
 | `POST /auth/cadastro-nutri` | `CadastroNutriRequisicao` → `CadastroNutriResposta` | 201 | `cadastrarNutri/` |
 | `POST /auth/login` | `LoginRequisicao` → `SessaoResposta` | 200 | `entrar/` |
@@ -38,7 +38,7 @@ Os POSTs de cadastro da nutri, criação de paciente, geração/aceite de convit
 
 ## Conta, perfil e sessão
 
-- Cadastro exige nome, e-mail, senha, CRN, `aceitouTermos: true` e `versaoTermos`; `fuso` é opcional, padrão `America/Sao_Paulo`. Retorna `usuario` + `assinatura`, sem login automático.
+- Cadastro exige nome, e-mail, senha, CRN, `aceitouTermos: true` e `versaoTermos`; `fuso` é opcional, padrão `America/Sao_Paulo`. Retorna `usuario` + `assinatura`, sem login automático. BE-02 normaliza nome/CRN/versão removendo espaços nas bordas e e-mail também para minúsculas; a senha permanece exatamente como informada. Limites de armazenamento: nome 150, e-mail 255, CRN 20, versão do termo 40 e fuso 80 caracteres. Campos inválidos geram 400 com `campos`; senha comum usa `FORMATO_INVALIDO`, RN-CON-02. E-mail já cadastrado retorna 409 `EMAIL_JA_CADASTRADO`, RN-CON-01, inclusive sob concorrência. A versão declarada do termo e o instante do aceite são guardados pelo servidor. CRN e e-mail nascem não verificados; prazo e limite do teste vêm do plano ativo no banco, sem constantes no caso de uso.
 - `dispositivo` no login/aceite contém `id` UUID da instalação, `plataforma` (`ANDROID`, `IOS`, `DESKTOP`) e `nomeAparelho`. Não contém token FCM nesta fase.
 - `usuario` contém `id`, `nome`, `email`, `emailConfirmado`, `perfis`, `perfil` ativo, `nutricionistaId`, `pacienteId` e `fuso`. O valor no JSON/JWT é `NUTRICIONISTA`; "NUTRI" é abreviação descritiva no plano. As identidades podem coexistir na conta, conforme BE-05.
 - Com um único perfil, login pode escolhê-lo. Com vários e `perfil` omitido, retorna `usuario.perfis`; `usuario.perfil`, tokens e `expiraEm` ficam nulos. A tela de escolha repete o login com o perfil escolhido e credenciais mantidas apenas em memória durante esse fluxo. Perfil alheio retorna `PERFIL_INVALIDO`. Refresh preserva o perfil ativo e sempre devolve tokens. `expiraEm` é instante UTC absoluto, não duração.

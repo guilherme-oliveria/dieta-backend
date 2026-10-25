@@ -48,7 +48,7 @@ Comunicação entre módulos: chamada à interface pública do outro módulo (ex
 
 ## Banco e Liquibase
 
-- Changelog mestre: `src/main/resources/db/changelog/db.changelog-master.yaml`; cada mudança é um arquivo novo `NNN-modulo-descricao.yaml` em `changes/` (próximo: `003-...`). **Nunca edite um changeset que já foi para a main.**
+- Changelog mestre: `src/main/resources/db/changelog/db.changelog-master.yaml`; cada mudança é um arquivo novo `NNN-modulo-descricao.yaml` em `changes/` (próximo: `004-...`). **Nunca edite um changeset que já foi para a main.**
 - Tabelas e colunas em `snake_case` português, nome da tabela no singular (`dieta`, `item_refeicao`). PK `id uuid`.
 - Novas tabelas usam `defaultValueComputed: uuidv7()` (função nativa do Postgres 18), mas aceitam id vindo do cliente.
 - **Colunas padrão de tabela sincronizável**: `versao bigint not null default 0`, `seq bigint not null` (de `seq_sync`), `criado_em`, `atualizado_em timestamptz`, `excluido_em timestamptz null`. Índice em `(nutricionista_id, seq)` e/ou `(paciente_id, seq)`. Na entidade JPA: `@Version` em `versao`, `seq` preenchido por listener (`nextval('seq_sync')`) a cada insert/update.
@@ -93,6 +93,18 @@ Cada interface tem uma implementação falsa para testes, escolhida por `@Profil
 - Erros: lance `ExcecaoNegocio(CodigoErro.X, "RN-...")`; o `@RestControllerAdvice` converte para ProblemDetail (ver `integracao.md`).
 
 ## Testes
+
+### Cadastro de nutri entregue em BE-02
+
+`CadastrarNutri` aplica RN-CON-01/02/04 numa transação: valida senha/fuso, gera UUIDv7 pelo Postgres 18, grava usuário, chama a interface pública `CriarOrganizacaoIndividual` de assinaturas e cria a identidade da nutri. O módulo de assinaturas lê o plano `TESTE` ativo, cria a organização `INDIVIDUAL` e calcula `fimPeriodoEm` a partir do instante fornecido pelo `Clock` e de `plano.duracao_dias`. Limite e duração são dados do plano. IDs entre módulos são referências UUID, sem expor entidades JPA. Flushes preservam a ordem das FKs sem confirmar a transação antes da resposta e do cache idempotente.
+
+`003-contas.yaml` acrescenta as colunas de confirmação/fuso do usuário, a duração do plano (carga inicial TESTE = 30) e `crn_verificado`. Também guarda a versão declarada/instante do aceite dos termos que já fazem parte da requisição; esses dados ficam nulos em usuários antigos, sem fabricar consentimento. O índice único `lower(btrim(email))` arbitra a unicidade global. A inserção usa `ON CONFLICT DO NOTHING`: concorrência vira `EMAIL_JA_CADASTRADO`, sem deixar órfãos nem provocar exceção SQL que registre o e-mail. `Usuario` tem mapeamento JPA para validação de schema e leitura; o cadastro usa esse insert específico para arbitrar o conflito.
+
+O `DelegatingPasswordEncoder` usa Argon2id (salt aleatório, 19 MiB, duas iterações, paralelismo 1) e Bouncy Castle. A lista local de hashes de senhas comuns vem de uma revisão fixada de SecLists/NCSC; origem, transformação e licença estão em `src/main/resources/seguranca/README.md`. A propriedade `dieta.contas.senhas-bloqueadas` permite substituir o recurso; senha alguma é enviada a serviços externos. O SHA-256 serve somente à consulta da lista pública, nunca à persistência da credencial. Fuso padrão configurável: `dieta.contas.fuso-padrao` (America/Sao_Paulo).
+
+Somente POST `/api/v1/auth/cadastro-nutri` é liberado ao público nesta tarefa. O controller usa `@Valid`, o erro segue ProblemDetail e `@Idempotente` reaproveita o cadastro sem duplicá-lo. Sem a chave de cifra configurada, uma requisição idempotente que falhe ao gravar a resposta desfaz também usuário/organização/assinatura/nutri. Não cria sessão, não implementa login/JWT e não envia e-mail antes das tarefas BE-03/04. O caso de uso não aceita usuário, organização, plano ou perfil escolhidos pelo corpo; o novo perfil é sempre NUTRICIONISTA.
+
+Como o cadastro recebe credenciais, o fingerprint persistido pela idempotência é autenticado com HMAC-SHA-256, usando uma chave derivada por finalidade da mesma `IDEMPOTENCIA_CHAVE`. Inclui escopo e chave da operação, além dos metadados/corpo, evitando que o banco contenha um verificador rápido de senha baseado só em SHA-256. Sem a chave configurada, o fingerprint temporário dos stubs/erros não é persistido, pois qualquer resposta 2xx falha na cifra e desfaz a transação. Não há nova variável ou campo no contrato.
 
 ### Base transversal entregue em BE-01
 

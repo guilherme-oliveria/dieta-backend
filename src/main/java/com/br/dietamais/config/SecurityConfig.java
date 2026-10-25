@@ -11,7 +11,7 @@ import com.br.dietamais.comum.api.CodigoErro;
 @Configuration
 public class SecurityConfig {
 
-	// API sem sessão: o login com JWT entra no módulo de contas. Até lá, tudo fora do health exige autenticação.
+	// Cadastro é público; as demais rotas seguem protegidas até o login com JWT em BE-03.
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http, FabricaProblema problemas) throws Exception {
 		org.springframework.security.web.AuthenticationEntryPoint entrada = (requisicao, resposta, erro) -> {
@@ -23,6 +23,7 @@ public class SecurityConfig {
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/actuator/health/**").permitAll()
+						.requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/cadastro-nutri").permitAll()
 						.anyRequest().authenticated())
 				.httpBasic(basic -> basic.authenticationEntryPoint(entrada))
 				.exceptionHandling(erros -> erros

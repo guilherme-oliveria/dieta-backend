@@ -46,4 +46,15 @@ class CifradorRespostaTest {
 		assertThatThrownBy(() -> new CifradorResposta("").cifrar(new byte[0], "contexto"))
 				.isInstanceOf(IllegalStateException.class);
 	}
+
+	@Test
+	void fingerprintDeRequisicaoDependeDeSegredoESemChaveNaoHaAssinatura() {
+		byte[] requisicao = "credencial-ficticia".getBytes(StandardCharsets.UTF_8);
+		var cifrador = cifrador();
+		var assinatura = cifrador.autenticarRequisicao(requisicao);
+		assertThat(assinatura).hasValueSatisfying(valor -> assertThat(valor).matches("[a-f0-9]{64}"));
+		assertThat(cifrador.autenticarRequisicao(requisicao)).isEqualTo(assinatura);
+		assertThat(cifrador().autenticarRequisicao(requisicao)).isNotEqualTo(assinatura);
+		assertThat(new CifradorResposta("").autenticarRequisicao(requisicao)).isEmpty();
+	}
 }

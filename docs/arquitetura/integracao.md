@@ -20,7 +20,7 @@ Login próprio, Spring Security + OAuth2 Resource Server (JWT).
 
 | Endpoint | Uso |
 | --- | --- |
-| `POST /api/v1/auth/cadastro-nutri` | Cria nutri + organização + assinatura Teste |
+| `POST /api/v1/auth/cadastro-nutri` | Público desde BE-02: cria nutri + organização + assinatura Teste; 201 sem login automático |
 | `POST /api/v1/auth/login` | `{email, senha, dispositivo, perfil?}` → `{accessToken, refreshToken, expiraEm, usuario}` |
 | `POST /api/v1/auth/refresh` | `{refreshToken}` → novo par (rotação: o refresh antigo morre) |
 | `POST /api/v1/auth/logout` | Revoga o refresh token do dispositivo |
@@ -64,6 +64,8 @@ BE-01 acrescenta `ERRO_INTERNO` (500), `METODO_NAO_PERMITIDO` (405), `TIPO_CONTE
 ### Contrato da fase 1
 
 Contrato completo da fase 1: [contrato-fase-1.md](contrato-fase-1.md). BE-C1 publica 17 stubs 501, records e exemplos de sucesso futuro/erro em `src/test/resources/contrato/manifesto.json`; regras e infraestrutura entram em BE-01 a BE-08. Perfis múltiplos seguem BE-05: `perfis` disponíveis e `perfil` ativo em `usuario`, usando `NUTRICIONISTA` no JSON/JWT.
+
+BE-02 substitui apenas o stub de cadastro da nutri. Requisição e resposta mantêm os mesmos campos e JSONs de exemplo; os detalhes de normalização, limites de armazenamento e erros de validação estão em `contrato-fase-1.md`. A conta nasce com e-mail não confirmado, CRN não verificado e assinatura de teste cuja duração/limite vêm do banco. A confirmação e o envio de e-mail continuam em BE-04; não há sessão/token na resposta do cadastro.
 
 ## Convenções REST
 

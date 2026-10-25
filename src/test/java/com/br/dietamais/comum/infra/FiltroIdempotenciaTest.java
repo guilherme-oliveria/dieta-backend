@@ -39,8 +39,11 @@ class FiltroIdempotenciaTest {
 		var fabrica = new FabricaProblema(JsonMapper.builder().build());
 		var contexto = MockMvcBuilders.standaloneSetup(controller).build().getDispatcherServlet().getWebApplicationContext();
 		var rotas = contexto.getBean(RequestMappingHandlerMapping.class);
+		byte[] chave = new byte[32];
+		new java.security.SecureRandom().nextBytes(chave);
+		var cifrador = new CifradorResposta(java.util.Base64.getEncoder().encodeToString(chave));
 		mvc = MockMvcBuilders.standaloneSetup(controller).setControllerAdvice(new TratadorErros(fabrica))
-				.addFilters(new FiltroRastreio(), new FiltroIdempotencia(servico, fabrica, rotas, 1024)).build();
+				.addFilters(new FiltroRastreio(), new FiltroIdempotencia(servico, fabrica, rotas, 1024, cifrador)).build();
 		when(servico.executar(anyString(), any(), anyString(), any())).thenAnswer(invocacao -> {
 			Supplier<RespostaIdempotente> operacao = invocacao.getArgument(3);
 			return operacao.get();
