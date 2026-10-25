@@ -37,6 +37,8 @@ Login próprio, Spring Security + OAuth2 Resource Server (JWT).
 
 BE-03 implementa login, refresh e logout sem alterar os campos dos exemplos. O app envia refresh no JSON e omite o header Authorization nessas rotas públicas (um Bearer expirado é rejeitado pelo resource server). Access usa RS256; refresh tem prazo absoluto de família de 30 dias, com rotação, revogação da família por reuso e logout por dispositivo. Respostas usam `Cache-Control: no-store`. Detalhes de bloqueio RN-CON-03, cookie seguro com validação de Origin e limite por IP estão em `contrato-fase-1.md`. A proteção por e-mail é persistente; o limite por IP desta etapa é local ao processo. Rate limit de convites e geral entram nas tarefas correspondentes.
 
+BE-04 implementa confirmação de e-mail (token de uso único, 24 h) e recuperação/redefinição (uma hora). O cadastro enfileira a confirmação; os links abrem o app e o app envia o POST já contratado. `esqueci-senha` retorna sempre 202 sem corpo para e-mail válido, inclusive desconhecido/inativo ou em falha interna, sem enumerar contas. Redefinição consome o token, aplica RN-CON-02 e revoga todos os refresh do usuário, sem login automático. O payload da outbox é cifrado enquanto pendente e apagado após envio/expiração/falha definitiva. Envio SMTP depende de configuração do servidor; detalhes e limites estão em `contrato-fase-1.md`. JSONs/códigos da BE-C1 são preservados.
+
 ## Erros
 
 Formato **RFC 9457 Problem Details** (`application/problem+json`), já nativo no Spring:
