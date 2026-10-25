@@ -39,15 +39,17 @@ public class FiltroIdempotencia extends OncePerRequestFilter {
 	private final FabricaProblema problemas;
 	private final RequestMappingHandlerMapping rotas;
 	private final int limiteCorpo;
+	private final CifradorResposta cifrador;
 
 	public FiltroIdempotencia(ServicoIdempotencia servico, FabricaProblema problemas,
 			@Qualifier("requestMappingHandlerMapping") RequestMappingHandlerMapping rotas,
-			@Value("${dieta.idempotencia.limite-corpo:1048576}") int limiteCorpo) {
+			@Value("${dieta.idempotencia.limite-corpo:1048576}") int limiteCorpo, CifradorResposta cifrador) {
 		if (limiteCorpo < 1) throw new IllegalArgumentException("Limite do corpo deve ser positivo");
 		this.servico = servico;
 		this.problemas = problemas;
 		this.rotas = rotas;
 		this.limiteCorpo = limiteCorpo;
+		this.cifrador = cifrador;
 	}
 
 	@Override
@@ -68,7 +70,9 @@ public class FiltroIdempotencia extends OncePerRequestFilter {
 				problemas.escrever(resposta, CodigoErro.FORMATO_INVALIDO, "Requisição excede o limite permitido.");
 				return;
 			}
-			var resultado = servico.executar(escopo(), UUID.fromString(chave), hash(requisicao, corpo),
+			String escopo = escopo();
+			UUID identificador = UUID.fromString(chave);
+			var resultado = servico.executar(escopo, identificador, hash(requisicao, corpo, escopo, identificador),
 					() -> executar(cadeia, new RequisicaoRepetivel(requisicao, corpo), resposta));
 			resposta.setStatus(resultado.status());
 			resultado.cabecalhos().forEach((nome, valores) -> {
@@ -115,10 +119,12 @@ public class FiltroIdempotencia extends OncePerRequestFilter {
 		return digest((usuario.getName() + "\n" + perfis).getBytes(StandardCharsets.UTF_8));
 	}
 
-	private String hash(HttpServletRequest requisicao, byte[] corpo) {
-		String metadados = requisicao.getMethod() + "\n" + requisicao.getRequestURI() + "\n"
+	private String hash(HttpServletRequest requisicao, byte[] corpo, String escopo, UUID chave) {
+		String metadados = escopo + "\n" + chave + "\n" + requisicao.getMethod() + "\n" + requisicao.getRequestURI() + "\n"
 				+ requisicao.getQueryString() + "\n" + requisicao.getContentType() + "\n" + digest(corpo);
-		return digest(metadados.getBytes(StandardCharsets.UTF_8));
+		byte[] dados = metadados.getBytes(StandardCharsets.UTF_8);
+		// Sem chave, só erros/stubs podem concluir: uma resposta 2xx falha na cifra e toda a transação é desfeita.
+		return cifrador.autenticarRequisicao(dados).orElseGet(() -> digest(dados));
 	}
 
 	private String digest(byte[] dados) {

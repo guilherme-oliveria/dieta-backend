@@ -104,6 +104,8 @@ O `DelegatingPasswordEncoder` usa Argon2id (salt aleatório, 19 MiB, duas itera�
 
 Somente POST `/api/v1/auth/cadastro-nutri` é liberado ao público nesta tarefa. O controller usa `@Valid`, o erro segue ProblemDetail e `@Idempotente` reaproveita o cadastro sem duplicá-lo. Sem a chave de cifra configurada, uma requisição idempotente que falhe ao gravar a resposta desfaz também usuário/organização/assinatura/nutri. Não cria sessão, não implementa login/JWT e não envia e-mail antes das tarefas BE-03/04. O caso de uso não aceita usuário, organização, plano ou perfil escolhidos pelo corpo; o novo perfil é sempre NUTRICIONISTA.
 
+Como o cadastro recebe credenciais, o fingerprint persistido pela idempotência é autenticado com HMAC-SHA-256, usando uma chave derivada por finalidade da mesma `IDEMPOTENCIA_CHAVE`. Inclui escopo e chave da operação, além dos metadados/corpo, evitando que o banco contenha um verificador rápido de senha baseado só em SHA-256. Sem a chave configurada, o fingerprint temporário dos stubs/erros não é persistido, pois qualquer resposta 2xx falha na cifra e desfaz a transação. Não há nova variável ou campo no contrato.
+
 ### Base transversal entregue em BE-01
 
 - Spring Modulith 2.1.1 verifica os módulos e suas interfaces nomeadas `api` em `ArquiteturaTest`, incluindo ausência de ciclos. Os tipos compartilhados `Perfil`, `Plataforma`, `UsuarioResposta`, `SessaoResposta` e `DispositivoRequisicao` ficam em `comum.api`: evita o ciclo contas → pacientes → contas, mantendo JSON e nomes de schema OpenAPI da BE-C1. O manifesto muda só o nome Java desses tipos.

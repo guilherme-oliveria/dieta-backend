@@ -5,7 +5,10 @@ import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.HexFormat;
+import java.util.Optional;
 import javax.crypto.Cipher;
+import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -30,6 +33,17 @@ public class CifradorResposta {
 		aleatorio.nextBytes(nonce);
 		byte[] cifrado = transformar(Cipher.ENCRYPT_MODE, corpo, nonce, contexto);
 		return ByteBuffer.allocate(1 + nonce.length + cifrado.length).put(VERSAO).put(nonce).put(cifrado).array();
+	}
+
+	public Optional<String> autenticarRequisicao(byte[] dados) {
+		if (chave == null) return Optional.empty();
+		try {
+			var mac = Mac.getInstance("HmacSHA256");
+			mac.init(new SecretKeySpec(chave.getEncoded(), "HmacSHA256"));
+			byte[] derivada = mac.doFinal("Dieta+/idempotencia/hash-requisicao/v1".getBytes(StandardCharsets.UTF_8));
+			mac.init(new SecretKeySpec(derivada, "HmacSHA256"));
+			return Optional.of(HexFormat.of().formatHex(mac.doFinal(dados)));
+		} catch (GeneralSecurityException erro) { throw new IllegalStateException("Não foi possível autenticar a requisição", erro); }
 	}
 
 	public byte[] decifrar(byte[] corpo, String contexto) {
