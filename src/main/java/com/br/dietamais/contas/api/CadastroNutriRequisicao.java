@@ -10,11 +10,22 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record CadastroNutriRequisicao(
-		@NotBlank String nome,
-		@NotBlank @Email String email,
+		@NotBlank @Size(max = 150) String nome,
+		@NotBlank @Email @Size(max = 255) String email,
 		@NotBlank @Size(min = 10) String senha,
-		@NotBlank @Pattern(regexp = "CRN-[1-9][0-9]* [0-9]+") String crn,
+		@NotBlank @Size(max = 20) @Pattern(regexp = "CRN-[1-9][0-9]* [0-9]+") String crn,
 		@NotNull @AssertTrue Boolean aceitouTermos,
-		@NotBlank String versaoTermos,
-		@Schema(nullable = true) String fuso) {
+		@NotBlank @Size(max = 40) String versaoTermos,
+		@Schema(nullable = true) @Size(max = 80) String fuso) {
+
+	public CadastroNutriRequisicao {
+		nome = nome == null ? null : nome.strip();
+		email = email == null ? null : email.strip().toLowerCase(java.util.Locale.ROOT);
+		crn = crn == null ? null : crn.strip();
+		versaoTermos = versaoTermos == null ? null : versaoTermos.strip();
+		fuso = fuso == null ? null : fuso.strip();
+	}
+
+	@Override
+	public String toString() { return "CadastroNutriRequisicao[conteúdo protegido]"; }
 }
