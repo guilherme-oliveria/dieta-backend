@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration(proxyBeanMethods = false)
 @OpenAPIDefinition(info = @Info(title = "Dieta+ — contrato da fase 1", version = "v1",
-		description = "Cadastro e sessões implementados em BE-02/03. Os demais 13 endpoints publicados continuam 501 até suas tarefas."))
+		description = "Cadastro e sessões implementados em BE-02/03. Os demais 10 endpoints publicados continuam 501 até suas tarefas."))
 @SecurityScheme(name = "bearerAuth", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
 public class OpenApiConfig {
 }

@@ -16,16 +16,20 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Order(Ordered.HIGHEST_PRECEDENCE+20)
 public class FiltroTaxaLogin extends OncePerRequestFilter {
 	private final LimiteTaxaLogin limite;
+	private final LimiteTaxaLogin recuperacao;
 	private final Clock relogio;
 	private final FabricaProblema problemas;
-	public FiltroTaxaLogin(Clock relogio,FabricaProblema problemas,@Value("${dieta.auth.login-limite-ip:10}") int quantidade) {
+	public FiltroTaxaLogin(Clock relogio,FabricaProblema problemas,@Value("${dieta.auth.login-limite-ip:10}") int quantidade,
+			@Value("${dieta.auth.recuperacao-limite-ip:10}") int limiteRecuperacao) {
 		this.relogio=relogio;this.problemas=problemas;limite=new LimiteTaxaLogin(quantidade,10000);
+		recuperacao=new LimiteTaxaLogin(limiteRecuperacao,10000);
 	}
 	@Override protected boolean shouldNotFilter(HttpServletRequest req) {
-		return !"POST".equals(req.getMethod())||!"/api/v1/auth/login".equals(req.getRequestURI());
+		return !"POST".equals(req.getMethod())||!java.util.Set.of("/api/v1/auth/login","/api/v1/auth/esqueci-senha").contains(req.getRequestURI());
 	}
 	@Override protected void doFilterInternal(HttpServletRequest req,HttpServletResponse res,FilterChain cadeia) throws IOException,ServletException {
-		long espera=limite.espera(req.getRemoteAddr(),relogio.instant());
+		var limitador=req.getRequestURI().equals("/api/v1/auth/login")?limite:recuperacao;
+		long espera=limitador.espera(req.getRemoteAddr(),relogio.instant());
 		if(espera>0) {
 			res.setHeader("Retry-After",Long.toString(espera));res.setHeader("Cache-Control","no-store");
 			problemas.escrever(res,CodigoErro.TAXA_EXCEDIDA,"Aguarde antes de tentar novamente.");return;

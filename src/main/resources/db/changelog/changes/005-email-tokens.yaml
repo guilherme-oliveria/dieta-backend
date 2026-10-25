@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-token-uso-unico
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: token_uso_unico
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true } }
+              - column: { name: usuario_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_token_uso_unico_usuario, references: usuario(id) } }
+              - column: { name: finalidade, type: varchar(30), constraints: { nullable: false } }
+              - column: { name: hash_token, type: varchar(64), constraints: { nullable: false, unique: true, uniqueConstraintName: uk_token_uso_unico_hash } }
+              - column: { name: criado_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: expira_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: usado_em, type: timestamptz }
+              - column: { name: anulado_em, type: timestamptz }
+        - createIndex:
+            tableName: token_uso_unico
+            indexName: ix_token_uso_unico_usuario_finalidade
+            columns:
+              - column: { name: usuario_id }
+              - column: { name: finalidade }
+  - changeSet:
+      id: 005-notificacao-pendente
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: notificacao_pendente
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true } }
+              - column: { name: tipo, type: varchar(30), constraints: { nullable: false } }
+              - column: { name: payload_cifrado, type: text }
+              - column: { name: status, type: varchar(20), defaultValue: PENDENTE, constraints: { nullable: false } }
+              - column: { name: tentativas, type: int, defaultValueNumeric: 0, constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: expira_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: proxima_tentativa_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: enviado_em, type: timestamptz }
+        - createIndex:
+            tableName: notificacao_pendente
+            indexName: ix_notificacao_pendente_envio
+            columns:
+              - column: { name: status }
+              - column: { name: proxima_tentativa_em }

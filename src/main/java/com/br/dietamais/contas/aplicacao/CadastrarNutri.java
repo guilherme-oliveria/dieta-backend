@@ -32,10 +32,11 @@ public class CadastrarNutri {
 	private final GeradorIds ids;
 	private final Clock relogio;
 	private final String fusoPadrao;
+	private final EmitirTokenConta emissor;
 
 	public CadastrarNutri(UsuarioRepository usuarios, NutricionistaRepository nutricionistas,
 			CriarOrganizacaoIndividual criarOrganizacao, PoliticaSenha politicaSenha, PasswordEncoder encoder,
-			GeradorIds ids, Clock relogio, @Value("${dieta.contas.fuso-padrao:America/Sao_Paulo}") String fusoPadrao) {
+			GeradorIds ids, Clock relogio, @Value("${dieta.contas.fuso-padrao:America/Sao_Paulo}") String fusoPadrao, EmitirTokenConta emissor) {
 		this.usuarios = usuarios;
 		this.nutricionistas = nutricionistas;
 		this.criarOrganizacao = criarOrganizacao;
@@ -44,6 +45,7 @@ public class CadastrarNutri {
 		this.ids = ids;
 		this.relogio = relogio;
 		this.fusoPadrao = ZoneId.of(fusoPadrao).getId();
+		this.emissor = emissor;
 	}
 
 	@Transactional
@@ -58,6 +60,7 @@ public class CadastrarNutri {
 		}
 		var assinatura = criarOrganizacao.criar(entrada.nome(), agora);
 		var nutri = nutricionistas.saveAndFlush(new Nutricionista(ids.novo(), usuarioId, assinatura.organizacaoId(), entrada.crn()));
+		emissor.emitir(usuarioId, entrada.email(), com.br.dietamais.contas.dominio.FinalidadeToken.CONFIRMAR_EMAIL);
 		var usuario = new UsuarioResposta(usuarioId, entrada.nome(), entrada.email(), false, List.of(Perfil.NUTRICIONISTA),
 				Perfil.NUTRICIONISTA, nutri.getId(), null, fuso);
 		return new CadastroNutriResposta(usuario, assinatura);

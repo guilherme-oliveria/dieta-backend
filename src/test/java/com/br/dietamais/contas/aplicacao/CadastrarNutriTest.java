@@ -31,6 +31,7 @@ class CadastrarNutriTest {
 	private final CriarOrganizacaoIndividual organizacoes = mock(CriarOrganizacaoIndividual.class);
 	private final PasswordEncoder encoder = mock(PasswordEncoder.class);
 	private final GeradorIds ids = mock(GeradorIds.class);
+	private final EmitirTokenConta emissor = mock(EmitirTokenConta.class);
 	private final Instant agora = Instant.parse("2026-10-25T12:00:00Z");
 	private final UUID usuarioId = UUID.fromString("019a1400-0000-7000-8000-000000000001");
 	private final UUID nutriId = UUID.fromString("019a1400-0000-7000-8000-000000000002");
@@ -38,7 +39,7 @@ class CadastrarNutriTest {
 
 	private CadastrarNutri caso() {
 		return new CadastrarNutri(usuarios, nutricionistas, organizacoes, new PoliticaSenha(Set.of()), encoder,
-				ids, Clock.fixed(agora, ZoneOffset.UTC), "America/Sao_Paulo");
+				ids, Clock.fixed(agora, ZoneOffset.UTC), "America/Sao_Paulo", emissor);
 	}
 
 	private CadastroNutriRequisicao entrada(String fuso) {
