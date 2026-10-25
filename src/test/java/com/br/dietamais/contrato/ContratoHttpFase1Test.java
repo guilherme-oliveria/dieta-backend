@@ -43,8 +43,11 @@ class ContratoHttpFase1Test {
 	com.br.dietamais.contas.aplicacao.AutenticarSessao sessoes;
 	@org.springframework.test.context.bean.override.mockito.MockitoBean
 	org.springframework.security.oauth2.jwt.JwtDecoder decoder;
+	@org.springframework.test.context.bean.override.mockito.MockitoBean
+	com.br.dietamais.contas.aplicacao.GerenciarEmailSenha emails;
 	private static final java.util.Set<String> IMPLEMENTADOS = java.util.Set.of("/api/v1/auth/cadastro-nutri",
-			"/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/auth/logout");
+			"/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/auth/logout",
+			"/api/v1/auth/confirmar-email", "/api/v1/auth/esqueci-senha", "/api/v1/auth/redefinir-senha");
 
 	@Configuration(proxyBeanMethods = false)
 	@EnableAutoConfiguration
@@ -95,7 +98,7 @@ class ContratoHttpFase1Test {
 					.as("%s %s", endpoint.get("metodo"), caminho)
 					.isEqualTo(mapper.readTree(recurso("nao-implementado.json")));
 		}
-		assertThat(pendentes).isEqualTo(13);
+		assertThat(pendentes).isEqualTo(10);
 	}
 
 	@Test

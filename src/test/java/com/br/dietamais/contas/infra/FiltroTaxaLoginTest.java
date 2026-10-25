@@ -9,12 +9,14 @@ import org.springframework.mock.web.*;
 import tools.jackson.databind.json.JsonMapper;
 
 class FiltroTaxaLoginTest {
-	@Test void limitaAntesDaAutenticacaoSemConfiarEmIpForjadoNoHeader() throws Exception {
+	@org.junit.jupiter.params.ParameterizedTest
+	@org.junit.jupiter.params.provider.ValueSource(strings={"/api/v1/auth/login","/api/v1/auth/esqueci-senha"})
+	void limitaAntesDaAutenticacaoSemConfiarEmIpForjadoNoHeader(String caminho) throws Exception {
 		var mapper = JsonMapper.builder().build();
-		var filtro = new FiltroTaxaLogin(Clock.fixed(Instant.parse("2026-10-25T12:00:00Z"), ZoneOffset.UTC),new FabricaProblema(mapper),10);
+		var filtro = new FiltroTaxaLogin(Clock.fixed(Instant.parse("2026-10-25T12:00:00Z"), ZoneOffset.UTC),new FabricaProblema(mapper),10,10);
 		var processados = new AtomicInteger();
 		for (int i = 0; i < 11; i++) {
-			var req = new MockHttpServletRequest("POST","/api/v1/auth/login");
+			var req = new MockHttpServletRequest("POST",caminho);
 			req.setRemoteAddr("192.0.2.1"); req.addHeader("X-Forwarded-For","192.0.2." + (i + 2));
 			var resposta = new MockHttpServletResponse();
 			filtro.doFilter(req,resposta,(request,response) -> processados.incrementAndGet());

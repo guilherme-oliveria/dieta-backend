@@ -24,6 +24,8 @@ public class SecurityConfig {
 						.requestMatchers("/actuator/health/**").permitAll()
 						.requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/cadastro-nutri",
 								"/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/auth/logout").permitAll()
+						.requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/confirmar-email",
+								"/api/v1/auth/esqueci-senha", "/api/v1/auth/redefinir-senha").permitAll()
 						.anyRequest().authenticated())
 				.oauth2ResourceServer(oauth -> oauth
 						.jwt(jwt -> jwt.jwtAuthenticationConverter(token -> new org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken(

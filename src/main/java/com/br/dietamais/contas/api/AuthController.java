@@ -28,9 +28,12 @@ public class AuthController {
 	private final CadastrarNutri cadastro;
 	private final com.br.dietamais.contas.aplicacao.AutenticarSessao sessoes;
 	private final TransporteSessao transporte;
+	private final com.br.dietamais.contas.aplicacao.GerenciarEmailSenha emails;
 
-	public AuthController(CadastrarNutri cadastro, com.br.dietamais.contas.aplicacao.AutenticarSessao sessoes, TransporteSessao transporte) {
+	public AuthController(CadastrarNutri cadastro, com.br.dietamais.contas.aplicacao.AutenticarSessao sessoes, TransporteSessao transporte,
+			com.br.dietamais.contas.aplicacao.GerenciarEmailSenha emails) {
 		this.cadastro = cadastro; this.sessoes = sessoes; this.transporte = transporte;
+		this.emails = emails;
 	}
 
 	@PostMapping("/auth/cadastro-nutri")
@@ -107,47 +110,44 @@ public class AuthController {
 	}
 
 	@PostMapping("/auth/confirmar-email")
-	@ApiResponse(responseCode = "501", description = "Contrato publicado; implementação pendente",
-			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@Operation(operationId = "confirmarEmail", summary = "Confirmar e-mail",
 			description = "RN-CON-05. Token de uso único válido por 24 h. Implementação: BE-04.")
-	@ApiResponse(responseCode = "204", description = "Resposta prevista após implementação",
+	@ApiResponse(responseCode = "204", description = "Operação concluída sem corpo",
 			content = @Content())
 	@ApiResponse(responseCode = "400", description = "Entrada inválida",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@ApiResponse(responseCode = "401", description = "Não autenticado ou credencial/token inválido",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
-	public ResponseEntity<ProblemaResposta> confirmarEmail(@RequestBody ConfirmarEmailRequisicao requisicao) {
-		return ContratoNaoImplementado.resposta();
+	public ResponseEntity<Void> confirmarEmail(@Valid @RequestBody ConfirmarEmailRequisicao requisicao) {
+		emails.confirmar(requisicao.token());
+		return ResponseEntity.noContent().cacheControl(org.springframework.http.CacheControl.noStore()).build();
 	}
 
 	@PostMapping("/auth/esqueci-senha")
-	@ApiResponse(responseCode = "501", description = "Contrato publicado; implementação pendente",
-			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@Operation(operationId = "recuperarSenha", summary = "Solicitar recuperação de senha",
 			description = "RN-CON-07. Sem corpo na resposta; não revela se o e-mail existe. Implementação: BE-04.")
-	@ApiResponse(responseCode = "202", description = "Resposta prevista após implementação",
+	@ApiResponse(responseCode = "202", description = "Operação concluída sem corpo",
 			content = @Content())
 	@ApiResponse(responseCode = "400", description = "Entrada inválida",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@ApiResponse(responseCode = "429", description = "Limite de taxa ou bloqueio; consultar Retry-After",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
-	public ResponseEntity<ProblemaResposta> recuperarSenha(@RequestBody EsqueciSenhaRequisicao requisicao) {
-		return ContratoNaoImplementado.resposta();
+	public ResponseEntity<Void> recuperarSenha(@Valid @RequestBody EsqueciSenhaRequisicao requisicao) {
+		emails.solicitarRecuperacao(requisicao.email());
+		return ResponseEntity.accepted().cacheControl(org.springframework.http.CacheControl.noStore()).build();
 	}
 
 	@PostMapping("/auth/redefinir-senha")
-	@ApiResponse(responseCode = "501", description = "Contrato publicado; implementação pendente",
-			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@Operation(operationId = "redefinirSenha", summary = "Redefinir senha",
-			description = "RN-CON-02 e RN-CON-07. Token de 1 h e uso único; revoga todas as sessões. Implementação: BE-04.")
-	@ApiResponse(responseCode = "204", description = "Resposta prevista após implementação",
+			description = "RN-CON-02 e RN-CON-07. Token de 1 h e uso único; revoga todos os refresh tokens. Implementação: BE-04.")
+	@ApiResponse(responseCode = "204", description = "Operação concluída sem corpo",
 			content = @Content())
 	@ApiResponse(responseCode = "400", description = "Entrada inválida",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@ApiResponse(responseCode = "401", description = "Não autenticado ou credencial/token inválido",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
-	public ResponseEntity<ProblemaResposta> redefinirSenha(@RequestBody RedefinirSenhaRequisicao requisicao) {
-		return ContratoNaoImplementado.resposta();
+	public ResponseEntity<Void> redefinirSenha(@Valid @RequestBody RedefinirSenhaRequisicao requisicao) {
+		emails.redefinir(requisicao.token(), requisicao.novaSenha());
+		return ResponseEntity.noContent().cacheControl(org.springframework.http.CacheControl.noStore()).build();
 	}
 }
