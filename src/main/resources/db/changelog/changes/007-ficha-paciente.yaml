@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: 007-ficha-paciente
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: ficha_paciente
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: vinculo_id, type: uuid, constraints: { nullable: false, unique: true, foreignKeyName: fk_ficha_vinculo, references: vinculo(id) } }
+              - column: { name: nutricionista_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_ficha_nutricionista, references: nutricionista(id) } }
+              - column: { name: paciente_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_ficha_paciente, references: paciente(id) } }
+              - column: { name: nome, type: varchar(150), constraints: { nullable: false } }
+              - column: { name: email, type: varchar(255) }
+              - column: { name: data_nascimento, type: date }
+              - column: { name: sexo, type: varchar(20) }
+              - column: { name: telefone, type: varchar(30) }
+              - column: { name: estatura_referencia, type: 'numeric(4,3)' }
+              - column: { name: objetivo, type: varchar(2000) }
+              - column: { name: observacoes, type: varchar(10000) }
+              - column: { name: versao, type: bigint, defaultValueNumeric: 0, constraints: { nullable: false } }
+              - column: { name: seq, type: bigint, defaultValueComputed: "nextval('seq_sync')", constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: atualizado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: excluido_em, type: timestamptz }
+        - addUniqueConstraint:
+            tableName: ficha_paciente
+            columnNames: nutricionista_id,paciente_id
+            constraintName: uk_ficha_nutricionista_paciente
+        - createIndex:
+            tableName: ficha_paciente
+            indexName: ix_ficha_nutri_nome
+            columns:
+              - column: { name: nutricionista_id }
+              - column: { name: nome }
+        - sql:
+            sql: >-
+              insert into ficha_paciente(id,vinculo_id,nutricionista_id,paciente_id,nome,email,data_nascimento,sexo,criado_em,atualizado_em)
+              select v.id,v.id,v.nutricionista_id,p.id,p.nome,p.email,p.data_nascimento,p.sexo,v.criado_em,v.atualizado_em
+              from vinculo v join paciente p on p.id=v.paciente_id

@@ -46,7 +46,11 @@ public abstract class TesteIsolamento {
 		return json(resposta).path("accessToken").asString();
 	}
 	protected HttpResponse<String> requisitar(String metodo,String caminho,String token,Object corpo) throws Exception {
+		return requisitar(metodo,caminho,token,corpo,Map.of());
+	}
+	protected HttpResponse<String> requisitar(String metodo,String caminho,String token,Object corpo,Map<String,String> cabecalhos) throws Exception {
 		var pedido=HttpRequest.newBuilder(URI.create("http://localhost:"+porta+"/api/v1"+caminho));
+		cabecalhos.forEach(pedido::header);
 		if(token!=null)pedido.header("Authorization","Bearer "+token);
 		if(corpo!=null)pedido.header("Content-Type","application/json");
 		pedido.method(metodo,corpo==null?HttpRequest.BodyPublishers.noBody():HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(corpo)));

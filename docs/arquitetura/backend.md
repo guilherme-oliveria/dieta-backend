@@ -43,6 +43,8 @@ Comunicação entre módulos: chamada à interface pública do outro módulo (ex
 - **Nenhum repository tem `findById` exposto para dado clínico.** Use métodos que recebem o dono: `findByIdAndNutricionistaId(id, nid)`. Para o paciente: `findByIdAndPacienteId`.
 - `UsuarioAtual` (request-scoped, lido do JWT e validado no banco) é a única fonte de `nutricionistaId`/`pacienteId`. Nunca aceite esses ids do corpo da requisição.
 - Não encontrado **ou de outra nutri** → `404` (não revelar existência).
+
+BE-06 usa `ficha_paciente` (migração 007) por vínculo, com `id = vinculo_id`, dono, paciente, dados particulares e metadados de sync. Consultas exigem simultaneamente o dono da ficha e do vínculo, com o mesmo paciente. Alterar a ficha nunca altera a identidade global. Cadastros bloqueiam a organização no `ServicoLimitePlano` (porta `ReservaVagaPaciente` em `comum.api`, sem ciclo entre módulos); escritas da mesma nutri usam bloqueio consultivo transacional para serializar duplicidade de e-mail. PATCH bloqueia ficha/vínculo antes de comparar a versão e atualiza versão/seq/Clock em uma transação. O limite de plano conta vínculos pendentes e ativos por organização; a edição não consome vaga.
 - Teste obrigatório por endpoint: a classe base `TesteIsolamento` cria nutri A e nutri B e confere que B recebe 404 nos recursos de A.
 - Postgres Row Level Security pode entrar depois como segunda barreira (BE-31).
 
