@@ -64,6 +64,7 @@ public class PacienteController {
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@ApiResponse(responseCode = "422", description = "Regra de negócio violada",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
+	@com.br.dietamais.comum.api.Idempotente
 	public ResponseEntity<ProblemaResposta> criarPaciente(@RequestBody CriarPacienteRequisicao requisicao,
 			@Parameter(description = "UUID da operação; repetição em 24 h devolve a mesma resposta")
 			@RequestHeader(value = "Idempotency-Key", required = false) UUID idempotencyKey) {
@@ -128,6 +129,7 @@ public class PacienteController {
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@ApiResponse(responseCode = "422", description = "Regra de negócio violada",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
+	@com.br.dietamais.comum.api.Idempotente
 	public ResponseEntity<ProblemaResposta> convidarPaciente(@PathVariable UUID id,
 			@Parameter(description = "UUID da operação; repetição em 24 h devolve a mesma resposta")
 			@RequestHeader(value = "Idempotency-Key", required = false) UUID idempotencyKey) {
@@ -147,6 +149,9 @@ public class PacienteController {
 	@ApiResponse(responseCode = "404", description = "Recurso inexistente ou fora da visibilidade",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@ApiResponse(responseCode = "422", description = "Regra de negócio violada",
+			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
+	@com.br.dietamais.comum.api.Idempotente
+	@ApiResponse(responseCode = "409", description = "Chave de idempotência reutilizada para outra requisição",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	public ResponseEntity<ProblemaResposta> encerrarVinculo(@PathVariable UUID id,
 			@Parameter(description = "UUID da operação; repetição em 24 h devolve a mesma resposta")

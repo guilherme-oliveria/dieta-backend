@@ -41,11 +41,11 @@
       },
       {
         "arquivo": "entrar/resposta.json",
-        "tipo": "com.br.dietamais.contas.api.SessaoResposta"
+        "tipo": "com.br.dietamais.comum.api.SessaoResposta"
       },
       {
         "arquivo": "entrar/resposta-escolher-perfil.json",
-        "tipo": "com.br.dietamais.contas.api.SessaoResposta"
+        "tipo": "com.br.dietamais.comum.api.SessaoResposta"
       },
       {
         "arquivo": "entrar/requisicao-escolher-perfil.json",
@@ -76,7 +76,7 @@
       },
       {
         "arquivo": "renovarSessao/resposta.json",
-        "tipo": "com.br.dietamais.contas.api.SessaoResposta"
+        "tipo": "com.br.dietamais.comum.api.SessaoResposta"
       },
       {
         "arquivo": "renovarSessao/erro-token-invalido.json",

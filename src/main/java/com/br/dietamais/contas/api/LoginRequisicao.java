@@ -1,5 +1,9 @@
 package com.br.dietamais.contas.api;
 
+import com.br.dietamais.comum.api.DispositivoRequisicao;
+
+import com.br.dietamais.comum.api.Perfil;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import jakarta.validation.Valid;

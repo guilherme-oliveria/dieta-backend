@@ -2,7 +2,7 @@ package com.br.dietamais.pacientes.api;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import com.br.dietamais.contas.api.DispositivoRequisicao;
+import com.br.dietamais.comum.api.DispositivoRequisicao;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;

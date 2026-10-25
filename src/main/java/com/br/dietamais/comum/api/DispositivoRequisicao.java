@@ -1,4 +1,4 @@
-package com.br.dietamais.contas.api;
+package com.br.dietamais.comum.api;
 
 import java.util.UUID;
 import jakarta.validation.constraints.NotBlank;
