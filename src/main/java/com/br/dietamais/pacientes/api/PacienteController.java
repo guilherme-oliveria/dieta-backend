@@ -27,9 +27,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 @Tag(name = "pacientes")
 @com.br.dietamais.comum.api.RotaNutri
-@ApiResponse(responseCode = "501", description = "Contrato publicado; implementação pendente",
-		content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 public class PacienteController {
+	private final com.br.dietamais.pacientes.aplicacao.GerenciarPacientes pacientes;
+	public PacienteController(com.br.dietamais.pacientes.aplicacao.GerenciarPacientes pacientes){this.pacientes=pacientes;}
 
 	@GetMapping("/pacientes")
 	@Operation(operationId = "listarPacientes", summary = "Listar pacientes vinculados à nutri",
@@ -43,10 +43,10 @@ public class PacienteController {
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@ApiResponse(responseCode = "403", description = "Acesso ou perfil negado",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
-	public ResponseEntity<ProblemaResposta> listarPacientes(@RequestParam(defaultValue = "0") int pagina, @RequestParam(defaultValue = "20") int tamanho,
+	public ResponseEntity<PaginaPacientesResposta> listarPacientes(@RequestParam(defaultValue = "0") int pagina, @RequestParam(defaultValue = "20") int tamanho,
 			@RequestParam(defaultValue = "nome,asc") String ordem, @RequestParam(required = false) String busca,
 			@RequestParam(required = false) StatusVinculo status) {
-		return ContratoNaoImplementado.resposta();
+		return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(pacientes.listar(pagina,tamanho,ordem,busca,status));
 	}
 
 	@PostMapping("/pacientes")
@@ -66,10 +66,12 @@ public class PacienteController {
 	@ApiResponse(responseCode = "422", description = "Regra de negócio violada",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@com.br.dietamais.comum.api.Idempotente
-	public ResponseEntity<ProblemaResposta> criarPaciente(@RequestBody CriarPacienteRequisicao requisicao,
+	public ResponseEntity<PacienteResposta> criarPaciente(@jakarta.validation.Valid @RequestBody CriarPacienteRequisicao requisicao,
 			@Parameter(description = "UUID da operação; repetição em 24 h devolve a mesma resposta")
 			@RequestHeader(value = "Idempotency-Key", required = false) UUID idempotencyKey) {
-		return ContratoNaoImplementado.resposta();
+		var paciente=pacientes.criar(requisicao);
+		return ResponseEntity.created(java.net.URI.create("/api/v1/pacientes/"+paciente.id()))
+			.eTag(paciente.versao().toString()).cacheControl(org.springframework.http.CacheControl.noStore()).body(paciente);
 	}
 
 	@GetMapping("/pacientes/{id}")
@@ -85,8 +87,9 @@ public class PacienteController {
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@ApiResponse(responseCode = "404", description = "Recurso inexistente ou fora da visibilidade",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
-	public ResponseEntity<ProblemaResposta> consultarPaciente(@PathVariable UUID id) {
-		return ContratoNaoImplementado.resposta();
+	public ResponseEntity<PacienteResposta> consultarPaciente(@PathVariable UUID id) {
+		var paciente=pacientes.consultar(id);
+		return ResponseEntity.ok().eTag(paciente.versao().toString()).cacheControl(org.springframework.http.CacheControl.noStore()).body(paciente);
 	}
 
 	@PatchMapping("/pacientes/{id}")
@@ -108,13 +111,16 @@ public class PacienteController {
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@ApiResponse(responseCode = "422", description = "Regra de negócio violada",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
-	public ResponseEntity<ProblemaResposta> atualizarPaciente(@PathVariable UUID id,
+	public ResponseEntity<PacienteResposta> atualizarPaciente(@PathVariable UUID id,
 			@Parameter(description = "Versão entre aspas, por exemplo \"1\"") @RequestHeader("If-Match") String ifMatch,
-			@RequestBody AtualizarPacienteRequisicao requisicao) {
-		return ContratoNaoImplementado.resposta();
+			@jakarta.validation.Valid @RequestBody AtualizarPacienteRequisicao requisicao) {
+		var paciente=pacientes.atualizar(id,ifMatch,requisicao);
+		return ResponseEntity.ok().eTag(paciente.versao().toString()).cacheControl(org.springframework.http.CacheControl.noStore()).body(paciente);
 	}
 
 	@PostMapping("/pacientes/{id}/convite")
+	@ApiResponse(responseCode = "501", description = "Contrato publicado; implementação pendente",
+		content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@Operation(operationId = "convidarPaciente", summary = "Gerar ou reenviar convite",
 			description = "RN-CON-05, RN-ASS-03 e RN-VIN-02. Não recebe corpo; novo convite invalida o anterior. Implementação: BE-07.")
 	@SecurityRequirement(name = "bearerAuth")
@@ -138,6 +144,8 @@ public class PacienteController {
 	}
 
 	@PostMapping("/pacientes/{id}/encerrar-vinculo")
+	@ApiResponse(responseCode = "501", description = "Contrato publicado; implementação pendente",
+		content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@com.br.dietamais.comum.api.RotaNutri(exclusiva=false)
 	@Operation(operationId = "encerrarVinculo", summary = "Encerrar vínculo",
 			description = "RN-VIN-05. Sem corpo; nutri dona ou o próprio paciente pode encerrar. Mantém prontuário só leitura e dietas recebidas. Implementação: BE-07.")
