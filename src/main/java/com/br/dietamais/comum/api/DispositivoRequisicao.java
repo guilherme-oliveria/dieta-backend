@@ -7,5 +7,5 @@ import jakarta.validation.constraints.NotNull;
 public record DispositivoRequisicao(
 		@NotNull UUID id,
 		@NotNull Plataforma plataforma,
-		@NotBlank String nomeAparelho) {
+		@NotBlank @jakarta.validation.constraints.Size(max = 150) String nomeAparelho) {
 }

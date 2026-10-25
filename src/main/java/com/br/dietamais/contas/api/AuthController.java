@@ -26,8 +26,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "contas")
 public class AuthController {
 	private final CadastrarNutri cadastro;
+	private final com.br.dietamais.contas.aplicacao.AutenticarSessao sessoes;
+	private final TransporteSessao transporte;
 
-	public AuthController(CadastrarNutri cadastro) { this.cadastro = cadastro; }
+	public AuthController(CadastrarNutri cadastro, com.br.dietamais.contas.aplicacao.AutenticarSessao sessoes, TransporteSessao transporte) {
+		this.cadastro = cadastro; this.sessoes = sessoes; this.transporte = transporte;
+	}
 
 	@PostMapping("/auth/cadastro-nutri")
 	@Operation(operationId = "cadastrarNutri", summary = "Cadastrar nutricionista",
@@ -50,11 +54,9 @@ public class AuthController {
 	}
 
 	@PostMapping("/auth/login")
-	@ApiResponse(responseCode = "501", description = "Contrato publicado; implementação pendente",
-			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@Operation(operationId = "entrar", summary = "Entrar e escolher perfil",
 			description = "RN-CON-03. perfil é opcional. Com múltiplos perfis e sem escolha, tokens e expiraEm são nulos; usuario.perfis permite repetir login com perfil. Implementação: BE-03/BE-05.")
-	@ApiResponse(responseCode = "200", description = "Resposta prevista após implementação",
+	@ApiResponse(responseCode = "200", description = "Sessão emitida ou perfis disponíveis para escolha",
 			content = @Content(mediaType = "application/json", schema = @Schema(implementation = SessaoResposta.class)))
 	@ApiResponse(responseCode = "400", description = "Entrada inválida",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
@@ -64,36 +66,44 @@ public class AuthController {
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@ApiResponse(responseCode = "429", description = "Limite de taxa ou bloqueio; consultar Retry-After",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
-	public ResponseEntity<ProblemaResposta> entrar(@RequestBody LoginRequisicao requisicao) {
-		return ContratoNaoImplementado.resposta();
+	public ResponseEntity<SessaoResposta> entrar(@Valid @RequestBody LoginRequisicao requisicao) {
+		return transporte.sessao(sessoes.entrar(requisicao));
 	}
 
 	@PostMapping("/auth/refresh")
-	@ApiResponse(responseCode = "501", description = "Contrato publicado; implementação pendente",
-			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@Operation(operationId = "renovarSessao", summary = "Renovar sessão",
 			description = "Rotaciona o refresh token; reuso revoga a família. Implementação: BE-03.")
-	@ApiResponse(responseCode = "200", description = "Resposta prevista após implementação",
+	@ApiResponse(responseCode = "200", description = "Refresh rotacionado e novo access token emitido",
 			content = @Content(mediaType = "application/json", schema = @Schema(implementation = SessaoResposta.class)))
 	@ApiResponse(responseCode = "400", description = "Entrada inválida",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@ApiResponse(responseCode = "401", description = "Não autenticado ou credencial/token inválido",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
-	public ResponseEntity<ProblemaResposta> renovarSessao(@RequestBody RefreshRequisicao requisicao) {
-		return ContratoNaoImplementado.resposta();
+	@ApiResponse(responseCode = "403", description = "Origin ausente ou não permitida no transporte por cookie",
+			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
+	public ResponseEntity<SessaoResposta> renovarSessao(@Valid @RequestBody(required = false) RefreshRequisicao requisicao,
+			jakarta.servlet.http.HttpServletRequest http) {
+		return transporte.sessao(sessoes.renovar(transporte.lerRefresh(requisicao == null ? null : requisicao.refreshToken(), http)));
 	}
 
 	@PostMapping("/auth/logout")
-	@ApiResponse(responseCode = "501", description = "Contrato publicado; implementação pendente",
-			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@Operation(operationId = "sair", summary = "Encerrar sessão do dispositivo",
 			description = "Revoga o refresh token informado. Implementação: BE-03.")
-	@ApiResponse(responseCode = "204", description = "Resposta prevista após implementação",
+	@ApiResponse(responseCode = "204", description = "Família do refresh revogada, inclusive se o token já era inválido",
 			content = @Content())
 	@ApiResponse(responseCode = "400", description = "Entrada inválida",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
-	public ResponseEntity<ProblemaResposta> sair(@RequestBody LogoutRequisicao requisicao) {
-		return ContratoNaoImplementado.resposta();
+	@ApiResponse(responseCode = "403", description = "Origin ausente ou não permitida no transporte por cookie",
+			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
+	public ResponseEntity<Void> sair(@Valid @RequestBody(required = false) LogoutRequisicao requisicao,
+			jakarta.servlet.http.HttpServletRequest http) {
+		sessoes.sair(transporte.lerRefresh(requisicao == null ? null : requisicao.refreshToken(), http));
+		return transporte.encerrada();
+	}
+
+	@org.springframework.web.bind.annotation.ExceptionHandler(com.br.dietamais.contas.aplicacao.LoginBloqueado.class)
+	public ResponseEntity<org.springframework.http.ProblemDetail> bloqueado(com.br.dietamais.contas.aplicacao.LoginBloqueado erro) {
+		return transporte.bloqueado(erro);
 	}
 
 	@PostMapping("/auth/confirmar-email")

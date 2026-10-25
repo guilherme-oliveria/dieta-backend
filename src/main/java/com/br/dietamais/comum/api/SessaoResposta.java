@@ -11,4 +11,5 @@ public record SessaoResposta(
 		@Schema(nullable = true) String refreshToken,
 		@Schema(nullable = true) Instant expiraEm,
 		@Valid @NotNull UsuarioResposta usuario) {
+	@Override public String toString() { return "SessaoResposta[tokens e dados protegidos]"; }
 }

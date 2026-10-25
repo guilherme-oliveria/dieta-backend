@@ -48,7 +48,7 @@ Comunicação entre módulos: chamada à interface pública do outro módulo (ex
 
 ## Banco e Liquibase
 
-- Changelog mestre: `src/main/resources/db/changelog/db.changelog-master.yaml`; cada mudança é um arquivo novo `NNN-modulo-descricao.yaml` em `changes/` (próximo: `004-...`). **Nunca edite um changeset que já foi para a main.**
+- Changelog mestre: `src/main/resources/db/changelog/db.changelog-master.yaml`; cada mudança é um arquivo novo `NNN-modulo-descricao.yaml` em `changes/` (próximo: `005-...`). **Nunca edite um changeset que já foi para a main.**
 - Tabelas e colunas em `snake_case` português, nome da tabela no singular (`dieta`, `item_refeicao`). PK `id uuid`.
 - Novas tabelas usam `defaultValueComputed: uuidv7()` (função nativa do Postgres 18), mas aceitam id vindo do cliente.
 - **Colunas padrão de tabela sincronizável**: `versao bigint not null default 0`, `seq bigint not null` (de `seq_sync`), `criado_em`, `atualizado_em timestamptz`, `excluido_em timestamptz null`. Índice em `(nutricionista_id, seq)` e/ou `(paciente_id, seq)`. Na entidade JPA: `@Version` em `versao`, `seq` preenchido por listener (`nextval('seq_sync')`) a cada insert/update.
@@ -93,6 +93,18 @@ Cada interface tem uma implementação falsa para testes, escolhida por `@Profil
 - Erros: lance `ExcecaoNegocio(CodigoErro.X, "RN-...")`; o `@RestControllerAdvice` converte para ProblemDetail (ver `integracao.md`).
 
 ## Testes
+
+### Login e tokens entregues em BE-03
+
+`AutenticarSessao` usa `TransactionTemplate`: tentativas bloqueadas e revogações por reuso são confirmadas antes de lançar a exceção que vira HTTP 401/429. Erro de gravação ou de assinatura ainda desfaz toda a emissão. `SessaoStore` mantém a projeção de autenticação via JDBC; não expõe entidades nem substitui o `UsuarioAtual` de BE-05. Bloqueio de uma linha por identificador normalizado serializa a janela móvel RN-CON-03 mesmo para e-mail desconhecido. O banco guarda hash do identificador e as últimas falhas; a comparação de senha inexistente usa um hash Argon2id fictício criado só em memória, com o mesmo custo do encoder real.
+
+`004-sessoes.yaml` cria `refresh_token` (hash, usuário, perfil, instalação, plataforma, nome do aparelho, família, expiração, consumo e revogação) e `bloqueio_login`. A transação bloqueia o usuário antes de reler o refresh: só uma requisição concorrente consome o token; a outra detecta reuso e revoga a família, inclusive o sucessor já emitido. Novo login na mesma instalação revoga suas famílias anteriores; dispositivos diferentes permanecem independentes. O prazo de 30 dias é absoluto por família. O job `LimpezaSessoes` remove famílias vencidas e tentativas inativas há um dia, com intervalo configurável em `dieta.auth.intervalo-limpeza` (PT1H). Exclusões são idempotentes entre instâncias.
+
+O resource server valida assinatura RS256, emissor/audiência, identidade/perfil e expiração usando `Clock`, sem tolerância após o prazo. Só o perfil ativo vira `ROLE_*`; claims da outra identidade não conferem permissão. `TokensJwt` emite 15 minutos. O par RSA vem das variáveis descritas em `.env.example`; ausência de chaves só permite gerar um par efêmero em `dev`/`test`. O perfil padrão é `dev`; produção deve definir `SPRING_PROFILES_ACTIVE=prod` e fornecer ambas. Não há chave persistida ou registrada em log. Recursos protegidos rejeitam Basic; as rotas de sessão autenticarão por senha/refresh e devem ser chamadas sem Bearer expirado.
+
+`FiltroTaxaLogin` roda após rastreio, antes da autenticação: padrão 10/min por IP real da conexão, configurável por `dieta.auth.login-limite-ip`, memória limitada a 10 mil IPs e recusa segura ao atingir a capacidade. Não confia em headers de proxy. É proteção local por processo; o bloqueio RN-CON-03 é persistente entre instâncias. A política de proxy confiável/limite geral continua no endurecimento BE-31. O cookie de refresh exige Origin HTTPS configurada e exata para ser lido, além de `HttpOnly; Secure; SameSite=Strict`; o app continua usando JSON.
+
+A observação de concorrência do QA de BE-02 foi incorporada: o insert de usuário agora usa `ON CONFLICT DO NOTHING` sem alvo, arbitrando tanto a constraint original de e-mail quanto o índice normalizado, sem editar migrations já aprovadas. O teste concorrente continua exigindo exatamente 201/409. Nenhum JSON ou nome de campo foi alterado, e login não exige e-mail confirmado (essa restrição é do primeiro convite, RN-CON-05). Login/refresh não recebem cache idempotente.
 
 ### Cadastro de nutri entregue em BE-02
 
