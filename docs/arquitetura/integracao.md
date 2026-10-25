@@ -35,6 +35,8 @@ Login próprio, Spring Security + OAuth2 Resource Server (JWT).
 - Mobile guarda tokens em armazenamento seguro (Keystore/Keychain/arquivo cifrado no desktop). Web guarda o access em memória e o refresh em cookie `HttpOnly; Secure; SameSite=Strict` no path `/api/v1/auth` (o backend aceita os dois modos).
 - Rate limit: login e convites 10/min por IP; API geral 300/min por usuário. Excedeu: `429` com `Retry-After`.
 
+BE-03 implementa login, refresh e logout sem alterar os campos dos exemplos. O app envia refresh no JSON e omite o header Authorization nessas rotas públicas (um Bearer expirado é rejeitado pelo resource server). Access usa RS256; refresh tem prazo absoluto de família de 30 dias, com rotação, revogação da família por reuso e logout por dispositivo. Respostas usam `Cache-Control: no-store`. Detalhes de bloqueio RN-CON-03, cookie seguro com validação de Origin e limite por IP estão em `contrato-fase-1.md`. A proteção por e-mail é persistente; o limite por IP desta etapa é local ao processo. Rate limit de convites e geral entram nas tarefas correspondentes.
+
 ## Erros
 
 Formato **RFC 9457 Problem Details** (`application/problem+json`), já nativo no Spring:
