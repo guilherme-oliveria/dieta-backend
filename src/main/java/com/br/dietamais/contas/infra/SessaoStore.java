@@ -32,6 +32,10 @@ public class SessaoStore {
 	public boolean bloquearConta(UUID id) {
 		return !jdbc.query("select id from usuario where id=? for update",(rs,n)->rs.getObject(1,UUID.class),id).isEmpty();
 	}
+	public UUID organizacaoNutri(UUID nutricionista,UUID usuario) {
+		return jdbc.query("select organizacao_id from nutricionista where id=? and usuario_id=?",(rs,n)->rs.getObject(1,UUID.class),nutricionista,usuario)
+				.stream().findFirst().orElse(null);
+	}
 	public Conta consultarConta(UUID id) {
 		return jdbc.query("""
 			select u.*,n.id as nid,p.id as pid from usuario u

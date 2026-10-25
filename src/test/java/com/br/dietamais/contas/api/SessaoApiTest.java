@@ -56,7 +56,7 @@ class SessaoApiTest {
 		assertThat(linha.get("dispositivo_id")).isEqualTo(dispositivo);
 		assertThat(linha.get("nome_aparelho")).isEqualTo("Aparelho fictício");
 		assertThat(jdbc.queryForObject("select expira_em from refresh_token where usuario_id=?", java.sql.Timestamp.class, UUID.fromString(jwt.getSubject())).toInstant()).isEqualTo(AGORA.plus(Duration.ofDays(30)));
-		assertThat(getEu("Bearer " + access).statusCode()).isEqualTo(501);
+		assertThat(getEu("Bearer " + access).statusCode()).isEqualTo(200);
 		assertThat(getEu("Basic " + Base64.getEncoder().encodeToString("ficticio:SEM_VALIDADE".getBytes())).statusCode()).isEqualTo(401);
 		assertThat(getEu("Bearer invalido.SEM_VALIDADE.assinatura").statusCode()).isEqualTo(401);
 		relogio.agora.set(AGORA.plusSeconds(900));

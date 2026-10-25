@@ -38,6 +38,8 @@ import tools.jackson.databind.json.JsonMapper;
 		"spring.docker.compose.enabled=false", "springdoc.swagger-ui.enabled=false" })
 class ContratoHttpFase1Test {
 	@org.springframework.test.context.bean.override.mockito.MockitoBean
+	com.br.dietamais.contas.aplicacao.ConsultarEu consultaEu;
+	@org.springframework.test.context.bean.override.mockito.MockitoBean
 	com.br.dietamais.contas.aplicacao.CadastrarNutri cadastro;
 	@org.springframework.test.context.bean.override.mockito.MockitoBean
 	com.br.dietamais.contas.aplicacao.AutenticarSessao sessoes;
@@ -47,7 +49,7 @@ class ContratoHttpFase1Test {
 	com.br.dietamais.contas.aplicacao.GerenciarEmailSenha emails;
 	private static final java.util.Set<String> IMPLEMENTADOS = java.util.Set.of("/api/v1/auth/cadastro-nutri",
 			"/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/auth/logout",
-			"/api/v1/auth/confirmar-email", "/api/v1/auth/esqueci-senha", "/api/v1/auth/redefinir-senha");
+			"/api/v1/auth/confirmar-email", "/api/v1/auth/esqueci-senha", "/api/v1/auth/redefinir-senha", "/api/v1/eu");
 
 	@Configuration(proxyBeanMethods = false)
 	@EnableAutoConfiguration
@@ -98,7 +100,7 @@ class ContratoHttpFase1Test {
 					.as("%s %s", endpoint.get("metodo"), caminho)
 					.isEqualTo(mapper.readTree(recurso("nao-implementado.json")));
 		}
-		assertThat(pendentes).isEqualTo(10);
+		assertThat(pendentes).isEqualTo(9);
 	}
 
 	@Test
