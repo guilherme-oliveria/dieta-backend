@@ -1,4 +1,4 @@
-package com.br.dietamais.contas.api;
+package com.br.dietamais.comum.api;
 
 public enum Plataforma {
 	ANDROID, IOS, DESKTOP

@@ -54,6 +54,7 @@ public class ConviteController {
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@ApiResponse(responseCode = "429", description = "Limite de taxa ou bloqueio; consultar Retry-After",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
+	@com.br.dietamais.comum.api.Idempotente
 	public ResponseEntity<ProblemaResposta> aceitarConvite(@PathVariable String codigo,
 			@RequestBody AceitarConviteRequisicao requisicao,
 			@Parameter(description = "UUID da operação; repetição em 24 h devolve a mesma resposta")

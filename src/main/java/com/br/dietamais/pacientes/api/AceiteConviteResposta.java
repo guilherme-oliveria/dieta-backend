@@ -1,6 +1,6 @@
 package com.br.dietamais.pacientes.api;
 
-import com.br.dietamais.contas.api.SessaoResposta;
+import com.br.dietamais.comum.api.SessaoResposta;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 

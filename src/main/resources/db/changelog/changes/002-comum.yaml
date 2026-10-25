@@ -1,0 +1,65 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-seq-sync
+      author: dietamais
+      changes:
+        - createSequence:
+            sequenceName: seq_sync
+            startValue: 1
+            incrementBy: 1
+
+  - changeSet:
+      id: 002-idempotencia
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: idempotencia
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: escopo, type: varchar(256), constraints: { nullable: false } }
+              - column: { name: chave, type: uuid, constraints: { nullable: false } }
+              - column: { name: hash_requisicao, type: varchar(64), constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: expira_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: status_http, type: smallint }
+              - column: { name: cabecalhos_resposta, type: text }
+              - column: { name: corpo_resposta, type: bytea }
+        - addUniqueConstraint:
+            tableName: idempotencia
+            columnNames: escopo, chave
+            constraintName: uk_idempotencia_escopo_chave
+        - createIndex:
+            tableName: idempotencia
+            indexName: ix_idempotencia_expira_em
+            columns:
+              - column: { name: expira_em }
+
+  - changeSet:
+      id: 002-log-acesso
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: log_acesso
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: usuario_id, type: uuid }
+              - column: { name: nutricionista_id, type: uuid }
+              - column: { name: paciente_id, type: uuid }
+              - column: { name: acao, type: varchar(40), constraints: { nullable: false } }
+              - column: { name: entidade, type: varchar(100), constraints: { nullable: false } }
+              - column: { name: registro_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: ocorrido_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: origem_ip, type: inet }
+              - column: { name: trace_id, type: varchar(64) }
+        - createIndex:
+            tableName: log_acesso
+            indexName: ix_log_acesso_usuario_ocorrido_em
+            columns:
+              - column: { name: usuario_id }
+              - column: { name: ocorrido_em }
+        - createIndex:
+            tableName: log_acesso
+            indexName: ix_log_acesso_nutri_ocorrido_em
+            columns:
+              - column: { name: nutricionista_id }
+              - column: { name: ocorrido_em }

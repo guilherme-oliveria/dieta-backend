@@ -1,4 +1,4 @@
-package com.br.dietamais.contas.api;
+package com.br.dietamais.comum.api;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

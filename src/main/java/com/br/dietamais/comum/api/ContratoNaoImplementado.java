@@ -16,6 +16,6 @@ public final class ContratoNaoImplementado {
 				.body(new ProblemaResposta(URI.create("https://dietamais.com.br/erros/nao-implementado"),
 						"Endpoint ainda não implementado", 501,
 						"Contrato publicado; implementação prevista nas tarefas da fase 1.",
-						CodigoErro.NAO_IMPLEMENTADO, null, List.of(), null, null));
+						CodigoErro.NAO_IMPLEMENTADO, null, List.of(), org.slf4j.MDC.get("traceId"), null));
 	}
 }

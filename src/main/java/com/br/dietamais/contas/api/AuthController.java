@@ -1,5 +1,7 @@
 package com.br.dietamais.contas.api;
 
+import com.br.dietamais.comum.api.SessaoResposta;
+
 import java.util.UUID;
 
 import com.br.dietamais.comum.api.ContratoNaoImplementado;
@@ -35,6 +37,7 @@ public class AuthController {
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@ApiResponse(responseCode = "422", description = "Regra de negócio violada",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
+	@com.br.dietamais.comum.api.Idempotente
 	public ResponseEntity<ProblemaResposta> cadastrarNutri(@RequestBody CadastroNutriRequisicao requisicao,
 			@Parameter(description = "UUID da operação; repetição em 24 h devolve a mesma resposta")
 			@RequestHeader(value = "Idempotency-Key", required = false) UUID idempotencyKey) {
