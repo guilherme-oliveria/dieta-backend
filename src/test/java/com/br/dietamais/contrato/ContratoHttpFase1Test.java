@@ -39,11 +39,18 @@ import tools.jackson.databind.json.JsonMapper;
 class ContratoHttpFase1Test {
 	@org.springframework.test.context.bean.override.mockito.MockitoBean
 	com.br.dietamais.contas.aplicacao.CadastrarNutri cadastro;
+	@org.springframework.test.context.bean.override.mockito.MockitoBean
+	com.br.dietamais.contas.aplicacao.AutenticarSessao sessoes;
+	@org.springframework.test.context.bean.override.mockito.MockitoBean
+	org.springframework.security.oauth2.jwt.JwtDecoder decoder;
+	private static final java.util.Set<String> IMPLEMENTADOS = java.util.Set.of("/api/v1/auth/cadastro-nutri",
+			"/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/auth/logout");
 
 	@Configuration(proxyBeanMethods = false)
 	@EnableAutoConfiguration
 	@Import({ AuthController.class, EuController.class, ConviteController.class, PacienteController.class,
-			SyncController.class, OpenApiConfig.class, SecurityConfig.class, com.br.dietamais.comum.api.FabricaProblema.class })
+			SyncController.class, OpenApiConfig.class, SecurityConfig.class, com.br.dietamais.comum.api.FabricaProblema.class,
+			com.br.dietamais.contas.api.TransporteSessao.class, com.br.dietamais.comum.infra.RelogioConfig.class })
 	static class AplicacaoContrato {
 		@Bean
 		UserDetailsService semCredenciaisReais() {
@@ -70,7 +77,7 @@ class ContratoHttpFase1Test {
 		var manifesto = mapper.readTree(recurso("manifesto.json"));
 		int pendentes = 0;
 		for (var endpoint : manifesto) {
-			if (endpoint.get("caminho").asString().equals("/api/v1/auth/cadastro-nutri")) continue;
+			if (IMPLEMENTADOS.contains(endpoint.get("caminho").asString())) continue;
 			pendentes++;
 			String caminho = endpoint.get("caminho").asText()
 					.replace("{id}", "019a0f32-5000-7000-8000-000000000003")
@@ -88,7 +95,7 @@ class ContratoHttpFase1Test {
 					.as("%s %s", endpoint.get("metodo"), caminho)
 					.isEqualTo(mapper.readTree(recurso("nao-implementado.json")));
 		}
-		assertThat(pendentes).isEqualTo(16);
+		assertThat(pendentes).isEqualTo(13);
 	}
 
 	@Test
@@ -103,7 +110,7 @@ class ContratoHttpFase1Test {
 			assertThat(operacao.isMissingNode()).isFalse();
 			String sucesso = endpoint.get("status").asText();
 			assertThat(operacao.path("responses").has(sucesso)).isTrue();
-			if (!endpoint.get("caminho").asString().equals("/api/v1/auth/cadastro-nutri")) {
+			if (!IMPLEMENTADOS.contains(endpoint.get("caminho").asString())) {
 				assertThat(operacao.path("responses").has("501")).isTrue();
 			}
 		}
@@ -112,7 +119,7 @@ class ContratoHttpFase1Test {
 	}
 
 	@Test
-	void configuracaoAtualMantemRotasProtegidasEnquantoJwtNaoFoiImplementado() throws Exception {
+	void rotasExigemBearerENaoAceitamBasic() throws Exception {
 		mvc.perform(get("/api/v1/eu")).andExpect(status().isUnauthorized())
 				.andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.codigo").value("NAO_AUTENTICADO"));
 		mvc.perform(get("/api/v1/eu").header("Authorization", "Basic " + java.util.Base64.getEncoder()

@@ -11,11 +11,10 @@ import com.br.dietamais.comum.api.CodigoErro;
 @Configuration
 public class SecurityConfig {
 
-	// Cadastro é público; as demais rotas seguem protegidas até o login com JWT em BE-03.
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http, FabricaProblema problemas) throws Exception {
 		org.springframework.security.web.AuthenticationEntryPoint entrada = (requisicao, resposta, erro) -> {
-			resposta.setHeader("WWW-Authenticate", "Basic realm=\"Dieta+\", charset=\"UTF-8\"");
+			resposta.setHeader("WWW-Authenticate", "Bearer");
 			problemas.escrever(resposta, CodigoErro.NAO_AUTENTICADO, "Autenticação necessária.");
 		};
 		return http
@@ -23,9 +22,13 @@ public class SecurityConfig {
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/actuator/health/**").permitAll()
-						.requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/cadastro-nutri").permitAll()
+						.requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/cadastro-nutri",
+								"/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/auth/logout").permitAll()
 						.anyRequest().authenticated())
-				.httpBasic(basic -> basic.authenticationEntryPoint(entrada))
+				.oauth2ResourceServer(oauth -> oauth
+						.jwt(jwt -> jwt.jwtAuthenticationConverter(token -> new org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken(
+								token, java.util.List.of(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + token.getClaimAsString("perfil"))))))
+						.authenticationEntryPoint(entrada))
 				.exceptionHandling(erros -> erros
 						.authenticationEntryPoint(entrada)
 						.accessDeniedHandler((requisicao, resposta, erro) -> problemas.escrever(resposta,
