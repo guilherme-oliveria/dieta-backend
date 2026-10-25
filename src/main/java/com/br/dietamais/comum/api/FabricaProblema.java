@@ -46,10 +46,15 @@ public class FabricaProblema {
 	}
 
 	public void escrever(HttpServletResponse resposta, CodigoErro codigo, String detalhe) throws IOException {
+		escrever(resposta,new ExcecaoNegocio(codigo,null,detalhe,List.of(),null));
+	}
+	public void escrever(HttpServletResponse resposta,ExcecaoNegocio erro) throws IOException {
+		var codigo=erro.codigo();
+		String detalhe=erro.getMessage();
 		resposta.setStatus(codigo.status());
 		resposta.setContentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE);
-		var problema = criar(codigo, null, detalhe, List.of(), null);
+		var problema = criar(codigo, erro.regra(), detalhe, erro.campos(), erro.atual());
 		mapper.writeValue(resposta.getOutputStream(), new ProblemaResposta(problema.getType(), problema.getTitle(),
-				codigo.status(), detalhe, codigo, null, List.of(), MDC.get("traceId"), null));
+				codigo.status(), detalhe, codigo, erro.regra(), erro.campos(), MDC.get("traceId"), erro.atual()));
 	}
 }

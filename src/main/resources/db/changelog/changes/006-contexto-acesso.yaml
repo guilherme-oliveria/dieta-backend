@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006-vinculo-versao-atualizacao
+      author: dietamais
+      changes:
+        - addColumn:
+            tableName: vinculo
+            columns:
+              - column: { name: versao, type: bigint, defaultValueNumeric: 0, constraints: { nullable: false } }
+              - column: { name: atualizado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+        - sql:
+            sql: update vinculo set atualizado_em=coalesce(encerrado_em,consentimento_em,criado_em)
+  - changeSet:
+      id: 006-log-acesso-contexto
+      author: dietamais
+      changes:
+        - addColumn:
+            tableName: log_acesso
+            columns:
+              - column: { name: perfil, type: varchar(20) }
+              - column: { name: organizacao_id, type: uuid }

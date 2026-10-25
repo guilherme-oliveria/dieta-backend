@@ -1,7 +1,6 @@
 package com.br.dietamais.contas.api;
 
 
-import com.br.dietamais.comum.api.ContratoNaoImplementado;
 import com.br.dietamais.comum.api.ProblemaResposta;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,21 +16,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1")
 @Tag(name = "contas")
-@ApiResponse(responseCode = "501", description = "Contrato publicado; implementação pendente",
-		content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 public class EuController {
+	private final com.br.dietamais.contas.aplicacao.ConsultarEu consulta;
+	public EuController(com.br.dietamais.contas.aplicacao.ConsultarEu consulta){this.consulta=consulta;}
 
 	@GetMapping("/eu")
 	@Operation(operationId = "consultarEu", summary = "Consultar conta e perfis",
 			description = "Lista perfis disponíveis e perfil ativo, assinatura da nutri e vínculos do paciente. Implementação: BE-05.")
 	@SecurityRequirement(name = "bearerAuth")
-	@ApiResponse(responseCode = "200", description = "Resposta prevista após implementação",
+	@ApiResponse(responseCode = "200", description = "Conta atual, assinatura da nutri ou vínculos do paciente",
 			content = @Content(mediaType = "application/json", schema = @Schema(implementation = EuResposta.class)))
 	@ApiResponse(responseCode = "401", description = "Não autenticado ou credencial/token inválido",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@ApiResponse(responseCode = "403", description = "Acesso ou perfil negado",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
-	public ResponseEntity<ProblemaResposta> consultarEu() {
-		return ContratoNaoImplementado.resposta();
+	public ResponseEntity<EuResposta> consultarEu() {
+		return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(consulta.executar());
 	}
 }

@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1")
 @Tag(name = "pacientes")
+@com.br.dietamais.comum.api.RotaNutri
 @ApiResponse(responseCode = "501", description = "Contrato publicado; implementação pendente",
 		content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 public class PacienteController {
@@ -137,6 +138,7 @@ public class PacienteController {
 	}
 
 	@PostMapping("/pacientes/{id}/encerrar-vinculo")
+	@com.br.dietamais.comum.api.RotaNutri(exclusiva=false)
 	@Operation(operationId = "encerrarVinculo", summary = "Encerrar vínculo",
 			description = "RN-VIN-05. Sem corpo; nutri dona ou o próprio paciente pode encerrar. Mantém prontuário só leitura e dietas recebidas. Implementação: BE-07.")
 	@SecurityRequirement(name = "bearerAuth")

@@ -38,6 +38,16 @@ Os POSTs de cadastro da nutri, criação de paciente, geração/aceite de convit
 
 ## Conta, perfil e sessão
 
+### Contexto e isolamento (BE-05)
+
+Toda requisição autenticada confere o usuário ativo, perfil e identidade do JWT no banco, antes de acessar o cache idempotente. `nid`/`pid` alheios ou identidade removida invalidam a autenticação (401 `NAO_AUTENTICADO`). Organização vem da identidade da nutri no banco; não há header ou campo de corpo que escolha dono. A informação da conta e dos perfis em `/eu` reflete o banco no momento da requisição, sem exigir novo token para refletir nome/fuso/confirmação.
+
+`GET /eu` retorna os mesmos campos/JSONs: no perfil NUTRICIONISTA, assinatura da própria organização e vínculos vazios; no perfil PACIENTE, assinatura nula e vínculos próprios (inclusive encerrados), sem vínculos de outro paciente. ADMIN vê apenas a própria conta, sem prontuários. Login/seleção de perfil reutiliza BE-03: `NUTRICIONISTA` é o valor no wire e "NUTRI" apenas abreviação do plano.
+
+Rotas de nutri exigem perfil NUTRICIONISTA (403 `PERFIL_INVALIDO`). Escritas verificam a assinatura antes de executar ou reproduzir a operação idempotente: `TESTE` vencido por Clock, `CANCELADA`, `EXPIRADA`, ausência de assinatura ou `EM_ATRASO` após carência geram 422 `ASSINATURA_INATIVA`, RN-ASS-04. A carência padrão de 7 dias é configurável e começa em `fimPeriodoEm` (vencimento); sem vencimento conhecido, EM_ATRASO não autoriza escrita. ATIVA segue seu status até o ciclo de vida da BE-27. Leitura e acesso do paciente não são punidos pela assinatura da nutri.
+
+Acesso clínico registra IDs do recurso/donos/ator, ação, perfil, organização, instante, IP da conexão e traceId. Não grava querystring, corpo, token, senha ou valor clínico na trilha. A trilha registra o acesso realizado, não afirma que uma transação posterior foi confirmada; fica preservada mesmo em rollback posterior. Recursos fora da visibilidade são 404 e não são lidos/alterados. A listagem de vínculos do próprio paciente também gera auditoria por vínculo. A retenção de RN-LGPD-01 é de 5 anos; esta etapa não apaga registros da trilha.
+
 ### Confirmação e recuperação (BE-04)
 
 O cadastro enfileira o e-mail de confirmação na mesma transação da conta. O link contém token aleatório de 32 bytes, uso único e validade de 24 horas (RN-CON-05). O app envia o token no POST `confirmar-email`, que retorna 204; token inválido, vencido, anulado ou repetido retorna 401 `TOKEN_INVALIDO`, RN-CON-05. O GET do link não altera a conta automaticamente.
