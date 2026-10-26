@@ -1,7 +1,6 @@
 package com.br.dietamais.sync.api;
 
 
-import com.br.dietamais.comum.api.ContratoNaoImplementado;
 import com.br.dietamais.comum.api.ProblemaResposta;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -18,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1")
 @Tag(name = "sync")
-@ApiResponse(responseCode = "501", description = "Contrato publicado; implementação pendente",
-		content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 public class SyncController {
+	private final com.br.dietamais.sync.aplicacao.ServicoSyncLeitura sync;
+	public SyncController(com.br.dietamais.sync.aplicacao.ServicoSyncLeitura sync){this.sync=sync;}
 
 	@GetMapping("/sync")
 	@Operation(operationId = "puxarMudancas", summary = "Puxar mudanças da fase 1",
@@ -34,7 +33,7 @@ public class SyncController {
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@ApiResponse(responseCode = "403", description = "Acesso ou perfil negado",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
-	public ResponseEntity<ProblemaResposta> puxarMudancas(@RequestParam(required = false) String cursor, @RequestParam(defaultValue = "500") int limite) {
-		return ContratoNaoImplementado.resposta();
+	public ResponseEntity<SyncResposta> puxarMudancas(@RequestParam(required = false) String cursor, @RequestParam(defaultValue = "500") int limite) {
+		return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(sync.executar(cursor,limite));
 	}
 }

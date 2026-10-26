@@ -13,7 +13,7 @@ public class ConviteStore {
 	private final JdbcTemplate jdbc;
 	public ConviteStore(JdbcTemplate jdbc){this.jdbc=jdbc;}
 	public Linha consultar(String hash,boolean bloquear) {
-		return jdbc.query("select c.*,v.nutricionista_id,v.paciente_id,v.status from convite c join vinculo v on v.id=c.vinculo_id where c.hash_codigo=?"+(bloquear?" for update of c,v":""),
+		return jdbc.query("select c.*,v.nutricionista_id,v.paciente_id,v.status from convite c join vinculo v on v.id=c.vinculo_id where c.hash_codigo=? and v.excluido_em is null"+(bloquear?" for update of c,v":""),
 			(rs,n)->new Linha(rs.getObject("id",UUID.class),rs.getObject("vinculo_id",UUID.class),rs.getObject("nutricionista_id",UUID.class),rs.getObject("paciente_id",UUID.class),
 				rs.getString("destinatario_email"),rs.getString("status"),rs.getTimestamp("expira_em").toInstant(),rs.getTimestamp("usado_em")!=null,rs.getTimestamp("invalidado_em")!=null),hash).stream().findFirst().orElse(null);
 	}
@@ -29,7 +29,7 @@ public class ConviteStore {
 		return original;
 	}
 	public boolean duplicado(UUID vinculo,UUID paciente,UUID nutri) {
-		return jdbc.queryForObject("select exists(select 1 from vinculo where nutricionista_id=? and paciente_id=? and id<>? and status in ('CONVIDADO','ATIVO'))",Boolean.class,nutri,paciente,vinculo);
+		return jdbc.queryForObject("select exists(select 1 from vinculo where nutricionista_id=? and paciente_id=? and id<>? and status in ('CONVIDADO','ATIVO') and excluido_em is null)",Boolean.class,nutri,paciente,vinculo);
 	}
 	public void aceitar(Linha convite,UUID paciente,UUID usuario,String versao,String hashTermo,String ip,Instant agora) {
 		jdbc.update("update vinculo set paciente_origem_id=coalesce(paciente_origem_id,paciente_id),paciente_id=?,status='ATIVO',consentimento_em=?,versao=versao+1,atualizado_em=? where id=?",paciente,Timestamp.from(agora),Timestamp.from(agora),convite.vinculo());
@@ -44,7 +44,7 @@ public class ConviteStore {
 	}
 	public List<VinculoDados> paraEncerrar(UUID paciente,UUID nutri,UUID vinculo) {
 		var parametros=new ArrayList<Object>();parametros.add(paciente);
-		String filtro="paciente_id=?";
+		String filtro="paciente_id=? and excluido_em is null";
 		if(nutri!=null){filtro+=" and nutricionista_id=?";parametros.add(nutri);}
 		if(vinculo!=null){filtro+=" and id=?";parametros.add(vinculo);}
 		var ids=jdbc.query("select id from vinculo where "+filtro+" order by case status when 'ENCERRADO' then 1 else 0 end,criado_em desc,id desc",(rs,n)->rs.getObject(1,UUID.class),parametros.toArray());
