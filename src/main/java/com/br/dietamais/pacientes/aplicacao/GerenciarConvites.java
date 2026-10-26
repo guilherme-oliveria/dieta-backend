@@ -76,7 +76,7 @@ public class GerenciarConvites {
 			var cadastro=entrada.cadastro();
 			if(cadastro==null)throw new ExcecaoNegocio(CodigoErro.NAO_AUTENTICADO,null);
 			validarDestinatario(convite,cadastro.email());
-			uid=contas.criar(cadastro.nome(),cadastro.email(),cadastro.senha(),cadastro.fuso());
+			uid=contas.criar(cadastro.nome(),cadastro.email(),cadastro.senha(),cadastro.fuso(),cadastro.aceitouTermos(),cadastro.versaoTermos());
 			contas.bloquear(uid);
 		}
 		UUID paciente=convites.identificarPaciente(convite.paciente(),uid);

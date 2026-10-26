@@ -47,3 +47,7 @@ dependencies {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+tasks.processResources {
+	from("docs/legal") { into("legal") }
+}

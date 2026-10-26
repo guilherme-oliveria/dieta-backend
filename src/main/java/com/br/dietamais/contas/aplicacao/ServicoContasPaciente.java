@@ -17,20 +17,23 @@ public class ServicoContasPaciente implements ContasPaciente {
 	private final JdbcTemplate jdbc;private final SessaoStore contas;private final PoliticaSenha politica;
 	private final PasswordEncoder encoder;private final GeradorIds ids;private final Clock relogio;private final AutenticarSessao sessoes;
 	private final EmitirTokenConta emissor;private final String fusoPadrao;
+	private final TermosUso termos;
 	public ServicoContasPaciente(JdbcTemplate jdbc,SessaoStore contas,PoliticaSenha politica,PasswordEncoder encoder,GeradorIds ids,Clock relogio,AutenticarSessao sessoes,EmitirTokenConta emissor,
-			@org.springframework.beans.factory.annotation.Value("${dieta.contas.fuso-padrao:America/Sao_Paulo}") String fusoPadrao) {
+			@org.springframework.beans.factory.annotation.Value("${dieta.contas.fuso-padrao:America/Sao_Paulo}") String fusoPadrao,TermosUso termos) {
 		this.jdbc=jdbc;this.contas=contas;this.politica=politica;this.encoder=encoder;this.ids=ids;this.relogio=relogio;this.sessoes=sessoes;
 		this.emissor=emissor;this.fusoPadrao=ZoneId.of(fusoPadrao).getId();
+		this.termos=termos;
 	}
-	@Override public UUID criar(String nome,String email,String senha,String fuso) {
+	@Override public UUID criar(String nome,String email,String senha,String fuso,Boolean aceitouTermos,String versaoTermos) {
+		termos.validar(aceitouTermos,versaoTermos);
 		politica.validar(senha);
 		try {fuso=fuso==null||fuso.isBlank()?fusoPadrao:ZoneId.of(fuso).getId();}
 		catch(DateTimeException erro){throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,null);}
 		var id=ids.novo();var agora=Timestamp.from(relogio.instant());
 		int criado=jdbc.update("""
-			insert into usuario(id,email,senha_hash,nome,perfil,ativo,criado_em,atualizado_em,fuso)
-			values(?,?,?,?,'PACIENTE',true,?,?,?) on conflict do nothing
-			""",id,email,encoder.encode(senha),nome,agora,agora,fuso);
+			insert into usuario(id,email,senha_hash,nome,perfil,ativo,criado_em,atualizado_em,fuso,termos_aceitos_em,versao_termos)
+			values(?,?,?,?,'PACIENTE',true,?,?,?,?,?) on conflict do nothing
+			""",id,email,encoder.encode(senha),nome,agora,agora,fuso,agora,versaoTermos);
 		if(criado==0)throw new ExcecaoNegocio(CodigoErro.EMAIL_JA_CADASTRADO,"RN-CON-01");
 		emissor.emitir(id,email,com.br.dietamais.contas.dominio.FinalidadeToken.CONFIRMAR_EMAIL);
 		return id;

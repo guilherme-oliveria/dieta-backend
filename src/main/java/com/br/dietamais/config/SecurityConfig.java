@@ -22,6 +22,7 @@ public class SecurityConfig {
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/actuator/health/**").permitAll()
+						.requestMatchers(org.springframework.http.HttpMethod.GET,"/legal/terms-of-use").permitAll()
 						.requestMatchers(org.springframework.http.HttpMethod.GET,"/api/v1/convites/*").permitAll()
 						.requestMatchers(org.springframework.http.HttpMethod.POST,"/api/v1/convites/*/aceitar").permitAll()
 						.requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/cadastro-nutri",

@@ -122,7 +122,9 @@ class CadastroNutriApiTest {
 		}
 		var termo = (tools.jackson.databind.node.ObjectNode) mapper.valueToTree(entrada());
 		termo.put("aceitouTermos", false);
-		assertThat(cadastrar(mapper.writeValueAsString(termo), null).statusCode()).isEqualTo(400);
+		var semAceite=cadastrar(mapper.writeValueAsString(termo), null);
+		assertThat(semAceite.statusCode()).isEqualTo(422);
+		assertThat(mapper.readTree(semAceite.body()).path("codigo").asString()).isEqualTo("TERMOS_NAO_ACEITOS");
 		assertThat(contagens()).isEqualTo(contagens);
 	}
 
