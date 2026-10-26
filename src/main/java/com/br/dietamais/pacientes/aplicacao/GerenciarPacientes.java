@@ -4,6 +4,7 @@ import com.br.dietamais.comum.api.*;
 import com.br.dietamais.pacientes.api.*;
 import com.br.dietamais.pacientes.dominio.*;
 import com.br.dietamais.pacientes.infra.FichaPacienteStore;
+import com.br.dietamais.pacientes.infra.ConviteStore;
 import java.time.*;
 import java.util.*;
 import org.springframework.stereotype.Service;
@@ -20,9 +21,11 @@ public class GerenciarPacientes {
 	private final GeradorIds ids;
 	private final Clock relogio;
 	private final JsonMapper mapper;
+	private final ConviteStore convites;
 	public GerenciarPacientes(FichaPacienteStore fichas,UsuarioAtual usuario,GuardaEscritaNutri guarda,ReservaVagaPaciente vagas,
-			AuditoriaClinica auditoria,GeradorIds ids,Clock relogio,JsonMapper mapper) {
+			AuditoriaClinica auditoria,GeradorIds ids,Clock relogio,JsonMapper mapper,ConviteStore convites) {
 		this.fichas=fichas;this.usuario=usuario;this.guarda=guarda;this.vagas=vagas;this.auditoria=auditoria;this.ids=ids;this.relogio=relogio;this.mapper=mapper;
+		this.convites=convites;
 	}
 	@Transactional
 	public PacienteResposta criar(CriarPacienteRequisicao requisicao) {
@@ -54,7 +57,8 @@ public class GerenciarPacientes {
 		guarda.validar();var dados=DadosFicha.de(requisicao);validarNascimento(dados);
 		// O bloqueio por nutri serializa a duplicidade de e-mail sem consumir vaga ao editar.
 		validarEmail(dados.email(),nutri,paciente);
-		fichas.atualizar(paciente,nutri,dados,relogio.instant());
+		fichas.atualizar(atual.vinculoId(),nutri,dados,relogio.instant());
+		if(!Objects.equals(atual.email(),dados.email()))convites.invalidar(atual.vinculoId(),relogio.instant());
 		var resposta=visivel(paciente,nutri,false);auditoria.escrita(referencia(resposta,contexto));return resposta;
 	}
 	@Transactional(readOnly=true)

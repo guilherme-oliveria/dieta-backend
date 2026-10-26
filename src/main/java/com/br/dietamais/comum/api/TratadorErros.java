@@ -28,6 +28,8 @@ public class TratadorErros {
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	ResponseEntity<ProblemDetail> validacao(MethodArgumentNotValidException erro) {
+		if(erro.getBindingResult().getFieldErrors().stream().anyMatch(campo->"aceitouTermo".equals(campo.getField())&&"AssertTrue".equals(campo.getCode())))
+			return resposta(CodigoErro.CONSENTIMENTO_OBRIGATORIO,"RN-VIN-04","É necessário aceitar o consentimento.",List.of(),null);
 		var campos = erro.getBindingResult().getFieldErrors().stream().map(campo -> {
 			boolean obrigatorio = List.of("NotNull", "NotBlank", "NotEmpty").contains(campo.getCode());
 			return new ErroCampoResposta(campo.getField(), obrigatorio ? "OBRIGATORIO" : "FORMATO_INVALIDO",

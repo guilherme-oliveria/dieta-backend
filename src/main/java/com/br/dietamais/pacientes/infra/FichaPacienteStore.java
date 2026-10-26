@@ -19,7 +19,7 @@ public class FichaPacienteStore {
 		jdbc.queryForObject("select pg_advisory_xact_lock(hashtextextended(?,0))",Object.class,nutri.toString());
 	}
 	public PacienteResposta consultar(UUID paciente,UUID nutri,boolean bloquear) {
-		return jdbc.query(PROJECAO+" where"+VISIBILIDADE+" and f.paciente_id=?"+(bloquear?" for update of f,v":""),this::mapear,nutri,nutri,paciente)
+		return jdbc.query(PROJECAO+" where"+VISIBILIDADE+" and f.paciente_id=? order by case v.status when 'ATIVO' then 0 when 'CONVIDADO' then 1 else 2 end,f.criado_em desc,f.id desc limit 1"+(bloquear?" for update of f,v":""),this::mapear,nutri,nutri,paciente)
 			.stream().findFirst().orElse(null);
 	}
 	public boolean emailOcupado(String email,UUID nutri,UUID exceto) {
@@ -37,11 +37,11 @@ public class FichaPacienteStore {
 			values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)
 			""",vinculo,vinculo,nutri,paciente,d.nome(),d.email(),d.dataNascimento(),sexo(d),d.telefone(),d.estaturaReferencia(),d.objetivo(),d.observacoes(),Timestamp.from(agora),Timestamp.from(agora));
 	}
-	public void atualizar(UUID paciente,UUID nutri,DadosFicha d,Instant agora) {
+	public void atualizar(UUID vinculo,UUID nutri,DadosFicha d,Instant agora) {
 		jdbc.update("""
 			update ficha_paciente set nome=?,email=?,data_nascimento=?,sexo=?,telefone=?,estatura_referencia=?,objetivo=?,observacoes=?,
-			versao=versao+1,seq=nextval('seq_sync'),atualizado_em=? where paciente_id=? and nutricionista_id=? and excluido_em is null
-			""",d.nome(),d.email(),d.dataNascimento(),sexo(d),d.telefone(),d.estaturaReferencia(),d.objetivo(),d.observacoes(),Timestamp.from(agora),paciente,nutri);
+			versao=versao+1,seq=nextval('seq_sync'),atualizado_em=? where vinculo_id=? and nutricionista_id=? and excluido_em is null
+			""",d.nome(),d.email(),d.dataNascimento(),sexo(d),d.telefone(),d.estaturaReferencia(),d.objetivo(),d.observacoes(),Timestamp.from(agora),vinculo,nutri);
 	}
 	public PaginaPacientesResposta listar(UUID nutri,int pagina,int tamanho,String ordem,String busca,StatusVinculo status) {
 		var argumentos=new ArrayList<Object>(List.of(nutri,nutri));
@@ -50,7 +50,7 @@ public class FichaPacienteStore {
 		if(status!=null){where+=" and v.status=?";argumentos.add(status.name());}
 		long total=jdbc.queryForObject("select count(*) from ficha_paciente f join vinculo v on v.id=f.vinculo_id"+where,Long.class,argumentos.toArray());
 		argumentos.add(tamanho);argumentos.add((long)pagina*tamanho);
-		var itens=jdbc.query(PROJECAO+where+" order by "+ordem+",f.paciente_id limit ? offset ?",this::mapear,argumentos.toArray());
+		var itens=jdbc.query(PROJECAO+where+" order by "+ordem+",f.paciente_id,f.id limit ? offset ?",this::mapear,argumentos.toArray());
 		return new PaginaPacientesResposta(itens,pagina,tamanho,total);
 	}
 	private PacienteResposta mapear(ResultSet rs,int linha) throws SQLException {

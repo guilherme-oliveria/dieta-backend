@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record AceitarConviteRequisicao(
 		@NotNull @AssertTrue Boolean aceitouTermo,
-		@NotBlank String versaoTermo,
+		@NotBlank @jakarta.validation.constraints.Size(max=40) String versaoTermo,
 		@Schema(nullable = true) @Valid CadastroPacienteRequisicao cadastro,
 		@Valid @NotNull DispositivoRequisicao dispositivo) {
 }

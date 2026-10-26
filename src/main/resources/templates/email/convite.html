@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="utf-8"><title>Convite Dieta+</title></head>
+<body>
+<h1>Você recebeu um convite no Dieta+</h1>
+<p>Abra o convite para conhecer quem o enviou e ler o termo antes de decidir se deseja aceitar.</p>
+<p><a th:href="${link}">Abrir convite</a></p>
+<p>O convite expira em <span th:text="${expiraEm}">data informada no convite</span>.</p>
+<p>Se não esperava este convite, ignore esta mensagem.</p>
+</body>
+</html>

@@ -2,7 +2,6 @@ package com.br.dietamais.pacientes.api;
 
 import java.util.UUID;
 
-import com.br.dietamais.comum.api.ContratoNaoImplementado;
 import com.br.dietamais.comum.api.ProblemaResposta;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -22,9 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1")
 @Tag(name = "pacientes")
-@ApiResponse(responseCode = "501", description = "Contrato publicado; implementação pendente",
-		content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 public class ConviteController {
+	private final com.br.dietamais.pacientes.aplicacao.GerenciarConvites convites;
+	public ConviteController(com.br.dietamais.pacientes.aplicacao.GerenciarConvites convites){this.convites=convites;}
 
 	@GetMapping("/convites/{codigo}")
 	@Operation(operationId = "consultarConvite", summary = "Consultar nutri e termo do convite",
@@ -35,8 +34,8 @@ public class ConviteController {
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@ApiResponse(responseCode = "429", description = "Limite de taxa ou bloqueio; consultar Retry-After",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
-	public ResponseEntity<ProblemaResposta> consultarConvite(@PathVariable String codigo) {
-		return ContratoNaoImplementado.resposta();
+	public ResponseEntity<ConviteResposta> consultarConvite(@PathVariable String codigo) {
+		return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(convites.consultar(codigo));
 	}
 
 	@PostMapping("/convites/{codigo}/aceitar")
@@ -55,10 +54,11 @@ public class ConviteController {
 	@ApiResponse(responseCode = "429", description = "Limite de taxa ou bloqueio; consultar Retry-After",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@com.br.dietamais.comum.api.Idempotente
-	public ResponseEntity<ProblemaResposta> aceitarConvite(@PathVariable String codigo,
-			@RequestBody AceitarConviteRequisicao requisicao,
+	public ResponseEntity<AceiteConviteResposta> aceitarConvite(@PathVariable String codigo,
+			@jakarta.validation.Valid @RequestBody AceitarConviteRequisicao requisicao,jakarta.servlet.http.HttpServletRequest pedido,
 			@Parameter(description = "UUID da operação; repetição em 24 h devolve a mesma resposta")
 			@RequestHeader(value = "Idempotency-Key", required = false) UUID idempotencyKey) {
-		return ContratoNaoImplementado.resposta();
+		String ip=pedido.getRemoteAddr();if(ip.contains("%"))ip=ip.substring(0,ip.indexOf('%'));
+		return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(convites.aceitar(codigo,requisicao,ip));
 	}
 }
