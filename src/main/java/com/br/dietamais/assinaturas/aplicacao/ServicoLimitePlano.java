@@ -15,10 +15,15 @@ public class ServicoLimitePlano implements ReservaVagaPaciente {
 	public ServicoLimitePlano(JdbcTemplate jdbc,UsuarioAtual usuario,ConsultarAssinatura assinaturas){this.jdbc=jdbc;this.usuario=usuario;this.assinaturas=assinaturas;}
 	@Override @Transactional(propagation=Propagation.MANDATORY)
 	public void validar() {
+		validar(0);
+	}
+	@Override @Transactional(propagation=Propagation.MANDATORY)
+	public void validarExistente(){validar(1);}
+	private void validar(int vagasJaReservadas) {
 		var contexto=usuario.obter();contexto.exigirNutricionista();
 		jdbc.queryForObject("select id from organizacao where id=? for update",java.util.UUID.class,contexto.organizacaoId());
 		var plano=assinaturas.atual();
 		if(plano==null)throw new ExcecaoNegocio(CodigoErro.ASSINATURA_INATIVA,"RN-ASS-04");
-		PoliticaLimitePlano.validar(plano.pacientesOcupados(),plano.limitePacientes());
+		PoliticaLimitePlano.validar(plano.pacientesOcupados()-vagasJaReservadas,plano.limitePacientes());
 	}
 }

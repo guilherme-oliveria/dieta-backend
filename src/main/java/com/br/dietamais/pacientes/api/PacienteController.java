@@ -2,7 +2,6 @@ package com.br.dietamais.pacientes.api;
 
 import java.util.UUID;
 
-import com.br.dietamais.comum.api.ContratoNaoImplementado;
 import com.br.dietamais.comum.api.ProblemaResposta;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -29,7 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 @com.br.dietamais.comum.api.RotaNutri
 public class PacienteController {
 	private final com.br.dietamais.pacientes.aplicacao.GerenciarPacientes pacientes;
-	public PacienteController(com.br.dietamais.pacientes.aplicacao.GerenciarPacientes pacientes){this.pacientes=pacientes;}
+	private final com.br.dietamais.pacientes.aplicacao.GerenciarConvites convites;
+	public PacienteController(com.br.dietamais.pacientes.aplicacao.GerenciarPacientes pacientes,com.br.dietamais.pacientes.aplicacao.GerenciarConvites convites){this.pacientes=pacientes;this.convites=convites;}
 
 	@GetMapping("/pacientes")
 	@Operation(operationId = "listarPacientes", summary = "Listar pacientes vinculados à nutri",
@@ -119,8 +119,6 @@ public class PacienteController {
 	}
 
 	@PostMapping("/pacientes/{id}/convite")
-	@ApiResponse(responseCode = "501", description = "Contrato publicado; implementação pendente",
-		content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@Operation(operationId = "convidarPaciente", summary = "Gerar ou reenviar convite",
 			description = "RN-CON-05, RN-ASS-03 e RN-VIN-02. Não recebe corpo; novo convite invalida o anterior. Implementação: BE-07.")
 	@SecurityRequirement(name = "bearerAuth")
@@ -137,16 +135,16 @@ public class PacienteController {
 	@ApiResponse(responseCode = "422", description = "Regra de negócio violada",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@com.br.dietamais.comum.api.Idempotente
-	public ResponseEntity<ProblemaResposta> convidarPaciente(@PathVariable UUID id,
+	public ResponseEntity<ConviteCriadoResposta> convidarPaciente(@PathVariable UUID id,
 			@Parameter(description = "UUID da operação; repetição em 24 h devolve a mesma resposta")
 			@RequestHeader(value = "Idempotency-Key", required = false) UUID idempotencyKey) {
-		return ContratoNaoImplementado.resposta();
+		return ResponseEntity.status(201).cacheControl(org.springframework.http.CacheControl.noStore()).body(convites.gerar(id));
 	}
 
 	@PostMapping("/pacientes/{id}/encerrar-vinculo")
-	@ApiResponse(responseCode = "501", description = "Contrato publicado; implementação pendente",
-		content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@com.br.dietamais.comum.api.RotaNutri(exclusiva=false)
+	@ApiResponse(responseCode = "400", description = "Seleção de vínculo obrigatória quando há vários vínculos abertos ou entrada inválida",
+		content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@Operation(operationId = "encerrarVinculo", summary = "Encerrar vínculo",
 			description = "RN-VIN-05. Sem corpo; nutri dona ou o próprio paciente pode encerrar. Mantém prontuário só leitura e dietas recebidas. Implementação: BE-07.")
 	@SecurityRequirement(name = "bearerAuth")
@@ -163,9 +161,11 @@ public class PacienteController {
 	@com.br.dietamais.comum.api.Idempotente
 	@ApiResponse(responseCode = "409", description = "Chave de idempotência reutilizada para outra requisição",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
-	public ResponseEntity<ProblemaResposta> encerrarVinculo(@PathVariable UUID id,
+	public ResponseEntity<VinculoResposta> encerrarVinculo(@PathVariable UUID id,
+			@Parameter(description = "Vínculo escolhido; necessário ao paciente com vários vínculos abertos. Deve pertencer ao paciente/nutri autenticados.")
+			@RequestParam(required=false) UUID vinculoId,
 			@Parameter(description = "UUID da operação; repetição em 24 h devolve a mesma resposta")
 			@RequestHeader(value = "Idempotency-Key", required = false) UUID idempotencyKey) {
-		return ContratoNaoImplementado.resposta();
+		return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(convites.encerrar(id,vinculoId));
 	}
 }

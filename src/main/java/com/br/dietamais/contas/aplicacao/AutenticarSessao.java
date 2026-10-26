@@ -85,6 +85,14 @@ public class AutenticarSessao {
 			if (token != null) store.revogarFamilia(token.familia(), relogio.instant());
 		});
 	}
+	@org.springframework.transaction.annotation.Transactional(propagation=org.springframework.transaction.annotation.Propagation.MANDATORY)
+	public SessaoResposta emitirPaciente(UUID usuario,DispositivoRequisicao dispositivo) {
+		if(!store.bloquearConta(usuario))throw new ExcecaoNegocio(CodigoErro.NAO_AUTENTICADO,null);
+		var conta=store.consultarConta(usuario);
+		if(conta==null||!conta.ativo()||!conta.perfis().contains(Perfil.PACIENTE))throw new ExcecaoNegocio(CodigoErro.NAO_AUTENTICADO,null);
+		var agora=relogio.instant();store.revogarDispositivo(usuario,dispositivo.id(),agora);
+		return emitir(conta,Perfil.PACIENTE,dispositivo,ids.novo(),agora.plus(Duration.ofDays(30)),agora);
+	}
 
 	private SessaoStore.Refresh refreshBloqueado(String valor) {
 		String hash = hash(valor);

@@ -42,6 +42,8 @@ class ContratoHttpFase1Test {
 	@org.springframework.test.context.bean.override.mockito.MockitoBean
 	com.br.dietamais.pacientes.aplicacao.GerenciarPacientes pacientes;
 	@org.springframework.test.context.bean.override.mockito.MockitoBean
+	com.br.dietamais.pacientes.aplicacao.GerenciarConvites convites;
+	@org.springframework.test.context.bean.override.mockito.MockitoBean
 	com.br.dietamais.contas.aplicacao.CadastrarNutri cadastro;
 	@org.springframework.test.context.bean.override.mockito.MockitoBean
 	com.br.dietamais.contas.aplicacao.AutenticarSessao sessoes;
@@ -52,7 +54,8 @@ class ContratoHttpFase1Test {
 	private static final java.util.Set<String> IMPLEMENTADOS = java.util.Set.of("/api/v1/auth/cadastro-nutri",
 			"/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/auth/logout",
 			"/api/v1/auth/confirmar-email", "/api/v1/auth/esqueci-senha", "/api/v1/auth/redefinir-senha", "/api/v1/eu",
-			"/api/v1/pacientes", "/api/v1/pacientes/{id}");
+			"/api/v1/pacientes", "/api/v1/pacientes/{id}","/api/v1/pacientes/{id}/convite",
+			"/api/v1/convites/{codigo}","/api/v1/convites/{codigo}/aceitar","/api/v1/pacientes/{id}/encerrar-vinculo");
 
 	@Configuration(proxyBeanMethods = false)
 	@EnableAutoConfiguration
@@ -103,7 +106,7 @@ class ContratoHttpFase1Test {
 					.as("%s %s", endpoint.get("metodo"), caminho)
 					.isEqualTo(mapper.readTree(recurso("nao-implementado.json")));
 		}
-		assertThat(pendentes).isEqualTo(5);
+		assertThat(pendentes).isEqualTo(1);
 	}
 
 	@Test

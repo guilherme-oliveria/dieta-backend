@@ -14,9 +14,12 @@ public class RenderizadorEmail {
 	private final TemplateEngine engine;
 	private final String confirmacao;
 	private final String redefinicao;
+	private final String convite;
+	public RenderizadorEmail(TemplateEngine engine,String confirmacao,String redefinicao){this(engine,confirmacao,redefinicao,"dietamais://convites");}
+	@org.springframework.beans.factory.annotation.Autowired
 	public RenderizadorEmail(TemplateEngine engine,@Value("${EMAIL_URL_CONFIRMAR:dietamais://confirmar-email}") String confirmacao,
-			@Value("${EMAIL_URL_REDEFINIR:dietamais://redefinir-senha}") String redefinicao) {
-		this.engine=engine;this.confirmacao=validar(confirmacao);this.redefinicao=validar(redefinicao);
+			@Value("${EMAIL_URL_REDEFINIR:dietamais://redefinir-senha}") String redefinicao,@Value("${EMAIL_URL_CONVITE:dietamais://convites}") String convite) {
+		this.engine=engine;this.confirmacao=validar(confirmacao);this.redefinicao=validar(redefinicao);this.convite=validar(convite);
 	}
 	private String validar(String endereco) {
 		var uri=URI.create(endereco);
@@ -25,6 +28,12 @@ public class RenderizadorEmail {
 		return endereco;
 	}
 	public MensagemEmail renderizar(EmailTransacional email) {
+		if(email.tipo()==TipoEmail.CONVITE) {
+			var contexto=new Context(Locale.forLanguageTag("pt-BR"));
+			contexto.setVariable("link",UriComponentsBuilder.fromUriString(convite).pathSegment(email.token()).build().encode().toUriString());
+			contexto.setVariable("expiraEm",email.expiraEm().toString());
+			return new MensagemEmail(email.destinatario(),"Você recebeu um convite no Dieta+",engine.process("email/convite",contexto));
+		}
 		boolean confirma=email.tipo()==TipoEmail.CONFIRMAR_EMAIL;
 		String link=UriComponentsBuilder.fromUriString(confirma?confirmacao:redefinicao).queryParam("token",email.token()).build().encode().toUriString();
 		var contexto=new Context(Locale.forLanguageTag("pt-BR"));

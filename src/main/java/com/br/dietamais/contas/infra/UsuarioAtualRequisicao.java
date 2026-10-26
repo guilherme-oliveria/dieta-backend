@@ -14,6 +14,11 @@ public class UsuarioAtualRequisicao implements UsuarioAtual {
 	private final SessaoStore contas;
 	private ContextoUsuario contexto;
 	public UsuarioAtualRequisicao(SessaoStore contas){this.contas=contas;}
+	@Override public java.util.Optional<ContextoUsuario> opcional() {
+		var autenticacao=SecurityContextHolder.getContext().getAuthentication();
+		if(autenticacao==null||autenticacao instanceof org.springframework.security.authentication.AnonymousAuthenticationToken)return java.util.Optional.empty();
+		return java.util.Optional.of(obter());
+	}
 	@Override public ContextoUsuario obter() {
 		if(contexto!=null)return contexto;
 		var autenticacao=SecurityContextHolder.getContext().getAuthentication();

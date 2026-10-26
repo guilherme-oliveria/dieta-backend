@@ -25,4 +25,9 @@ class RenderizadorEmailTest {
 		assertThatThrownBy(()->renderizador("javascript:SEM_VALIDADE")).isInstanceOf(IllegalStateException.class);
 		assertThatThrownBy(()->renderizador("https://app.example.invalid?token=SEM_VALIDADE")).isInstanceOf(IllegalStateException.class);
 	}
+	@Test void conviteTemCodigoEPrazoSemIdentidadeOuDadosClinicosNoTexto() {
+		var convite=renderizador("dietamais://confirmar-email").renderizar(new EmailTransacional(TipoEmail.CONVITE,"ficticio@example.invalid","AB2CD3EF",Instant.parse("2026-11-02T12:00:00Z")));
+		assertThat(convite.html()).contains("dietamais://convites/AB2CD3EF","2026-11-02T12:00:00Z").doesNotContain("ficticio@example.invalid","redefinir-senha");
+		assertThat(convite.assunto()).contains("convite");
+	}
 }
