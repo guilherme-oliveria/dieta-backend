@@ -8,6 +8,10 @@ import org.testcontainers.utility.DockerImageName;
 
 @TestConfiguration(proxyBeanMethods = false)
 public class TestcontainersConfiguration {
+	@Bean @org.springframework.context.annotation.Primary
+	com.br.dietamais.contas.infra.FonteTermosUso termosPublicadosFicticios() {
+		return ()->new com.br.dietamais.contas.dominio.DocumentoTermosUso("2026-10","PUBLICADO",java.time.Instant.EPOCH,java.time.Instant.EPOCH,"FONTE FICTÍCIA EXCLUSIVA DE TESTES, SEM VALIDADE JURÍDICA");
+	}
 	@Bean
 	static org.springframework.beans.factory.config.BeanFactoryPostProcessor semAgendamentoDeEmailReal() {
 		return fabrica -> fabrica.getBean(org.springframework.core.env.ConfigurableEnvironment.class).getPropertySources()

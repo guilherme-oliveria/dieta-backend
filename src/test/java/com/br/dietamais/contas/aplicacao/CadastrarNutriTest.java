@@ -32,6 +32,7 @@ class CadastrarNutriTest {
 	private final PasswordEncoder encoder = mock(PasswordEncoder.class);
 	private final GeradorIds ids = mock(GeradorIds.class);
 	private final EmitirTokenConta emissor = mock(EmitirTokenConta.class);
+	private final com.br.dietamais.comum.api.TermosUso termos=mock(com.br.dietamais.comum.api.TermosUso.class);
 	private final Instant agora = Instant.parse("2026-10-25T12:00:00Z");
 	private final UUID usuarioId = UUID.fromString("019a1400-0000-7000-8000-000000000001");
 	private final UUID nutriId = UUID.fromString("019a1400-0000-7000-8000-000000000002");
@@ -39,7 +40,7 @@ class CadastrarNutriTest {
 
 	private CadastrarNutri caso() {
 		return new CadastrarNutri(usuarios, nutricionistas, organizacoes, new PoliticaSenha(Set.of()), encoder,
-				ids, Clock.fixed(agora, ZoneOffset.UTC), "America/Sao_Paulo", emissor);
+				ids, Clock.fixed(agora, ZoneOffset.UTC), "America/Sao_Paulo", emissor,termos);
 	}
 
 	private CadastroNutriRequisicao entrada(String fuso) {
@@ -88,5 +89,10 @@ class CadastrarNutriTest {
 		assertThatThrownBy(() -> caso().executar(entrada("Fuso/Inexistente")))
 				.isInstanceOfSatisfying(ExcecaoNegocio.class, erro -> assertThat(erro.campos().getFirst().campo()).isEqualTo("fuso"));
 		verifyNoInteractions(usuarios, nutricionistas, organizacoes, encoder, ids);
+	}
+	@Test void termosIndisponiveisBloqueiamAntesDeHashOuEscrita() {
+		doThrow(new ExcecaoNegocio(CodigoErro.TERMOS_INDISPONIVEIS,"RN-CON-09")).when(termos).validar(true,"2026-10");
+		assertThatThrownBy(()->caso().executar(entrada(null))).isInstanceOfSatisfying(ExcecaoNegocio.class,erro->assertThat(erro.codigo()).isEqualTo(CodigoErro.TERMOS_INDISPONIVEIS));
+		verifyNoInteractions(usuarios,nutricionistas,organizacoes,encoder,ids,emissor);
 	}
 }

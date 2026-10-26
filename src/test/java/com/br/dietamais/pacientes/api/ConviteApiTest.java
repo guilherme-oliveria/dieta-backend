@@ -63,8 +63,9 @@ class ConviteApiTest extends TesteIsolamento {
 		var dados=json(aceite);assertThat(dados.path("vinculo").path("status").asString()).isEqualTo("ATIVO");
 		assertThat(dados.path("sessao").path("usuario").path("perfil").asString()).isEqualTo("PACIENTE");
 		UUID uid=UUID.fromString(dados.path("sessao").path("usuario").path("id").asString());
-		assertThat(jdbc.queryForObject("select senha_hash from usuario where id=?",String.class,uid)).startsWith("$argon2id$");
-		assertThat(jdbc.queryForObject("select versao_termos is null and termos_aceitos_em is null from usuario where id=?",Boolean.class,uid)).isTrue();
+		assertThat(jdbc.queryForObject("select senha_hash from usuario where id=?",String.class,uid)).startsWith("{argon2}$argon2id$");
+		assertThat(jdbc.queryForObject("select versao_termos from usuario where id=?",String.class,uid)).isEqualTo("2026-10");
+		assertThat(jdbc.queryForObject("select termos_aceitos_em from usuario where id=?",java.sql.Timestamp.class,uid).toInstant()).isEqualTo(AGORA);
 		var consentimento=jdbc.queryForMap("select * from consentimento where usuario_id=?",uid);
 		assertThat(consentimento).containsEntry("versao_termo","clinico-teste-v1");assertThat(consentimento.get("origem_ip")).isNotNull();assertThat(consentimento.get("hash_termo").toString()).hasSize(64);
 		String token=dados.path("sessao").path("accessToken").asString();assertThat(requisitar("GET","/eu",token,null).statusCode()).isEqualTo(200);
@@ -174,7 +175,7 @@ class ConviteApiTest extends TesteIsolamento {
 	String criarFicha(String token,String email) throws Exception {var corpo=new HashMap<String,Object>();corpo.put("nome","Paciente fictício");if(email!=null)corpo.put("email",email);var resposta=requisitar("POST","/pacientes",token,corpo);assertThat(resposta.statusCode()).as(resposta.body()).isEqualTo(201);return texto(json(resposta),"id");}
 	JsonNode convidar(String token,String paciente) throws Exception {var resposta=requisitar("POST","/pacientes/"+paciente+"/convite",token,null);assertThat(resposta.statusCode()).as(resposta.body()).isEqualTo(201);return json(resposta);}
 	HttpResponse<String> aceitar(String codigo,String token,String email) throws Exception{return requisitar("POST","/convites/"+codigo+"/aceitar",token,corpo(token,email));}
-	Map<String,Object> corpo(String token,String email) {var corpo=new HashMap<String,Object>();corpo.put("aceitouTermo",true);corpo.put("versaoTermo","clinico-teste-v1");corpo.put("dispositivo",Map.of("id",UUID.randomUUID(),"plataforma","ANDROID","nomeAparelho","Aparelho fictício"));if(token==null)corpo.put("cadastro",Map.of("nome","Paciente fictício","email",email,"senha",SENHA));return corpo;}
+	Map<String,Object> corpo(String token,String email) {var corpo=new HashMap<String,Object>();corpo.put("aceitouTermo",true);corpo.put("versaoTermo","clinico-teste-v1");corpo.put("dispositivo",Map.of("id",UUID.randomUUID(),"plataforma","ANDROID","nomeAparelho","Aparelho fictício"));if(token==null)corpo.put("cadastro",Map.of("nome","Paciente fictício","email",email,"senha",SENHA,"aceitouTermos",true,"versaoTermos","2026-10"));return corpo;}
 	String email(){return UUID.randomUUID()+"@example.invalid";}
 	String texto(JsonNode dados,String campo){return dados.path(campo).asString();}
 }

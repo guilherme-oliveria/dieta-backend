@@ -10,9 +10,13 @@ public record CadastroPacienteRequisicao(
 		@NotBlank @Size(max=150) String nome,
 		@NotBlank @Email @Size(max=255) String email,
 		@NotBlank @Size(min = 10) String senha,
-		@Schema(nullable = true) @Size(max=80) String fuso) {
+		@Schema(nullable = true) @Size(max=80) String fuso,
+		@Schema(nullable = true) @com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) Boolean aceitouTermos,
+		@Schema(nullable = true) @Size(max=40) @com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) String versaoTermos) {
+	public CadastroPacienteRequisicao(String nome,String email,String senha,String fuso){this(nome,email,senha,fuso,null,null);}
 	public CadastroPacienteRequisicao {
 		nome=nome==null?null:nome.strip();email=email==null?null:email.strip().toLowerCase(java.util.Locale.ROOT);fuso=fuso==null?null:fuso.strip();
+		versaoTermos=versaoTermos==null?null:versaoTermos.strip();
 	}
 	@Override public String toString(){return "CadastroPacienteRequisicao[credenciais protegidas]";}
 }
