@@ -50,7 +50,7 @@ public class FichaPacienteStore {
 		if(status!=null){where+=" and v.status=?";argumentos.add(status.name());}
 		long total=jdbc.queryForObject("select count(*) from ficha_paciente f join vinculo v on v.id=f.vinculo_id"+where,Long.class,argumentos.toArray());
 		argumentos.add(tamanho);argumentos.add((long)pagina*tamanho);
-		var itens=jdbc.query(PROJECAO+where+" order by "+ordem+",f.paciente_id limit ? offset ?",this::mapear,argumentos.toArray());
+		var itens=jdbc.query(PROJECAO+where+" order by "+ordem+",f.paciente_id,f.id limit ? offset ?",this::mapear,argumentos.toArray());
 		return new PaginaPacientesResposta(itens,pagina,tamanho,total);
 	}
 	private PacienteResposta mapear(ResultSet rs,int linha) throws SQLException {

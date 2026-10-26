@@ -148,6 +148,29 @@ class ConviteApiTest extends TesteIsolamento {
 		erro(requisitar("GET","/convites/"+codigo,null,null),422,"CONVITE_INVALIDO");
 		assertThat(aceitar(texto(convidar(a.token(),p),"codigo"),null,novo).statusCode()).isEqualTo(200);
 	}
+	@Test void paginasDeHistoricosComMesmoPacienteNomeEInstanteTemDesempateUnicoEmTodasAsOrdens() throws Exception {
+		var a=cadastrarNutri();var agora=java.sql.Timestamp.from(AGORA);
+		UUID paciente=jdbc.queryForObject("insert into paciente(nome) values('Paciente fictício') returning id",UUID.class);
+		var esperados=new ArrayList<String>();for(int i=0;i<3;i++)esperados.add(jdbc.queryForObject("select uuidv7()",UUID.class).toString());
+		esperados.sort(String::compareTo);var ordemInsercao=new ArrayList<>(esperados);Collections.reverse(ordemInsercao);
+		for(String valor:ordemInsercao) {
+			UUID vinculo=UUID.fromString(valor);
+			jdbc.update("insert into vinculo(id,nutricionista_id,paciente_id,status,criado_em,atualizado_em,encerrado_em) values(?,?,?,'ENCERRADO',?,?,?)",vinculo,a.nutri(),paciente,agora,agora,agora);
+			jdbc.update("insert into ficha_paciente(id,vinculo_id,nutricionista_id,paciente_id,nome,criado_em,atualizado_em) values(?,?,?,?,'Mesmo nome fictício',?,?)",vinculo,vinculo,a.nutri(),paciente,agora,agora);
+		}
+		for(String ordem:List.of("nome,asc","nome,desc","criadoEm,asc","criadoEm,desc")) {
+			for(int repeticao=0;repeticao<2;repeticao++) {
+				var recebidos=new ArrayList<String>();
+				for(int pagina=0;pagina<3;pagina++) {
+					var resposta=requisitar("GET","/pacientes?tamanho=1&pagina="+pagina+"&ordem="+ordem,a.token(),null);
+					assertThat(resposta.statusCode()).as(resposta.body()).isEqualTo(200);var dados=json(resposta);
+					assertThat(dados.path("total").asLong()).isEqualTo(3);
+					recebidos.add(dados.path("itens").get(0).path("vinculoId").asString());
+				}
+				assertThat(recebidos).as("ordem %s, repetição %s",ordem,repeticao).containsExactlyElementsOf(esperados).doesNotHaveDuplicates();
+			}
+		}
+	}
 	String criarFicha(String token,String email) throws Exception {var corpo=new HashMap<String,Object>();corpo.put("nome","Paciente fictício");if(email!=null)corpo.put("email",email);var resposta=requisitar("POST","/pacientes",token,corpo);assertThat(resposta.statusCode()).as(resposta.body()).isEqualTo(201);return texto(json(resposta),"id");}
 	JsonNode convidar(String token,String paciente) throws Exception {var resposta=requisitar("POST","/pacientes/"+paciente+"/convite",token,null);assertThat(resposta.statusCode()).as(resposta.body()).isEqualTo(201);return json(resposta);}
 	HttpResponse<String> aceitar(String codigo,String token,String email) throws Exception{return requisitar("POST","/convites/"+codigo+"/aceitar",token,corpo(token,email));}
