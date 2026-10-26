@@ -1,5 +1,15 @@
 # Dieta+ — arquitetura do backend
 
+## Diário de leitura incremental (BE-08)
+
+`FonteSync` em `comum.api` separa seleção de referências e carga dos DTOs autorizados. Fontes dos módulos pacientes/contas usam o diário comum sem dependência circular entre módulos. O serviço sync escolhe a página global antes de carregar dados e audita acessos clínicos autorizados, inclusive tombstones, sem conteúdo clínico no diário ou na auditoria.
+
+A migração 009 acrescenta `diario_sync` por destinatário/perfil e `estado_sync` com marco confirmado. Triggers publicam mudanças de ficha, vínculo e identidade pública da nutri, incluindo reatribuição de paciente provisório. A transação escritora bloqueia a linha única do estado antes de alocar revisões do diário e mantém o bloqueio até commit. Assim, outra escrita não publica revisão posterior antes de uma anterior ainda não confirmada. Lacunas na sequência são permitidas.
+
+A leitura usa `REPEATABLE_READ`: marco, referências e projeções pertencem ao mesmo snapshot, sem esperar transações ainda não confirmadas. Projeções retornam somente o estado atualmente autorizado; perda de visibilidade gera tombstone e ENCERRADO mantém histórico. Revisão do envelope e versão da entidade são distintas, conforme `integracao.md`.
+
+O bloqueio global serializa a publicação do diário, escolha deliberada para correção no MVP. Novas escritas devem manter os bloqueios de negócio antes das alterações que disparam triggers e uma ordem consistente; não adquirir bloqueios de negócio de outra operação após publicar no diário. Fontes futuras precisam registrar todas as alterações que afetam sua projeção na mesma transação. Não há mensageria nem retenção/expurgo do diário nesta entrega.
+
 Monólito modular em Java 25 + Spring Boot 4.1, Postgres 18, Liquibase. Um único deploy (Docker) na VPS.
 Regras de negócio em `regras-de-negocio.md`; contrato com os clientes em `integracao.md`.
 

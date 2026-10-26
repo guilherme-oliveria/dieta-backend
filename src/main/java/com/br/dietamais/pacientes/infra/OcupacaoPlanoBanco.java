@@ -14,6 +14,6 @@ public class OcupacaoPlanoBanco implements OcupacaoPlano {
 	@Override public int daOrganizacaoAtual() {
 		var ids=nutricionistas.daOrganizacaoAtual();if(ids.isEmpty())return 0;
 		String parametros=String.join(",",Collections.nCopies(ids.size(),"?"));
-		return jdbc.queryForObject("select count(*) from vinculo where status in ('CONVIDADO','ATIVO') and nutricionista_id in ("+parametros+")",Integer.class,ids.toArray());
+		return jdbc.queryForObject("select count(*) from vinculo where status in ('CONVIDADO','ATIVO') and excluido_em is null and nutricionista_id in ("+parametros+")",Integer.class,ids.toArray());
 	}
 }

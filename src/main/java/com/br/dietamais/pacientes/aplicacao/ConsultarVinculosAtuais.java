@@ -21,7 +21,7 @@ public class ConsultarVinculosAtuais implements ConsultarVinculos {
 	@Override @Transactional(readOnly=true)
 	public List<VinculoResposta> atuais() {
 		var contexto=usuario.obter();var pid=contexto.exigirPaciente();
-		var vinculos=jdbc.query("select v.* from vinculo v join paciente p on p.id=v.paciente_id where p.id=? and p.usuario_id=? order by v.id",
+		var vinculos=jdbc.query("select v.* from vinculo v join paciente p on p.id=v.paciente_id where p.id=? and p.usuario_id=? and v.excluido_em is null order by v.id",
 				(rs,n)->{
 					var consentimento=rs.getTimestamp("consentimento_em");var encerrado=rs.getTimestamp("encerrado_em");
 					return new Linha(rs.getObject("id",UUID.class),rs.getObject("nutricionista_id",UUID.class),StatusVinculo.valueOf(rs.getString("status")),

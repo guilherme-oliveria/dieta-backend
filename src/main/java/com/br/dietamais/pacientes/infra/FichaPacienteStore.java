@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class FichaPacienteStore {
 	private static final String PROJECAO="select f.*,v.status from ficha_paciente f join vinculo v on v.id=f.vinculo_id";
-	private static final String VISIBILIDADE=" f.nutricionista_id=? and v.nutricionista_id=? and f.paciente_id=v.paciente_id and f.excluido_em is null";
+	private static final String VISIBILIDADE=" f.nutricionista_id=? and v.nutricionista_id=? and f.paciente_id=v.paciente_id and f.excluido_em is null and v.excluido_em is null";
 	private final JdbcTemplate jdbc;
 	public FichaPacienteStore(JdbcTemplate jdbc){this.jdbc=jdbc;}
 	public void bloquearEscrita(UUID nutri) {
