@@ -87,7 +87,7 @@ BE-02 substitui apenas o stub de cadastro da nutri. Requisição e resposta mant
 
 ## Mapa de endpoints do MVP
 
-Contrato da fase 2: [contrato-fase-2.md](contrato-fase-2.md), com 16 operações ainda em 501 para MockEngine e exemplos tipados em `contrato/fase-2/`. BE-C2 publica o formato; as regras/persistência entram em BE-09..14 e BE-33. As operações reais da fase 1 permanecem implementadas.
+Contrato da fase 2: [contrato-fase-2.md](contrato-fase-2.md), com 16 operações e exemplos tipados em `contrato/fase-2/`. Após BE-33, GET/PATCH /eu/nutri são reais, com If-Match, ETag e nome de exibição próprio; as outras 14 continuam 501 para MockEngine até BE-09..14. As operações reais da fase 1 permanecem implementadas. Resumos públicos usam nome de exibição da nutri com fallback ao nome global; telefone/orientação não são públicos.
 
 Visão geral para planejar; detalhe e schema no OpenAPI.
 

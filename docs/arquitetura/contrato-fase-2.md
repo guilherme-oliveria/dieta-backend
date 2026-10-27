@@ -2,7 +2,7 @@
 
 Cópia oficial no backend. Mobile e frontend devem acompanhar este contrato; frontend continua pós-MVP. O manifesto `src/test/resources/contrato/fase-2/manifesto.json` publica 16 operações e exemplos fictícios tipados, separados dos 49 JSONs da fase 1, que permanecem intactos.
 
-Esta entrega publica DTOs, OpenAPI e rotas **501 NAO_IMPLEMENTADO**, sem persistência, carga de catálogo, cálculo, publicação, push ou autorização clínica da fase 2 implementados. Sucessos abaixo são o contrato previsto para BE-09..14 e BE-33, para uso com MockEngine até cada gate QA. Não tratar 501 como lista vazia nem sucesso. Bearer continua obrigatório; validação de transporte pode retornar 400 antes do stub. O ProblemDetail 501 informa que a implementação pertence à fase 2.
+BE-C2 publicou DTOs, OpenAPI e rotas **501 NAO_IMPLEMENTADO**. BE-33 implementa agora GET/PATCH /eu/nutri; as outras 14 operações continuam em 501, sem persistência, catálogo, cálculo, publicação ou push da fase 2. Sucessos abaixo são o contrato previsto para BE-09..14, para uso com MockEngine até cada gate QA. Não tratar 501 como lista vazia nem sucesso. Bearer continua obrigatório; validação de transporte pode retornar 400 antes do stub. O ProblemDetail 501 informa que a implementação pertence à fase 2.
 
 ## Operações
 
@@ -56,5 +56,11 @@ Publicar retorna DietaSnapshotResposta: ID do snapshot e dieta de origem, pacien
 BE-14 acrescentará fontes/coleções opcionais de sync, preservando o contrato BE-08 e a distinção revisão da projeção/versão da entidade. Esta entrega não altera GET /sync nem publica coleções fictícias como se já estivessem implementadas.
 
 ## Perfil da nutri
+
+BE-33: GET/PATCH implementados com no-store e ETag forte, versão inicial 0. PATCH bloqueia a linha própria antes de comparar If-Match; conflito retorna 409 com o perfil próprio em `atual`, sem sobrescrever. Assinatura inativa bloqueia escrita também no serviço, mantendo leitura. Strings são aparadas e opcionais vazios viram nulo. Nome obrigatório e CRN seguem os limites e formato do cadastro; telefone admite 30 caracteres e orientação 10000. Mudança de CRN remove sua marca de verificação; o sistema não presume validação profissional.
+
+Nome é o **nome de exibição da nutri**, com fallback ao nome da conta em cadastros existentes; alterar o perfil não muda `usuario.nome`, e-mail, senha ou perfil de paciente da mesma conta. Resumos públicos em convites, vínculos e sync usam esse nome efetivo. Telefone e orientação permanecem privados no perfil e não entram no resumo público do sync. A orientação padrão será congelada em BE-12, sem alteração retroativa de snapshots. Perfil não é prontuário clínico; sua consulta não grava conteúdo na trilha clínica.
+
+Migração 011 é nova, sem editar 009; a numeração 010 foi reservada para BE-09 em andamento. O trigger de identidade pública passa a incluir nome de exibição e preserva a revisão monotônica do diário. Não há mudança nos JSONs de exemplos ou campos do contrato C2.
 
 GET/PATCH /eu/nutri inclui nome de exibição, CRN no formato já usado no cadastro (`CRN-1 00000` fictício), telefone opcional e orientação padrão opcional. PATCH envia todos esses campos; opcionais nulos limpam o valor. E-mail, senha, organização, assinatura e logo não são editados por esse contrato. Logo pertence a BE-28. A orientação será congelada na publicação da dieta, não aplicada retroativamente.
