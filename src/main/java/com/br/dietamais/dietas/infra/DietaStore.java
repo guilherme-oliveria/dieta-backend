@@ -39,6 +39,16 @@ public class DietaStore {
 		return jdbc.query("select * from item_refeicao where refeicao_id=any(?) order by ordem,id",(rs,n)->new Item(rs.getObject("id",UUID.class),rs.getObject("refeicao_id",UUID.class),
 			rs.getObject("alimento_id",UUID.class),rs.getBigDecimal("porcoes"),rs.getString("observacao"),rs.getInt("ordem")),(Object)refeicoes.toArray(new UUID[0]));
 	}
+	public void substituirPublicada(UUID vinculo,UUID exceto,Instant agora){
+		jdbc.update("update dieta set status='SUBSTITUIDA',versao=versao+1,seq=nextval('seq_sync'),atualizado_em=? where vinculo_id=? and id<>? and status='PUBLICADA' and excluido_em is null",Timestamp.from(agora),vinculo,exceto);
+	}
+	public void marcarPublicada(UUID id,UUID nutri,Instant agora){
+		jdbc.update("update dieta set status='PUBLICADA',versao=versao+1,seq=nextval('seq_sync'),atualizado_em=? where id=? and nutricionista_id=? and excluido_em is null",Timestamp.from(agora),id,nutri);
+	}
+	public UUID inserirSnapshot(UUID id,UUID dieta,UUID vinculo,UUID nutri,UUID paciente,String conteudo,Instant publicadoEm){
+		jdbc.update("insert into dieta_snapshot(id,dieta_id,vinculo_id,nutricionista_id,paciente_id,conteudo,publicado_em) values(?,?,?,?,?,?::jsonb,?)",id,dieta,vinculo,nutri,paciente,conteudo,Timestamp.from(publicadoEm));
+		return id;
+	}
 	public void limparConteudo(UUID dieta){jdbc.update("delete from refeicao where dieta_id=?",dieta);}
 	public boolean inserirRefeicao(Refeicao r){
 		return jdbc.update("insert into refeicao(id,dieta_id,nome,horario,ordem) values(?,?,?,?,?) on conflict(id) do nothing",r.id(),r.dietaId(),r.nome(),Time.valueOf(r.horario()),r.ordem())==1;

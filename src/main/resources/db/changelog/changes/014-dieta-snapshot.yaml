@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: 014-dieta-snapshot
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: dieta_snapshot
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: dieta_id, type: uuid, constraints: { nullable: false, unique: true, uniqueConstraintName: uk_snapshot_dieta, foreignKeyName: fk_snapshot_dieta, references: dieta(id), deleteCascade: true } }
+              - column: { name: vinculo_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: nutricionista_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: paciente_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: conteudo, type: jsonb, constraints: { nullable: false } }
+              - column: { name: publicado_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: seq, type: bigint, defaultValueComputed: "nextval('seq_sync')", constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+        - createIndex:
+            tableName: dieta_snapshot
+            indexName: ix_snapshot_paciente_seq
+            columns:
+              - column: { name: paciente_id }
+              - column: { name: seq }
+        - createIndex:
+            tableName: dieta_snapshot
+            indexName: ix_snapshot_nutri_seq
+            columns:
+              - column: { name: nutricionista_id }
+              - column: { name: seq }
+        - sql:
+            sql: >-
+              CREATE UNIQUE INDEX uk_dieta_publicada_vinculo ON dieta(vinculo_id) WHERE status='PUBLICADA' AND excluido_em IS NULL;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION proteger_snapshot() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                IF NEW.conteudo IS DISTINCT FROM OLD.conteudo OR NEW.dieta_id<>OLD.dieta_id OR NEW.publicado_em<>OLD.publicado_em THEN
+                  RAISE EXCEPTION 'Snapshot de dieta publicada é imutável (RN-DIE-03)';
+                END IF;
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            sql: >-
+              CREATE TRIGGER snapshot_imutavel BEFORE UPDATE ON dieta_snapshot FOR EACH ROW EXECUTE FUNCTION proteger_snapshot();

@@ -4,6 +4,7 @@ import java.util.UUID;
 import jakarta.validation.Valid;
 import com.br.dietamais.comum.api.*;
 import com.br.dietamais.dietas.aplicacao.GerenciarDietas;
+import com.br.dietamais.dietas.aplicacao.PublicarDietas;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.headers.Header;
@@ -27,8 +28,8 @@ import org.springframework.web.bind.annotation.*;
 	@ApiResponse(responseCode="422",description="ProblemDetail com código estável",content=@Content(mediaType="application/problem+json",schema=@Schema(implementation=ProblemaResposta.class)))
 })
 public class DietaController {
-	private final GerenciarDietas dietas;
-	public DietaController(GerenciarDietas dietas){this.dietas=dietas;}
+	private final GerenciarDietas dietas;private final PublicarDietas publicacao;
+	public DietaController(GerenciarDietas dietas,PublicarDietas publicacao){this.dietas=dietas;this.publicacao=publicacao;}
 	@GetMapping("/pacientes/{id}/dietas")
 	@Operation(operationId="listarDietasPaciente",summary="Listar dietas criadas pela nutri",description="RN-DIE-02; fichas da nutri autenticada; implementação BE-11. Implementada na BE-11.")
 	@ApiResponse(responseCode="200",description="Resposta prevista após implementação",content=@Content(mediaType="application/json",schema=@Schema(implementation=DietasResposta.class)))
@@ -59,19 +60,19 @@ public class DietaController {
 	}
 
 	@PostMapping("/dietas/{id}/publicar")
-	@ApiResponse(responseCode="501",description="Contrato publicado; implementação pendente (BE-12)",content=@Content(mediaType="application/problem+json",schema=@Schema(implementation=ProblemaResposta.class)))
-	@Operation(operationId="publicarDieta",summary="Publicar dieta e congelar snapshot",description="RN-DIE-02, RN-DIE-03, RN-DIE-06, RN-DIE-08, RN-DIE-09; implementação BE-12. Nesta entrega responde 501, sem executar regras da fase 2.")
+	@Operation(operationId="publicarDieta",summary="Publicar dieta e congelar snapshot",description="RN-DIE-02, RN-DIE-03, RN-DIE-06, RN-DIE-08, RN-DIE-09; implementada na BE-12.")
 	@ApiResponse(responseCode="200",description="Resposta prevista após implementação",content=@Content(mediaType="application/json",schema=@Schema(implementation=DietaSnapshotResposta.class)))
-	public ResponseEntity<ProblemaResposta> publicarDieta(@PathVariable UUID id, @RequestHeader("If-Match") String ifMatch, @RequestHeader(value="Idempotency-Key",required=false) UUID chave) {
-		return ContratoNaoImplementado.resposta("fase 2");
+	@Idempotente
+	public ResponseEntity<DietaSnapshotResposta> publicarDieta(@PathVariable UUID id, @RequestHeader("If-Match") String ifMatch, @RequestHeader(value="Idempotency-Key",required=false) UUID chave) {
+		return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(publicacao.publicar(id,ifMatch));
 	}
 
 	@PostMapping("/dietas/{id}/duplicar")
-	@ApiResponse(responseCode="501",description="Contrato publicado; implementação pendente (BE-12)",content=@Content(mediaType="application/problem+json",schema=@Schema(implementation=ProblemaResposta.class)))
-	@Operation(operationId="duplicarDieta",summary="Duplicar dieta como rascunho",description="RN-DIE-04; novo rascunho; implementação BE-12. Nesta entrega responde 501, sem executar regras da fase 2.")
+	@Operation(operationId="duplicarDieta",summary="Duplicar dieta como rascunho",description="RN-DIE-04; novo rascunho; implementada na BE-12.")
 	@ApiResponse(responseCode="201",description="Resposta prevista após implementação",content=@Content(mediaType="application/json",schema=@Schema(implementation=DietaResposta.class)),headers=@Header(name="ETag",description="Versão forte da entidade para If-Match",schema=@Schema(type="string")))
-	public ResponseEntity<ProblemaResposta> duplicarDieta(@PathVariable UUID id, @RequestHeader(value="Idempotency-Key",required=false) UUID chave) {
-		return ContratoNaoImplementado.resposta("fase 2");
+	@Idempotente
+	public ResponseEntity<DietaResposta> duplicarDieta(@PathVariable UUID id, @RequestHeader(value="Idempotency-Key",required=false) UUID chave) {
+		return entidade(publicacao.duplicar(id),201);
 	}
 
 	private ResponseEntity<DietaResposta> entidade(DietaResposta resposta,int status){return ResponseEntity.status(status).eTag(Long.toString(resposta.versao())).cacheControl(org.springframework.http.CacheControl.noStore()).body(resposta);}

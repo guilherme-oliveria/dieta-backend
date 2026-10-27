@@ -21,4 +21,7 @@ public class ConsultaNutricionistasBanco implements ConsultaNutricionistas {
 		var contexto=usuario.obter();contexto.exigirNutricionista();
 		return jdbc.query("select id from nutricionista where organizacao_id=?",(rs,n)->rs.getObject(1,UUID.class),contexto.organizacaoId());
 	}
+	@Override public Optional<String> orientacaoPadrao(UUID nutri) {
+		return jdbc.query("select orientacao_padrao from nutricionista where id=?",(rs,n)->rs.getString(1),nutri).stream().filter(Objects::nonNull).filter(t->!t.isBlank()).findFirst();
+	}
 }
