@@ -46,7 +46,7 @@ Definição de pronto de toda tarefa:
 - [x] **BE-17 Feed .ics.** `calendario_token`; `POST /eu/calendario/token`, `GET /cal/{token}.ics` (público, `text/calendar`, VEVENT diário por refeição da dieta em uso, UID estável, título genérico, fuso do usuário). Biblioteca: ical4j ou geração manual com teste de formato. *Depende de:* BE-13. *Libera:* MOB-21.
 - [x] **BE-18 Dispositivos e preferências.** `dispositivo` (token FCM, plataforma), `preferencia_notificacao` (tipos ligados, horário de silêncio); `POST/DELETE /eu/dispositivos`, `GET/PUT /eu/preferencias-notificacao`. *Depende de:* BE-05. *Libera:* MOB-19.
 
-- [ ] **BE-32a Deploy de beta.** A parte mínima de BE-32 num ambiente de beta: imagem Docker, `compose.prod.yaml` (app, Postgres 18, Caddy com HTTPS), backup diário do Postgres, variáveis de ambiente documentadas. Libera o marco M3 (nutri real testando). *Depende de:* BE-16, BE-17, BE-18.
+- [x] **BE-32a Deploy de beta.** A parte mínima de BE-32 num ambiente de beta: imagem Docker, `compose.prod.yaml` (app, Postgres 18, Caddy com HTTPS), backup diário do Postgres, variáveis de ambiente documentadas. Libera o marco M3 (nutri real testando). *Depende de:* BE-16, BE-17, BE-18.
 
 ## Fase 4 — Acompanhamento
 

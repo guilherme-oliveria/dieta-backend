@@ -1,0 +1,96 @@
+# Ambiente de beta/produção (BE-32a): app + Postgres 18 + Caddy (HTTPS) + backup diário.
+# Uso: cp .env.prod.example .env.prod (preencha) && docker compose -f compose.prod.yaml --env-file .env.prod up -d --build
+# Nada de segredo neste arquivo: tudo vem do .env.prod (fora do Git).
+services:
+  postgres:
+    image: postgres:18
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: dietamais
+      POSTGRES_USER: dietamais
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?defina DB_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dietamais -d dietamais"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    image: dietamais-api:${VERSAO:-beta}
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_URL: jdbc:postgresql://postgres:5432/dietamais
+      DB_USERNAME: dietamais
+      DB_PASSWORD: ${DB_PASSWORD}
+      JWT_CHAVE_PRIVADA: ${JWT_CHAVE_PRIVADA:?defina JWT_CHAVE_PRIVADA}
+      JWT_CHAVE_PUBLICA: ${JWT_CHAVE_PUBLICA:?defina JWT_CHAVE_PUBLICA}
+      IDEMPOTENCIA_CHAVE: ${IDEMPOTENCIA_CHAVE:?defina IDEMPOTENCIA_CHAVE}
+      NOTIFICACOES_CHAVE: ${NOTIFICACOES_CHAVE:?defina NOTIFICACOES_CHAVE}
+      WEB_ORIGEM: ${WEB_ORIGEM:-}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SPRING_MAIL_USERNAME: ${SMTP_USUARIO:-}
+      SPRING_MAIL_PASSWORD: ${SMTP_SENHA:-}
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: "true"
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: "true"
+      EMAIL_ENVIO_HABILITADO: ${EMAIL_ENVIO_HABILITADO:-false}
+      EMAIL_REMETENTE: ${EMAIL_REMETENTE:-nao-responda@example.invalid}
+      EMAIL_URL_CONFIRMAR: ${EMAIL_URL_CONFIRMAR:-dietamais://confirmar-email}
+      EMAIL_URL_CONVITE: ${EMAIL_URL_CONVITE:-dietamais://convites}
+      EMAIL_URL_REDEFINIR: ${EMAIL_URL_REDEFINIR:-dietamais://redefinir-senha}
+      DIETA_PUBLICO_URL_BASE: https://${DOMINIO:?defina DOMINIO}
+      # o Caddy fica na frente: o IP real vem de X-Forwarded-For (limites por IP)
+      SERVER_FORWARD_HEADERS_STRATEGY: native
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/8080 && printf \"GET /actuator/health/readiness HTTP/1.0\\r\\n\\r\\n\" >&3 && grep -q UP <&3'"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMINIO: ${DOMINIO}
+    volumes:
+      - ./ops/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+  backup:
+    image: postgres:18
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PGHOST: postgres
+      PGUSER: dietamais
+      PGDATABASE: dietamais
+      PGPASSWORD: ${DB_PASSWORD}
+      DIAS_RETENCAO: ${DIAS_RETENCAO:-14}
+      HORA_BACKUP: ${HORA_BACKUP:-03:00}
+    entrypoint: ["/bin/sh","/ops/backup.sh"]
+    volumes:
+      - ./ops/backup.sh:/ops/backup.sh:ro
+      - backups:/backups
+
+volumes:
+  pgdata:
+  caddy-data:
+  caddy-config:
+  backups:
