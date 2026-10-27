@@ -10,6 +10,9 @@ import com.br.dietamais.dietas.api.DietaSnapshotResposta;
 import com.br.dietamais.pacientes.api.NutricionistaResumoResposta;
 import com.br.dietamais.pacientes.api.PacienteResposta;
 import com.br.dietamais.pacientes.api.VinculoResposta;
+import com.br.dietamais.rotina.api.AguaResposta;
+import com.br.dietamais.rotina.api.CheckinResposta;
+import com.br.dietamais.rotina.api.PesoResposta;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -29,8 +32,11 @@ public record MudancasFase1Resposta(
 		@Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED) @Valid List<MudancaSyncResposta<ListaSubstituicaoResposta>> listas,
 		@Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED) @Valid List<MudancaSyncResposta<DietaResposta>> dietas,
 		@Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED) @Valid List<MudancaSyncResposta<DietaSnapshotResposta>> snapshots,
-		@Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED) @Valid List<MudancaSyncResposta<DietaEmUsoResposta>> dietaEmUso) {
+		@Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED) @Valid List<MudancaSyncResposta<DietaEmUsoResposta>> dietaEmUso,
+		@Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED) @Valid List<MudancaSyncResposta<CheckinResposta>> checkins,
+		@Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED) @Valid List<MudancaSyncResposta<AguaResposta>> agua,
+		@Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED) @Valid List<MudancaSyncResposta<PesoResposta>> pesos) {
 	public MudancasFase1Resposta(List<MudancaSyncResposta<PacienteResposta>> pacientes,List<MudancaSyncResposta<VinculoResposta>> vinculos,List<MudancaSyncResposta<NutricionistaResumoResposta>> nutris) {
-		this(pacientes,vinculos,nutris,null,null,null,null,null,null);
+		this(pacientes,vinculos,nutris,null,null,null,null,null,null,null,null,null);
 	}
 }

@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "sync")
 public class SyncController {
 	private final com.br.dietamais.sync.aplicacao.ServicoSyncLeitura sync;
-	public SyncController(com.br.dietamais.sync.aplicacao.ServicoSyncLeitura sync){this.sync=sync;}
+	private final com.br.dietamais.sync.aplicacao.ServicoSyncEscrita escrita;
+	public SyncController(com.br.dietamais.sync.aplicacao.ServicoSyncLeitura sync,com.br.dietamais.sync.aplicacao.ServicoSyncEscrita escrita){this.sync=sync;this.escrita=escrita;}
 
 	@GetMapping("/sync")
 	@Operation(operationId = "puxarMudancas", summary = "Puxar mudanças da fase 1",
@@ -35,5 +36,21 @@ public class SyncController {
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	public ResponseEntity<SyncResposta> puxarMudancas(@RequestParam(required = false) String cursor, @RequestParam(defaultValue = "500") int limite) {
 		return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(sync.executar(cursor,limite));
+	}
+
+	@org.springframework.web.bind.annotation.PostMapping("/sync")
+	@Operation(operationId = "enviarMutacoes", summary = "Enviar mutações do app",
+			description = "RN-SYN-03/04. Até 200 mutações; cada uma roda na própria transação e é idempotente por idMutacao. BE-15 aceita CRIAR de checkins, agua e pesos do paciente; as demais entidades chegam com BE-25.")
+	@SecurityRequirement(name = "bearerAuth")
+	@ApiResponse(responseCode = "200", description = "Um resultado por mutação, na mesma ordem",
+			content = @Content(mediaType = "application/json", schema = @Schema(implementation = EnviarMutacoesResposta.class)))
+	@ApiResponse(responseCode = "400", description = "Lote inválido",
+			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
+	@ApiResponse(responseCode = "401", description = "Não autenticado",
+			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
+	@ApiResponse(responseCode = "403", description = "Perfil negado",
+			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
+	public ResponseEntity<EnviarMutacoesResposta> enviarMutacoes(@jakarta.validation.Valid @org.springframework.web.bind.annotation.RequestBody EnviarMutacoesRequisicao requisicao) {
+		return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(escrita.enviar(requisicao));
 	}
 }

@@ -1,0 +1,114 @@
+databaseChangeLog:
+  - changeSet:
+      id: 017-rotina
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: checkin
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: paciente_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_checkin_paciente, references: paciente(id) } }
+              - column: { name: vinculo_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_checkin_vinculo, references: vinculo(id) } }
+              - column: { name: nutricionista_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: dieta_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_checkin_dieta, references: dieta(id) } }
+              - column: { name: refeicao_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: data, type: date, constraints: { nullable: false } }
+              - column: { name: status, type: varchar(10), constraints: { nullable: false } }
+              - column: { name: trocas, type: jsonb, defaultValue: '[]', constraints: { nullable: false } }
+              - column: { name: registrado_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: seq, type: bigint, defaultValueComputed: "nextval('seq_sync')", constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+        - createIndex:
+            tableName: checkin
+            indexName: ix_checkin_paciente_data
+            columns:
+              - column: { name: paciente_id }
+              - column: { name: data }
+        - createIndex:
+            tableName: checkin
+            indexName: ix_checkin_vinculo_data
+            columns:
+              - column: { name: vinculo_id }
+              - column: { name: data }
+        - createTable:
+            tableName: registro_agua
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: paciente_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_agua_paciente, references: paciente(id) } }
+              - column: { name: ml, type: int, constraints: { nullable: false } }
+              - column: { name: registrado_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: seq, type: bigint, defaultValueComputed: "nextval('seq_sync')", constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+        - createIndex:
+            tableName: registro_agua
+            indexName: ix_agua_paciente
+            columns:
+              - column: { name: paciente_id }
+              - column: { name: registrado_em }
+        - createTable:
+            tableName: registro_peso
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: paciente_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_peso_paciente, references: paciente(id) } }
+              - column: { name: peso_kg, type: 'numeric(5,2)', constraints: { nullable: false } }
+              - column: { name: registrado_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: seq, type: bigint, defaultValueComputed: "nextval('seq_sync')", constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+        - createIndex:
+            tableName: registro_peso
+            indexName: ix_peso_paciente
+            columns:
+              - column: { name: paciente_id }
+              - column: { name: registrado_em }
+        - createTable:
+            tableName: mutacao_sync
+            columns:
+              - column: { name: id_mutacao, type: uuid, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: usuario_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: resultado, type: jsonb, constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+        - sql:
+            sql: >-
+              ALTER TABLE checkin ADD CONSTRAINT ck_checkin_status CHECK (status IN ('FEITO','TROCADO','PULADO'));
+              ALTER TABLE registro_agua ADD CONSTRAINT ck_agua_ml CHECK (ml BETWEEN 1 AND 5000);
+              ALTER TABLE registro_peso ADD CONSTRAINT ck_peso_kg CHECK (peso_kg BETWEEN 20 AND 400);
+              ALTER TABLE diario_sync DROP CONSTRAINT ck_diario_sync_colecao;
+              ALTER TABLE diario_sync ADD CONSTRAINT ck_diario_sync_colecao CHECK (colecao IN
+              ('PACIENTES','VINCULOS','NUTRIS','GRUPOS','ALIMENTOS','LISTAS','DIETAS','SNAPSHOTS','DIETA_EM_USO','CHECKINS','AGUA','PESOS'));
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION checkin_diario_sync() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                PERFORM registrar_mudanca_sync('PACIENTE',NEW.paciente_id,'CHECKINS',NEW.id,NEW.nutricionista_id,NEW.paciente_id);
+                PERFORM registrar_mudanca_sync('NUTRICIONISTA',NEW.nutricionista_id,'CHECKINS',NEW.id,NEW.nutricionista_id,NEW.paciente_id);
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION agua_diario_sync() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                PERFORM registrar_mudanca_sync('PACIENTE',NEW.paciente_id,'AGUA',NEW.id,NULL,NEW.paciente_id);
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION peso_diario_sync() RETURNS trigger LANGUAGE plpgsql AS $$
+              DECLARE nutri uuid;
+              BEGIN
+                PERFORM registrar_mudanca_sync('PACIENTE',NEW.paciente_id,'PESOS',NEW.id,NULL,NEW.paciente_id);
+                FOR nutri IN SELECT nutricionista_id FROM vinculo WHERE paciente_id=NEW.paciente_id AND status='ATIVO' AND excluido_em IS NULL LOOP
+                  PERFORM registrar_mudanca_sync('NUTRICIONISTA',nutri,'PESOS',NEW.id,nutri,NEW.paciente_id);
+                END LOOP;
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            sql: >-
+              CREATE TRIGGER checkin_diario_sync AFTER INSERT ON checkin FOR EACH ROW EXECUTE FUNCTION checkin_diario_sync();
+              CREATE TRIGGER agua_diario_sync AFTER INSERT ON registro_agua FOR EACH ROW EXECUTE FUNCTION agua_diario_sync();
+              CREATE TRIGGER peso_diario_sync AFTER INSERT ON registro_peso FOR EACH ROW EXECUTE FUNCTION peso_diario_sync();

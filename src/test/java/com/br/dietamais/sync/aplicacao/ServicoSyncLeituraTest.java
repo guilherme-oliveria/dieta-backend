@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 class ServicoSyncLeituraTest {
 	final UsuarioAtual usuario=mock(UsuarioAtual.class);final DiarioSync diario=mock(DiarioSync.class);
 	final FonteSync<Object> pacientes=fonte(ColecaoSync.PACIENTES),vinculos=fonte(ColecaoSync.VINCULOS),nutris=fonte(ColecaoSync.NUTRIS);
-	final List<FonteSync<Object>> fase2=List.of(fonte(ColecaoSync.GRUPOS),fonte(ColecaoSync.ALIMENTOS),fonte(ColecaoSync.LISTAS),fonte(ColecaoSync.DIETAS),fonte(ColecaoSync.SNAPSHOTS),fonte(ColecaoSync.DIETA_EM_USO));
+	final List<FonteSync<Object>> fase2=List.of(fonte(ColecaoSync.GRUPOS),fonte(ColecaoSync.ALIMENTOS),fonte(ColecaoSync.LISTAS),fonte(ColecaoSync.DIETAS),fonte(ColecaoSync.SNAPSHOTS),fonte(ColecaoSync.DIETA_EM_USO),fonte(ColecaoSync.CHECKINS),fonte(ColecaoSync.AGUA),fonte(ColecaoSync.PESOS));
 	List<FonteSync<?>> todas(FonteSync<Object>... fase1){var l=new java.util.ArrayList<FonteSync<?>>(List.of(fase1));l.addAll(fase2);return l;}
 	final UUID uid=UUID.randomUUID(),nid=UUID.randomUUID(),pid=UUID.randomUUID(),org=UUID.randomUUID();
 	final ContextoUsuario contexto=new ContextoUsuario(new UsuarioResposta(uid,"Fictício","ficticio@example.invalid",true,List.of(Perfil.NUTRICIONISTA),Perfil.NUTRICIONISTA,nid,null,"UTC"),org);

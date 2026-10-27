@@ -46,6 +46,8 @@ class ContratoHttpFase1Test {
 	@org.springframework.test.context.bean.override.mockito.MockitoBean
 	com.br.dietamais.sync.aplicacao.ServicoSyncLeitura sync;
 	@org.springframework.test.context.bean.override.mockito.MockitoBean
+	com.br.dietamais.sync.aplicacao.ServicoSyncEscrita syncEscrita;
+	@org.springframework.test.context.bean.override.mockito.MockitoBean
 	com.br.dietamais.contas.aplicacao.CadastrarNutri cadastro;
 	@org.springframework.test.context.bean.override.mockito.MockitoBean
 	com.br.dietamais.contas.aplicacao.AutenticarSessao sessoes;
