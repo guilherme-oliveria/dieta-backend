@@ -33,7 +33,7 @@ public class PacienteController {
 
 	@GetMapping("/pacientes")
 	@Operation(operationId = "listarPacientes", summary = "Listar pacientes vinculados à nutri",
-			description = "RN-VIN-01. Busca por nome e filtro de status; adesao7d nula até BE-16. Implementação: BE-06.")
+			description = "RN-VIN-01. Busca por nome e filtro de status; adesao7d (% FEITO/TROCADO nos últimos 7 dias, nula sem dieta publicada) a partir da BE-16. Implementação: BE-06.")
 	@SecurityRequirement(name = "bearerAuth")
 	@ApiResponse(responseCode = "200", description = "Resposta prevista após implementação",
 			content = @Content(mediaType = "application/json", schema = @Schema(implementation = PaginaPacientesResposta.class)))

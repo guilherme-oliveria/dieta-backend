@@ -36,3 +36,11 @@ Reenviar o mesmo `idMutacao` devolve o resultado guardado. `idMutacao` já usado
 ## GET /sync (novas coleções)
 
 `checkins` (paciente e nutri do vínculo), `agua` (só o paciente) e `pesos` (paciente e nutris com vínculo ativo). Opcionais no JSON: ignore ausentes (`ignoreUnknownKeys`).
+
+## Adesão (BE-16)
+
+`GET /pacientes/{id}/adesao` (perfil NUTRICIONISTA, vínculo próprio; outra nutri = 404) devolve `{pacienteId, dias7, dias30}`, cada janela com `{dias, esperadas, feitas, trocadas, puladas, percentual}`.
+
+- Esperadas = refeições da dieta hoje publicada × dias da janela, contando a partir da primeira publicação do vínculo (um paciente novo não é penalizado por dias anteriores). Fuso da nutri.
+- Por refeição/dia vale o último check-in. `percentual` = (feitas + trocadas) / esperadas × 100, uma casa decimal; `null` sem dieta publicada.
+- `adesao7d` na listagem e na ficha (`GET /pacientes`, `GET /pacientes/{id}`) traz o mesmo valor de `dias7.percentual`. Não é enviado no `/sync` (campo derivado, continua `null` lá).

@@ -22,10 +22,11 @@ public class GerenciarPacientes {
 	private final Clock relogio;
 	private final JsonMapper mapper;
 	private final ConviteStore convites;
+	private final AdesaoDosPacientes adesao;
 	public GerenciarPacientes(FichaPacienteStore fichas,UsuarioAtual usuario,GuardaEscritaNutri guarda,ReservaVagaPaciente vagas,
-			AuditoriaClinica auditoria,GeradorIds ids,Clock relogio,JsonMapper mapper,ConviteStore convites) {
+			AuditoriaClinica auditoria,GeradorIds ids,Clock relogio,JsonMapper mapper,ConviteStore convites,AdesaoDosPacientes adesao) {
 		this.fichas=fichas;this.usuario=usuario;this.guarda=guarda;this.vagas=vagas;this.auditoria=auditoria;this.ids=ids;this.relogio=relogio;this.mapper=mapper;
-		this.convites=convites;
+		this.convites=convites;this.adesao=adesao;
 	}
 	@Transactional
 	public PacienteResposta criar(CriarPacienteRequisicao requisicao) {
@@ -40,7 +41,7 @@ public class GerenciarPacientes {
 	}
 	@Transactional(readOnly=true)
 	public PacienteResposta consultar(UUID paciente) {
-		var contexto=usuario.obter();var resposta=visivel(paciente,contexto.exigirNutricionista(),false);
+		var contexto=usuario.obter();var resposta=comAdesao(List.of(visivel(paciente,contexto.exigirNutricionista(),false)),contexto).get(0);
 		auditoria.leitura(referencia(resposta,contexto));return resposta;
 	}
 	@Transactional
@@ -69,8 +70,15 @@ public class GerenciarPacientes {
 			case "criadoEm,asc"->"f.criado_em asc";case "criadoEm,desc"->"f.criado_em desc";
 			default->throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,null);
 		};
-		var contexto=usuario.obter();var paginaAtual=fichas.listar(contexto.exigirNutricionista(),pagina,tamanho,coluna,busca,status);
+		var contexto=usuario.obter();var bruta=fichas.listar(contexto.exigirNutricionista(),pagina,tamanho,coluna,busca,status);
+		var paginaAtual=new PaginaPacientesResposta(comAdesao(bruta.itens(),contexto),bruta.pagina(),bruta.tamanho(),bruta.total());
 		paginaAtual.itens().forEach(item->auditoria.leitura(referencia(item,contexto)));return paginaAtual;
+	}
+	// RN-ROT-02: a nutri do vínculo vê a adesão dos últimos 7 dias
+	private List<PacienteResposta> comAdesao(List<PacienteResposta> itens,ContextoUsuario contexto) {
+		if(itens.isEmpty())return itens;
+		var valores=adesao.adesao7d(itens.stream().map(PacienteResposta::vinculoId).toList(),ZoneId.of(contexto.usuario().fuso()));
+		return itens.stream().map(i->i.comAdesao7d(valores.get(i.vinculoId()))).toList();
 	}
 	private PacienteResposta visivel(UUID paciente,UUID nutri,boolean bloquear) {
 		var ficha=fichas.consultar(paciente,nutri,bloquear);

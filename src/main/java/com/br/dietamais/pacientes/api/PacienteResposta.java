@@ -27,4 +27,7 @@ public record PacienteResposta(
 		@NotNull Instant criadoEm,
 		@NotNull Instant atualizadoEm,
 		@Schema(nullable = true) BigDecimal adesao7d) {
+	public PacienteResposta comAdesao7d(BigDecimal valor) {
+		return new PacienteResposta(id,vinculoId,nome,email,dataNascimento,sexo,telefone,estaturaReferencia,objetivo,observacoes,status,versao,criadoEm,atualizadoEm,valor);
+	}
 }
