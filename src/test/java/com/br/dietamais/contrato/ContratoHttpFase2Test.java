@@ -28,7 +28,7 @@ import tools.jackson.databind.json.JsonMapper;
 class ContratoHttpFase2Test {
 	@Configuration(proxyBeanMethods=false) @EnableAutoConfiguration
 	@Import({AlimentoController.class,DietaController.class,DietaPacienteController.class,PerfilNutriController.class,
-		OpenApiConfig.class,SecurityConfig.class,FabricaProblema.class})
+		OpenApiConfig.class,SecurityConfig.class,FabricaProblema.class,com.br.dietamais.comum.api.TratadorErros.class})
 	static class Aplicacao {}
 	@org.springframework.test.context.bean.override.mockito.MockitoBean
 	org.springframework.security.oauth2.jwt.JwtDecoder decoder;
@@ -36,6 +36,10 @@ class ContratoHttpFase2Test {
 	com.br.dietamais.contas.aplicacao.GerenciarPerfilNutri perfil;
 	@org.springframework.test.context.bean.override.mockito.MockitoBean
 	com.br.dietamais.alimentos.aplicacao.ConsultarGruposAlimentos grupos;
+	@org.springframework.test.context.bean.override.mockito.MockitoBean
+	com.br.dietamais.alimentos.aplicacao.GerenciarAlimentos alimentos;
+	@org.springframework.test.context.bean.override.mockito.MockitoBean
+	com.br.dietamais.alimentos.aplicacao.GerenciarListaPaciente listas;
 	@Autowired WebApplicationContext contexto;
 	@Autowired JsonMapper mapper;
 	MockMvc mvc;
@@ -75,11 +79,42 @@ class ContratoHttpFase2Test {
 			.andExpect(status().isOk()).andExpect(header().string("ETag","\"1\"")).andExpect(header().string("Cache-Control","no-store"));
 	}
 	String recurso(String nome) throws Exception {try(var in=getClass().getResourceAsStream("/contrato/fase-2/"+nome)){assertThat(in).isNotNull();return new String(in.readAllBytes(),StandardCharsets.UTF_8);}}
-	boolean implementado(String caminho){return caminho.equals("/api/v1/eu/nutri")||caminho.equals("/api/v1/grupos-alimentos");}
+	boolean implementado(String caminho){return java.util.Set.of("/api/v1/eu/nutri","/api/v1/grupos-alimentos","/api/v1/grupos-alimentos/{id}","/api/v1/alimentos","/api/v1/alimentos/{id}","/api/v1/pacientes/{id}/lista-substituicao").contains(caminho);}
 	@Test @WithMockUser void gruposImplementadosRetornam200SemCache() throws Exception {
 		var resposta=mapper.readValue(recurso("listarGruposAlimentos/resposta.json"),com.br.dietamais.alimentos.api.GruposAlimentosResposta.class);
 		org.mockito.Mockito.when(grupos.executar()).thenReturn(resposta);
 		mvc.perform(get("/api/v1/grupos-alimentos")).andExpect(status().isOk()).andExpect(header().string("Cache-Control","no-store"))
 			.andExpect(jsonPath("$.itens[0].kcalPorPorcao").value(150));
+	}
+	@Test @WithMockUser void alimentosMacrosEListaDoPacienteJaSaoOperacoesReais() throws Exception {
+		var alimento=mapper.readValue(recurso("criarAlimento/resposta.json"),com.br.dietamais.alimentos.api.AlimentoResposta.class);
+		var edicao=mapper.readValue(recurso("atualizarAlimento/resposta.json"),com.br.dietamais.alimentos.api.AlimentoResposta.class);
+		var pagina=mapper.readValue(recurso("listarAlimentos/resposta.json"),com.br.dietamais.alimentos.api.PaginaAlimentosResposta.class);
+		var grupo=mapper.readValue(recurso("atualizarMacrosGrupo/resposta.json"),com.br.dietamais.alimentos.api.GrupoAlimentoResposta.class);
+		var lista=mapper.readValue(recurso("consultarListaSubstituicao/resposta.json"),com.br.dietamais.alimentos.api.ListaSubstituicaoResposta.class);
+		org.mockito.Mockito.when(alimentos.criar(org.mockito.ArgumentMatchers.any())).thenReturn(alimento);
+		org.mockito.Mockito.when(alimentos.listar(0,20,null,null,true)).thenReturn(pagina);
+		org.mockito.Mockito.when(alimentos.atualizar(org.mockito.ArgumentMatchers.eq(edicao.id()),org.mockito.ArgumentMatchers.eq("\"1\""),org.mockito.ArgumentMatchers.any())).thenReturn(edicao);
+		org.mockito.Mockito.when(alimentos.atualizarMacros(org.mockito.ArgumentMatchers.eq(grupo.id()),org.mockito.ArgumentMatchers.eq("\"1\""),org.mockito.ArgumentMatchers.any())).thenReturn(grupo);
+		org.mockito.Mockito.when(listas.consultar(lista.pacienteId())).thenReturn(lista);
+		org.mockito.Mockito.when(listas.atualizar(org.mockito.ArgumentMatchers.eq(lista.pacienteId()),org.mockito.ArgumentMatchers.eq("\"1\""),org.mockito.ArgumentMatchers.any())).thenReturn(lista);
+		mvc.perform(get("/api/v1/alimentos")).andExpect(status().isOk()).andExpect(header().string("Cache-Control","no-store"));
+		mvc.perform(post("/api/v1/alimentos").contentType("application/json").content(recurso("criarAlimento/requisicao.json"))).andExpect(status().isCreated()).andExpect(header().string("ETag","\"1\""));
+		mvc.perform(patch("/api/v1/alimentos/"+edicao.id()).header("If-Match","\"1\"").contentType("application/json").content(recurso("atualizarAlimento/requisicao.json"))).andExpect(status().isOk()).andExpect(jsonPath("$.ativo").value(false)).andExpect(header().string("ETag","\"2\""));
+		mvc.perform(patch("/api/v1/grupos-alimentos/"+grupo.id()).header("If-Match","\"1\"").contentType("application/json").content(recurso("atualizarMacrosGrupo/requisicao.json"))).andExpect(status().isOk()).andExpect(jsonPath("$.origemMacros").value("AJUSTE_NUTRI"));
+		mvc.perform(get("/api/v1/pacientes/"+lista.pacienteId()+"/lista-substituicao")).andExpect(status().isOk()).andExpect(header().string("ETag","\"1\""));
+		mvc.perform(put("/api/v1/pacientes/"+lista.pacienteId()+"/lista-substituicao").header("If-Match","\"1\"").contentType("application/json").content(recurso("atualizarListaSubstituicao/requisicao.json"))).andExpect(status().isOk()).andExpect(header().string("Cache-Control","no-store"));
+	}
+	@Test @WithMockUser void transporteRejeitaPaginaPrecisaoENumerosInvalidosAntesDaEscrita() throws Exception {
+		mvc.perform(get("/api/v1/alimentos?pagina=-1")).andExpect(status().isBadRequest()).andExpect(jsonPath("$.codigo").value("FORMATO_INVALIDO"));
+		String caminho="/api/v1/grupos-alimentos/019a0000-0000-7000-8000-000000000001";
+		mvc.perform(patch(caminho).contentType("application/json").content(recurso("atualizarMacrosGrupo/requisicao.json"))).andExpect(status().isBadRequest()).andExpect(jsonPath("$.codigo").value("FORMATO_INVALIDO"));
+		mvc.perform(patch("/api/v1/eu/nutri").contentType("application/json").content(recurso("atualizarPerfilNutri/requisicao.json"))).andExpect(status().isBadRequest()).andExpect(jsonPath("$.codigo").value("FORMATO_INVALIDO"));
+		org.mockito.Mockito.verify(perfil,org.mockito.Mockito.never()).atualizar(org.mockito.ArgumentMatchers.any(),org.mockito.ArgumentMatchers.any());
+		var json=(tools.jackson.databind.node.ObjectNode)mapper.readTree(recurso("atualizarMacrosGrupo/requisicao.json"));json.put("carboidratosPorPorcao",-1);
+		mvc.perform(patch(caminho).header("If-Match","\"0\"").contentType("application/json").content(mapper.writeValueAsString(json))).andExpect(status().isBadRequest()).andExpect(jsonPath("$.codigo").value("FORMATO_INVALIDO"));
+		json.put("carboidratosPorPorcao",0.00001);
+		mvc.perform(patch(caminho).header("If-Match","\"0\"").contentType("application/json").content(mapper.writeValueAsString(json))).andExpect(status().isBadRequest()).andExpect(jsonPath("$.codigo").value("FORMATO_INVALIDO"));
+		org.mockito.Mockito.verify(alimentos,org.mockito.Mockito.never()).atualizarMacros(org.mockito.ArgumentMatchers.any(),org.mockito.ArgumentMatchers.any(),org.mockito.ArgumentMatchers.any());
 	}
 }

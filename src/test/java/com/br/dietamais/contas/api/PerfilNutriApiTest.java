@@ -26,7 +26,7 @@ class PerfilNutriApiTest extends TesteIsolamento {
 	}
 	@Test void assinaturaPerfilEFormatoContinuamValidados() throws Exception {
 		var a=cadastrarNutri();var corpo=dados("Fictício","CRN-1 00000",null,null);
-		erro(requisitar("PATCH","/eu/nutri",a.token(),corpo),400,"OBRIGATORIO");
+		erro(requisitar("PATCH","/eu/nutri",a.token(),corpo),400,"FORMATO_INVALIDO");
 		erro(requisitar("PATCH","/eu/nutri",a.token(),corpo,Map.of("If-Match","W/\"0\"")),400,"FORMATO_INVALIDO");
 		erro(requisitar("PATCH","/eu/nutri",a.token(),dados("Fictício","CRN-invalido",null,null),Map.of("If-Match","\"0\"")),400,"FORMATO_INVALIDO");
 		jdbc.update("update assinatura set status='CANCELADA' where organizacao_id=?",a.organizacao());

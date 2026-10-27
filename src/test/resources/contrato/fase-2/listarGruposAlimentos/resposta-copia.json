@@ -1,0 +1,15 @@
+{
+  "itens": [
+    {
+      "id": "019a0000-0000-7000-8000-000000000001",
+      "nome": "Pão",
+      "kcalPorPorcao": 150,
+      "carboidratosPorPorcao": 29.3,
+      "proteinasPorPorcao": 4.0,
+      "gordurasPorPorcao": 1.6,
+      "macrosEstimados": true,
+      "versao": 0,
+      "origemMacros": "CATALOGO_ESTIMADO"
+    }
+  ]
+}

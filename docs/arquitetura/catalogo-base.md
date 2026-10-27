@@ -1,6 +1,6 @@
 # Catálogo base — BE-09
 
-GET /api/v1/grupos-alimentos é real, autenticado e exclusivo do perfil NUTRICIONISTA. Devolve 12 grupos globais, sem dados clínicos ou identificadores de outros donos, ordenados por nome/id e com no-store. Assinatura inativa mantém a leitura. A lista da nutri, ajustes do paciente e suas escritas continuam em BE-10; esta entrega não permite a uma nutri editar o catálogo global.
+GET /api/v1/grupos-alimentos é autenticado e exclusivo do perfil NUTRICIONISTA. BE-09 entregou a base inicial; após BE-10, devolve a cópia própria dos grupos, ordenada por nome/id e com no-store. Assinatura inativa mantém leitura. A edição de macros/alimentos e ajustes do paciente está implementada na API BE-10; nenhuma rota permite à nutri editar o catálogo global.
 
 ## Dados e rastreabilidade
 
@@ -41,18 +41,20 @@ Os representantes são aproximações iniciais de grupos heterogêneos, **não m
 
 GET publica o campo novo opcional `macrosEstimados: true` para essas cargas. Ausência do campo em clientes/fixtures anteriores continua válida e não deve ser interpretada como garantia de valor medido. Os campos de nutrientes existentes mantêm nome/tipo/nulabilidade.
 
-## Edição posterior funcional e isolamento — BE-10
+## Edição funcional isolada — BE-10
 
-O caminho previsto não se resume a edição manual do banco. BE-10 deve criar `grupo_alimento_nutri`, chave `(nutricionista_id, grupo_alimento_id)`, copiando os macros e sua proveniência/revisão ao inicializar a lista da nutri. O ID público do grupo é mantido para as referências dos alimentos; o dono da cópia vem exclusivamente da sessão. Cadastros existentes recebem a cópia uma vez, sem recriação a cada leitura.
+BE-10 cria grupo_alimento_nutri, chave (nutricionista_id,grupo_id), e alimento_nutri com IDs próprios/catalogoId. Valores e proveniência são copiados uma única vez no cadastro e no backfill dos existentes, com marcador lista_alimentos_nutri. Repetir a inicialização não recopia nem insere futuras alterações do catálogo. GET não inicializa/escreve. O ID público do grupo é mantido nas referências; o dono vem exclusivamente da sessão.
 
-Extensão funcional prevista em BE-10: `PATCH /grupos-alimentos/{id}`, corpo com `carboidratosPorPorcao`, `proteinasPorPorcao` e `gordurasPorPorcao`, todos números não negativos, e `If-Match` obrigatório. O GET passará a retornar a cópia própria com campo novo opcional `versao`; PATCH devolverá a mesma projeção e ETag. O editor de grupo no app da nutri permitirá ajustar os três campos e salvar sua cópia. Esta rota/DTO/editor são da próxima tarefa, **não estão disponíveis na BE-09**; os contratos concretos serão adicionados compativelmente antes da integração da UI.
+PATCH /grupos-alimentos/{id} está implementado: corpo de três macros não negativos, até quatro casas, If-Match obrigatório. GET da cópia acrescenta versao/origemMacros opcionais; PATCH devolve a projeção/ETag. O app pode integrar seu editor usando o contrato/exemplos oficiais BE-10; a UI pertence ao repositório mobile e não foi entregue neste PR backend. Nenhuma edição global/manual de banco é necessária para a nutri ajustar sua cópia pela API.
 
-A escrita BE-10 terá guarda de assinatura, versão, auditoria de configuração, 404 para referência fora da cópia autorizada e transação única para macros/proveniência. Origem manual será diferenciada da estimativa inicial. Testes BE-10 devem provar que nutri A não altera cópia B, que conflito não sobrescreve e que atualização posterior do catálogo base não modifica cópias já existentes (RN-ALI-01/04). Não haverá propagação global por UPDATE do grupo base nem fallback dinâmico aos macros base depois da cópia.
+A escrita aplica guarda de assinatura no filtro/serviço, lock e versão; referência fora da cópia autorizada retorna 404. Origem inicial completa fica preservada em origem_base. Ajuste manual registra usuário/data, origem AJUSTE_NUTRI e histórico de configuração com valores/versões antes/depois, sem dado de paciente. macrosEstimados é omitido após ajuste manual, que não comprova medição laboratorial. Alteração e histórico são transacionais; conflito não escreve. Não há propagação para outra nutri nem fallback dinâmico ao grupo base.
+
+Cada vínculo recebe baseline de IDs ativos da lista da nutri. Diferenças são persistidas por vínculo em ajuste_lista_paciente; alimento novo pode ser adicionado somente ao paciente escolhido. PUT substitui as diferenças e exige versão própria. Mudanças de configuração de alimento/grupo próprio revisam as versões das listas da mesma nutri por sequência dedicada; não usam a revisão do diário sync como If-Match. GET da projeção usa REPEATABLE_READ; escritas usam o advisory lock por nutri antes de locks de ficha/ajuste. ENCERRADO permite leitura e impede editar diferenças. Essa projeção usa os dados atuais da nutri; dietas publicadas terão o snapshot independente BE-12.
 
 Gestão do catálogo **base** é administrativa, distinta dessa edição isolada; não foi criada API de escrita global neste PR. Uma revisão administrativa futura deve versionar valores e origem, afetando somente cópias criadas depois ou atualização explicitamente aceita conforme RN-ALI-04/P2. BE-12 congelará macros, lista e orientação nos snapshots; ajustar a cópia da nutri não reescreverá dietas publicadas.
 
 ## Migração e verificações
 
-010 é a próxima numeração reservada da BE-09, antes de 011/BE-33 já aprovada. É nova; nenhuma migração histórica foi alterada. Cria grupo_alimento, alimento e fonte_macros_grupo, restrições e carga CSV tipada. As três tabelas não têm dado pessoal. Fontes sync novas entram apenas em BE-14.
+010 cria a base e proveniência; 012 acrescenta cópias, marcador, diferenças e histórico de configuração. Nenhuma migração histórica foi editada. A cópia inicial bloqueia fontes em SHARE para manter valores/proveniência consistentes até concluir o cadastro. Não há conteúdo clínico nas tabelas base; diferenças de paciente são restritas à ficha própria e auditadas somente por identificadores. Fontes sync novas entram em BE-14.
 
 Testes sem banco validam os CSVs/referências, método, limites numéricos, perfil, HTTP/OpenAPI/contratos e parsing Liquibase. Testes de integração escritos verificam carga, leitura global sem dado clínico, identidade/perfil/assinatura e valores lidos do banco. Parsing não substitui execução SQL/Postgres; indisponibilidade de Docker/CI deve ser explicitada no PR.

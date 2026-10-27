@@ -1,5 +1,13 @@
 # Dieta+ — arquitetura do backend
 
+## Listas próprias e configuração — BE-10
+
+Migração 012 cria cópias físicas de grupos/alimentos por nutri, marcador de inicialização única, baseline/diferenças por vínculo e histórico de ajustes de macros. Cadastro e backfill copiam a base com valores/proveniência; leitura nunca recopia. A função de inicialização retorna sem alterações quando encontra o marcador, inclusive depois de revisão do catálogo. Macros e alimentos são editados somente com o dono autenticado, guarda, lock e If-Match. O histórico de configuração guarda usuário/data/versões e valores do grupo, sem dados de paciente; auditoria clínica da lista guarda somente identificadores.
+
+alimentos usa a porta pacientes.api.ConsultarFichaParaLista para resolver a ficha própria e seu status, sem acessar infra de outro módulo. Escritas usam o mesmo advisory lock por nutri adotado em pacientes, antes de locks das entidades; GET de lista usa REPEATABLE_READ. Triggers revisam as versões das listas da própria nutri ao mudar alimento/grupo. A sequência seq_versao_lista fornece versões únicas, com saltos permitidos; seq_sync fica separado para BE-14. O diário GET /sync atual não recebeu fontes antecipadas.
+
+Baseline é copiada no vínculo, e diferenças podem incluir alimentos próprios novos somente no paciente escolhido. Inativos não entram na projeção de novas escolhas; não há DELETE por API. Prontuário ENCERRADO mantém leitura e bloqueia alteração de diferenças. BE-12 congelará os dados nos snapshots, sem vínculo dinâmico a alterações futuras de configuração. Ver contrato-fase-2.md/catalogo-base.md para campos opcionais, origem manual e exemplos.
+
 ## Diário de leitura incremental (BE-08)
 
 `FonteSync` em `comum.api` separa seleção de referências e carga dos DTOs autorizados. Fontes dos módulos pacientes/contas usam o diário comum sem dependência circular entre módulos. O serviço sync escolhe a página global antes de carregar dados e audita acessos clínicos autorizados, inclusive tombstones, sem conteúdo clínico no diário ou na auditoria.

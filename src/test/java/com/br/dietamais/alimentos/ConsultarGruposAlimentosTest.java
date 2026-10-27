@@ -13,8 +13,8 @@ class ConsultarGruposAlimentosTest {
 	final CatalogoAlimentosStore catalogo=mock(CatalogoAlimentosStore.class);
 	final ConsultarGruposAlimentos caso=new ConsultarGruposAlimentos(usuario,catalogo);
 	@Test void catalogoGlobalNaoConsultaDadosClinicosDeUmDono() {
-		when(usuario.obter()).thenReturn(contexto(Perfil.NUTRICIONISTA));when(catalogo.grupos()).thenReturn(List.of());
-		assertThat(caso.executar().itens()).isEmpty();verify(catalogo).grupos();
+		var contexto=contexto(Perfil.NUTRICIONISTA);when(usuario.obter()).thenReturn(contexto);when(catalogo.grupos(contexto.exigirNutricionista())).thenReturn(List.of());
+		assertThat(caso.executar().itens()).isEmpty();verify(catalogo).grupos(contexto.exigirNutricionista());
 	}
 	@Test void pacienteEAdminNaoCarregamCatalogoPrivilegiado() {
 		for(var perfil:List.of(Perfil.PACIENTE,Perfil.ADMIN)){

@@ -1,8 +1,8 @@
 # Contrato da fase 2 — BE-C2
 
-Cópia oficial no backend. Mobile e frontend devem acompanhar este contrato; frontend continua pós-MVP. O manifesto `src/test/resources/contrato/fase-2/manifesto.json` publica 16 operações e exemplos fictícios tipados, separados dos 49 JSONs da fase 1, que permanecem intactos.
+Cópia oficial no backend. Mobile e frontend devem acompanhar este contrato; frontend continua pós-MVP. O manifesto `src/test/resources/contrato/fase-2/manifesto.json` publica 17 operações e exemplos tipados, separados dos 49 JSONs da fase 1, que permanecem intactos.
 
-BE-C2 publicou DTOs, OpenAPI e rotas **501 NAO_IMPLEMENTADO**. BE-33 implementa GET/PATCH /eu/nutri e BE-09 implementa GET /grupos-alimentos; as outras 13 operações continuam em 501, sem listas próprias, cálculo, publicação ou push da fase 2. Sucessos abaixo são o contrato previsto para BE-10..14, para uso com MockEngine até cada gate QA. Não tratar 501 como lista vazia nem sucesso. Bearer continua obrigatório; validação de transporte pode retornar 400 antes do stub. O ProblemDetail 501 informa que a implementação pertence à fase 2.
+BE-C2 publicou DTOs/OpenAPI/stubs. BE-33 implementa perfil e BE-10 implementa as operações de grupos, alimentos e lista do paciente, incluindo a extensão de edição de macros. Oito operações de dietas continuam **501 NAO_IMPLEMENTADO** até BE-11..13. Não tratar 501 como lista vazia nem sucesso. Bearer é obrigatório; validação de transporte pode retornar 400 antes do stub. Não foram antecipados cálculo, publicação, push ou fontes BE-14.
 
 ## Operações
 
@@ -11,6 +11,7 @@ Todos os caminhos começam em `/api/v1`. Os nomes de classes abaixo ficam em `al
 | Método/caminho | Requisição | Sucesso previsto | Tarefa |
 | --- | --- | --- | --- |
 | GET /grupos-alimentos | — | 200 GruposAlimentosResposta | BE-09 |
+| PATCH /grupos-alimentos/{id} | AtualizarMacrosGrupoRequisicao + If-Match | 200 GrupoAlimentoResposta | BE-10 |
 | GET /alimentos | pagina, tamanho, grupoId?, busca?, ativo? | 200 PaginaAlimentosResposta | BE-10 |
 | POST /alimentos | CriarAlimentoRequisicao | 201 AlimentoResposta | BE-10 |
 | PATCH /alimentos/{id} | AtualizarAlimentoRequisicao + If-Match | 200 AlimentoResposta | BE-10 |
@@ -33,21 +34,33 @@ Rotas da nutri usam o dono autenticado; `{id}` de paciente é o ID global da fas
 
 PUT/PATCH e publicação usam `If-Match: "<versao>"` da entidade, nunca a revisão do envelope sync. `versao` de DietaResposta, AlimentoResposta, ListaSubstituicaoResposta e PerfilNutriResposta identifica a entidade respectiva. GET de entidade e sua escrita retornam ETag forte; em coleções, a versão é a de cada item. `DietasPacienteResposta.versao` versiona a **seleção** de dieta em uso; seu ETag fundamenta PUT /eu/dieta-em-uso. Não usar versão de uma dieta ou de seu snapshot para alterar essa seleção. O PUT retorna dietaId e a nova versão da seleção. A seleção inicial segue a publicada mais recente (RN-DIE-07/S9), sem decidir isso no cliente.
 
-POSTs declaram `Idempotency-Key` UUID opcional, conforme a política transversal de 24 horas; persistência/reprodução será conectada nas tarefas reais. O contrato 501 desta entrega não grava idempotência nem consome versões. IDs de criação podem ser UUIDv7 do cliente ou nulos para geração no servidor; no PUT da dieta, `id` deve ser nulo ou corresponder ao caminho. IDs de refeições/itens preservados representam os mesmos itens; novos podem vir nulos. A ordem dos itens é a ordem da lista; refeições têm `ordem` explícita e `horario` local `HH:mm:ss`, sem inventar offset para recorrência diária.
+POSTs declaram `Idempotency-Key` UUID opcional, conforme a política transversal de 24 horas. POST /alimentos já persiste/reproduz sucessos; stubs de dieta não gravam idempotência nem consomem versões. IDs de criação podem ser UUIDv7 do cliente ou nulos para geração no servidor; no PUT futuro da dieta, id será nulo ou corresponderá ao caminho. IDs de refeições/itens preservados representam os mesmos itens; novos podem vir nulos. A ordem dos itens é a da lista; refeições têm ordem explícita e horário local HH:mm:ss, sem inventar offset para recorrência diária.
 
 Erros seguem ProblemDetail/codigo. A fase reutiliza `DIETA_VAZIA` (422/RN-DIE-06), `DIETA_NAO_EDITAVEL` (422/RN-DIE-04), `CONFLITO_VERSAO` (409/RN-SYN-02), `ASSINATURA_INATIVA`, `PERFIL_INVALIDO`, `RECURSO_NAO_ENCONTRADO`, `OBRIGATORIO` e `FORMATO_INVALIDO`. Os dois códigos específicos de dieta já estavam no enum: não há código novo artificial. OpenAPI declara 400/401/403/404/409/422 e 501 com ProblemaResposta. Fixtures de conflito só contêm dados fictícios e exemplificam `atual` autorizado.
 
 ## Alimentos e lista
 
+### Extensão BE-10 — cópias e edição isolada
+
+BE-10 acrescenta PATCH /grupos-alimentos/{id}: corpo `{carboidratosPorPorcao, proteinasPorPorcao, gordurasPorPorcao}`, números não negativos com no máximo quatro casas e oito dígitos inteiros; If-Match obrigatório. Resposta 200 GrupoAlimentoResposta/ETag/no-store, mesma identidade pública do grupo. Campos novos opcionais de resposta: `versao` e `origemMacros` (`CATALOGO_ESTIMADO`, `CATALOGO`, `AJUSTE_NUTRI`). Os exemplos antigos sem esses campos continuam válidos. O editor salva somente a cópia da nutri autenticada e não recebe dono no corpo.
+
+A origem inicial completa é preservada no banco. Um ajuste manual registra usuário/data/origem própria; `macrosEstimados` fica omitido quando não há declaração do método manual, pois editar não comprova análise laboratorial. Kcal e porção do catálogo não são alteradas por esse PATCH. Cópias são criadas uma única vez para nutris existentes e no cadastro; GET não recopia o catálogo e mudanças administrativas não propagam a cópias já existentes.
+
+Lista do paciente tem baseline dos alimentos ativos da nutri ao criar o vínculo e diferenças adicionados/removidos. Adicionar alimento novo a uma lista não altera baseline/ajustes de outros pacientes. Enquanto não houver snapshot, os dados atuais dos alimentos próprios da nutri são usados; desativados saem das novas escolhas. Os ajustes pertencem ao vínculo escolhido pela mesma regra de ficha BE-06/07 (aberto ou histórico mais recente). ENCERRADO mantém leitura e retorna 403 em escrita. IDs adicionados/removidos devem ser próprios, sem duplicidade/interseção; adição exige ativo. Referência de outra nutri retorna 404.
+
+PUT da lista substitui todas as diferenças, com If-Match da lista efetiva, nunca versão da ficha ou revisão do sync. Versões da lista podem ter saltos e mudam também após edição de alimento/grupo próprio, evitando sobrescrever uma configuração baseada em dados antigos. Baseline não é recriada em leitura. Snapshots BE-12 congelarão valores/lista/proveniência e não serão reescritos por essas edições.
+
+POST /alimentos admite UUIDv7 opcional do cliente e Idempotency-Key; PATCH altera o conjunto de campos editáveis com If-Match, inclusive ativo. Não há DELETE. Busca é substring literal do nome sem distinção de maiúsculas; paginação zero, tamanho 1..100, grupo/ativo próprios, ordem nome/id estável. Conflito inclui apenas a projeção autorizada em atual. Assinatura inativa bloqueia escrita no filtro e serviço; paciente/admin não acessam essas rotas da nutri. Lista clínica é auditada somente por identificadores, sem conteúdo na trilha.
+
 BE-09: GET /grupos-alimentos retorna catálogo global real para NUTRICIONISTA autenticada, no-store e ordem nome/id. São 12 grupos e 482 alimentos base carregados, sem dados pessoais. Macros iniciais são estimativas por representantes TACO/UNICAMP normalizados pelas kcal do PDF, com campo novo **opcional** `macrosEstimados` (true na carga inicial; ausente nos exemplos antigos). Nenhum campo existente/nulabilidade de macro mudou e os JSONs anteriores continuam válidos. Exemplo adicional oficial: `contrato/fase-2/listarGruposAlimentos/resposta-estimativa.json`, registrado no manifesto sem substituir exemplos anteriores. [Fonte, método, arredondamento e limites](catalogo-base.md) explicam a diferença entre porção de grupo e 100 g de alimento, inclusive proxy de sopa.
 
-Edição funcional de macros é da **BE-10**, ainda não implementada: cópia de grupo por nutri, GET da cópia e PATCH /grupos-alimentos/{id} com If-Match e versão opcional adicionada à projeção. O editor da nutri ajustará somente sua cópia; origem/estimativa/manual serão diferenciadas. Atualização de catálogo não propagará a cópias existentes e snapshots congelados não serão reescritos. O contrato concreto e exemplos da extensão serão publicados na BE-10 antes da integração da UI. A BE-09 não oferece API de escrita global para nutris.
+Edição funcional da API de macros está implementada na BE-10: cópia própria e PATCH com If-Match. A integração do editor no app é do mobile; não foi implementada neste repositório. `listarGruposAlimentos/resposta-copia.json` exemplifica versão/origem inicial e `atualizarMacrosGrupo/` exemplifica ajuste manual. A fixture de desativação de alimento foi corrigida para ativo=false/versão=2, coerente com a requisição; o formato e os demais exemplos anteriores permanecem válidos. Atualização do catálogo não propaga a cópias existentes. Não há API de escrita global para nutris.
 
 Grupo publica kcal e carboidratos/proteínas/gorduras **por porção** (macros em gramas). Alimento pertence a um grupo e define medida caseira textual e gramas de uma porção, positivas. `catalogoId` é referência opcional à origem da cópia; o ID usado pela dieta é o alimento da lista da nutri. Os exemplos não são carga real nem inventam os grupos faltantes do PDF.
 
 GET /alimentos: pagina zero, tamanho padrão 20 (1..100), busca por nome até 150 caracteres, grupo opcional e ativo padrão true; resposta contém itens/pagina/tamanho/total. PATCH envia todos os campos editáveis, incluindo `ativo`; desativação preserva snapshots (RN-ALI-03). Não há DELETE nem edição do catálogo base nesta fase.
 
-ListaSubstituicaoResposta contém a lista efetiva em `alimentos` e os IDs das diferenças `adicionados`/`removidos` sobre a lista da nutri (RN-ALI-01). PUT substitui essas diferenças inteiras, não a lista de outra nutri/paciente. Arrays são obrigatórios e podem ser vazios para limpar diferenças; IDs pertencem à lista autorizada da nutri. Duplicidades, interseção e referências inválidas serão validadas pelo backend em BE-10. A lista congelada do snapshot é independente de futuras mudanças na lista efetiva.
+ListaSubstituicaoResposta contém alimentos efetivos e IDs adicionados/removidos sobre a baseline do vínculo (RN-ALI-01). PUT substitui diferenças inteiras. Arrays obrigatórios/vazios limpam diferenças; duplicidade/interseção retorna 400 FORMATO_INVALIDO. Referências de outra nutri, excluídas ou inativas para adição retornam 404; remoção de item próprio inativo é permitida. A lista congelada futura do snapshot é independente de mudanças nessa projeção atual. Versões efetivas usam sequência dedicada e podem ter saltos; não são revisão do envelope sync.
 
 ## Dieta e snapshot
 

@@ -13,6 +13,10 @@
         "tipo": "com.br.dietamais.alimentos.api.GruposAlimentosResposta"
       },
       {
+        "arquivo": "listarGruposAlimentos/resposta-copia.json",
+        "tipo": "com.br.dietamais.alimentos.api.GruposAlimentosResposta"
+      },
+      {
         "arquivo": "listarGruposAlimentos/erro.json",
         "tipo": "com.br.dietamais.comum.api.ProblemaResposta"
       }
@@ -267,6 +271,25 @@
       },
       {
         "arquivo": "atualizarPerfilNutri/erro.json",
+        "tipo": "com.br.dietamais.comum.api.ProblemaResposta"
+      }
+    ]
+  },
+  {
+    "metodo": "PATCH",
+    "caminho": "/api/v1/grupos-alimentos/{id}",
+    "status": 200,
+    "exemplos": [
+      {
+        "arquivo": "atualizarMacrosGrupo/requisicao.json",
+        "tipo": "com.br.dietamais.alimentos.api.AtualizarMacrosGrupoRequisicao"
+      },
+      {
+        "arquivo": "atualizarMacrosGrupo/resposta.json",
+        "tipo": "com.br.dietamais.alimentos.api.GrupoAlimentoResposta"
+      },
+      {
+        "arquivo": "atualizarMacrosGrupo/erro.json",
         "tipo": "com.br.dietamais.comum.api.ProblemaResposta"
       }
     ]

@@ -1,0 +1,10 @@
+{
+  "id": "019a0000-0000-7000-8000-000000000001",
+  "nome": "Pão",
+  "kcalPorPorcao": 150,
+  "carboidratosPorPorcao": 30,
+  "proteinasPorPorcao": 5,
+  "gordurasPorPorcao": 2,
+  "versao": 2,
+  "origemMacros": "AJUSTE_NUTRI"
+}

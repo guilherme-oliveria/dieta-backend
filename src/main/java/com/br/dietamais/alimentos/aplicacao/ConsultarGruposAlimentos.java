@@ -13,7 +13,7 @@ public class ConsultarGruposAlimentos {
 	public ConsultarGruposAlimentos(UsuarioAtual usuario,CatalogoAlimentosStore catalogo){this.usuario=usuario;this.catalogo=catalogo;}
 	@Transactional(readOnly=true)
 	public GruposAlimentosResposta executar(){
-		usuario.obter().exigirNutricionista();
-		return new GruposAlimentosResposta(catalogo.grupos());
+		var nutri=usuario.obter().exigirNutricionista();
+		return new GruposAlimentosResposta(catalogo.grupos(nutri));
 	}
 }
