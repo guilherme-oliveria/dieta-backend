@@ -45,6 +45,9 @@ services:
       EMAIL_URL_CONFIRMAR: ${EMAIL_URL_CONFIRMAR:-dietamais://confirmar-email}
       EMAIL_URL_CONVITE: ${EMAIL_URL_CONVITE:-dietamais://convites}
       EMAIL_URL_REDEFINIR: ${EMAIL_URL_REDEFINIR:-dietamais://redefinir-senha}
+      # texto jurídico do consentimento clínico (RN-VIN-04): sem ele ninguém consegue aceitar convite
+      DIETA_CONSENTIMENTO_VERSAO: ${CONSENTIMENTO_VERSAO:-}
+      DIETA_CONSENTIMENTO_TEXTO: ${CONSENTIMENTO_TEXTO:-}
       DIETA_PUBLICO_URL_BASE: https://${DOMINIO:?defina DOMINIO}
       # o Caddy fica na frente: o IP real vem de X-Forwarded-For (limites por IP)
       SERVER_FORWARD_HEADERS_STRATEGY: native

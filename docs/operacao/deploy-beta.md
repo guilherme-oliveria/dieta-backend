@@ -23,6 +23,7 @@ O Liquibase aplica as migrações na subida. Para atualizar: `git pull` e repita
 
 - `JWT_CHAVE_PRIVADA` / `JWT_CHAVE_PUBLICA`: par RSA 2048+ em PEM; sem elas o app não sobe fora de dev/test.
 - `IDEMPOTENCIA_CHAVE`, `NOTIFICACOES_CHAVE`: 32 bytes em Base64 (`openssl rand -base64 32`), cada uma diferente. Sem a primeira, POSTs idempotentes falham.
+- `CONSENTIMENTO_VERSAO` / `CONSENTIMENTO_TEXTO`: texto do termo de consentimento clínico (RN-VIN-04). **Decisão do Guilherme**: sem ele, nenhum paciente aceita convite. Em dev há um termo fictício.
 - `WEB_ORIGEM`: origem HTTPS do site (só quando o Angular existir).
 - `EMAIL_ENVIO_HABILITADO=false` mantém o envio de e-mail desligado (convite e recuperação de senha dependem dele em produção).
 - Push (FCM) entra na BE-24; a credencial será outra variável de ambiente.
@@ -36,3 +37,7 @@ O Liquibase aplica as migrações na subida. Para atualizar: `git pull` e repita
 ## Limitações conhecidas do beta
 
 Não foi possível rodar `docker compose` no ambiente de desenvolvimento desta entrega (sem Docker): valide o primeiro `up` na VPS e registre ajustes aqui.
+
+## Dados de exemplo (só desenvolvimento)
+
+`./gradlew bootRun --args=--dieta.dev.dados-exemplo=true` cria (uma vez) a nutri `nutri@exemplo.dev`, 3 pacientes (`maria@`, `joao@`, `ana@exemplo.dev`; Maria já vinculada, João com convite pendente) e uma dieta fictícia de ≈2510 kcal publicada para Maria. Senha de todas: `Exemplo de frase para desenvolvimento 2026`. Só roda no perfil `dev`; nunca em produção.

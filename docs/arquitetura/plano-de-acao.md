@@ -36,7 +36,7 @@ Definição de pronto de toda tarefa:
 - [x] **BE-12 Publicar e duplicar.** `POST /dietas/{id}/publicar` (RN-DIE-02, 03, 06, 08, 09): grava `dieta_snapshot` (JSON imutável com refeições, itens, lista de substituição do paciente e orientação), marca a anterior como SUBSTITUIDA, publica `DietaPublicada`; `POST /dietas/{id}/duplicar` (RN-DIE-04); `orientacao` padrão da nutri. *Depende de:* BE-11.
 - [x] **BE-13 Dieta do paciente.** `GET /eu/dietas` (snapshots publicados de todas as nutris), `PUT /eu/dieta-em-uso` (RN-DIE-07); RN-ASS-05 coberto por teste (nutri com assinatura expirada não afeta a leitura do paciente). *Depende de:* BE-12. *Libera:* MOB-14, MOB-15.
 - [x] **BE-14 Fontes de sync de alimentos e dietas.** `FonteSync` para alimentos da nutri, listas por paciente, dietas (nutri: rascunhos e publicadas; paciente: snapshots). *Depende de:* BE-08, BE-13.
-- [ ] **BE-35 Dados de exemplo.** Changeset com `context: dev` (nunca roda em produção): uma nutri, 3 pacientes, a lista de substituição e a dieta de 2509 kcal dos PDFs, uma avaliação. Usado na integração do mobile e nos prints dos PRs. *Depende de:* BE-14.
+- [x] **BE-35 Dados de exemplo.** (Feito como `DadosExemploDev`, carga via API só no perfil `dev` com `--dieta.dev.dados-exemplo=true`, em vez de changeset; dieta fictícia de ≈2510 kcal porque o PDF real não estava acessível; a avaliação entra com a BE-19.) Uma nutri, 3 pacientes, a lista de substituição e a dieta de 2509 kcal dos PDFs, uma avaliação. Usado na integração do mobile e nos prints dos PRs. *Depende de:* BE-14.
 
 ## Fase 3 — Rotina do paciente
 
