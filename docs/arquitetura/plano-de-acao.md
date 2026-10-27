@@ -44,7 +44,7 @@ Definição de pronto de toda tarefa:
 - [x] **BE-15 Rotina e sync de escrita (inclusão).** `checkin`, `registro_agua`, `registro_peso` (changeset `007-rotina`); `POST /eu/checkins`, `/eu/agua`, `/eu/pesos`; `POST /sync` com operação `CRIAR` para entidades só de inclusão (RN-SYN-03), resultado por item e idempotência por `idMutacao`; `FonteSync` de rotina. *Depende de:* BE-14. *Libera:* MOB-16, MOB-17.
 - [x] **BE-16 Adesão.** `GET /pacientes/{id}/adesao` (% de refeições FEITO/TROCADO nos últimos 7 e 30 dias) e campo `adesao7d` na listagem de pacientes. *Depende de:* BE-15.
 - [x] **BE-17 Feed .ics.** `calendario_token`; `POST /eu/calendario/token`, `GET /cal/{token}.ics` (público, `text/calendar`, VEVENT diário por refeição da dieta em uso, UID estável, título genérico, fuso do usuário). Biblioteca: ical4j ou geração manual com teste de formato. *Depende de:* BE-13. *Libera:* MOB-21.
-- [ ] **BE-18 Dispositivos e preferências.** `dispositivo` (token FCM, plataforma), `preferencia_notificacao` (tipos ligados, horário de silêncio); `POST/DELETE /eu/dispositivos`, `GET/PUT /eu/preferencias-notificacao`. *Depende de:* BE-05. *Libera:* MOB-19.
+- [x] **BE-18 Dispositivos e preferências.** `dispositivo` (token FCM, plataforma), `preferencia_notificacao` (tipos ligados, horário de silêncio); `POST/DELETE /eu/dispositivos`, `GET/PUT /eu/preferencias-notificacao`. *Depende de:* BE-05. *Libera:* MOB-19.
 
 - [ ] **BE-32a Deploy de beta.** A parte mínima de BE-32 num ambiente de beta: imagem Docker, `compose.prod.yaml` (app, Postgres 18, Caddy com HTTPS), backup diário do Postgres, variáveis de ambiente documentadas. Libera o marco M3 (nutri real testando). *Depende de:* BE-16, BE-17, BE-18.
 

@@ -56,3 +56,18 @@ Reenviar o mesmo `idMutacao` devolve o resultado guardado. `idMutacao` já usado
 - O token (32 bytes aleatórios, base64url, 43 caracteres) só aparece na criação; o banco guarda o SHA-256. O app guarda o link. Base da URL: propriedade `dieta.publico.url-base` (padrão `https://api.dietamais.com.br`).
 - O feed é calculado na leitura a partir da dieta em uso (S9): um `VEVENT` diário (`RRULE:FREQ=DAILY`) por refeição, `UID` = `refeicao-<id>@dietamais.com.br`, início na data da publicação, 30 min, fuso do paciente com `VTIMEZONE`. Título genérico `Dieta+: <nome da refeição>`, sem alimentos nem dado de saúde. Publicar nova dieta troca os eventos; sem dieta ativa o calendário vem vazio. Consultas entram na BE-23.
 - RN-ASS-05: assinatura vencida da nutri não bloqueia o feed.
+
+## Dispositivos e preferências de push (BE-18)
+
+Qualquer perfil autenticado; não depende de assinatura (não é dado clínico).
+
+| Método/caminho | Requisição | Resposta |
+| --- | --- | --- |
+| POST /eu/dispositivos | `{token, plataforma: ANDROID\|IOS\|DESKTOP, nomeAparelho?}` | 201 `{id, plataforma, nomeAparelho}` (nunca devolve o token) |
+| DELETE /eu/dispositivos/{id} | — | 204; aparelho de outra conta = 404 |
+| GET /eu/preferencias-notificacao | — | 200 `{tipos:[{tipo,ativo}], silencio:{ativo,inicio,fim}, versao}` + `ETag` |
+| PUT /eu/preferencias-notificacao | `{tipos, silencio}` + `If-Match` | 200 (igual ao GET); versão velha = 409 `CONFLITO_VERSAO` com `atual` |
+
+- O token é único: registrar um token que era de outra conta (troca de usuário no aparelho) move o aparelho para quem registrou. Registrar duas vezes o mesmo token devolve o mesmo `id`. No máximo 10 aparelhos por conta (saem os mais antigos). Chame `DELETE` no logout.
+- Tipos por perfil (RN-NOT-01): PACIENTE = `NOVA_DIETA`, `QUESTIONARIO_ENVIADO`, `CONSULTA_AMANHA`; NUTRICIONISTA = `QUESTIONARIO_RESPONDIDO`, `PACIENTE_SEM_CHECKIN`, `ASSINATURA`. GET lista só os do perfil ativo. Tipo do outro perfil ou repetido = 400 `FORMATO_INVALIDO`; tipos ausentes no PUT ficam ligados.
+- Padrão sem personalização: versão `0` (`If-Match: "0"` no primeiro PUT), tudo ligado, silêncio ativo 22:00–07:00 no fuso do usuário (pode cruzar a meia-noite; início = fim é inválido).
