@@ -9,6 +9,10 @@
         "tipo": "com.br.dietamais.alimentos.api.GruposAlimentosResposta"
       },
       {
+        "arquivo": "listarGruposAlimentos/resposta-estimativa.json",
+        "tipo": "com.br.dietamais.alimentos.api.GruposAlimentosResposta"
+      },
+      {
         "arquivo": "listarGruposAlimentos/erro.json",
         "tipo": "com.br.dietamais.comum.api.ProblemaResposta"
       }
