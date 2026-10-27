@@ -16,7 +16,7 @@ public class FonteNutrisSync implements FonteSync<NutricionistaResumoResposta> {
 		String filtro;Object[] parametros;
 		if(usuario.perfil()==Perfil.NUTRICIONISTA){filtro="n.id=? and n.usuario_id=?";parametros=new Object[]{referencia.id(),usuario.exigirNutricionista(),usuario.usuarioId()};}
 		else{filtro="exists(select 1 from vinculo v where v.nutricionista_id=n.id and v.paciente_id=? and v.status in ('ATIVO','ENCERRADO') and v.excluido_em is null)";parametros=new Object[]{referencia.id(),usuario.exigirPaciente()};}
-		return jdbc.query("select n.id,u.nome,n.crn from nutricionista n join usuario u on u.id=n.usuario_id where n.id=? and "+filtro,
+		return jdbc.query("select n.id,coalesce(n.nome_exibicao,u.nome) as nome,n.crn from nutricionista n join usuario u on u.id=n.usuario_id where n.id=? and "+filtro,
 			(rs,n)->new NutricionistaResumoResposta(rs.getObject("id",UUID.class),rs.getString("nome"),rs.getString("crn")),parametros).stream().findFirst().orElse(null);
 	}
 }

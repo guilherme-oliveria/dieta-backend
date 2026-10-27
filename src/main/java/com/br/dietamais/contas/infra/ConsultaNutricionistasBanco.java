@@ -13,7 +13,7 @@ public class ConsultaNutricionistasBanco implements ConsultaNutricionistas {
 	@Override public Map<UUID,DadosNutri> porIds(Set<UUID> ids) {
 		if(ids.isEmpty())return Map.of();
 		String parametros=String.join(",",Collections.nCopies(ids.size(),"?"));
-		var lista=jdbc.query("select n.id,u.nome,n.crn,n.organizacao_id from nutricionista n join usuario u on u.id=n.usuario_id where n.id in ("+parametros+")",
+		var lista=jdbc.query("select n.id,coalesce(n.nome_exibicao,u.nome) as nome,n.crn,n.organizacao_id from nutricionista n join usuario u on u.id=n.usuario_id where n.id in ("+parametros+")",
 				(rs,n)->new DadosNutri(rs.getObject("id",UUID.class),rs.getString("nome"),rs.getString("crn"),rs.getObject("organizacao_id",UUID.class)),ids.toArray());
 		var dados=new HashMap<UUID,DadosNutri>();lista.forEach(item->dados.put(item.id(),item));return Map.copyOf(dados);
 	}
