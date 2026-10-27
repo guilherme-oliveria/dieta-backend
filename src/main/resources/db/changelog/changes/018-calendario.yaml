@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 018-calendario-token
+      author: dietamais
+      comment: Feed .ics do paciente; guarda só o hash SHA-256 do token (o token em claro aparece uma vez, na criação)
+      changes:
+        - createTable:
+            tableName: calendario_token
+            columns:
+              - column: { name: paciente_id, type: uuid, constraints: { primaryKey: true, nullable: false, foreignKeyName: fk_calendario_token_paciente, references: paciente(id) } }
+              - column: { name: token_hash, type: varchar(64), constraints: { nullable: false, unique: true, uniqueConstraintName: uk_calendario_token_hash } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }

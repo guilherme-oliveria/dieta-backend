@@ -44,3 +44,15 @@ Reenviar o mesmo `idMutacao` devolve o resultado guardado. `idMutacao` já usado
 - Esperadas = refeições da dieta hoje publicada × dias da janela, contando a partir da primeira publicação do vínculo (um paciente novo não é penalizado por dias anteriores). Fuso da nutri.
 - Por refeição/dia vale o último check-in. `percentual` = (feitas + trocadas) / esperadas × 100, uma casa decimal; `null` sem dieta publicada.
 - `adesao7d` na listagem e na ficha (`GET /pacientes`, `GET /pacientes/{id}`) traz o mesmo valor de `dias7.percentual`. Não é enviado no `/sync` (campo derivado, continua `null` lá).
+
+## Feed .ics (BE-17)
+
+| Método/caminho | Auth | Resposta |
+| --- | --- | --- |
+| POST /api/v1/eu/calendario/token | Bearer PACIENTE | 201 `{token, url, urlWebcal}`; gerar outro revoga o anterior |
+| DELETE /api/v1/eu/calendario/token | Bearer PACIENTE | 204 (idempotente) |
+| GET /cal/{token}.ics | pública (o token é a credencial) | 200 `text/calendar`; token inexistente/revogado = 404 |
+
+- O token (32 bytes aleatórios, base64url, 43 caracteres) só aparece na criação; o banco guarda o SHA-256. O app guarda o link. Base da URL: propriedade `dieta.publico.url-base` (padrão `https://api.dietamais.com.br`).
+- O feed é calculado na leitura a partir da dieta em uso (S9): um `VEVENT` diário (`RRULE:FREQ=DAILY`) por refeição, `UID` = `refeicao-<id>@dietamais.com.br`, início na data da publicação, 30 min, fuso do paciente com `VTIMEZONE`. Título genérico `Dieta+: <nome da refeição>`, sem alimentos nem dado de saúde. Publicar nova dieta troca os eventos; sem dieta ativa o calendário vem vazio. Consultas entram na BE-23.
+- RN-ASS-05: assinatura vencida da nutri não bloqueia o feed.

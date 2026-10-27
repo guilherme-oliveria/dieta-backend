@@ -56,6 +56,10 @@ public abstract class TesteIsolamento {
 		pedido.method(metodo,corpo==null?HttpRequest.BodyPublishers.noBody():HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(corpo)));
 		return cliente.send(pedido.build(),HttpResponse.BodyHandlers.ofString());
 	}
+	/** GET sem Bearer em caminho absoluto (fora de /api/v1), como o feed .ics. */
+	protected HttpResponse<String> publico(String caminho) throws Exception {
+		return cliente.send(HttpRequest.newBuilder(URI.create("http://localhost:"+porta+caminho)).GET().build(),HttpResponse.BodyHandlers.ofString());
+	}
 	protected JsonNode json(HttpResponse<String> resposta){return mapper.readTree(resposta.body());}
 	protected void erro(HttpResponse<String> resposta,int status,String codigo) {
 		assertThat(resposta.statusCode()).as(resposta.body()).isEqualTo(status);

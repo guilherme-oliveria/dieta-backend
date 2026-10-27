@@ -12,7 +12,7 @@ import tools.jackson.databind.json.JsonMapper;
 
 /** Visão do paciente (RN-DIE-03, 07; RN-ASS-05: a assinatura da nutri não restringe a leitura). */
 @Service
-public class ConsultarDietasPaciente {
+public class ConsultarDietasPaciente implements com.br.dietamais.dietas.api.ConsultaDietaEmUso {
 	private final DietaStore dietas;private final UsuarioAtual usuario;private final ConsultaNutricionistas nutricionistas;private final AuditoriaClinica auditoria;
 	private final Clock relogio;private final JsonMapper mapper;
 	public ConsultarDietasPaciente(DietaStore dietas,UsuarioAtual usuario,ConsultaNutricionistas nutricionistas,AuditoriaClinica auditoria,Clock relogio,JsonMapper mapper){
@@ -41,6 +41,11 @@ public class ConsultarDietasPaciente {
 			throw new ExcecaoNegocio(CodigoErro.CONFLITO_VERSAO,"RN-SYN-02","A seleção foi atualizada. Revise os dados atuais.",List.of(),mapper.valueToTree(new DietaEmUsoResposta(emUso(recebidos,atual),versao)));
 		dietas.gravarSelecao(paciente,dietaId,relogio.instant());
 		return new DietaEmUsoResposta(dietaId,dietas.selecao(paciente,false).versao());
+	}
+	@Override @Transactional(readOnly=true)
+	public java.util.Optional<DietaSnapshotResposta> snapshotEmUso(UUID paciente){
+		var recebidos=dietas.snapshotsDoPaciente(paciente);var id=emUso(recebidos,dietas.selecao(paciente,false));
+		return recebidos.stream().filter(r->r.dietaId().equals(id)).findFirst().map(r->doPaciente(mapper.readValue(r.conteudo(),DietaSnapshotResposta.class),paciente));
 	}
 	/** Dieta em uso e versão da seleção do paciente autenticado; nulo (tombstone no sync) se não há dieta candidata. */
 	@Transactional(readOnly=true)
