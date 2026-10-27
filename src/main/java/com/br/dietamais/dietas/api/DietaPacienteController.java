@@ -23,21 +23,22 @@ import org.springframework.web.bind.annotation.*;
 	@ApiResponse(responseCode="404",description="ProblemDetail com código estável",content=@Content(mediaType="application/problem+json",schema=@Schema(implementation=ProblemaResposta.class))),
 	@ApiResponse(responseCode="409",description="Conflito de versão ou idempotência; atual só se autorizado",content=@Content(mediaType="application/problem+json",schema=@Schema(implementation=ProblemaResposta.class))),
 	@ApiResponse(responseCode="422",description="ProblemDetail com código estável",content=@Content(mediaType="application/problem+json",schema=@Schema(implementation=ProblemaResposta.class))),
-	@ApiResponse(responseCode="501",description="Contrato publicado; implementação pendente",content=@Content(mediaType="application/problem+json",schema=@Schema(implementation=ProblemaResposta.class)))
 })
 public class DietaPacienteController {
+	private final com.br.dietamais.dietas.aplicacao.ConsultarDietasPaciente dietas;
+	public DietaPacienteController(com.br.dietamais.dietas.aplicacao.ConsultarDietasPaciente dietas){this.dietas=dietas;}
 	@GetMapping("/eu/dietas")
-	@Operation(operationId="listarMinhasDietas",summary="Listar snapshots recebidos pelo paciente",description="RN-DIE-03, RN-DIE-07, RN-ASS-05; snapshots recebidos inclusive histórico; implementação BE-13. Nesta entrega responde 501, sem executar regras da fase 2.")
+	@Operation(operationId="listarMinhasDietas",summary="Listar snapshots recebidos pelo paciente",description="RN-DIE-03, RN-DIE-07, RN-ASS-05; snapshots recebidos inclusive histórico; implementada na BE-13.")
 	@ApiResponse(responseCode="200",description="Resposta prevista após implementação",content=@Content(mediaType="application/json",schema=@Schema(implementation=DietasPacienteResposta.class)),headers=@Header(name="ETag",description="Versão da seleção de dieta em uso",schema=@Schema(type="string")))
-	public ResponseEntity<ProblemaResposta> listarMinhasDietas() {
-		return ContratoNaoImplementado.resposta("fase 2");
+	public ResponseEntity<DietasPacienteResposta> listarMinhasDietas() {
+		var resposta=dietas.listar();return ResponseEntity.ok().eTag(Long.toString(resposta.versao())).cacheControl(org.springframework.http.CacheControl.noStore()).body(resposta);
 	}
 
 	@PutMapping("/eu/dieta-em-uso")
-	@Operation(operationId="selecionarDietaEmUso",summary="Selecionar dieta em uso",description="RN-DIE-07; dieta do próprio paciente; implementação BE-13. Nesta entrega responde 501, sem executar regras da fase 2.")
+	@Operation(operationId="selecionarDietaEmUso",summary="Selecionar dieta em uso",description="RN-DIE-07; dieta do próprio paciente; implementada na BE-13.")
 	@ApiResponse(responseCode="200",description="Resposta prevista após implementação",content=@Content(mediaType="application/json",schema=@Schema(implementation=DietaEmUsoResposta.class)),headers=@Header(name="ETag",description="Versão da seleção de dieta em uso",schema=@Schema(type="string")))
-	public ResponseEntity<ProblemaResposta> selecionarDietaEmUso(@RequestHeader("If-Match") String ifMatch, @Valid @RequestBody SelecionarDietaEmUsoRequisicao requisicao) {
-		return ContratoNaoImplementado.resposta("fase 2");
+	public ResponseEntity<DietaEmUsoResposta> selecionarDietaEmUso(@RequestHeader("If-Match") String ifMatch, @Valid @RequestBody SelecionarDietaEmUsoRequisicao requisicao) {
+		var resposta=dietas.selecionar(ifMatch,requisicao.dietaId());return ResponseEntity.ok().eTag(Long.toString(resposta.versao())).cacheControl(org.springframework.http.CacheControl.noStore()).body(resposta);
 	}
 
 }

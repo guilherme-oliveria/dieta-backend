@@ -111,7 +111,7 @@ O app é offline-first: as telas leem **só do SQLite local**; um `Sincronizador
 
 ### Puxar mudanças — `GET /api/v1/sync?cursor=<cursor>&limite=500`
 
-- BE-08 implementa `pacientes`, `vinculos` e `nutris`. O diário de revisões por destinatário guarda somente metadados e é atualizado na mesma transação da alteração. A revisão só fica disponível junto com o commit.
+- BE-08 implementa `pacientes`, `vinculos` e `nutris`; BE-14 acrescenta `grupos`, `alimentos`, `listas`, `dietas` (nutri), `snapshots` e `dietaEmUso` (paciente) — ver [contrato-fase-2.md](contrato-fase-2.md). O diário de revisões por destinatário guarda somente metadados e é atualizado na mesma transação da alteração. A revisão só fica disponível junto com o commit.
 - Resposta:
 
 ```json

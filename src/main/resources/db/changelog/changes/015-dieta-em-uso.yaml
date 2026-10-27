@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 015-dieta-em-uso
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: dieta_em_uso
+            columns:
+              - column: { name: paciente_id, type: uuid, constraints: { primaryKey: true, nullable: false, foreignKeyName: fk_dieta_em_uso_paciente, references: paciente(id), deleteCascade: true } }
+              - column: { name: dieta_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_dieta_em_uso_dieta, references: dieta(id), deleteCascade: true } }
+              - column: { name: versao, type: bigint, defaultValueNumeric: 1, constraints: { nullable: false } }
+              - column: { name: seq, type: bigint, defaultValueComputed: "nextval('seq_sync')", constraints: { nullable: false } }
+              - column: { name: atualizado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }

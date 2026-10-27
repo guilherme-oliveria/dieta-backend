@@ -23,12 +23,12 @@ class SyncApiTest extends TesteIsolamento {
 		String cursor=null;var revisoes=new ArrayList<Long>();var pacientes=new ArrayList<String>();int paginas=0;
 		do {
 			var pagina=sync(a.token(),cursor,1);paginas++;int quantidade=0;
-			for(String colecao:List.of("pacientes","vinculos","nutris"))for(var item:pagina.path("mudancas").path(colecao)) {
+			for(String colecao:List.of("pacientes","vinculos","nutris","grupos","alimentos","listas","dietas","snapshots","dietaEmUso"))for(var item:pagina.path("mudancas").path(colecao)) {
 				quantidade++;revisoes.add(item.path("versao").asLong());if(colecao.equals("pacientes"))pacientes.add(item.path("id").asString());
 			}
 			assertThat(quantidade).isLessThanOrEqualTo(1);cursor=pagina.path("cursor").asString();if(!pagina.path("temMais").asBoolean())break;
-		}while(paginas<20);
-		assertThat(paginas).isLessThan(20);assertThat(pacientes).containsExactly(pa.path("id").asString());assertThat(revisoes).isSorted().doesNotHaveDuplicates();
+		}while(paginas<3000);
+		assertThat(paginas).isLessThan(3000);assertThat(pacientes).containsExactly(pa.path("id").asString());assertThat(revisoes).isSorted().doesNotHaveDuplicates();
 		var vazio=sync(a.token(),cursor,1000);assertThat(vazio.path("mudancas").path("pacientes").isEmpty()).isTrue();
 		var privado=sync(a.token(),null,1000);assertThat(privado.toString()).contains("OBS_A_FICTICIA").doesNotContain("OBS_B_FICTICIA");
 		var item=item(privado,"pacientes",pa.path("id").asString());assertThat(item.path("versao").asLong()).isGreaterThan(item.path("dados").path("versao").asLong());

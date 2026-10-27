@@ -49,6 +49,27 @@ public class DietaStore {
 		jdbc.update("insert into dieta_snapshot(id,dieta_id,vinculo_id,nutricionista_id,paciente_id,conteudo,publicado_em) values(?,?,?,?,?,?::jsonb,?)",id,dieta,vinculo,nutri,paciente,conteudo,Timestamp.from(publicadoEm));
 		return id;
 	}
+	public record SnapshotRecebido(UUID id,UUID dietaId,UUID vinculoId,UUID nutricionistaId,String conteudo,String statusDieta,String statusVinculo) {}
+	/** Snapshots do paciente em vínculos ativos ou encerrados (histórico autorizado), mais recentes primeiro. */
+	public List<SnapshotRecebido> snapshotsDoPaciente(UUID paciente){
+		return jdbc.query("""
+			select s.id,s.dieta_id,s.vinculo_id,s.nutricionista_id,s.conteudo::text conteudo,d.status status_dieta,v.status status_vinculo
+			from dieta_snapshot s join dieta d on d.id=s.dieta_id join vinculo v on v.id=s.vinculo_id
+			where s.paciente_id=? and v.status in ('ATIVO','ENCERRADO') and v.excluido_em is null order by s.publicado_em desc,s.id desc
+			""",(rs,n)->new SnapshotRecebido(rs.getObject("id",UUID.class),rs.getObject("dieta_id",UUID.class),rs.getObject("vinculo_id",UUID.class),rs.getObject("nutricionista_id",UUID.class),
+				rs.getString("conteudo"),rs.getString("status_dieta"),rs.getString("status_vinculo")),paciente);
+	}
+	public record Selecao(UUID dietaId,long versao) {}
+	public Selecao selecao(UUID paciente,boolean bloquear){
+		return jdbc.query("select dieta_id,versao from dieta_em_uso where paciente_id=?"+(bloquear?" for update":""),(rs,n)->new Selecao(rs.getObject(1,UUID.class),rs.getLong(2)),paciente).stream().findFirst().orElse(null);
+	}
+	public void bloquearPaciente(UUID paciente){jdbc.queryForObject("select pg_advisory_xact_lock(hashtextextended(?,0))",Object.class,"dieta-em-uso:"+paciente);}
+	public void gravarSelecao(UUID paciente,UUID dieta,Instant agora){
+		jdbc.update("""
+			insert into dieta_em_uso(paciente_id,dieta_id,atualizado_em) values(?,?,?)
+			on conflict(paciente_id) do update set dieta_id=excluded.dieta_id,versao=dieta_em_uso.versao+1,seq=nextval('seq_sync'),atualizado_em=excluded.atualizado_em
+			""",paciente,dieta,Timestamp.from(agora));
+	}
 	public void limparConteudo(UUID dieta){jdbc.update("delete from refeicao where dieta_id=?",dieta);}
 	public boolean inserirRefeicao(Refeicao r){
 		return jdbc.update("insert into refeicao(id,dieta_id,nome,horario,ordem) values(?,?,?,?,?) on conflict(id) do nothing",r.id(),r.dietaId(),r.nome(),Time.valueOf(r.horario()),r.ordem())==1;

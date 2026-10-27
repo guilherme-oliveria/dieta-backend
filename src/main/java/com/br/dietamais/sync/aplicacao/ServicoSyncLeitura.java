@@ -1,6 +1,8 @@
 package com.br.dietamais.sync.aplicacao;
 
+import com.br.dietamais.alimentos.api.*;
 import com.br.dietamais.comum.api.*;
+import com.br.dietamais.dietas.api.*;
 import com.br.dietamais.pacientes.api.*;
 import com.br.dietamais.sync.api.*;
 import com.br.dietamais.sync.dominio.CursorSync;
@@ -28,6 +30,8 @@ public class ServicoSyncLeitura {
 		}
 		candidatos.sort(Comparator.comparingLong(entrada->entrada.referencia().seq()));boolean mais=candidatos.size()>limite;
 		var pacientes=new ArrayList<MudancaSyncResposta<PacienteResposta>>();var vinculos=new ArrayList<MudancaSyncResposta<VinculoResposta>>();var nutris=new ArrayList<MudancaSyncResposta<NutricionistaResumoResposta>>();
+		var grupos=new ArrayList<MudancaSyncResposta<GrupoAlimentoResposta>>();var alimentos=new ArrayList<MudancaSyncResposta<AlimentoResposta>>();var listas=new ArrayList<MudancaSyncResposta<ListaSubstituicaoResposta>>();
+		var dietas=new ArrayList<MudancaSyncResposta<DietaResposta>>();var snapshots=new ArrayList<MudancaSyncResposta<DietaSnapshotResposta>>();var emUso=new ArrayList<MudancaSyncResposta<DietaEmUsoResposta>>();
 		long ultimo=cursor;
 		for(var entrada:candidatos.subList(0,Math.min(limite,candidatos.size()))) {
 			var referencia=entrada.referencia();Object dados=entrada.fonte().carregar(referencia,contexto);ultimo=referencia.seq();
@@ -35,9 +39,15 @@ public class ServicoSyncLeitura {
 				case PACIENTES->pacientes.add(mudanca(referencia,dados,PacienteResposta.class));
 				case VINCULOS->vinculos.add(mudanca(referencia,dados,VinculoResposta.class));
 				case NUTRIS->nutris.add(mudanca(referencia,dados,NutricionistaResumoResposta.class));
+				case GRUPOS->grupos.add(mudanca(referencia,dados,GrupoAlimentoResposta.class));
+				case ALIMENTOS->alimentos.add(mudanca(referencia,dados,AlimentoResposta.class));
+				case LISTAS->listas.add(mudanca(referencia,dados,ListaSubstituicaoResposta.class));
+				case DIETAS->dietas.add(mudanca(referencia,dados,DietaResposta.class));
+				case SNAPSHOTS->snapshots.add(mudanca(referencia,dados,DietaSnapshotResposta.class));
+				case DIETA_EM_USO->emUso.add(mudanca(referencia,dados,DietaEmUsoResposta.class));
 			}
 		}
-		return new SyncResposta(Long.toString(mais?ultimo:marco),mais,new MudancasFase1Resposta(pacientes,vinculos,nutris));
+		return new SyncResposta(Long.toString(mais?ultimo:marco),mais,new MudancasFase1Resposta(pacientes,vinculos,nutris,grupos,alimentos,listas,dietas,snapshots,emUso));
 	}
 	private <T> MudancaSyncResposta<T> mudanca(ReferenciaSync referencia,Object dados,Class<T> tipo){return new MudancaSyncResposta<>(referencia.id(),referencia.seq(),dados==null,tipo.cast(dados));}
 	private record Entrada(FonteSync<?> fonte,ReferenciaSync referencia){}
