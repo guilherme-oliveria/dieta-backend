@@ -2,7 +2,7 @@
 
 Cópia oficial no backend. Mobile e frontend devem acompanhar este contrato; frontend continua pós-MVP. O manifesto `src/test/resources/contrato/fase-2/manifesto.json` publica 17 operações e exemplos tipados, separados dos 49 JSONs da fase 1, que permanecem intactos.
 
-BE-C2 publicou DTOs/OpenAPI/stubs. BE-33 implementa perfil e BE-10 implementa as operações de grupos, alimentos e lista do paciente, incluindo a extensão de edição de macros. Oito operações de dietas continuam **501 NAO_IMPLEMENTADO** até BE-11..13. Não tratar 501 como lista vazia nem sucesso. Bearer é obrigatório; validação de transporte pode retornar 400 antes do stub. Não foram antecipados cálculo, publicação, push ou fontes BE-14.
+BE-C2 publicou DTOs/OpenAPI/stubs. BE-33 implementa perfil e BE-10 implementa as operações de grupos, alimentos e lista do paciente, incluindo a extensão de edição de macros. Quatro operações de dietas (listar, criar, consultar e salvar rascunho) foram implementadas na BE-11; publicar, duplicar, `/eu/dietas` e `/eu/dieta-em-uso` continuam **501 NAO_IMPLEMENTADO** até BE-12/13. Não tratar 501 como lista vazia nem sucesso. Bearer é obrigatório; validação de transporte pode retornar 400 antes do stub. Não foram antecipados cálculo, publicação, push ou fontes BE-14.
 
 ## Operações
 
@@ -81,3 +81,5 @@ Nome é o **nome de exibição da nutri**, com fallback ao nome da conta em cada
 Migração 011 é nova, sem editar 009; a numeração 010 foi reservada para BE-09 em andamento. O trigger de identidade pública passa a incluir nome de exibição e preserva a revisão monotônica do diário. Não há mudança nos JSONs de exemplos ou campos do contrato C2.
 
 GET/PATCH /eu/nutri inclui nome de exibição, CRN no formato já usado no cadastro (`CRN-1 00000` fictício), telefone opcional e orientação padrão opcional. PATCH envia todos esses campos; opcionais nulos limpam o valor. E-mail, senha, organização, assinatura e logo não são editados por esse contrato. Logo pertence a BE-28. A orientação será congelada na publicação da dieta, não aplicada retroativamente.
+
+BE-11: rascunhos de dieta reais. `POST /pacientes/{id}/dietas` (201, `Idempotency-Key` opcional), `GET /pacientes/{id}/dietas`, `GET /dietas/{id}` e `PUT /dietas/{id}` (If-Match; substitui a dieta inteira). Totais (RN-DIE-05) são sempre calculados no backend: item = porções × macros do grupo da cópia da nutri, 2 casas HALF_UP; refeição e dia somam os itens arredondados. Itens só aceitam alimentos ativos da própria lista (outra nutri = 404; inativo = 400 `FORMATO_INVALIDO`/RN-ALI-03). Dieta publicada responde 422 `DIETA_NAO_EDITAVEL`; vínculo encerrado permite leitura e recusa escrita (403, RN-VIN-05). Limites: 20 refeições e 60 itens por refeição, porções até 4 casas. IDs de refeição/item/dieta são opcionais (UUIDv7); id já usado por outra dieta responde 409 sem `atual`. Sem campos novos nos JSONs.

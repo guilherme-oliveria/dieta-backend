@@ -40,6 +40,8 @@ class ContratoHttpFase2Test {
 	com.br.dietamais.alimentos.aplicacao.GerenciarAlimentos alimentos;
 	@org.springframework.test.context.bean.override.mockito.MockitoBean
 	com.br.dietamais.alimentos.aplicacao.GerenciarListaPaciente listas;
+	@org.springframework.test.context.bean.override.mockito.MockitoBean
+	com.br.dietamais.dietas.aplicacao.GerenciarDietas dietas;
 	@Autowired WebApplicationContext contexto;
 	@Autowired JsonMapper mapper;
 	MockMvc mvc;
@@ -79,7 +81,7 @@ class ContratoHttpFase2Test {
 			.andExpect(status().isOk()).andExpect(header().string("ETag","\"1\"")).andExpect(header().string("Cache-Control","no-store"));
 	}
 	String recurso(String nome) throws Exception {try(var in=getClass().getResourceAsStream("/contrato/fase-2/"+nome)){assertThat(in).isNotNull();return new String(in.readAllBytes(),StandardCharsets.UTF_8);}}
-	boolean implementado(String caminho){return java.util.Set.of("/api/v1/eu/nutri","/api/v1/grupos-alimentos","/api/v1/grupos-alimentos/{id}","/api/v1/alimentos","/api/v1/alimentos/{id}","/api/v1/pacientes/{id}/lista-substituicao").contains(caminho);}
+	boolean implementado(String caminho){return java.util.Set.of("/api/v1/eu/nutri","/api/v1/grupos-alimentos","/api/v1/grupos-alimentos/{id}","/api/v1/alimentos","/api/v1/alimentos/{id}","/api/v1/pacientes/{id}/lista-substituicao","/api/v1/pacientes/{id}/dietas","/api/v1/dietas/{id}").contains(caminho);}
 	@Test @WithMockUser void gruposImplementadosRetornam200SemCache() throws Exception {
 		var resposta=mapper.readValue(recurso("listarGruposAlimentos/resposta.json"),com.br.dietamais.alimentos.api.GruposAlimentosResposta.class);
 		org.mockito.Mockito.when(grupos.executar()).thenReturn(resposta);
