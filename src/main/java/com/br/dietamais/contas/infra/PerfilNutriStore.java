@@ -3,6 +3,7 @@ package com.br.dietamais.contas.infra;
 import com.br.dietamais.contas.api.PerfilNutriResposta;
 import com.br.dietamais.contas.dominio.DadosPerfilNutri;
 import java.time.Instant;
+import java.sql.Timestamp;
 import java.util.UUID;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -24,6 +25,6 @@ public class PerfilNutriStore {
 		jdbc.update("""
 			update nutricionista set nome_exibicao=?,crn_verificado=case when crn<>? then false else crn_verificado end,
 			crn=?,telefone=?,orientacao_padrao=?,versao=versao+1,atualizado_em=? where id=? and usuario_id=?
-			""",dados.nome(),dados.crn(),dados.crn(),dados.telefone(),dados.orientacaoPadrao(),agora,nutri,usuario);
+			""",dados.nome(),dados.crn(),dados.crn(),dados.telefone(),dados.orientacaoPadrao(),Timestamp.from(agora),nutri,usuario);
 	}
 }
