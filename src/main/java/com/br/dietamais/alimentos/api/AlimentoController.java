@@ -27,52 +27,58 @@ import org.springframework.web.bind.annotation.*;
 })
 public class AlimentoController {
 	private final com.br.dietamais.alimentos.aplicacao.ConsultarGruposAlimentos grupos;
-	public AlimentoController(com.br.dietamais.alimentos.aplicacao.ConsultarGruposAlimentos grupos){this.grupos=grupos;}
+	private final com.br.dietamais.alimentos.aplicacao.GerenciarAlimentos alimentos;
+	private final com.br.dietamais.alimentos.aplicacao.GerenciarListaPaciente listas;
+	public AlimentoController(com.br.dietamais.alimentos.aplicacao.ConsultarGruposAlimentos grupos,com.br.dietamais.alimentos.aplicacao.GerenciarAlimentos alimentos,com.br.dietamais.alimentos.aplicacao.GerenciarListaPaciente listas){this.grupos=grupos;this.alimentos=alimentos;this.listas=listas;}
 	@GetMapping("/grupos-alimentos")
-	@Operation(operationId="listarGruposAlimentos",summary="Listar grupos de alimentos",description="RN-ALI-01, RN-ALI-02. Catálogo base global para nutris autenticadas; kcal do PDF e macros iniciais estimados por representantes TACO normalizados por energia. Método/fontes em docs/arquitetura/catalogo-base.md. BE-09.")
+	@Operation(operationId="listarGruposAlimentos",summary="Listar grupos de alimentos",description="RN-ALI-01, RN-ALI-02. Cópia própria da nutri autenticada com versão e origem; kcal do PDF e macros iniciais estimados por representantes TACO normalizados por energia. Método/fontes em docs/arquitetura/catalogo-base.md. BE-09.")
 	@ApiResponse(responseCode="200",description="Resposta prevista após implementação",content=@Content(mediaType="application/json",schema=@Schema(implementation=GruposAlimentosResposta.class)))
 	public ResponseEntity<GruposAlimentosResposta> listarGruposAlimentos() {
 		return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(grupos.executar());
 	}
 
+	@PatchMapping("/grupos-alimentos/{id}")
+	@Operation(operationId="atualizarMacrosGrupo",summary="Ajustar macros da cópia própria do grupo",description="RN-ALI-01/04 e RN-SYN-02. If-Match da cópia; não altera catálogo global ou outras nutris. Implementação BE-10.")
+	@ApiResponse(responseCode="200",description="Cópia própria atualizada",content=@Content(mediaType="application/json",schema=@Schema(implementation=GrupoAlimentoResposta.class)),headers=@Header(name="ETag",description="Versão da cópia própria",schema=@Schema(type="string")))
+	public ResponseEntity<GrupoAlimentoResposta> atualizarMacrosGrupo(@PathVariable UUID id,@RequestHeader("If-Match") String ifMatch,@Valid @RequestBody AtualizarMacrosGrupoRequisicao requisicao) {
+		var resposta=alimentos.atualizarMacros(id,ifMatch,requisicao);return entidade(resposta,resposta.versao(),200);
+	}
+
 	@GetMapping("/alimentos")
-	@ApiResponse(responseCode="501",description="Contrato publicado; implementação BE-10 pendente",content=@Content(mediaType="application/problem+json",schema=@Schema(implementation=ProblemaResposta.class)))
-	@Operation(operationId="listarAlimentos",summary="Listar alimentos da nutri",description="RN-ALI-01; implementação BE-10. Nesta entrega responde 501, sem executar regras da fase 2.")
+	@Operation(operationId="listarAlimentos",summary="Listar alimentos da nutri",description="RN-ALI-01; implementação BE-10. Operação própria implementada na BE-10.")
 	@ApiResponse(responseCode="200",description="Resposta prevista após implementação",content=@Content(mediaType="application/json",schema=@Schema(implementation=PaginaAlimentosResposta.class)))
-	public ResponseEntity<ProblemaResposta> listarAlimentos(@RequestParam(defaultValue="0") @jakarta.validation.constraints.Min(0) int pagina, @RequestParam(defaultValue="20") @jakarta.validation.constraints.Min(1) @jakarta.validation.constraints.Max(100) int tamanho, @RequestParam(required=false) UUID grupoId, @RequestParam(required=false) @jakarta.validation.constraints.Size(max=150) String busca, @RequestParam(defaultValue="true") boolean ativo) {
-		return ContratoNaoImplementado.resposta("fase 2");
+	public ResponseEntity<PaginaAlimentosResposta> listarAlimentos(@RequestParam(defaultValue="0") @jakarta.validation.constraints.Min(0) int pagina, @RequestParam(defaultValue="20") @jakarta.validation.constraints.Min(1) @jakarta.validation.constraints.Max(100) int tamanho, @RequestParam(required=false) UUID grupoId, @RequestParam(required=false) @jakarta.validation.constraints.Size(max=150) String busca, @RequestParam(defaultValue="true") boolean ativo) {
+		return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(alimentos.listar(pagina,tamanho,grupoId,busca,ativo));
 	}
 
 	@PostMapping("/alimentos")
-	@ApiResponse(responseCode="501",description="Contrato publicado; implementação BE-10 pendente",content=@Content(mediaType="application/problem+json",schema=@Schema(implementation=ProblemaResposta.class)))
-	@Operation(operationId="criarAlimento",summary="Criar alimento",description="RN-ALI-01; implementação BE-10. Nesta entrega responde 501, sem executar regras da fase 2.")
+	@Operation(operationId="criarAlimento",summary="Criar alimento",description="RN-ALI-01; implementação BE-10. Operação própria implementada na BE-10.")
 	@ApiResponse(responseCode="201",description="Resposta prevista após implementação",content=@Content(mediaType="application/json",schema=@Schema(implementation=AlimentoResposta.class)),headers=@Header(name="ETag",description="Versão forte da entidade para If-Match",schema=@Schema(type="string")))
-	public ResponseEntity<ProblemaResposta> criarAlimento(@RequestHeader(value="Idempotency-Key",required=false) UUID chave, @Valid @RequestBody CriarAlimentoRequisicao requisicao) {
-		return ContratoNaoImplementado.resposta("fase 2");
+	@Idempotente
+	public ResponseEntity<AlimentoResposta> criarAlimento(@RequestHeader(value="Idempotency-Key",required=false) UUID chave, @Valid @RequestBody CriarAlimentoRequisicao requisicao) {
+		var resposta=alimentos.criar(requisicao);return entidade(resposta,resposta.versao(),201);
 	}
 
 	@PatchMapping("/alimentos/{id}")
-	@ApiResponse(responseCode="501",description="Contrato publicado; implementação BE-10 pendente",content=@Content(mediaType="application/problem+json",schema=@Schema(implementation=ProblemaResposta.class)))
-	@Operation(operationId="atualizarAlimento",summary="Atualizar ou desativar alimento",description="RN-ALI-03; desativar preserva snapshots; implementação BE-10. Nesta entrega responde 501, sem executar regras da fase 2.")
+	@Operation(operationId="atualizarAlimento",summary="Atualizar ou desativar alimento",description="RN-ALI-03; desativar preserva snapshots; implementação BE-10. Operação própria implementada na BE-10.")
 	@ApiResponse(responseCode="200",description="Resposta prevista após implementação",content=@Content(mediaType="application/json",schema=@Schema(implementation=AlimentoResposta.class)),headers=@Header(name="ETag",description="Versão forte da entidade para If-Match",schema=@Schema(type="string")))
-	public ResponseEntity<ProblemaResposta> atualizarAlimento(@PathVariable UUID id, @RequestHeader("If-Match") String ifMatch, @Valid @RequestBody AtualizarAlimentoRequisicao requisicao) {
-		return ContratoNaoImplementado.resposta("fase 2");
+	public ResponseEntity<AlimentoResposta> atualizarAlimento(@PathVariable UUID id, @RequestHeader("If-Match") String ifMatch, @Valid @RequestBody AtualizarAlimentoRequisicao requisicao) {
+		var resposta=alimentos.atualizar(id,ifMatch,requisicao);return entidade(resposta,resposta.versao(),200);
 	}
 
 	@GetMapping("/pacientes/{id}/lista-substituicao")
-	@ApiResponse(responseCode="501",description="Contrato publicado; implementação BE-10 pendente",content=@Content(mediaType="application/problem+json",schema=@Schema(implementation=ProblemaResposta.class)))
-	@Operation(operationId="consultarListaSubstituicao",summary="Consultar lista de substituição do paciente",description="RN-ALI-01; lista efetiva e diferenças próprias; implementação BE-10. Nesta entrega responde 501, sem executar regras da fase 2.")
+	@Operation(operationId="consultarListaSubstituicao",summary="Consultar lista de substituição do paciente",description="RN-ALI-01; lista efetiva e diferenças próprias; implementação BE-10. Operação própria implementada na BE-10.")
 	@ApiResponse(responseCode="200",description="Resposta prevista após implementação",content=@Content(mediaType="application/json",schema=@Schema(implementation=ListaSubstituicaoResposta.class)),headers=@Header(name="ETag",description="Versão forte da entidade para If-Match",schema=@Schema(type="string")))
-	public ResponseEntity<ProblemaResposta> consultarListaSubstituicao(@PathVariable UUID id) {
-		return ContratoNaoImplementado.resposta("fase 2");
+	public ResponseEntity<ListaSubstituicaoResposta> consultarListaSubstituicao(@PathVariable UUID id) {
+		var resposta=listas.consultar(id);return entidade(resposta,resposta.versao(),200);
 	}
 
 	@PutMapping("/pacientes/{id}/lista-substituicao")
-	@ApiResponse(responseCode="501",description="Contrato publicado; implementação BE-10 pendente",content=@Content(mediaType="application/problem+json",schema=@Schema(implementation=ProblemaResposta.class)))
-	@Operation(operationId="atualizarListaSubstituicao",summary="Atualizar diferenças da lista do paciente",description="RN-ALI-01; substitui diferenças sem alterar outra lista; implementação BE-10. Nesta entrega responde 501, sem executar regras da fase 2.")
+	@Operation(operationId="atualizarListaSubstituicao",summary="Atualizar diferenças da lista do paciente",description="RN-ALI-01; substitui diferenças sem alterar outra lista; implementação BE-10. Operação própria implementada na BE-10.")
 	@ApiResponse(responseCode="200",description="Resposta prevista após implementação",content=@Content(mediaType="application/json",schema=@Schema(implementation=ListaSubstituicaoResposta.class)),headers=@Header(name="ETag",description="Versão forte da entidade para If-Match",schema=@Schema(type="string")))
-	public ResponseEntity<ProblemaResposta> atualizarListaSubstituicao(@PathVariable UUID id, @RequestHeader("If-Match") String ifMatch, @Valid @RequestBody AtualizarListaSubstituicaoRequisicao requisicao) {
-		return ContratoNaoImplementado.resposta("fase 2");
+	public ResponseEntity<ListaSubstituicaoResposta> atualizarListaSubstituicao(@PathVariable UUID id, @RequestHeader("If-Match") String ifMatch, @Valid @RequestBody AtualizarListaSubstituicaoRequisicao requisicao) {
+		var resposta=listas.atualizar(id,ifMatch,requisicao);return entidade(resposta,resposta.versao(),200);
 	}
 
+	private <T> ResponseEntity<T> entidade(T resposta,long versao,int status){return ResponseEntity.status(status).eTag(Long.toString(versao)).cacheControl(org.springframework.http.CacheControl.noStore()).body(resposta);}
 }

@@ -12,8 +12,8 @@ import com.br.dietamais.comum.api.ProblemaResposta;
 
 class ContratoFase2Test {
 	final JsonMapper mapper=JsonMapper.builder().enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES).build();
-	@Test void cobreAsDezesseisOperacoesSemDuplicidade() throws Exception {
-		assertThat(manifesto()).hasSize(16);
+	@Test void cobreAsDezesseteOperacoesSemDuplicidade() throws Exception {
+		assertThat(manifesto()).hasSize(17);
 		assertThat(manifesto().stream().map(e->e.metodo()+" "+e.caminho())).doesNotHaveDuplicates();
 	}
 	@TestFactory Stream<DynamicTest> exemplosSaoTipadosValidosEFieisAoJson() throws Exception {

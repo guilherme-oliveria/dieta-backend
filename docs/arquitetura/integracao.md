@@ -87,7 +87,7 @@ BE-02 substitui apenas o stub de cadastro da nutri. Requisição e resposta mant
 
 ## Mapa de endpoints do MVP
 
-Contrato da fase 2: [contrato-fase-2.md](contrato-fase-2.md), com 16 operações e exemplos tipados em `contrato/fase-2/`. Após BE-09/BE-33, GET /grupos-alimentos e GET/PATCH /eu/nutri são reais; as outras 13 continuam 501 para MockEngine até BE-10..14. Perfil usa If-Match/ETag e nome de exibição próprio. Grupos acrescentam apenas o campo opcional `macrosEstimados`, com [fonte e método](catalogo-base.md); os exemplos anteriores permanecem válidos. Edição isolada de macros/cópias pertence à BE-10, sem escrita global pela nutri. As operações reais da fase 1 permanecem implementadas. Resumos públicos usam nome de exibição da nutri com fallback ao nome global; telefone/orientação não são públicos.
+Contrato da fase 2: [contrato-fase-2.md](contrato-fase-2.md), com 17 operações e exemplos tipados em `contrato/fase-2/`. Após BE-10/BE-33, grupos/alimentos/lista do paciente e perfil são reais; oito operações de dietas continuam 501 até BE-11..13. Grupos são cópias próprias com campos opcionais macrosEstimados/versao/origemMacros, editáveis via PATCH /grupos-alimentos/{id} e If-Match. POST de alimento é idempotente, PATCH edita/desativa; lista do paciente usa If-Match próprio e auditoria clínica. Fonte/método inicial em [catálogo](catalogo-base.md). Exemplos legados continuam válidos; a fixture de desativação foi alinhada a ativo=false. Não há escrita global ou propagação para outras nutris. Perfil usa nome de exibição próprio, sem telefone/orientação nos resumos públicos. Fase 1 e GET /sync permanecem implementados; novas fontes de alimentos/listas só entram em BE-14.
 
 Visão geral para planejar; detalhe e schema no OpenAPI.
 

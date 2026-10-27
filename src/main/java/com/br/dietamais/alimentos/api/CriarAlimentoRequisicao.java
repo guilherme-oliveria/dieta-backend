@@ -9,5 +9,5 @@ public record CriarAlimentoRequisicao(
 	@NotNull UUID grupoId,
 	@NotBlank @Size(max=150) String nome,
 	@NotBlank @Size(max=150) String medidaCaseira,
-	@NotNull @Positive BigDecimal gramasPorPorcao) {
+	@NotNull @Positive @Digits(integer=8,fraction=4) BigDecimal gramasPorPorcao) {
 }
