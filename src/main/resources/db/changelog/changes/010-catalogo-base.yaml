@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 010-catalogo-base
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: grupo_alimento
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: nome, type: varchar(150), constraints: { nullable: false, unique: true } }
+              - column: { name: kcal_por_porcao, type: 'numeric(12,4)', constraints: { nullable: false } }
+              - column: { name: carboidratos_por_porcao, type: 'numeric(12,4)', constraints: { nullable: false } }
+              - column: { name: proteinas_por_porcao, type: 'numeric(12,4)', constraints: { nullable: false } }
+              - column: { name: gorduras_por_porcao, type: 'numeric(12,4)', constraints: { nullable: false } }
+              - column: { name: versao, type: bigint, defaultValueNumeric: 0, constraints: { nullable: false } }
+              - column: { name: seq, type: bigint, defaultValueComputed: "nextval('seq_sync')", constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: atualizado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: excluido_em, type: timestamptz }
+        - createTable:
+            tableName: alimento
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: grupo_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_alimento_grupo, references: grupo_alimento(id) } }
+              - column: { name: nome, type: varchar(150), constraints: { nullable: false } }
+              - column: { name: medida_caseira, type: varchar(150), constraints: { nullable: false } }
+              - column: { name: gramas_por_porcao, type: 'numeric(12,4)', constraints: { nullable: false } }
+              - column: { name: ativo, type: boolean, defaultValueBoolean: true, constraints: { nullable: false } }
+              - column: { name: versao, type: bigint, defaultValueNumeric: 0, constraints: { nullable: false } }
+              - column: { name: seq, type: bigint, defaultValueComputed: "nextval('seq_sync')", constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: atualizado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: excluido_em, type: timestamptz }
+        - createIndex:
+            tableName: alimento
+            indexName: ix_alimento_grupo_nome
+            columns:
+              - column: { name: grupo_id }
+              - column: { name: nome }
+        - sql:
+            sql: >-
+              ALTER TABLE grupo_alimento ADD CONSTRAINT ck_grupo_nutrientes CHECK
+              (kcal_por_porcao>=0 AND carboidratos_por_porcao>=0 AND proteinas_por_porcao>=0 AND gorduras_por_porcao>=0);
+              ALTER TABLE alimento ADD CONSTRAINT ck_alimento_gramas CHECK (gramas_por_porcao>0);
