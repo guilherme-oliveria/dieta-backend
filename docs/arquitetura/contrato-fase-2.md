@@ -2,7 +2,7 @@
 
 Cópia oficial no backend. Mobile e frontend devem acompanhar este contrato; frontend continua pós-MVP. O manifesto `src/test/resources/contrato/fase-2/manifesto.json` publica 16 operações e exemplos fictícios tipados, separados dos 49 JSONs da fase 1, que permanecem intactos.
 
-BE-C2 publicou DTOs, OpenAPI e rotas **501 NAO_IMPLEMENTADO**. BE-33 implementa agora GET/PATCH /eu/nutri; as outras 14 operações continuam em 501, sem persistência, catálogo, cálculo, publicação ou push da fase 2. Sucessos abaixo são o contrato previsto para BE-09..14, para uso com MockEngine até cada gate QA. Não tratar 501 como lista vazia nem sucesso. Bearer continua obrigatório; validação de transporte pode retornar 400 antes do stub. O ProblemDetail 501 informa que a implementação pertence à fase 2.
+BE-C2 publicou DTOs, OpenAPI e rotas **501 NAO_IMPLEMENTADO**. BE-33 implementa GET/PATCH /eu/nutri e BE-09 implementa GET /grupos-alimentos; as outras 13 operações continuam em 501, sem listas próprias, cálculo, publicação ou push da fase 2. Sucessos abaixo são o contrato previsto para BE-10..14, para uso com MockEngine até cada gate QA. Não tratar 501 como lista vazia nem sucesso. Bearer continua obrigatório; validação de transporte pode retornar 400 antes do stub. O ProblemDetail 501 informa que a implementação pertence à fase 2.
 
 ## Operações
 
@@ -38,6 +38,10 @@ POSTs declaram `Idempotency-Key` UUID opcional, conforme a política transversal
 Erros seguem ProblemDetail/codigo. A fase reutiliza `DIETA_VAZIA` (422/RN-DIE-06), `DIETA_NAO_EDITAVEL` (422/RN-DIE-04), `CONFLITO_VERSAO` (409/RN-SYN-02), `ASSINATURA_INATIVA`, `PERFIL_INVALIDO`, `RECURSO_NAO_ENCONTRADO`, `OBRIGATORIO` e `FORMATO_INVALIDO`. Os dois códigos específicos de dieta já estavam no enum: não há código novo artificial. OpenAPI declara 400/401/403/404/409/422 e 501 com ProblemaResposta. Fixtures de conflito só contêm dados fictícios e exemplificam `atual` autorizado.
 
 ## Alimentos e lista
+
+BE-09: GET /grupos-alimentos retorna catálogo global real para NUTRICIONISTA autenticada, no-store e ordem nome/id. São 12 grupos e 482 alimentos base carregados, sem dados pessoais. Macros iniciais são estimativas por representantes TACO/UNICAMP normalizados pelas kcal do PDF, com campo novo **opcional** `macrosEstimados` (true na carga inicial; ausente nos exemplos antigos). Nenhum campo existente/nulabilidade de macro mudou e os JSONs anteriores continuam válidos. Exemplo adicional oficial: `contrato/fase-2/listarGruposAlimentos/resposta-estimativa.json`, registrado no manifesto sem substituir exemplos anteriores. [Fonte, método, arredondamento e limites](catalogo-base.md) explicam a diferença entre porção de grupo e 100 g de alimento, inclusive proxy de sopa.
+
+Edição funcional de macros é da **BE-10**, ainda não implementada: cópia de grupo por nutri, GET da cópia e PATCH /grupos-alimentos/{id} com If-Match e versão opcional adicionada à projeção. O editor da nutri ajustará somente sua cópia; origem/estimativa/manual serão diferenciadas. Atualização de catálogo não propagará a cópias existentes e snapshots congelados não serão reescritos. O contrato concreto e exemplos da extensão serão publicados na BE-10 antes da integração da UI. A BE-09 não oferece API de escrita global para nutris.
 
 Grupo publica kcal e carboidratos/proteínas/gorduras **por porção** (macros em gramas). Alimento pertence a um grupo e define medida caseira textual e gramas de uma porção, positivas. `catalogoId` é referência opcional à origem da cópia; o ID usado pela dieta é o alimento da lista da nutri. Os exemplos não são carga real nem inventam os grupos faltantes do PDF.
 

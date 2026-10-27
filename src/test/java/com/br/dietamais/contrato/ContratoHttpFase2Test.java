@@ -34,13 +34,15 @@ class ContratoHttpFase2Test {
 	org.springframework.security.oauth2.jwt.JwtDecoder decoder;
 	@org.springframework.test.context.bean.override.mockito.MockitoBean
 	com.br.dietamais.contas.aplicacao.GerenciarPerfilNutri perfil;
+	@org.springframework.test.context.bean.override.mockito.MockitoBean
+	com.br.dietamais.alimentos.aplicacao.ConsultarGruposAlimentos grupos;
 	@Autowired WebApplicationContext contexto;
 	@Autowired JsonMapper mapper;
 	MockMvc mvc;
 	@BeforeEach void configurar(){mvc=webAppContextSetup(contexto).apply(springSecurity()).build();}
 	@Test @WithMockUser void todasAsRotasRetornam501TipadoSemBanco() throws Exception {
 		for(var e:mapper.readTree(recurso("manifesto.json"))){
-			if(e.get("caminho").asString().equals("/api/v1/eu/nutri"))continue;
+			if(implementado(e.get("caminho").asString()))continue;
 			var req=request(HttpMethod.valueOf(e.get("metodo").asString()),e.get("caminho").asString().replace("{id}","019a0f32-5000-7000-8000-000000000003")).header("If-Match","\"1\"");
 			for(var exemplo:e.get("exemplos"))if(exemplo.get("arquivo").asString().endsWith("/requisicao.json"))req.contentType("application/json").content(recurso(exemplo.get("arquivo").asString()));
 			var res=mvc.perform(req).andExpect(status().isNotImplemented()).andExpect(content().contentTypeCompatibleWith("application/problem+json")).andReturn().getResponse();
@@ -53,7 +55,7 @@ class ContratoHttpFase2Test {
 			var op=api.path("paths").path(e.get("caminho").asString()).path(e.get("metodo").asString().toLowerCase(java.util.Locale.ROOT));
 			assertThat(op.isMissingNode()).isFalse();
 			for(String status:new String[]{e.get("status").asString(),"400","401","403","404","409","422"})assertThat(op.path("responses").has(status)).as(e.toString()+status).isTrue();
-			assertThat(op.path("responses").has("501")).isEqualTo(!e.get("caminho").asString().equals("/api/v1/eu/nutri"));
+			assertThat(op.path("responses").has("501")).isEqualTo(!implementado(e.get("caminho").asString()));
 			assertThat(op.path("security").toString()).contains("bearerAuth");
 		}
 		var schemas=api.path("components").path("schemas");
@@ -73,4 +75,11 @@ class ContratoHttpFase2Test {
 			.andExpect(status().isOk()).andExpect(header().string("ETag","\"1\"")).andExpect(header().string("Cache-Control","no-store"));
 	}
 	String recurso(String nome) throws Exception {try(var in=getClass().getResourceAsStream("/contrato/fase-2/"+nome)){assertThat(in).isNotNull();return new String(in.readAllBytes(),StandardCharsets.UTF_8);}}
+	boolean implementado(String caminho){return caminho.equals("/api/v1/eu/nutri")||caminho.equals("/api/v1/grupos-alimentos");}
+	@Test @WithMockUser void gruposImplementadosRetornam200SemCache() throws Exception {
+		var resposta=mapper.readValue(recurso("listarGruposAlimentos/resposta.json"),com.br.dietamais.alimentos.api.GruposAlimentosResposta.class);
+		org.mockito.Mockito.when(grupos.executar()).thenReturn(resposta);
+		mvc.perform(get("/api/v1/grupos-alimentos")).andExpect(status().isOk()).andExpect(header().string("Cache-Control","no-store"))
+			.andExpect(jsonPath("$.itens[0].kcalPorPorcao").value(150));
+	}
 }
