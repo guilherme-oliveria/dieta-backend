@@ -9,6 +9,8 @@ import com.br.dietamais.dietas.api.DietaEmUsoResposta;
 import com.br.dietamais.dietas.api.DietaResposta;
 import com.br.dietamais.dietas.api.DietaSnapshotResposta;
 import com.br.dietamais.pacientes.api.NutricionistaResumoResposta;
+import com.br.dietamais.questionarios.api.ModeloQuestionarioResposta;
+import com.br.dietamais.questionarios.api.QuestionarioResposta;
 import com.br.dietamais.pacientes.api.PacienteResposta;
 import com.br.dietamais.pacientes.api.VinculoResposta;
 import com.br.dietamais.rotina.api.AguaResposta;
@@ -37,8 +39,10 @@ public record MudancasFase1Resposta(
 		@Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED) @Valid List<MudancaSyncResposta<CheckinResposta>> checkins,
 		@Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED) @Valid List<MudancaSyncResposta<AguaResposta>> agua,
 		@Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED) @Valid List<MudancaSyncResposta<PesoResposta>> pesos,
-		@Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED) @Valid List<MudancaSyncResposta<AvaliacaoResposta>> avaliacoes) {
+		@Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED) @Valid List<MudancaSyncResposta<AvaliacaoResposta>> avaliacoes,
+		@Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED) @Valid List<MudancaSyncResposta<ModeloQuestionarioResposta>> modelos,
+		@Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED) @Valid List<MudancaSyncResposta<QuestionarioResposta>> questionarios) {
 	public MudancasFase1Resposta(List<MudancaSyncResposta<PacienteResposta>> pacientes,List<MudancaSyncResposta<VinculoResposta>> vinculos,List<MudancaSyncResposta<NutricionistaResumoResposta>> nutris) {
-		this(pacientes,vinculos,nutris,null,null,null,null,null,null,null,null,null,null);
+		this(pacientes,vinculos,nutris,null,null,null,null,null,null,null,null,null,null,null,null);
 	}
 }
