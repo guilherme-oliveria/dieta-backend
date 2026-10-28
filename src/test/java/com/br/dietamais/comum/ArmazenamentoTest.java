@@ -18,11 +18,13 @@ class ArmazenamentoTest {
 		assertThat(url).contains("X-Amz-SignedHeaders=host").contains("X-Amz-Expires=86400");
 	}
 
-	@Test void localGuardaLeApagaEAssinaComValidade(@TempDir Path dir) {
+	@Test void localGuardaLeApagaEAssinaComValidade(@TempDir Path dir) throws Exception {
 		var agora=new java.util.concurrent.atomic.AtomicReference<>(Instant.parse("2026-10-28T12:00:00Z"));
 		Clock relogio=new Clock(){public ZoneId getZone(){return ZoneOffset.UTC;}public Clock withZone(ZoneId z){return this;}public Instant instant(){return agora.get();}};
 		var a=new ArmazenamentoLocal(dir,"segredo".getBytes(),"https://api.invalid/",relogio);
 		a.guardar("pdf/x.pdf","conteudo".getBytes(),"application/pdf");
+		// Files.write usa o relógio do sistema; a fixture deve acompanhar o Clock controlado do teste.
+		Files.setLastModifiedTime(dir.resolve("pdf/x.pdf"),java.nio.file.attribute.FileTime.from(agora.get()));
 		assertThat(a.ler("pdf/x.pdf")).hasValueSatisfying(b->assertThat(new String(b)).isEqualTo("conteudo"));
 		var acesso=a.urlAssinada("pdf/x.pdf",Duration.ofMinutes(10),"dieta.pdf","application/pdf");
 		assertThat(acesso.url()).startsWith("https://api.invalid/api/v1/arquivos/");assertThat(acesso.expiraEm()).isEqualTo(agora.get().plusSeconds(600));
@@ -38,5 +40,20 @@ class ArmazenamentoTest {
 		assertThat(a.ler("pdf/x.pdf")).isEmpty();
 		assertThatThrownBy(()->a.guardar("../fora.txt",new byte[0],"text/plain")).isInstanceOf(IllegalArgumentException.class);
 		assertThatThrownBy(()->a.ler("/etc/passwd")).isInstanceOf(IllegalArgumentException.class);
+	}
+
+	@Test void limpezaRemoveAntigoEPreservaArquivoNoLimiteERecente(@TempDir Path dir) throws Exception {
+		var agora=Instant.parse("2026-10-28T12:00:00Z");var idade=Duration.ofMinutes(10);var limite=agora.minus(idade);
+		var a=new ArmazenamentoLocal(dir,"segredo".getBytes(),"https://api.invalid/",Clock.fixed(agora,ZoneOffset.UTC));
+		var datas=java.util.Map.of("antigo",limite.minusSeconds(1),"limite",limite,"recente",limite.plusSeconds(1));
+		for(var entrada:datas.entrySet()){
+			String chave="pdf/"+entrada.getKey()+".pdf";a.guardar(chave,entrada.getKey().getBytes(),"application/pdf");
+			Files.setLastModifiedTime(dir.resolve(chave),java.nio.file.attribute.FileTime.from(entrada.getValue()));
+		}
+		assertThat(a.apagarAntigos("pdf",idade)).isEqualTo(1);
+		assertThat(a.ler("pdf/antigo.pdf")).isEmpty();
+		assertThat(a.ler("pdf/limite.pdf")).hasValueSatisfying(bytes->assertThat(new String(bytes)).isEqualTo("limite"));
+		assertThat(a.ler("pdf/recente.pdf")).hasValueSatisfying(bytes->assertThat(new String(bytes)).isEqualTo("recente"));
+		assertThat(a.apagarAntigos("pdf",idade)).isZero();
 	}
 }
