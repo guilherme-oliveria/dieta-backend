@@ -1,3 +1,6 @@
+import java.security.SecureRandom
+import java.util.Base64
+
 plugins {
 	java
 	id("org.springframework.boot") version "4.1.2"
@@ -54,4 +57,13 @@ tasks.withType<Test> {
 
 tasks.processResources {
 	from("docs/legal") { into("legal") }
+}
+
+// Só para rodar na máquina do dev: chaves aleatórias a cada execução quando não vierem do ambiente (nada de segredo no Git).
+tasks.named<org.springframework.boot.gradle.tasks.run.BootRun>("bootRun") {
+	listOf("IDEMPOTENCIA_CHAVE", "NOTIFICACOES_CHAVE").forEach { nome ->
+		if (System.getenv(nome).isNullOrBlank()) {
+			environment(nome, Base64.getEncoder().encodeToString(ByteArray(32).also { SecureRandom().nextBytes(it) }))
+		}
+	}
 }

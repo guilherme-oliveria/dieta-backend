@@ -74,7 +74,8 @@ public class TratadorErros {
 	@ExceptionHandler(Exception.class)
 	ResponseEntity<ProblemDetail> inesperado(Exception erro) {
 		// Não registrar a exceção: mensagens de bibliotecas podem conter valores sensíveis.
-		LoggerFactory.getLogger(TratadorErros.class).error("Falha não tratada; traceId={}", MDC.get("traceId"));
+		var local = erro.getStackTrace().length > 0 ? erro.getStackTrace()[0].toString() : "?";
+		LoggerFactory.getLogger(TratadorErros.class).error("Falha não tratada; traceId={} tipo={} local={}", MDC.get("traceId"), erro.getClass().getName(), local);
 		return resposta(CodigoErro.ERRO_INTERNO, null, "Não foi possível concluir a operação.", List.of(), null);
 	}
 
