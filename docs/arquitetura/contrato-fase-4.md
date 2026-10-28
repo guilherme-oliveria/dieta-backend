@@ -144,3 +144,19 @@ Sem endpoint novo: os clientes já registram o aparelho (`POST /eu/dispositivos`
 
 O lembrete de consulta por **e-mail** da RN-AGE-02 ainda não existe: só push.
 
+## Central de avisos (BE-34)
+
+Todo aviso de BE-24 fica no histórico do usuário, mesmo com o tipo desligado nas preferências (só o push respeita a preferência). Cada **perfil** do usuário vê só os seus.
+
+| Método e rota | O que faz |
+| --- | --- |
+| `GET /eu/avisos?pagina=0&tamanho=20&somenteNaoLidos=false` | Página `{itens, pagina, tamanho, total, naoLidos}`, mais recentes primeiro. `naoLidos` conta todos, independente do filtro. `tamanho` de 1 a 100 |
+| `POST /eu/avisos/{id}/lido` | Marca como lido; idempotente; devolve o aviso. De outro usuário ou perfil: `404` |
+| `POST /eu/avisos/lidos` | Marca todos os do perfil ativo como lidos (`204`) |
+
+`AvisoResposta`: `{id, tipo, titulo, corpo, rota, criadoEm, lidoEm, versao}`. `tipo` é um de `NOVA_DIETA`, `QUESTIONARIO_ENVIADO`, `CONSULTA_AMANHA`, `QUESTIONARIO_RESPONDIDO`, `PACIENTE_SEM_CHECKIN`, `ASSINATURA`; o app trata valor desconhecido como "outro" e usa o título e o corpo como vieram. `rota` pode ser nula; quando vem, é o destino da navegação (`/dieta`, `/questionarios/{id}`, `/pacientes/{id}`, `/agenda`).
+
+### Sync
+
+Coleção `avisos` em `mudancas`, para nutri e paciente: o servidor cria o aviso, o app só lê. O app marca como lido pelo endpoint (online); a mudança volta no sync. Avisos com mais de 90 dias viram exclusão lógica (`excluido: true` no sync) e saem da central. Mudar só o estado do push não gera mudança de sync.
+

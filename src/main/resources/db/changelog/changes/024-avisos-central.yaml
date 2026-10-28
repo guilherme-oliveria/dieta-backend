@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: 024-avisos-central
+      author: dietamais
+      comment: Central de avisos (BE-34); aviso passa a ter perfil e entra no sync (só criação, leitura e exclusão, nunca o estado do push)
+      changes:
+        - sql:
+            sql: >-
+              ALTER TABLE aviso ADD COLUMN perfil varchar(15);
+              UPDATE aviso SET perfil=CASE
+              WHEN tipo IN ('NOVA_DIETA','QUESTIONARIO_ENVIADO') THEN 'PACIENTE'
+              WHEN tipo IN ('QUESTIONARIO_RESPONDIDO','PACIENTE_SEM_CHECKIN','ASSINATURA') THEN 'NUTRICIONISTA'
+              WHEN EXISTS (SELECT 1 FROM nutricionista n WHERE n.usuario_id=aviso.usuario_id) THEN 'NUTRICIONISTA' ELSE 'PACIENTE' END;
+              ALTER TABLE aviso ALTER COLUMN perfil SET NOT NULL;
+              ALTER TABLE aviso ADD CONSTRAINT ck_aviso_perfil CHECK (perfil IN ('NUTRICIONISTA','PACIENTE'));
+              DROP INDEX uk_aviso_dedup;
+              CREATE UNIQUE INDEX uk_aviso_dedup ON aviso(usuario_id,perfil,chave_dedup) WHERE chave_dedup IS NOT NULL;
+              DROP INDEX ix_aviso_usuario_criado;
+              CREATE INDEX ix_aviso_usuario_perfil_criado ON aviso(usuario_id,perfil,criado_em DESC) WHERE excluido_em IS NULL;
+              ALTER TABLE diario_sync DROP CONSTRAINT ck_diario_sync_colecao;
+              ALTER TABLE diario_sync ADD CONSTRAINT ck_diario_sync_colecao CHECK (colecao IN
+              ('PACIENTES','VINCULOS','NUTRIS','GRUPOS','ALIMENTOS','LISTAS','DIETAS','SNAPSHOTS','DIETA_EM_USO','CHECKINS','AGUA','PESOS','AVALIACOES','MODELOS','QUESTIONARIOS','CONSULTAS','AVISOS'));
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION aviso_diario_sync() RETURNS trigger LANGUAGE plpgsql AS $$
+              DECLARE destino uuid;
+              BEGIN
+                IF NEW.perfil='NUTRICIONISTA' THEN SELECT id INTO destino FROM nutricionista WHERE usuario_id=NEW.usuario_id;
+                ELSE SELECT id INTO destino FROM paciente WHERE usuario_id=NEW.usuario_id; END IF;
+                PERFORM registrar_mudanca_sync(NEW.perfil,destino,'AVISOS',NEW.id,NULL,NULL);
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            sql: >-
+              CREATE TRIGGER aviso_diario_sync AFTER INSERT OR UPDATE OF lido_em,excluido_em ON aviso FOR EACH ROW EXECUTE FUNCTION aviso_diario_sync();

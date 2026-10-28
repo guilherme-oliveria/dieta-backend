@@ -29,9 +29,9 @@ public class ServicoRegistrarAviso implements RegistrarAviso {
 		var tabela=a.perfil()==Perfil.PACIENTE?"paciente":"nutricionista";
 		var agora=Timestamp.from(relogio.instant());
 		// paciente sem conta (convite pendente) não tem usuário: o select não devolve linha e nada é gravado
-		jdbc.update("insert into aviso(usuario_id,tipo,titulo,corpo,rota,chave_dedup,push_proxima_em,criado_em,atualizado_em) "
-			+"select usuario_id,?,?,?,?,?,?,?,? from "+tabela+" where id=? and usuario_id is not null "
-			+"on conflict (usuario_id,chave_dedup) where chave_dedup is not null do nothing",
-			tipo.name(),tipo.titulo(),tipo.corpo(),a.rota(),a.chaveDedup(),agora,agora,agora,a.destinatarioId());
+		jdbc.update("insert into aviso(usuario_id,perfil,tipo,titulo,corpo,rota,chave_dedup,push_proxima_em,criado_em,atualizado_em) "
+			+"select usuario_id,?,?,?,?,?,?,?,?,? from "+tabela+" where id=? and usuario_id is not null "
+			+"on conflict (usuario_id,perfil,chave_dedup) where chave_dedup is not null do nothing",
+			a.perfil().name(),tipo.name(),tipo.titulo(),tipo.corpo(),a.rota(),a.chaveDedup(),agora,agora,agora,a.destinatarioId());
 	}
 }
