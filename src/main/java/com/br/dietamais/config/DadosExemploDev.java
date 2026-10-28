@@ -53,6 +53,10 @@ public class DadosExemploDev implements ApplicationRunner {
 		convidar(token, joao); // fica com convite pendente
 		var dieta = chamar("POST", "/pacientes/" + maria + "/dietas", token, dieta(token), 201);
 		chamar("POST", "/dietas/" + dieta.path("id").asString() + "/publicar", token, null, Map.of("If-Match", "\"" + dieta.path("versao").asLong() + "\""), 200);
+		var avaliacao = new HashMap<String, Object>();
+		avaliacao.put("dataHora", java.time.Instant.now().minusSeconds(3600).toString()); avaliacao.put("pesoKg", new BigDecimal("68.4")); avaliacao.put("estaturaM", new BigDecimal("1.65"));
+		avaliacao.put("perimetros", Map.of("cintura", new BigDecimal("78"), "quadril", new BigDecimal("98"))); avaliacao.put("parecer", "Avaliação fictícia de exemplo.");
+		chamar("POST", "/pacientes/" + maria + "/avaliacoes", token, avaliacao, 201);
 		LOG.info("Dados de exemplo criados. Nutri: {} / paciente: maria@exemplo.dev (mesma senha): {}", EMAIL_NUTRI, SENHA);
 	}
 
