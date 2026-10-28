@@ -9,18 +9,18 @@ import org.testcontainers.utility.DockerImageName;
 @TestConfiguration(proxyBeanMethods = false)
 public class TestcontainersConfiguration {
 	@Bean @org.springframework.context.annotation.Primary
-	com.br.dietamais.comum.infra.CifradorResposta cifraRespostaTeste() {
-		byte[] bytes=new byte[32];new java.security.SecureRandom().nextBytes(bytes);
-		return new com.br.dietamais.comum.infra.CifradorResposta(java.util.Base64.getEncoder().encodeToString(bytes));
-	}
-	@Bean @org.springframework.context.annotation.Primary
 	com.br.dietamais.contas.infra.FonteTermosUso termosPublicadosFicticios() {
 		return ()->new com.br.dietamais.contas.dominio.DocumentoTermosUso("2026-10","PUBLICADO",java.time.Instant.EPOCH,java.time.Instant.EPOCH,"FONTE FICTÍCIA EXCLUSIVA DE TESTES, SEM VALIDADE JURÍDICA");
 	}
 	@Bean
 	static org.springframework.beans.factory.config.BeanFactoryPostProcessor semAgendamentoDeEmailReal() {
-		return fabrica -> fabrica.getBean(org.springframework.core.env.ConfigurableEnvironment.class).getPropertySources()
-				.addFirst(new org.springframework.core.env.MapPropertySource("emails-somente-testes",java.util.Map.of("dieta.notificacoes.envio-habilitado",false)));
+		return fabrica -> {
+			var ambiente=fabrica.getBean(org.springframework.core.env.ConfigurableEnvironment.class);
+			ambiente.getPropertySources().addFirst(new org.springframework.core.env.MapPropertySource("emails-somente-testes",java.util.Map.of("dieta.notificacoes.envio-habilitado",false)));
+			byte[] bytes=new byte[32];new java.security.SecureRandom().nextBytes(bytes);
+			// Fallback de testes: preserva inclusive a configuração explícita vazia do cenário sem chave.
+			ambiente.getPropertySources().addLast(new org.springframework.core.env.MapPropertySource("idempotencia-somente-testes",java.util.Map.of("IDEMPOTENCIA_CHAVE",java.util.Base64.getEncoder().encodeToString(bytes))));
+		};
 	}
 	@Bean @org.springframework.context.annotation.Primary
 	com.br.dietamais.notificacoes.infra.CifradorEmail cifraEmailTeste() {
