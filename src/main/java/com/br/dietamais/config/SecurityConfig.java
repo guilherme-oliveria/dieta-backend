@@ -27,7 +27,7 @@ public class SecurityConfig {
 						.requestMatchers(org.springframework.http.HttpMethod.GET,"/api/v1/convites/*").permitAll()
 						.requestMatchers(org.springframework.http.HttpMethod.POST,"/api/v1/convites/*/aceitar").permitAll()
 						.requestMatchers(org.springframework.http.HttpMethod.POST,"/api/v1/webhooks/pagamento").permitAll()
-						.requestMatchers(org.springframework.http.HttpMethod.GET,"/api/v1/arquivos/*").permitAll()
+						.requestMatchers(org.springframework.http.HttpMethod.GET,"/api/v1/arquivos/*","/api/v1/exportacoes/*").permitAll()
 						.requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/cadastro-nutri",
 								"/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/auth/logout").permitAll()
 						.requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/auth/confirmar-email",

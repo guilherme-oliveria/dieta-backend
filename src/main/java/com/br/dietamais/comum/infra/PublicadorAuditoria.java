@@ -19,8 +19,9 @@ public class PublicadorAuditoria implements AuditoriaClinica {
 	@Override public void leitura(ReferenciaClinica recurso){registrar(recurso,"LEITURA");}
 	@Override public void escrita(ReferenciaClinica recurso){registrar(recurso,"ESCRITA");}
 	private void registrar(ReferenciaClinica recurso,String acao) {
-		var contexto=usuario.obter();
-		String ip=requisicao.getRemoteAddr();
+		var segundoPlano=ContextoSegundoPlano.atual();boolean emRequisicao=segundoPlano.isEmpty();
+		var contexto=emRequisicao?usuario.obter():segundoPlano.get();
+		String ip=emRequisicao?requisicao.getRemoteAddr():null;
 		if(ip!=null&&ip.contains("%"))ip=ip.substring(0,ip.indexOf('%'));
 		eventos.publishEvent(new AcessoClinico(contexto.usuarioId(),contexto.perfil(),recurso,acao,relogio.instant(),ip,MDC.get("traceId")));
 	}

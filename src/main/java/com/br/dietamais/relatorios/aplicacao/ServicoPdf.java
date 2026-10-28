@@ -47,6 +47,10 @@ public class ServicoPdf {
 		return entregar(gerador.avaliacao(cabecalhoAvaliacao(a),a),"avaliacao.pdf");
 	}
 
+	/** PDFs sem checagem de acesso: o chamador já autorizou (exportação do próprio paciente, BE-29). */
+	byte[] dietaBytes(DietaSnapshotResposta s){return gerador.dieta(cabecalhoDieta(s),s);}
+	byte[] avaliacaoBytes(AvaliacaoResposta a){return gerador.avaliacao(cabecalhoAvaliacao(a),a);}
+
 	private GeradorPdf.Cabecalho cabecalhoDieta(DietaSnapshotResposta s){
 		var nome=cabecalhos.doVinculo(s.vinculoId()).map(ConsultaCabecalhoRelatorio.Cabecalho::paciente).orElse(null);
 		return new GeradorPdf.Cabecalho(s.nutricionista().nome(),s.nutricionista().crn(),nome,logo(s.nutricionista().id()));

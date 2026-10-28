@@ -1,0 +1,5 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"><head><meta charset="UTF-8"><title>Seus dados estão prontos</title></head>
+<body><p>A cópia dos seus dados no Dieta+ está pronta.</p>
+<p><a th:href="${link}">Baixar meus dados</a></p>
+<p>O arquivo (ZIP com os dados em JSON e os PDFs de dietas e avaliações) fica disponível até <span th:text="${expiraEm}">amanhã</span>. Guarde-o em lugar seguro: ele contém dados de saúde. Se você não pediu esta cópia, troque sua senha e fale com o suporte.</p></body></html>

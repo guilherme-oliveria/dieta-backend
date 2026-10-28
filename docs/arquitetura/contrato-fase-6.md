@@ -85,3 +85,15 @@ Resposta dos `GET`: `{ "url": "https://.../api/v1/arquivos/<token>?exp=...&sig=.
 `GET /eu/nutri` ganha o campo opcional `temLogo` (boolean). Leitura de PDF pela nutri entra na auditoria de acesso clínico (RN-LGPD).
 
 Configuração do armazenamento: sem `S3_ENDPOINT` grava em disco (`ARQUIVOS_DIR`, `ARQUIVOS_SEGREDO`), próprio para dev/beta; com `S3_ENDPOINT`, `S3_BUCKET`, `S3_REGIAO`, `S3_CHAVE_ACESSO`, `S3_CHAVE_SECRETA` usa S3/MinIO com URL pré-assinada. `URL_PUBLICA` é a base dos links do modo local.
+
+## Exportação de dados do paciente (BE-29a, RN-LGPD-02)
+
+Só o paciente. O pedido é aceito na hora e gerado em segundo plano (job a cada 30 s); quando pronto, um e-mail leva ao arquivo. O ZIP contém `dados.json` (tudo que o sync entrega ao paciente desde o início: perfil, vínculos, nutris, dietas recebidas, rotina, avaliações compartilhadas, questionários, consultas, avisos), `dietas/*.pdf`, `avaliacoes/*.pdf` e `LEIAME.txt`. Fica disponível por 24 h e é apagado.
+
+| Endpoint | Resposta |
+| --- | --- |
+| `POST /api/v1/eu/exportacao` | `202` `{ id, status: "PENDENTE", criadoEm }`. Com pedido pendente, ou feito há menos de 1 h: `409 EXPORTACAO_EM_ANDAMENTO` (RN-LGPD-02) |
+| `GET /api/v1/eu/exportacao` | `200` pedido mais recente: `status` `PENDENTE`, `PRONTA`, `FALHOU` (após 3 tentativas) ou `EXPIRADA`. Com `PRONTA` traz `url` (vale 15 min, consulte de novo para renovar), `prontaEm`, `expiraEm`. `404` se nunca pediu |
+| `GET /api/v1/exportacoes/{token}` | Público, só o link do e-mail: `302` para o arquivo assinado (5 min); token desconhecido ou vencido: `404` |
+
+Nutri recebe `403 PERFIL_INVALIDO`. O e-mail (tipo `EXPORTACAO_PRONTA`) usa `dieta.publico.url-base` (`URL_PUBLICA`) para montar o link. Nada do conteúdo vai para log.

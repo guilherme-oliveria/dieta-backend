@@ -1,3 +1,3 @@
 package com.br.dietamais.notificacoes.api;
 
-public enum TipoEmail { CONFIRMAR_EMAIL, REDEFINIR_SENHA, CONVITE }
+public enum TipoEmail { CONFIRMAR_EMAIL, REDEFINIR_SENHA, CONVITE, EXPORTACAO_PRONTA }

@@ -26,8 +26,11 @@ public class ServicoSyncLeitura {
 		if(colecoes.size()!=ColecaoSync.values().length)throw new IllegalArgumentException("Fontes sync ausentes");
 	}
 	@Transactional(readOnly=true,isolation=Isolation.REPEATABLE_READ)
-	public SyncResposta executar(String valor,int limite) {
-		var contexto=usuario.obter();if(contexto.perfil()==Perfil.ADMIN)throw new ExcecaoNegocio(CodigoErro.PERFIL_INVALIDO,null);
+	public SyncResposta executar(String valor,int limite) {return executar(usuario.obter(),valor,limite);}
+	/** Mesma leitura para um contexto dado, usada pela exportação de dados em segundo plano (BE-29). */
+	@Transactional(readOnly=true,isolation=Isolation.REPEATABLE_READ)
+	public SyncResposta executar(ContextoUsuario contexto,String valor,int limite) {
+		if(contexto.perfil()==Perfil.ADMIN)throw new ExcecaoNegocio(CodigoErro.PERFIL_INVALIDO,null);
 		long cursor=CursorSync.ler(valor),marco=diario.marcoAtual();CursorSync.validar(cursor,marco,limite);
 		var candidatos=new ArrayList<Entrada>();var sequencias=new HashSet<Long>();
 		for(var fonte:fontes)for(var referencia:fonte.mudancasDesde(cursor,contexto,limite+1)) {
