@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -116,6 +117,23 @@ public class PacienteController {
 			@jakarta.validation.Valid @RequestBody AtualizarPacienteRequisicao requisicao) {
 		var paciente=pacientes.atualizar(id,ifMatch,requisicao);
 		return ResponseEntity.ok().eTag(paciente.versao().toString()).cacheControl(org.springframework.http.CacheControl.noStore()).body(paciente);
+	}
+
+	@DeleteMapping("/pacientes/{id}")
+	@Operation(operationId = "excluirPaciente", summary = "Excluir ficha do paciente (exclusão lógica)",
+			description = "RN-LGPD-04. A ficha sai da lista da nutri e do sync; o prontuário fica retido no banco. Vínculo ativo precisa ser encerrado antes (422 VINCULO_ATIVO). If-Match obrigatório. Implementação: BE-29b.")
+	@SecurityRequirement(name = "bearerAuth")
+	@ApiResponse(responseCode = "204", description = "Ficha excluída")
+	@ApiResponse(responseCode = "404", description = "Recurso inexistente ou fora da visibilidade",
+			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
+	@ApiResponse(responseCode = "409", description = "Conflito de versão; consultar atual",
+			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
+	@ApiResponse(responseCode = "422", description = "Vínculo ativo",
+			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
+	public ResponseEntity<Void> excluirPaciente(@PathVariable UUID id,
+			@Parameter(description = "Versão entre aspas, por exemplo \"1\"") @RequestHeader("If-Match") String ifMatch) {
+		pacientes.excluir(id,ifMatch);
+		return ResponseEntity.noContent().build();
 	}
 
 	@PostMapping("/pacientes/{id}/convite")

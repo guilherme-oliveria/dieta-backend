@@ -97,3 +97,25 @@ Só o paciente. O pedido é aceito na hora e gerado em segundo plano (job a cada
 | `GET /api/v1/exportacoes/{token}` | Público, só o link do e-mail: `302` para o arquivo assinado (5 min); token desconhecido ou vencido: `404` |
 
 Nutri recebe `403 PERFIL_INVALIDO`. O e-mail (tipo `EXPORTACAO_PRONTA`) usa `dieta.publico.url-base` (`URL_PUBLICA`) para montar o link. Nada do conteúdo vai para log.
+
+## Exclusão de conta e de prontuário (BE-29b, RN-LGPD-03/04)
+
+### `POST /api/v1/eu/excluir-conta` (paciente)
+
+Corpo `{ "senha": "..." }` (reautenticação). `204` e **irreversível**. Senha errada: `401 CREDENCIAIS_INVALIDAS`; nutri: `403 PERFIL_INVALIDO`.
+
+O que acontece (RN-LGPD-03):
+
+| Dado | Destino |
+| --- | --- |
+| Conta (`nome`, `e-mail`, senha), perfil pessoal (nascimento, sexo) | anonimizados; login e tokens deixam de funcionar na hora |
+| Sessões, aparelhos, preferências de notificação, avisos, feed `.ics`, exportações (e arquivos) | apagados |
+| Vínculos abertos | `ENCERRADO`; a nutri vê o histórico só leitura (RN-VIN-05) |
+| Prontuário de cada nutri (fichas, dietas, avaliações, consultas, respostas, registros de rotina) | **retido** pelo prazo legal, sem a conta que o originou |
+| Consentimento e log de acesso | retidos (prova legal, RN-LGPD-01) |
+
+Se o mesmo login também for de nutri, só o lado paciente sai (conta, sessões do perfil nutri e dados dela permanecem).
+
+### `DELETE /api/v1/pacientes/{id}` (nutri)
+
+Exclusão **lógica** da ficha (RN-LGPD-04), com `If-Match`. `204`: a ficha some da lista e do sync da nutri (`excluido: true`), mas o registro continua no banco para a retenção legal `[SUPOSIÇÃO S6]`. Vínculo `ATIVO`: `422 VINCULO_ATIVO` (encerre antes). Vínculo `CONVIDADO`: convite invalidado, vínculo encerrado e vaga do plano liberada. O paciente que já aceitou mantém o próprio histórico. Restauração só por suporte, direto no banco.

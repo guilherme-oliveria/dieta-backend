@@ -37,4 +37,6 @@ public class AvisoStore {
 	public int arquivarAnteriores(Instant limite,Instant agora){
 		return jdbc.update("update aviso set excluido_em=?,versao=versao+1,seq=nextval('seq_sync'),atualizado_em=? where criado_em<? and excluido_em is null and push_status<>'PENDENTE'",Timestamp.from(agora),Timestamp.from(agora),Timestamp.from(limite));
 	}
+	/** Exclusão da conta do paciente (RN-LGPD-03): apaga os avisos do perfil paciente. */
+	public int apagarDoPaciente(UUID usuario){return jdbc.update("delete from aviso where usuario_id=? and perfil='PACIENTE'",usuario);}
 }

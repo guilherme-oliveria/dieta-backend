@@ -43,6 +43,11 @@ public class FichaPacienteStore {
 			versao=versao+1,seq=nextval('seq_sync'),atualizado_em=? where vinculo_id=? and nutricionista_id=? and excluido_em is null
 			""",d.nome(),d.email(),d.dataNascimento(),sexo(d),d.telefone(),d.estaturaReferencia(),d.objetivo(),d.observacoes(),Timestamp.from(agora),vinculo,nutri);
 	}
+	/** RN-LGPD-04: exclusão lógica; o registro continua no banco para a retenção legal. */
+	public void excluir(UUID vinculo,UUID nutri,Instant agora) {
+		jdbc.update("update ficha_paciente set excluido_em=?,versao=versao+1,seq=nextval('seq_sync'),atualizado_em=? where vinculo_id=? and nutricionista_id=? and excluido_em is null",
+			Timestamp.from(agora),Timestamp.from(agora),vinculo,nutri);
+	}
 	public PaginaPacientesResposta listar(UUID nutri,int pagina,int tamanho,String ordem,String busca,StatusVinculo status) {
 		var argumentos=new ArrayList<Object>(List.of(nutri,nutri));
 		String where=" where"+VISIBILIDADE;

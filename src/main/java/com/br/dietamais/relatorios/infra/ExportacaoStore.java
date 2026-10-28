@@ -43,4 +43,10 @@ public class ExportacaoStore {
 		for(var v:vencidos)jdbc.update("update exportacao_dados set status='EXPIRADA',hash_token=null,chave=null where id=?",v.id());
 		return vencidos;
 	}
+	/** Exclusão da conta: remove os pedidos e devolve as chaves dos arquivos que ainda existem. */
+	public List<String> apagarDoUsuario(UUID usuario){
+		var chaves=jdbc.query("select chave from exportacao_dados where usuario_id=? and chave is not null",(rs,n)->rs.getString(1),usuario);
+		jdbc.update("delete from exportacao_dados where usuario_id=?",usuario);
+		return chaves;
+	}
 }

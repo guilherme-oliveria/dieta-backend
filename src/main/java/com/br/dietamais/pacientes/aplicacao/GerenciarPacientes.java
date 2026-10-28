@@ -62,6 +62,22 @@ public class GerenciarPacientes {
 		if(!Objects.equals(atual.email(),dados.email()))convites.invalidar(atual.vinculoId(),relogio.instant());
 		var resposta=visivel(paciente,nutri,false);auditoria.escrita(referencia(resposta,contexto));return resposta;
 	}
+	/** RN-LGPD-04: a nutri tira a ficha da sua lista, mas o prontuário fica retido (exclusão lógica). Vínculo ativo precisa ser encerrado antes. */
+	@Transactional
+	public void excluir(UUID paciente,String ifMatch) {
+		var contexto=usuario.obter();var nutri=contexto.exigirNutricionista();
+		fichas.bloquearEscrita(nutri);
+		var atual=visivel(paciente,nutri,true);
+		if(VersaoFicha.ler(ifMatch)!=atual.versao()) {
+			auditoria.leitura(referencia(atual,contexto));
+			throw new ExcecaoNegocio(CodigoErro.CONFLITO_VERSAO,"RN-SYN-02","A ficha foi atualizada. Revise os dados atuais.",List.of(),mapper.valueToTree(atual));
+		}
+		if(atual.status()==StatusVinculo.ATIVO)throw new ExcecaoNegocio(CodigoErro.VINCULO_ATIVO,"RN-LGPD-04");
+		guarda.validar();
+		fichas.excluir(atual.vinculoId(),nutri,relogio.instant());
+		if(atual.status()==StatusVinculo.CONVIDADO){convites.invalidar(atual.vinculoId(),relogio.instant());convites.encerrar(atual.vinculoId(),relogio.instant());} // libera a vaga do plano
+		auditoria.escrita(referencia(atual,contexto));
+	}
 	@Transactional(readOnly=true)
 	public PaginaPacientesResposta listar(int pagina,int tamanho,String ordem,String busca,StatusVinculo status) {
 		if(pagina<0||tamanho<1||tamanho>100||busca!=null&&busca.length()>150)throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,null);
