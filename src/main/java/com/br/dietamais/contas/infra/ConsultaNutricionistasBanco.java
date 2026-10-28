@@ -27,4 +27,7 @@ public class ConsultaNutricionistasBanco implements ConsultaNutricionistas {
 	@Override public Optional<String> orientacaoPadrao(UUID nutri) {
 		return jdbc.query("select orientacao_padrao from nutricionista where id=?",(rs,n)->rs.getString(1),nutri).stream().filter(Objects::nonNull).filter(t->!t.isBlank()).findFirst();
 	}
+	@Override public Optional<String> logoChave(UUID nutri) {
+		return jdbc.query("select logo_chave from nutricionista where id=?",(rs,n)->rs.getString(1),nutri).stream().filter(Objects::nonNull).findFirst();
+	}
 }

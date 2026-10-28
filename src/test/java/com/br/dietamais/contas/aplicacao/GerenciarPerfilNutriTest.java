@@ -18,7 +18,7 @@ class GerenciarPerfilNutriTest {
 	final Instant agora=Instant.parse("2026-10-27T02:00:00Z");
 	final GerenciarPerfilNutri caso=new GerenciarPerfilNutri(usuario,guarda,store,Clock.fixed(agora,ZoneOffset.UTC),JsonMapper.builder().build());
 	final AtualizarPerfilNutriRequisicao requisicao=new AtualizarPerfilNutriRequisicao(" Nutri fictícia "," CRN-1 00000 ","  "," Texto fictício ");
-	final PerfilNutriResposta atual=new PerfilNutriResposta(nid,"Nome fictício","CRN-1 00000",null,null,4L,agora);
+	final PerfilNutriResposta atual=new PerfilNutriResposta(nid,"Nome fictício","CRN-1 00000",null,null,false,4L,agora);
 	void contexto(Perfil perfil){when(usuario.obter()).thenReturn(new ContextoUsuario(new UsuarioResposta(uid,"Fictício","ficticio@example.invalid",true,List.of(perfil),perfil,nid,UUID.randomUUID(),"UTC"),org));}
 	@Test void leituraPropriaDispensaAssinaturaEEscrita() {
 		contexto(Perfil.NUTRICIONISTA);when(store.consultar(nid,uid,org,false)).thenReturn(atual);

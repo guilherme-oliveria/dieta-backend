@@ -9,5 +9,7 @@ public interface ConsultaNutricionistas {
 	List<UUID> daOrganizacao(UUID organizacaoId);
 	/** Orientação padrão da nutri (RN-DIE-09); vazio se não configurada. */
 	Optional<String> orientacaoPadrao(UUID nutri);
+	/** Chave da logo no {@link Armazenamento}; vazio se a nutri não enviou. */
+	Optional<String> logoChave(UUID nutri);
 	record DadosNutri(UUID id,String nome,String crn,UUID organizacaoId) { }
 }

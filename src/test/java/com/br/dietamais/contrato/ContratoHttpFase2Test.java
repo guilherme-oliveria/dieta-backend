@@ -35,6 +35,8 @@ class ContratoHttpFase2Test {
 	@org.springframework.test.context.bean.override.mockito.MockitoBean
 	com.br.dietamais.contas.aplicacao.GerenciarPerfilNutri perfil;
 	@org.springframework.test.context.bean.override.mockito.MockitoBean
+	com.br.dietamais.contas.aplicacao.GerenciarLogoNutri logo;
+	@org.springframework.test.context.bean.override.mockito.MockitoBean
 	com.br.dietamais.alimentos.aplicacao.ConsultarGruposAlimentos grupos;
 	@org.springframework.test.context.bean.override.mockito.MockitoBean
 	com.br.dietamais.alimentos.aplicacao.GerenciarAlimentos alimentos;

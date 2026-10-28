@@ -27,6 +27,7 @@ class ContratoIfMatchHttpTest {
 	@Import({SecurityConfig.class,PerfilNutriController.class,FabricaProblema.class,TratadorErros.class})
 	static class Aplicacao{}
 	@MockitoBean GerenciarPerfilNutri perfil;
+	@MockitoBean com.br.dietamais.contas.aplicacao.GerenciarLogoNutri logo;
 	@MockitoBean JwtDecoder decoder;
 	@LocalServerPort int porta;
 	@Autowired JsonMapper mapper;
@@ -41,7 +42,7 @@ class ContratoIfMatchHttpTest {
 		var semHeader=cliente.send(HttpRequest.newBuilder(uri).header("Authorization","Bearer "+credencial).header("Content-Type","application/json").method("PATCH",HttpRequest.BodyPublishers.ofString(corpo)).build(),HttpResponse.BodyHandlers.ofString());
 		assertThat(semHeader.statusCode()).as(semHeader.body()).isEqualTo(400);assertThat(mapper.readTree(semHeader.body()).path("codigo").asString()).isEqualTo("FORMATO_INVALIDO");
 		verifyNoInteractions(perfil);
-		when(perfil.atualizar(eq("\"0\""),any())).thenReturn(new PerfilNutriResposta(UUID.randomUUID(),"Nutri fictícia","CRN-1 00000",null,null,1L,Instant.EPOCH));
+		when(perfil.atualizar(eq("\"0\""),any())).thenReturn(new PerfilNutriResposta(UUID.randomUUID(),"Nutri fictícia","CRN-1 00000",null,null,false,1L,Instant.EPOCH));
 		var comHeader=cliente.send(HttpRequest.newBuilder(uri).header("Authorization","Bearer "+credencial).header("Content-Type","application/json").header("If-Match","\"0\"").method("PATCH",HttpRequest.BodyPublishers.ofString(corpo)).build(),HttpResponse.BodyHandlers.ofString());
 		assertThat(comHeader.statusCode()).as(comHeader.body()).isEqualTo(200);assertThat(comHeader.headers().firstValue("ETag").orElseThrow()).isEqualTo("\"1\"");
 		verify(perfil).atualizar("\"0\"",new AtualizarPerfilNutriRequisicao("Nutri fictícia","CRN-1 00000",null,null));

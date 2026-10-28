@@ -66,3 +66,22 @@ Sem endpoint novo. Um job de hora em hora (`dieta.assinatura.intervalo-ciclo`) m
 | `EM_ATRASO` além da carência de 7 dias (RN-ASS-04) | aviso de bloqueio, uma vez por vencimento; escrita já recusa com `ASSINATURA_INATIVA` |
 
 Downgrade (RN-ASS-08): com plano de limite menor que os pacientes ativos, novos convites ficam bloqueados (`LIMITE_PACIENTES_ATINGIDO`) e nenhum vínculo é encerrado. O paciente nunca é afetado (RN-ASS-05).
+
+## PDFs e logo da nutri (BE-28)
+
+Os PDFs são gerados na hora e entregues por **link assinado de 10 minutos**; o arquivo é apagado em seguida (job a cada 5 min remove o que tem mais de 30 min). Nada de dado de saúde fica guardado. O cabeçalho traz nome de exibição, CRN e a logo da nutri (se enviada) e o nome do paciente.
+
+| Endpoint | Perfil | Observação |
+| --- | --- | --- |
+| `GET /api/v1/dietas/{id}/pdf` | Nutri | PDF do **snapshot publicado**; dieta nunca publicada: `404` |
+| `GET /api/v1/avaliacoes/{id}/pdf` | Nutri | Avaliação da nutri |
+| `GET /api/v1/eu/dietas/{id}/pdf` | Paciente | Snapshot que recebeu (vínculo ativo ou encerrado) |
+| `GET /api/v1/eu/avaliacoes/{id}/pdf` | Paciente | Só as compartilhadas (RN-AVA-05); não compartilhada: `404` |
+| `PUT /api/v1/eu/nutri/logo` | Nutri | Corpo é a imagem (`Content-Type: image/png` ou `image/jpeg`), até 512 KB, conferida pelos bytes; inválida: `400 FORMATO_INVALIDO`. `204` |
+| `DELETE /api/v1/eu/nutri/logo` | Nutri | `204` |
+
+Resposta dos `GET`: `{ "url": "https://.../api/v1/arquivos/<token>?exp=...&sig=...", "expiraEm": "2026-10-28T12:10:00Z" }`. O cliente abre a `url` direto (navegador/visualizador do sistema); ela não leva `Authorization`. Link adulterado ou vencido: `403`.
+
+`GET /eu/nutri` ganha o campo opcional `temLogo` (boolean). Leitura de PDF pela nutri entra na auditoria de acesso clínico (RN-LGPD).
+
+Configuração do armazenamento: sem `S3_ENDPOINT` grava em disco (`ARQUIVOS_DIR`, `ARQUIVOS_SEGREDO`), próprio para dev/beta; com `S3_ENDPOINT`, `S3_BUCKET`, `S3_REGIAO`, `S3_CHAVE_ACESSO`, `S3_CHAVE_SECRETA` usa S3/MinIO com URL pré-assinada. `URL_PUBLICA` é a base dos links do modo local.

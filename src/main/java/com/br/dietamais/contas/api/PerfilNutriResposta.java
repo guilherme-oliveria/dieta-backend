@@ -10,6 +10,7 @@ public record PerfilNutriResposta(
 	@NotBlank String crn,
 	String telefone,
 	String orientacaoPadrao,
+	Boolean temLogo,
 	@NotNull @PositiveOrZero Long versao,
 	@NotNull Instant atualizadoEm) {
 }

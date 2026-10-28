@@ -59,6 +59,10 @@ public class DietaStore {
 			""",(rs,n)->new SnapshotRecebido(rs.getObject("id",UUID.class),rs.getObject("dieta_id",UUID.class),rs.getObject("vinculo_id",UUID.class),rs.getObject("nutricionista_id",UUID.class),
 				rs.getString("conteudo"),rs.getString("status_dieta"),rs.getString("status_vinculo")),paciente);
 	}
+	/** Conteúdo JSON do snapshot da dieta, só se for da nutri. */
+	public String snapshotDaNutri(UUID dieta,UUID nutri){
+		return jdbc.query("select conteudo::text from dieta_snapshot where dieta_id=? and nutricionista_id=?",(rs,n)->rs.getString(1),dieta,nutri).stream().findFirst().orElse(null);
+	}
 	public record Selecao(UUID dietaId,long versao) {}
 	public Selecao selecao(UUID paciente,boolean bloquear){
 		return jdbc.query("select dieta_id,versao from dieta_em_uso where paciente_id=?"+(bloquear?" for update":""),(rs,n)->new Selecao(rs.getObject(1,UUID.class),rs.getLong(2)),paciente).stream().findFirst().orElse(null);
