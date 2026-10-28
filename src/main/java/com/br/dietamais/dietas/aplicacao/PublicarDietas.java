@@ -31,7 +31,7 @@ public class PublicarDietas {
 		var atual=propria(id,nutri,true);
 		if(atual.status()!=StatusDieta.RASCUNHO)throw new ExcecaoNegocio(CodigoErro.DIETA_NAO_EDITAVEL,"RN-DIE-04");
 		var ficha=fichas.consultar(atual.pacienteId(),true);
-		if(ficha.status()==StatusVinculo.ENCERRADO)throw new ExcecaoNegocio(CodigoErro.ACESSO_NEGADO,"RN-VIN-05");
+		if(!ficha.vinculoId().equals(atual.vinculoId())||ficha.status()==StatusVinculo.ENCERRADO)throw new ExcecaoNegocio(CodigoErro.ACESSO_NEGADO,"RN-VIN-05");
 		var resposta=montador.montar(List.of(atual),nutri).get(0);
 		if(VersaoDieta.ler(ifMatch)!=atual.versao()){
 			auditoria.leitura(referencia(atual,contexto));
@@ -58,7 +58,7 @@ public class PublicarDietas {
 	public DietaResposta duplicar(UUID id){
 		var contexto=usuario.obter();var nutri=contexto.exigirNutricionista();guarda.validar();dietas.bloquear(nutri);
 		var origem=propria(id,nutri,false);var ficha=fichas.consultar(origem.pacienteId(),true);
-		if(ficha.status()==StatusVinculo.ENCERRADO)throw new ExcecaoNegocio(CodigoErro.ACESSO_NEGADO,"RN-VIN-05");
+		if(!ficha.vinculoId().equals(origem.vinculoId())||ficha.status()==StatusVinculo.ENCERRADO)throw new ExcecaoNegocio(CodigoErro.ACESSO_NEGADO,"RN-VIN-05");
 		var agora=relogio.instant();UUID novo=ids.novo();String titulo=origem.titulo();titulo=(titulo.length()>141?titulo.substring(0,141):titulo)+" (cópia)";
 		dietas.inserir(novo,origem.vinculoId(),nutri,origem.pacienteId(),titulo,origem.orientacao(),agora);
 		var refeicoes=dietas.refeicoes(List.of(id));var itens=dietas.itens(refeicoes.stream().map(Refeicao::id).toList());
