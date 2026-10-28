@@ -40,7 +40,7 @@ public class SyncController {
 
 	@org.springframework.web.bind.annotation.PostMapping("/sync")
 	@Operation(operationId = "enviarMutacoes", summary = "Enviar mutações do app",
-			description = "RN-SYN-03/04. Até 200 mutações; cada uma roda na própria transação e é idempotente por idMutacao. BE-15 aceita CRIAR de checkins, agua e pesos do paciente; as demais entidades chegam com BE-25.")
+			description = "RN-SYN-03/04/05. Até 200 mutações; cada uma roda na própria transação. Replay exige mesmo usuário, perfil e conteúdo autenticado; reutilização ou legado sem metadados retorna REJEITADA/CHAVE_IDEMPOTENCIA_REUTILIZADA por item, sem conteúdo anterior. BE-15 aceita CRIAR de checkins, agua e pesos do paciente; entidades da nutri seguem BE-25.")
 	@SecurityRequirement(name = "bearerAuth")
 	@ApiResponse(responseCode = "200", description = "Um resultado por mutação, na mesma ordem",
 			content = @Content(mediaType = "application/json", schema = @Schema(implementation = EnviarMutacoesResposta.class)))

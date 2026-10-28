@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: 025-sync-replay-seguro
+      author: dietamais
+      changes:
+        - addColumn:
+            tableName: mutacao_sync
+            columns:
+              - column: { name: perfil, type: varchar(20) }
+              - column: { name: fingerprint, type: varchar(64) }
+        - sql:
+            sql: >-
+              ALTER TABLE mutacao_sync ADD CONSTRAINT ck_mutacao_sync_identidade
+              CHECK ((perfil IS NULL AND fingerprint IS NULL) OR
+              (perfil IS NOT NULL AND perfil IN ('NUTRICIONISTA','PACIENTE') AND fingerprint IS NOT NULL AND fingerprint ~ '^[0-9a-f]{64}$'));

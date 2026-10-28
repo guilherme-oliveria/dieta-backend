@@ -65,6 +65,7 @@ Definição de pronto de toda tarefa:
 
 - [x] **BE-C5 Contrato da fase 5.** Records de requisição/resposta, controllers anotados no OpenAPI devolvendo `501`, `CodigoErro` novos e um JSON de exemplo por endpoint da fase em `src/test/resources/contrato/`, com teste que valida os exemplos contra os DTOs. Implementação fica nas tarefas da fase. *Libera:* o mobile trabalhar com `MockEngine`.
 - [x] **BE-25 Sync de escrita com conflito.** `POST /sync` com `ATUALIZAR`/`EXCLUIR` para entidades da nutri (ficha, alimentos, listas, rascunho de dieta, avaliação, modelos, consultas); conferência de `versaoBase` → `CONFLITO` com `atual`; regras de negócio aplicadas por item (RN-SYN-04); ações que exigem online recusadas no sync. Teste: duas mutações concorrentes na mesma avaliação geram exatamente um conflito. *Libera:* MOB-29, MOB-30.
+  - [x] **Correção incremental de segurança do replay (BE-15/25):** validar usuário/perfil/fingerprint HMAC canônico antes de devolver resultado, serializar chave na transação e recusar legado sem metadados sem expor conteúdo ou reaplicar. Migração nova 025; regressões de replay legítimo, corpo alterado, perfis da mesma conta e concorrência. Este subitem não declara auditada toda a implementação externa de sync; contratos de operações desconhecidas e versão inicial de lista permanecem na fila separada.
 
 ## Fase 6 — Cobrança, PDF, LGPD e produção
 

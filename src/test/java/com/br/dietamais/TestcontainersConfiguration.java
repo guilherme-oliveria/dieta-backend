@@ -9,6 +9,11 @@ import org.testcontainers.utility.DockerImageName;
 @TestConfiguration(proxyBeanMethods = false)
 public class TestcontainersConfiguration {
 	@Bean @org.springframework.context.annotation.Primary
+	com.br.dietamais.comum.infra.CifradorResposta cifraRespostaTeste() {
+		byte[] bytes=new byte[32];new java.security.SecureRandom().nextBytes(bytes);
+		return new com.br.dietamais.comum.infra.CifradorResposta(java.util.Base64.getEncoder().encodeToString(bytes));
+	}
+	@Bean @org.springframework.context.annotation.Primary
 	com.br.dietamais.contas.infra.FonteTermosUso termosPublicadosFicticios() {
 		return ()->new com.br.dietamais.contas.dominio.DocumentoTermosUso("2026-10","PUBLICADO",java.time.Instant.EPOCH,java.time.Instant.EPOCH,"FONTE FICTÍCIA EXCLUSIVA DE TESTES, SEM VALIDADE JURÍDICA");
 	}
