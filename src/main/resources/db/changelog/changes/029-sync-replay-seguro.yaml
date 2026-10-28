@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 025-sync-replay-seguro
+      id: 029-sync-replay-seguro
       author: dietamais
       changes:
         - addColumn:

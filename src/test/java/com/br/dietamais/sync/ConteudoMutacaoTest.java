@@ -22,9 +22,9 @@ class ConteudoMutacaoTest {
 		var m=mutacao("{\"itens\":[1,2]}");var original=bytes(m);
 		for(var outro:List.of(new MutacaoSync(chave,"agua",m.operacao(),id,1L,m.dados()),new MutacaoSync(chave,m.entidade(),OperacaoSync.CRIAR,id,1L,m.dados()),new MutacaoSync(chave,m.entidade(),m.operacao(),UUID.randomUUID(),1L,m.dados()),new MutacaoSync(chave,m.entidade(),m.operacao(),id,2L,m.dados()),mutacao("{\"itens\":[2,1]}"),mutacao("{\"itens\":[1,3]}")))assertThat(bytes(outro)).isNotEqualTo(original);
 	}
-	@Test void migracao025InterpretaSemExecutarSql()throws Exception{
+	@Test void migracao029InterpretaSemExecutarSql()throws Exception{
 		try(var recursos=new liquibase.resource.ClassLoaderResourceAccessor()){
-			var log=new liquibase.parser.core.yaml.YamlChangeLogParser().parse("db/changelog/changes/025-sync-replay-seguro.yaml",new liquibase.changelog.ChangeLogParameters(),recursos);assertThat(log.getChangeSets()).hasSize(1);assertThat(log.getChangeSets().getFirst().getId()).isEqualTo("025-sync-replay-seguro");
+			var log=new liquibase.parser.core.yaml.YamlChangeLogParser().parse("db/changelog/changes/029-sync-replay-seguro.yaml",new liquibase.changelog.ChangeLogParameters(),recursos);assertThat(log.getChangeSets()).hasSize(1);assertThat(log.getChangeSets().getFirst().getId()).isEqualTo("029-sync-replay-seguro");
 		}
 	}
 }
