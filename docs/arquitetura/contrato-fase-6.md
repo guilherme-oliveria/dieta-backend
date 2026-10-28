@@ -119,3 +119,20 @@ Se o mesmo login também for de nutri, só o lado paciente sai (conta, sessões 
 ### `DELETE /api/v1/pacientes/{id}` (nutri)
 
 Exclusão **lógica** da ficha (RN-LGPD-04), com `If-Match`. `204`: a ficha some da lista e do sync da nutri (`excluido: true`), mas o registro continua no banco para a retenção legal `[SUPOSIÇÃO S6]`. Vínculo `ATIVO`: `422 VINCULO_ATIVO` (encerre antes). Vínculo `CONVIDADO`: convite invalidado, vínculo encerrado e vaga do plano liberada. O paciente que já aceitou mantém o próprio histórico. Restauração só por suporte, direto no banco.
+
+## Admin da plataforma (BE-30, RN-LGPD-05)
+
+Perfil `ADMIN` (login normal em `/auth/login`; a conta é criada na subida por `ADMIN_EMAIL` + `ADMIN_SENHA`, mínimo 12 caracteres, só variáveis de ambiente). **Nenhuma rota de dado clínico ou de usuário** aceita o admin: ele leva `403 PERFIL_INVALIDO` em tudo que não seja `/api/v1/admin/**`, `/api/v1/eu` (a própria identidade), `/api/v1/auth/**` e os termos de uso. As respostas de admin trazem só dados de conta (nome da conta, plano, status, CRN) e uma **contagem** de pacientes. Nutri e paciente recebem `403 PERFIL_INVALIDO` nas rotas de admin.
+
+Toda alteração exige `motivo` (até 500 caracteres) e grava em `log_admin` (quem, o quê, antes, depois, motivo, quando, IP). A tabela é somente inserção (trigger bloqueia `UPDATE` e `DELETE`).
+
+| Endpoint | Descrição |
+| --- | --- |
+| `GET /admin/planos` | Todos os planos, inclusive inativos |
+| `POST /admin/planos` | Cria plano: `codigo` (maiúsculas, imutável), `nome`, `precoMensal`, `limitePacientes`, `duracaoDias` (só plano de preço zero), `motivo`. Código repetido: `409 VINCULO_JA_EXISTE` |
+| `PUT /admin/planos/{id}` | Atualiza `nome`, `precoMensal`, `limitePacientes`, `duracaoDias`, `ativo`, `motivo`. Preço novo vale para novos checkouts. O plano `TESTE` não desativa e mantém a duração |
+| `GET /admin/assinaturas?status=&busca=&pagina=&tamanho=` | Página de assinaturas: conta, plano, status, fim do período, `pacientesOcupados` (contagem), `gatewayVinculado` |
+| `GET /admin/assinaturas/{id}` | Uma assinatura |
+| `PATCH /admin/assinaturas/{id}` | Ajuste manual de `planoCodigo`, `status` e/ou `fimPeriodoEm` (ao menos um) + `motivo`. O webhook do gateway continua valendo depois |
+| `GET /admin/nutricionistas?busca=&verificado=` | Nome, e-mail, CRN e `crnVerificado` |
+| `PUT /admin/nutricionistas/{id}/crn-verificado` | `{ verificado, motivo }`. Editar o CRN pela nutri volta a verificação para falso |

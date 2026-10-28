@@ -74,7 +74,7 @@ Definição de pronto de toda tarefa:
 - [x] **BE-28 PDFs.** `GeradorPdf` (Thymeleaf + openhtmltopdf) para dieta publicada e avaliação, com nome, CRN e logo da nutri; `Armazenamento` S3 (MinIO em dev); `GET /dietas/{id}/pdf`, `GET /avaliacoes/{id}/pdf` devolvendo URL pré-assinada. *Libera:* MOB-33.
 - [x] **BE-29a Exportação de dados.** `POST /eu/exportacao` (JSON + PDFs em ZIP, gerado em segundo plano, link por e-mail) e `GET /eu/exportacao` (estado e link renovado), RN-LGPD-02. *Libera:* MOB-34.
 - [x] **BE-29b Exclusão de conta.** `POST /eu/excluir-conta` (anonimização do titular, RN-LGPD-03) e soft delete de prontuário pela nutri (RN-LGPD-04). *Libera:* MOB-34.
-- [ ] **BE-30 Admin.** Perfil `ADMIN`; endpoints de planos (CRUD), assinaturas (consultar, ajustar com log), marcar `crn_verificado`; sem acesso a dado clínico (RN-LGPD-05), coberto por teste.
+- [x] **BE-30 Admin.** Perfil `ADMIN`; endpoints de planos (CRUD), assinaturas (consultar, ajustar com log), marcar `crn_verificado`; sem acesso a dado clínico (RN-LGPD-05), coberto por teste.
 - [ ] **BE-31 Endurecimento.** Rate limit geral, CORS por variável, HSTS, `426 VERSAO_APP_OBSOLETA` por `X-App-Versao`, Dependabot, varredura de dependências no CI, RLS do Postgres como segunda barreira (avaliar), revisão OWASP ASVS nível 2.
 - [ ] **BE-32 Deploy na VPS.** Dockerfile (ou `bootBuildImage`), `compose.prod.yaml` (app, Postgres 18, Caddy com HTTPS, MinIO ou S3 externo), backup diário criptografado do Postgres com teste de restauração, workflow de deploy no GitHub Actions (tag `v*`), health/readiness, logs em JSON. Domínio a definir. Parte já feita em BE-32a; aqui entra o ambiente de produção, o workflow de deploy e o teste de restauração.
 

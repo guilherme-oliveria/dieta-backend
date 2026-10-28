@@ -44,10 +44,17 @@ public class FiltroContextoUsuario extends OncePerRequestFilter {
 		var contexto=usuario.obter();
 		var cadeia=rotas.getObject().getHandler(req);
 		if(cadeia==null||!(cadeia.getHandler() instanceof HandlerMethod metodo))return;
+		boolean rotaAdmin=metodo.hasMethodAnnotation(RotaAdmin.class)||AnnotatedElementUtils.findMergedAnnotation(metodo.getBeanType(),RotaAdmin.class)!=null;
+		if(rotaAdmin&&contexto.perfil()!=Perfil.ADMIN)throw new ExcecaoNegocio(CodigoErro.PERFIL_INVALIDO,null);
+		// RN-LGPD-05: o admin só usa rotas de admin, a identidade (/eu) e a autenticação; qualquer outra rota é de dado do usuário
+		if(!rotaAdmin&&contexto.perfil()==Perfil.ADMIN&&!permitidaAoAdmin(req.getRequestURI()))throw new ExcecaoNegocio(CodigoErro.PERFIL_INVALIDO,null);
 		var regra=metodo.getMethodAnnotation(RotaNutri.class);
 		if(regra==null)regra=AnnotatedElementUtils.findMergedAnnotation(metodo.getBeanType(),RotaNutri.class);
 		if(regra==null)return;
 		if(regra.exclusiva()&&contexto.perfil()!=Perfil.NUTRICIONISTA)throw new ExcecaoNegocio(CodigoErro.PERFIL_INVALIDO,null);
 		if(contexto.perfil()==Perfil.NUTRICIONISTA&&java.util.Set.of("POST","PUT","PATCH","DELETE").contains(req.getMethod()))guarda.validar();
+	}
+	private static boolean permitidaAoAdmin(String caminho) {
+		return caminho.equals("/api/v1/eu")||caminho.startsWith("/api/v1/auth/")||caminho.startsWith("/legal/");
 	}
 }
