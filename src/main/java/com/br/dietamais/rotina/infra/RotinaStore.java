@@ -52,4 +52,10 @@ public class RotinaStore {
 			select p.* from registro_peso p where p.id=? and exists(select 1 from vinculo v where v.paciente_id=p.paciente_id and v.nutricionista_id=? and v.status='ATIVO' and v.excluido_em is null)
 			""",(rs,n)->new PesoResposta(rs.getObject("id",UUID.class),rs.getObject("paciente_id",UUID.class),rs.getBigDecimal("peso_kg"),rs.getTimestamp("registrado_em").toInstant()),id,nutri).stream().findFirst().orElse(null);
 	}
+	/** Os registros mais recentes do paciente, devolvidos do mais antigo para o mais novo. */
+	public java.util.List<com.br.dietamais.rotina.api.PesosEmCasa.Ponto> pesosDoPaciente(UUID paciente,int limite){
+		var l=new java.util.ArrayList<>(jdbc.query("select registrado_em,peso_kg from registro_peso where paciente_id=? order by registrado_em desc,id desc limit ?",
+			(rs,n)->new com.br.dietamais.rotina.api.PesosEmCasa.Ponto(rs.getTimestamp(1).toInstant(),rs.getBigDecimal(2)),paciente,limite));
+		java.util.Collections.reverse(l);return l;
+	}
 }
