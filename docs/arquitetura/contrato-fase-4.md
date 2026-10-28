@@ -107,3 +107,40 @@ Coleções novas em `GET /sync`: `modelos` (só nutri) e `questionarios` (nutri 
 ### Sync e .ics
 
 Coleção nova `consultas` em `GET /sync`, para a nutri dona e para o paciente (canceladas continuam, com `status`). O feed `.ics` do paciente passa a levar as consultas dos últimos 30 dias em diante como eventos únicos em UTC (`UID:consulta-<id>@dietamais.com.br`, `SEQUENCE` = versão − 1, `STATUS:CANCELLED` quando cancelada, `LOCATION` com o `lugar`). O título é genérico (`Dieta+: Primeira consulta`, `Dieta+: Consulta de retorno`, `Dieta+: Consulta online`).
+
+## Push e avisos (BE-24)
+
+Sem endpoint novo: os clientes já registram o aparelho (`POST /eu/dispositivos`) e as preferências (`/eu/preferencias-notificacao`). O que muda é o que o servidor faz com elas.
+
+### Quando nasce um aviso (RN-NOT-01)
+
+| Tipo | Quem recebe | Gatilho | `rota` |
+| --- | --- | --- | --- |
+| `NOVA_DIETA` | paciente | dieta publicada | `/dieta` |
+| `QUESTIONARIO_ENVIADO` | paciente | nutri envia questionário | `/questionarios/{id}` |
+| `QUESTIONARIO_RESPONDIDO` | nutri | paciente conclui | `/pacientes/{fichaId}` |
+| `CONSULTA_AMANHA` | paciente e nutri | consulta `AGENDADA` de vínculo `ATIVO` que começa em até 24 h (job a cada 15 min) | `/agenda` |
+| `PACIENTE_SEM_CHECKIN` | nutri | vínculo `ATIVO` com dieta da nutri em uso e 3 dias sem check-in (job a cada hora; um aviso por período parado) | `/pacientes/{fichaId}` |
+
+`ASSINATURA` existe como tipo, mas só é usado em BE-27.
+
+### Payload do push (FCM HTTP v1)
+
+`notification` com título e corpo genéricos (RN-NOT-02; nunca horário, local, nome ou número) e `data` `{tipo, sync: "true", rota}`. O app faz sync e navega pela `rota`. Prioridade alta no Android e `content-available` no iOS. O aparelho `DESKTOP` nunca recebe push.
+
+### Entrega
+
+- O aviso fica na tabela `aviso` (histórico do usuário, base da central de avisos de BE-34) mesmo com o tipo desligado; só o push respeita a preferência (RN-NOT-03).
+- Estados do push: `PENDENTE` → `ENVIADO`, `DESLIGADO` (tipo desligado), `SEM_DISPOSITIVO`, `EXPIRADO` (mais de 24 h) ou `FALHA` (5 tentativas, recuo de 30 s dobrando).
+- Silêncio (padrão 22:00–07:00 no fuso do usuário) adia o push para o fim da janela; se isso passar de 24 h, expira.
+- Token que o FCM recusa como não registrado é apagado.
+- Várias instâncias podem rodar os jobs: a fila usa `for update skip locked` e a chave de dedup é única por usuário, então não há ShedLock. Troca em relação ao plano: `aviso` substitui `notificacao_pendente` para push (a tabela antiga continua só para e-mail).
+
+### Configuração
+
+`PUSH_ENVIO_HABILITADO=true` liga o envio e `FCM_CREDENCIAIS_JSON` traz o JSON da conta de serviço do Firebase (só em variável de ambiente). Sem credencial, nada sai do servidor, mas os avisos continuam sendo gravados.
+
+### Fora desta tarefa
+
+O lembrete de consulta por **e-mail** da RN-AGE-02 ainda não existe: só push.
+

@@ -59,6 +59,8 @@ class QuestionariosApiTest extends TesteComPaciente {
 		var padrao=modeloPadrao(a.token());String modelo=padrao.path("id").asString();
 		var q=enviar(a.token(),p.fichaId(),modelo);String id=q.path("id").asString();
 		assertThat(q.path("status").asString()).isEqualTo("PENDENTE");assertThat(q.path("blocos")).hasSize(12);assertThat(q.path("respostas").size()).isZero();
+		// RN-NOT-01: o envio vira aviso para o paciente, com texto genérico e rota do questionário
+		assertThat(jdbc.queryForObject("select rota from aviso where usuario_id=?::uuid and tipo='QUESTIONARIO_ENVIADO'",String.class,p.usuarioId())).isEqualTo("/questionarios/"+id);
 
 		// RN-ANA-04: mudar o modelo depois não muda o questionário enviado
 		var edicao=new HashMap<String,Object>();edicao.put("nome","Outro nome");edicao.put("blocos",List.of(Map.of("titulo","Só um","perguntas",List.of(Map.of("texto","Nova","tipo","TEXTO")))));
@@ -89,6 +91,7 @@ class QuestionariosApiTest extends TesteComPaciente {
 		// agora é feminino: as condicionais passam a existir, mas nenhuma delas é obrigatória
 		var pronto=requisitar("POST","/eu/questionarios/"+id+"/enviar",p.token(),null);assertThat(pronto.statusCode()).as(pronto.body()).isEqualTo(200);
 		assertThat(json(pronto).path("status").asString()).isEqualTo("RESPONDIDO");assertThat(json(pronto).path("respondidoEm").isNull()).isFalse();
+		assertThat(jdbc.queryForObject("select count(*) from aviso where usuario_id=? and tipo='QUESTIONARIO_RESPONDIDO'",Integer.class,a.usuario())).isOne();
 
 		// imutável (RN-ANA-03) e a nutri lê as respostas
 		erro(requisitar("PUT","/eu/questionarios/"+id+"/respostas",p.token(),Map.of("respostas",Map.of(objetivo,"Melhorar a saúde"))),409,"QUESTIONARIO_FECHADO");

@@ -174,7 +174,7 @@ Ações que **exigem online** (o app desabilita o botão sem conexão): login/ca
 
 - O app registra o token em `POST /api/v1/eu/dispositivos` `{token, plataforma: ANDROID|IOS|DESKTOP, nomeAparelho}`. Desktop não tem FCM: usa só o sync periódico.
 - Payload sempre genérico (RN-NOT-02): `{ "tipo": "NOVA_DIETA", "sync": true, "rota": "paciente/dieta" }`. O app ao receber faz um sync e navega pela `rota`.
-- Backend envia via outbox: grava em `notificacao_pendente` na mesma transação do evento; um job `@Scheduled` (a cada 30 s) envia e marca como enviada, com até 5 tentativas.
+- Backend envia via fila na tabela `aviso`: o aviso é gravado logo após o commit do evento (e por jobs de lembrete); um job `@Scheduled` (a cada 30 s) envia, respeita preferências e silêncio e tenta até 5 vezes. Detalhes em `contrato-fase-4.md` (BE-24).
 
 ## Agenda Google/Apple (.ics)
 

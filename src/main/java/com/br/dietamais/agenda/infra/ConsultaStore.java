@@ -48,4 +48,11 @@ public class ConsultaStore {
 		return new ConsultaResposta(rs.getObject("id",UUID.class),rs.getObject("paciente_id",UUID.class),rs.getObject("vinculo_id",UUID.class),rs.getTimestamp("inicio").toInstant(),rs.getInt("duracao_min"),
 			TipoConsulta.valueOf(rs.getString("tipo")),rs.getString("lugar"),StatusConsulta.valueOf(rs.getString("status")),rs.getLong("versao"),rs.getTimestamp("criado_em").toInstant(),rs.getTimestamp("atualizado_em").toInstant());
 	}
+
+	public record Lembrete(UUID id,UUID nutricionistaId,UUID pacienteId,Instant inicio) {}
+	/** Consultas agendadas que começam entre {@code de} (exclusive) e {@code ate}, só de vínculos ativos. */
+	public List<Lembrete> aComecar(Instant de,Instant ate){
+		return jdbc.query("select c.id,c.nutricionista_id,c.paciente_id,c.inicio from consulta c join vinculo v on v.id=c.vinculo_id where c.status='AGENDADA' and c.excluido_em is null and v.status='ATIVO' and c.inicio>? and c.inicio<=? order by c.inicio",
+			(rs,i)->new Lembrete(rs.getObject(1,UUID.class),rs.getObject(2,UUID.class),rs.getObject(3,UUID.class),rs.getTimestamp(4).toInstant()),Timestamp.from(de),Timestamp.from(ate));
+	}
 }
