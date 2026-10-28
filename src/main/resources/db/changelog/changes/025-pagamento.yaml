@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: 025-pagamento
+      author: dietamais
+      comment: Gateway de pagamento (BE-26). O evento guarda só o necessário para idempotência e auditoria, sem dado do pagador (RN-ASS-07)
+      changes:
+        - addColumn:
+            tableName: assinatura
+            columns:
+              - column: { name: gateway_cliente_id, type: varchar(100) }
+              - column: { name: plano_pendente_id, type: uuid, constraints: { foreignKeyName: fk_assinatura_plano_pendente, references: plano(id) } }
+        - createTable:
+            tableName: evento_pagamento
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: evento_id, type: varchar(120), constraints: { nullable: false, unique: true, uniqueConstraintName: uk_evento_pagamento_evento } }
+              - column: { name: tipo, type: varchar(60), constraints: { nullable: false } }
+              - column: { name: gateway_assinatura_id, type: varchar(100) }
+              - column: { name: assinatura_id, type: uuid, constraints: { foreignKeyName: fk_evento_pagamento_assinatura, references: assinatura(id) } }
+              - column: { name: resultado, type: varchar(30), constraints: { nullable: false } }
+              - column: { name: recebido_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+        - sql:
+            sql: CREATE UNIQUE INDEX uk_assinatura_gateway ON assinatura(gateway_assinatura_id) WHERE gateway_assinatura_id IS NOT NULL

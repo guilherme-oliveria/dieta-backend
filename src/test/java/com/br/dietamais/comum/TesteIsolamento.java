@@ -23,7 +23,7 @@ public abstract class TesteIsolamento {
 	protected static final String SENHA="Frase fictícia com luas azuis em 2026";
 	@Autowired protected JdbcTemplate jdbc;
 	@Autowired protected JsonMapper mapper;
-	@LocalServerPort int porta;
+	@LocalServerPort protected int porta;
 	private final HttpClient cliente=HttpClient.newHttpClient();
 	@AfterEach void fecharCliente(){cliente.close();}
 	protected ContaTeste cadastrarNutri() throws Exception {
