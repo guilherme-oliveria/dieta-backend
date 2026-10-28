@@ -28,7 +28,7 @@ Definição de pronto de toda tarefa:
 
 ## Fase 2 — Alimentos e dieta
 
-- [x] **BE-C2 Contrato da fase 2.** Records de requisição/resposta, controllers anotados no OpenAPI devolvendo `501`, `CodigoErro` novos e um JSON de exemplo por endpoint da fase em `src/test/resources/contrato/`, com teste que valida os exemplos contra os DTOs. Implementação fica nas tarefas da fase. *Libera:* o mobile trabalhar com `MockEngine`.
+- [x] **BE-C2 Contrato da fase 2.** Records de requisição/resposta, controllers anotados no OpenAPI devolvendo `501`, `CodigoErro` novos e um JSON de exemplo por endpoint da fase em `src/test/resources/contrato/`, com teste que valida os exemplos contra os DTOs. Implementação fica nas tarefas da fase. *Libera:* o mobile trabalhar com `MockEngine`. (Feito como `contrato-fase-5.md`: a fase não cria endpoints, só entidades no `POST /sync`, então não há controllers `501`.)
 - [x] **BE-09 Catálogo base.** Changeset `010-catalogo-base` com `grupo_alimento` (nome, kcal, carboidratos, proteínas, gorduras por porção) e `alimento` (grupo, nome, medida caseira, gramas por porção, ativo); CSV de carga inicial em `db/changelog/dados/` extraído do PDF "Lista de substituição" (pasta `doc-dieta` do Guilherme: `C:\projetos-claude\projeto-dieta-mais\doc-dieta`). Se não tiver acesso ao PDF, carregue os 12 grupos com kcal de RN-ALI-02 e deixe os alimentos para um changeset seguinte. `GET /grupos-alimentos`.
 - [x] **BE-10 Lista da nutri e do paciente.** `alimento_nutri` (cópia do catálogo criada no cadastro da nutri, RN-ALI-01) e `ajuste_lista_paciente` (adicionar/remover sobre a lista da nutri); `GET/POST/PATCH /alimentos`, `GET/PUT /pacientes/{id}/lista-substituicao`; desativar em vez de apagar (RN-ALI-03). Também copiar macros/origem dos grupos por nutri e entregar edição isolada com If-Match/editor, conforme catalogo-base.md e decisão humana de 27/10; nunca alterar cópias de outra nutri ou snapshots. *Depende de:* BE-09.
 - [x] **BE-33 Perfil da nutri.** `GET/PATCH /eu/nutri` (nome de exibição, CRN, telefone, orientação padrão usada em BE-12) com `If-Match`; logo fica para BE-28. *Depende de:* BE-05. *Libera:* MOB-36.
@@ -61,8 +61,8 @@ Definição de pronto de toda tarefa:
 
 ## Fase 5 — Offline da nutri
 
-- [ ] **BE-C5 Contrato da fase 5.** Records de requisição/resposta, controllers anotados no OpenAPI devolvendo `501`, `CodigoErro` novos e um JSON de exemplo por endpoint da fase em `src/test/resources/contrato/`, com teste que valida os exemplos contra os DTOs. Implementação fica nas tarefas da fase. *Libera:* o mobile trabalhar com `MockEngine`.
-- [ ] **BE-25 Sync de escrita com conflito.** `POST /sync` com `ATUALIZAR`/`EXCLUIR` para entidades da nutri (ficha, alimentos, listas, rascunho de dieta, avaliação, modelos, consultas); conferência de `versaoBase` → `CONFLITO` com `atual`; regras de negócio aplicadas por item (RN-SYN-04); ações que exigem online recusadas no sync. Teste: duas mutações concorrentes na mesma avaliação geram exatamente um conflito. *Libera:* MOB-29, MOB-30.
+- [x] **BE-C5 Contrato da fase 5.** Records de requisição/resposta, controllers anotados no OpenAPI devolvendo `501`, `CodigoErro` novos e um JSON de exemplo por endpoint da fase em `src/test/resources/contrato/`, com teste que valida os exemplos contra os DTOs. Implementação fica nas tarefas da fase. *Libera:* o mobile trabalhar com `MockEngine`.
+- [x] **BE-25 Sync de escrita com conflito.** `POST /sync` com `ATUALIZAR`/`EXCLUIR` para entidades da nutri (ficha, alimentos, listas, rascunho de dieta, avaliação, modelos, consultas); conferência de `versaoBase` → `CONFLITO` com `atual`; regras de negócio aplicadas por item (RN-SYN-04); ações que exigem online recusadas no sync. Teste: duas mutações concorrentes na mesma avaliação geram exatamente um conflito. *Libera:* MOB-29, MOB-30.
 
 ## Fase 6 — Cobrança, PDF, LGPD e produção
 
