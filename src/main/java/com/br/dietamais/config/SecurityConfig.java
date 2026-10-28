@@ -12,13 +12,26 @@ import com.br.dietamais.comum.api.CodigoErro;
 public class SecurityConfig {
 
 	@Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http, FabricaProblema problemas) throws Exception {
+	SecurityFilterChain securityFilterChain(HttpSecurity http, FabricaProblema problemas,
+			@org.springframework.beans.factory.annotation.Value("${dieta.seguranca.hsts:false}") boolean hsts,
+			@org.springframework.beans.factory.annotation.Value("${dieta.seguranca.cors-origens:}") String corsOrigens) throws Exception {
 		org.springframework.security.web.AuthenticationEntryPoint entrada = (requisicao, resposta, erro) -> {
 			resposta.setHeader("WWW-Authenticate", "Bearer");
 			problemas.escrever(resposta, CodigoErro.NAO_AUTENTICADO, "Autenticação necessária.");
 		};
 		return http
 				.csrf(csrf -> csrf.disable())
+				.cors(cors -> cors.configurationSource(fonteCors(corsOrigens)))
+				.headers(cabecalhos -> {
+					// API JSON: nada de conteúdo ativo, de frames nem de referrer (BE-31)
+					cabecalhos.contentSecurityPolicy(csp -> csp.policyDirectives("default-src 'none'; frame-ancestors 'none'"));
+					cabecalhos.referrerPolicy(r -> r.policy(org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter.ReferrerPolicy.NO_REFERRER));
+					cabecalhos.frameOptions(f -> f.deny());
+					// HSTS só quando o ambiente termina o TLS (atrás do Caddy, requisição chega com X-Forwarded-Proto=https)
+					cabecalhos.httpStrictTransportSecurity(h -> {
+						if (hsts) h.includeSubDomains(true).maxAgeInSeconds(31536000).requestMatcher(requisicao -> true); else h.disable();
+					});
+				})
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/actuator/health/**").permitAll()
@@ -42,6 +55,25 @@ public class SecurityConfig {
 						.accessDeniedHandler((requisicao, resposta, erro) -> problemas.escrever(resposta,
 								CodigoErro.ACESSO_NEGADO, "Acesso não permitido.")))
 				.build();
+	}
+
+	/** Origens do site (CORS_ORIGENS, separadas por vírgula, HTTPS e exatas). Vazio: nenhuma origem de navegador é aceita. */
+	static org.springframework.web.cors.CorsConfigurationSource fonteCors(String origens) {
+		var fonte = new org.springframework.web.cors.UrlBasedCorsConfigurationSource();
+		var lista = java.util.Arrays.stream(origens.split(",")).map(String::strip).filter(o -> !o.isEmpty()).toList();
+		for (var origem : lista)
+			if (!origem.matches("https://[A-Za-z0-9.-]+(:[0-9]{1,5})?") && !origem.matches("http://localhost(:[0-9]{1,5})?"))
+				throw new IllegalStateException("CORS_ORIGENS aceita só origens HTTPS exatas (ou http://localhost em desenvolvimento).");
+		if (lista.isEmpty()) return fonte;
+		var cors = new org.springframework.web.cors.CorsConfiguration();
+		cors.setAllowedOrigins(lista);
+		cors.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+		cors.setAllowedHeaders(java.util.List.of("Authorization", "Content-Type", "If-Match", "Idempotency-Key", "X-App-Versao"));
+		cors.setExposedHeaders(java.util.List.of("ETag", "Retry-After", "Location"));
+		cors.setAllowCredentials(true); // cookie HttpOnly do refresh no site; só vale com origem explícita
+		cors.setMaxAge(3600L);
+		fonte.registerCorsConfiguration("/api/**", cors);
+		return fonte;
 	}
 
 }

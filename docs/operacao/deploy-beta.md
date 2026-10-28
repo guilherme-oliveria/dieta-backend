@@ -30,9 +30,9 @@ O Liquibase aplica as migrações na subida. Para atualizar: `git pull` e repita
 
 ## Backup e restauração
 
-- Backup manual: `docker compose -f compose.prod.yaml exec backup /ops/backup.sh agora`
-- Copie os arquivos para fora da VPS (`docker compose -f compose.prod.yaml cp backup:/backups ./backups`). **No beta o backup fica no mesmo servidor e sem criptografia**: a cópia externa criptografada e o teste de restauração automatizado são da BE-32.
-- Restaurar (ambiente vazio ou de teste): `gunzip -c dietamais-AAAAMMDDTHHMMSSZ.sql.gz | docker compose -f compose.prod.yaml exec -T postgres psql -U dietamais dietamais`
+- Backup manual: `docker compose -f compose.prod.yaml exec backup /bin/sh /ops/backup.sh agora`
+- Os dumps saem **criptografados** (`dietamais-*.sql.gz.enc`, AES-256 com `BACKUP_SENHA`). Guarde a senha fora da VPS: sem ela não há restauração. Veja `producao.md` para a cópia externa e o teste de restauração.
+- Restaurar (ambiente vazio ou de teste): `openssl enc -d -aes-256-cbc -pbkdf2 -pass env:BACKUP_SENHA -in dietamais-AAAAMMDDTHHMMSSZ.sql.gz.enc | gunzip | docker compose -f compose.prod.yaml exec -T postgres psql -U dietamais dietamais`
 
 ## Limitações conhecidas do beta
 

@@ -17,7 +17,7 @@ import tools.jackson.databind.json.JsonMapper;
 
 /** Base para cenários HTTP com dois donos e banco real, sem confiar em IDs do cliente. */
 @SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT,
-	properties="dieta.auth.login-limite-ip=10000")
+	properties={"dieta.auth.login-limite-ip=10000","dieta.taxa.usuario-por-minuto=100000"})
 @Import(TestcontainersConfiguration.class)
 public abstract class TesteIsolamento {
 	protected static final String SENHA="Frase fictícia com luas azuis em 2026";

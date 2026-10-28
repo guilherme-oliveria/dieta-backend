@@ -49,8 +49,33 @@ services:
       DIETA_CONSENTIMENTO_VERSAO: ${CONSENTIMENTO_VERSAO:-}
       DIETA_CONSENTIMENTO_TEXTO: ${CONSENTIMENTO_TEXTO:-}
       DIETA_PUBLICO_URL_BASE: https://${DOMINIO:?defina DOMINIO}
+      # segurança (BE-31): o app só aceita origens do site em CORS_ORIGENS; HSTS pois o Caddy termina o TLS
+      HSTS_HABILITADO: "true"
+      CORS_ORIGENS: ${CORS_ORIGENS:-}
+      APP_VERSAO_MINIMA: ${APP_VERSAO_MINIMA:-}
+      TAXA_USUARIO_POR_MINUTO: ${TAXA_USUARIO_POR_MINUTO:-300}
+      # admin inicial (BE-30): criado na primeira subida se ainda não existir
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      ADMIN_SENHA: ${ADMIN_SENHA:-}
+      # pagamento (BE-26): sem ASAAS_API_KEY o checkout fica indisponível
+      ASAAS_API_KEY: ${ASAAS_API_KEY:-}
+      ASAAS_WEBHOOK_TOKEN: ${ASAAS_WEBHOOK_TOKEN:-}
+      ASAAS_URL_BASE: ${ASAAS_URL_BASE:-https://api-sandbox.asaas.com}
+      # push (BE-24)
+      PUSH_ENVIO_HABILITADO: ${PUSH_ENVIO_HABILITADO:-false}
+      FCM_CREDENCIAIS_JSON: ${FCM_CREDENCIAIS_JSON:-}
+      # arquivos (BE-28): disco no volume `arquivos`; com S3_ENDPOINT usa S3/MinIO
+      ARQUIVOS_DIR: /arquivos
+      ARQUIVOS_SEGREDO: ${ARQUIVOS_SEGREDO:?defina ARQUIVOS_SEGREDO}
+      S3_ENDPOINT: ${S3_ENDPOINT:-}
+      S3_BUCKET: ${S3_BUCKET:-dietamais}
+      S3_REGIAO: ${S3_REGIAO:-us-east-1}
+      S3_CHAVE_ACESSO: ${S3_CHAVE_ACESSO:-}
+      S3_CHAVE_SECRETA: ${S3_CHAVE_SECRETA:-}
       # o Caddy fica na frente: o IP real vem de X-Forwarded-For (limites por IP)
       SERVER_FORWARD_HEADERS_STRATEGY: native
+    volumes:
+      - arquivos:/arquivos
     healthcheck:
       test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/8080 && printf \"GET /actuator/health/readiness HTTP/1.0\\r\\n\\r\\n\" >&3 && grep -q UP <&3'"]
       interval: 15s
@@ -86,13 +111,16 @@ services:
       PGDATABASE: dietamais
       PGPASSWORD: ${DB_PASSWORD}
       DIAS_RETENCAO: ${DIAS_RETENCAO:-14}
+      BACKUP_SENHA: ${BACKUP_SENHA:?defina BACKUP_SENHA}
       HORA_BACKUP: ${HORA_BACKUP:-03:00}
     entrypoint: ["/bin/sh","/ops/backup.sh"]
     volumes:
       - ./ops/backup.sh:/ops/backup.sh:ro
+      - ./ops/testar-restauracao.sh:/ops/testar-restauracao.sh:ro
       - backups:/backups
 
 volumes:
+  arquivos:
   pgdata:
   caddy-data:
   caddy-config:

@@ -12,6 +12,8 @@ FROM eclipse-temurin:25-jre
 RUN groupadd --system app && useradd --system --gid app --no-create-home app
 WORKDIR /app
 COPY --from=build /app.jar app.jar
+# Arquivos gerados (PDFs, logo) quando não há S3: diretório do volume `arquivos` do compose (BE-28)
+RUN mkdir -p /arquivos && chown app:app /arquivos
 USER app
 ENV SPRING_PROFILES_ACTIVE=prod \
 	JAVA_TOOL_OPTIONS="-XX:MaxRAMPercentage=75 -XX:+ExitOnOutOfMemoryError"

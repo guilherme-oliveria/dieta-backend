@@ -33,6 +33,7 @@ public class FabricaProblema {
 			case 409 -> "Conflito na requisição";
 			case 415 -> "Tipo de conteúdo não suportado";
 			case 422 -> "Regra de negócio não atendida";
+			case 426 -> "Atualização do aplicativo necessária";
 			case 429 -> "Limite de tentativas atingido";
 			case 501 -> "Endpoint ainda não implementado";
 			default -> "Erro interno";

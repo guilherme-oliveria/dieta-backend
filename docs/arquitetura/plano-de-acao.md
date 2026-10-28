@@ -75,8 +75,9 @@ Definição de pronto de toda tarefa:
 - [x] **BE-29a Exportação de dados.** `POST /eu/exportacao` (JSON + PDFs em ZIP, gerado em segundo plano, link por e-mail) e `GET /eu/exportacao` (estado e link renovado), RN-LGPD-02. *Libera:* MOB-34.
 - [x] **BE-29b Exclusão de conta.** `POST /eu/excluir-conta` (anonimização do titular, RN-LGPD-03) e soft delete de prontuário pela nutri (RN-LGPD-04). *Libera:* MOB-34.
 - [x] **BE-30 Admin.** Perfil `ADMIN`; endpoints de planos (CRUD), assinaturas (consultar, ajustar com log), marcar `crn_verificado`; sem acesso a dado clínico (RN-LGPD-05), coberto por teste.
-- [ ] **BE-31 Endurecimento.** Rate limit geral, CORS por variável, HSTS, `426 VERSAO_APP_OBSOLETA` por `X-App-Versao`, Dependabot, varredura de dependências no CI, RLS do Postgres como segunda barreira (avaliar), revisão OWASP ASVS nível 2.
-- [ ] **BE-32 Deploy na VPS.** Dockerfile (ou `bootBuildImage`), `compose.prod.yaml` (app, Postgres 18, Caddy com HTTPS, MinIO ou S3 externo), backup diário criptografado do Postgres com teste de restauração, workflow de deploy no GitHub Actions (tag `v*`), health/readiness, logs em JSON. Domínio a definir. Parte já feita em BE-32a; aqui entra o ambiente de produção, o workflow de deploy e o teste de restauração.
+- [x] **BE-31 Endurecimento.** Rate limit geral, CORS por variável, HSTS, `426 VERSAO_APP_OBSOLETA` por `X-App-Versao`, Dependabot, varredura de dependências no CI, RLS do Postgres como segunda barreira (avaliada e adiada), revisão OWASP ASVS nível 2. Feito em `docs/arquitetura/seguranca.md`; os arquivos de Dependabot e do workflow de segurança estão em `ops/github/` à espera de cópia para `.github/` (o agente não escreve lá).
+- [x] **BE-32 Deploy na VPS (repositório).** Dockerfile, `compose.prod.yaml` completo (app, Postgres 18, Caddy HTTPS, volume de arquivos, variáveis de segurança, pagamento, push e admin), backup diário **criptografado** (`ops/backup.sh`), teste de restauração (`ops/testar-restauracao.sh`), logs em JSON no perfil `prod`, workflow de deploy por tag em `ops/github/workflows/deploy.yml` e guia em `docs/operacao/producao.md`.
+- [ ] **BE-32b Implantação real.** Subir na VPS: depende do Guilherme (VPS, domínio, `.env.prod`, segredos do GitHub e cópia de `ops/github/` para `.github/`). Fecha o marco de produção.
 
 ## Pós-MVP (P2, ainda sem tarefas)
 
