@@ -53,7 +53,8 @@ public class GerenciarDietas {
 		if(requisicao.id()!=null&&!requisicao.id().equals(id))throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,null);
 		if(atual.status()!=StatusDieta.RASCUNHO)throw new ExcecaoNegocio(CodigoErro.DIETA_NAO_EDITAVEL,"RN-DIE-04");
 		var ficha=fichas.consultar(atual.pacienteId(),true);
-		if(ficha.status()==StatusVinculo.ENCERRADO)throw new ExcecaoNegocio(CodigoErro.ACESSO_NEGADO,"RN-VIN-05");
+		// RN-VIN-05: um vínculo novo não reabre a edição do histórico do vínculo anterior.
+		if(!ficha.vinculoId().equals(atual.vinculoId())||ficha.status()==StatusVinculo.ENCERRADO)throw new ExcecaoNegocio(CodigoErro.ACESSO_NEGADO,"RN-VIN-05");
 		if(VersaoDieta.ler(ifMatch)!=atual.versao()){
 			auditoria.leitura(referencia(atual,contexto));
 			throw new ExcecaoNegocio(CodigoErro.CONFLITO_VERSAO,"RN-SYN-02","A dieta foi atualizada. Revise os dados atuais.",List.of(),mapper.valueToTree(montador.montar(List.of(atual),nutri).get(0)));
