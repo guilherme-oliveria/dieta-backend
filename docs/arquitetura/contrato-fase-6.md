@@ -53,3 +53,16 @@ Exige o cabeçalho `asaas-access-token` igual a `ASAAS_WEBHOOK_TOKEN` (comparaç
 Cada mudança relevante gera um aviso `ASSINATURA` (genérico, RN-NOT-02) para as nutris da organização.
 
 Configuração (somente variáveis de ambiente): `ASAAS_API_KEY`, `ASAAS_WEBHOOK_TOKEN`, `ASAAS_URL_BASE` (padrão: sandbox).
+
+## Ciclo de vida da assinatura (BE-27)
+
+Sem endpoint novo. Um job de hora em hora (`dieta.assinatura.intervalo-ciclo`) mantém os status coerentes e avisa a nutri (aviso `ASSINATURA`, genérico, push e central; e-mail fica para depois):
+
+| Situação | Efeito |
+| --- | --- |
+| `TESTE` com `fimPeriodoEm` vencido | `EXPIRADA` (RN-ASS-02) + aviso |
+| `TESTE` a 3 dias do fim (`dieta.assinatura.aviso-fim-teste`) | aviso, uma vez |
+| `ATIVA` sem renovação por mais de 3 dias (`dieta.assinatura.tolerancia-webhook`, webhook perdido) | `EM_ATRASO` + aviso |
+| `EM_ATRASO` além da carência de 7 dias (RN-ASS-04) | aviso de bloqueio, uma vez por vencimento; escrita já recusa com `ASSINATURA_INATIVA` |
+
+Downgrade (RN-ASS-08): com plano de limite menor que os pacientes ativos, novos convites ficam bloqueados (`LIMITE_PACIENTES_ATINGIDO`) e nenhum vínculo é encerrado. O paciente nunca é afetado (RN-ASS-05).
