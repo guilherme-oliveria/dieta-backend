@@ -1,5 +1,6 @@
 package com.br.dietamais.sync.aplicacao;
 
+import com.br.dietamais.agenda.api.ConsultaResposta;
 import com.br.dietamais.alimentos.api.*;
 import com.br.dietamais.avaliacoes.api.AvaliacaoResposta;
 import com.br.dietamais.questionarios.api.ModeloQuestionarioResposta;
@@ -36,7 +37,7 @@ public class ServicoSyncLeitura {
 		var pacientes=new ArrayList<MudancaSyncResposta<PacienteResposta>>();var vinculos=new ArrayList<MudancaSyncResposta<VinculoResposta>>();var nutris=new ArrayList<MudancaSyncResposta<NutricionistaResumoResposta>>();
 		var grupos=new ArrayList<MudancaSyncResposta<GrupoAlimentoResposta>>();var alimentos=new ArrayList<MudancaSyncResposta<AlimentoResposta>>();var listas=new ArrayList<MudancaSyncResposta<ListaSubstituicaoResposta>>();
 		var dietas=new ArrayList<MudancaSyncResposta<DietaResposta>>();var snapshots=new ArrayList<MudancaSyncResposta<DietaSnapshotResposta>>();var emUso=new ArrayList<MudancaSyncResposta<DietaEmUsoResposta>>();
-		var checkins=new ArrayList<MudancaSyncResposta<CheckinResposta>>();var agua=new ArrayList<MudancaSyncResposta<AguaResposta>>();var pesos=new ArrayList<MudancaSyncResposta<PesoResposta>>();var avaliacoes=new ArrayList<MudancaSyncResposta<AvaliacaoResposta>>();var modelos=new ArrayList<MudancaSyncResposta<ModeloQuestionarioResposta>>();var questionarios=new ArrayList<MudancaSyncResposta<QuestionarioResposta>>();
+		var checkins=new ArrayList<MudancaSyncResposta<CheckinResposta>>();var agua=new ArrayList<MudancaSyncResposta<AguaResposta>>();var pesos=new ArrayList<MudancaSyncResposta<PesoResposta>>();var avaliacoes=new ArrayList<MudancaSyncResposta<AvaliacaoResposta>>();var modelos=new ArrayList<MudancaSyncResposta<ModeloQuestionarioResposta>>();var questionarios=new ArrayList<MudancaSyncResposta<QuestionarioResposta>>();var consultas=new ArrayList<MudancaSyncResposta<ConsultaResposta>>();
 		long ultimo=cursor;
 		for(var entrada:candidatos.subList(0,Math.min(limite,candidatos.size()))) {
 			var referencia=entrada.referencia();Object dados=entrada.fonte().carregar(referencia,contexto);ultimo=referencia.seq();
@@ -56,9 +57,10 @@ public class ServicoSyncLeitura {
 				case AVALIACOES->avaliacoes.add(mudanca(referencia,dados,AvaliacaoResposta.class));
 				case MODELOS->modelos.add(mudanca(referencia,dados,ModeloQuestionarioResposta.class));
 				case QUESTIONARIOS->questionarios.add(mudanca(referencia,dados,QuestionarioResposta.class));
+				case CONSULTAS->consultas.add(mudanca(referencia,dados,ConsultaResposta.class));
 			}
 		}
-		return new SyncResposta(Long.toString(mais?ultimo:marco),mais,new MudancasFase1Resposta(pacientes,vinculos,nutris,grupos,alimentos,listas,dietas,snapshots,emUso,checkins,agua,pesos,avaliacoes,modelos,questionarios));
+		return new SyncResposta(Long.toString(mais?ultimo:marco),mais,new MudancasFase1Resposta(pacientes,vinculos,nutris,grupos,alimentos,listas,dietas,snapshots,emUso,checkins,agua,pesos,avaliacoes,modelos,questionarios,consultas));
 	}
 	private <T> MudancaSyncResposta<T> mudanca(ReferenciaSync referencia,Object dados,Class<T> tipo){return new MudancaSyncResposta<>(referencia.id(),referencia.seq(),dados==null,tipo.cast(dados));}
 	private record Entrada(FonteSync<?> fonte,ReferenciaSync referencia){}

@@ -16,12 +16,16 @@ import java.util.UUID;
 /** Feed iCalendar (RFC 5545) com um evento diário por refeição. Título genérico: nunca leva alimento nem dado de saúde (RN-NOT-02). */
 public final class GeradorIcs {
 	public record Refeicao(UUID id,String nome,LocalTime horario) {}
+	/** Consulta como evento único (UTC). {@code sequencia} sobe a cada mudança para o calendário atualizar o mesmo UID; cancelada vira {@code STATUS:CANCELLED}. */
+	public record Consulta(UUID id,Instant inicio,Instant fim,String titulo,String lugar,boolean cancelada,long sequencia,Instant atualizadoEm) {}
 	private static final DateTimeFormatter LOCAL=DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss");
 	private static final DateTimeFormatter UTC=DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'").withZone(java.time.ZoneOffset.UTC);
 	private static final Duration DURACAO=Duration.ofMinutes(30);
 	private GeradorIcs(){}
 
-	public static String gerar(List<Refeicao> refeicoes,Instant inicioVigencia,ZoneId fuso){
+	public static String gerar(List<Refeicao> refeicoes,Instant inicioVigencia,ZoneId fuso){return gerar(refeicoes,List.of(),inicioVigencia,fuso);}
+
+	public static String gerar(List<Refeicao> refeicoes,List<Consulta> consultas,Instant inicioVigencia,ZoneId fuso){
 		var l=new ArrayList<String>();
 		l.add("BEGIN:VCALENDAR");l.add("VERSION:2.0");l.add("PRODID:-//Dieta+//Refeicoes//PT-BR");l.add("CALSCALE:GREGORIAN");l.add("METHOD:PUBLISH");
 		l.add("X-WR-CALNAME:Dieta+");l.add("X-WR-TIMEZONE:"+fuso.getId());l.add("REFRESH-INTERVAL;VALUE=DURATION:PT12H");l.add("X-PUBLISHED-TTL:PT12H");
@@ -39,6 +43,17 @@ public final class GeradorIcs {
 				l.add("TRANSP:TRANSPARENT");
 				l.add("END:VEVENT");
 			}
+		}
+		for(var c:consultas){
+			l.add("BEGIN:VEVENT");
+			l.add("UID:consulta-"+c.id()+"@dietamais.com.br");
+			l.add("DTSTAMP:"+UTC.format(c.atualizadoEm()));l.add("LAST-MODIFIED:"+UTC.format(c.atualizadoEm()));
+			l.add("SEQUENCE:"+c.sequencia());
+			l.add("DTSTART:"+UTC.format(c.inicio()));l.add("DTEND:"+UTC.format(c.fim()));
+			l.add("SUMMARY:"+escapar(c.titulo()));
+			if(c.lugar()!=null)l.add("LOCATION:"+escapar(c.lugar()));
+			l.add("STATUS:"+(c.cancelada()?"CANCELLED":"CONFIRMED"));
+			l.add("END:VEVENT");
 		}
 		l.add("END:VCALENDAR");
 		var sb=new StringBuilder();
