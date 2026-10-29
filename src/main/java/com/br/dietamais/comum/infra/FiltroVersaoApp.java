@@ -19,19 +19,24 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Order(Ordered.HIGHEST_PRECEDENCE+30)
 public class FiltroVersaoApp extends OncePerRequestFilter {
 	private static final Pattern VERSAO=Pattern.compile("^v?(\\d+)(?:\\.(\\d+))?(?:\\.(\\d+))?(?:[-+].*)?$");
-	private final long[] minima;private final FabricaProblema problemas;
-	public FiltroVersaoApp(FabricaProblema problemas,@Value("${dieta.app.versao-minima:}") String minima){
+	private final long[] minima;private final long[] minimaWeb;private final FabricaProblema problemas;
+	public FiltroVersaoApp(FabricaProblema problemas,@Value("${dieta.app.versao-minima:}") String minima,
+			@Value("${dieta.app.versao-minima-web:}") String minimaWeb){
 		this.problemas=problemas;this.minima=minima.isBlank()?null:ler(minima.strip());
 		if(!minima.isBlank()&&this.minima==null)throw new IllegalStateException("APP_VERSAO_MINIMA inválida; use o formato 1.2.3");
+		this.minimaWeb=minimaWeb.isBlank()?null:ler(minimaWeb.strip());
+		if(!minimaWeb.isBlank()&&this.minimaWeb==null)throw new IllegalStateException("APP_VERSAO_MINIMA_WEB inválida; use o formato 1.2.3");
 	}
 	@Override protected boolean shouldNotFilter(HttpServletRequest req){
 		String c=req.getRequestURI();
-		return minima==null||!c.startsWith("/api/v1/")||c.startsWith("/api/v1/webhooks/")||c.startsWith("/api/v1/arquivos/")||c.startsWith("/api/v1/exportacoes/");
+		return (minima==null&&minimaWeb==null)||!c.startsWith("/api/v1/")||c.startsWith("/api/v1/webhooks/")||c.startsWith("/api/v1/arquivos/")||c.startsWith("/api/v1/exportacoes/");
 	}
 	@Override protected void doFilterInternal(HttpServletRequest req,HttpServletResponse res,FilterChain cadeia) throws ServletException,IOException {
 		var informada=req.getHeader("X-App-Versao");
 		var versao=informada==null?null:ler(informada.strip());
-		if(versao!=null&&comparar(versao,minima)<0){
+		// BE-37: o site tem versão mínima própria (X-Plataforma: WEB); sem ela, WEB não é bloqueado pela dos apps
+		var exigida="WEB".equalsIgnoreCase(req.getHeader("X-Plataforma"))?minimaWeb:minima;
+		if(versao!=null&&exigida!=null&&comparar(versao,exigida)<0){
 			res.setHeader("Cache-Control","no-store");
 			problemas.escrever(res,CodigoErro.VERSAO_APP_OBSOLETA,"Esta versão do aplicativo não é mais aceita. Atualize para continuar.");return;
 		}

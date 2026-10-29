@@ -24,7 +24,7 @@ O Liquibase aplica as migrações na subida. Para atualizar: `git pull` e repita
 - `JWT_CHAVE_PRIVADA` / `JWT_CHAVE_PUBLICA`: par RSA 2048+ em PEM; sem elas o app não sobe fora de dev/test.
 - `IDEMPOTENCIA_CHAVE`, `NOTIFICACOES_CHAVE`: 32 bytes em Base64 (`openssl rand -base64 32`), cada uma diferente. Sem a primeira, POSTs idempotentes falham.
 - `CONSENTIMENTO_VERSAO` / `CONSENTIMENTO_TEXTO`: texto do termo de consentimento clínico (RN-VIN-04). **Decisão do Guilherme**: sem ele, nenhum paciente aceita convite. Em dev há um termo fictício.
-- `WEB_ORIGEM`: origem HTTPS do site (só quando o Angular existir).
+- `WEB_ORIGEM`: origem HTTPS do site (só quando o site em KMP existir).
 - `EMAIL_ENVIO_HABILITADO=false` mantém o envio de e-mail desligado (convite e recuperação de senha dependem dele em produção).
 - Push (FCM) entra na BE-24; a credencial será outra variável de ambiente.
 

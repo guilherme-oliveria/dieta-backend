@@ -33,6 +33,13 @@ class EndurecimentoApiTest extends TesteIsolamento {
 		assertThat(enviar("GET","/actuator/health/liveness",Map.of("X-App-Versao","0.0.1")).statusCode()).isEqualTo(200); // fora de /api/v1
 	}
 
+	@Test void versaoMinimaDaWebEPropriaEOsAppsNaoSaoAfetadosPorElaNemViceVersa() throws Exception {
+		var login="/api/v1/auth/login";
+		// sem dieta.app.versao-minima-web, a web não é bloqueada (publicada junto com a API)
+		assertThat(enviar("POST",login,Map.of("X-App-Versao","0.0.1","X-Plataforma","WEB","Content-Type","application/json")).statusCode()).isNotEqualTo(426);
+		erro(enviar("POST",login,Map.of("X-App-Versao","0.0.1","X-Plataforma","ANDROID","Content-Type","application/json")),426,"VERSAO_APP_OBSOLETA");
+	}
+
 	@Test void limiteGeralPorUsuarioDevolve429ComRetryAfterSemAfetarOutroUsuario() throws Exception {
 		var a=cadastrarNutri();var b=cadastrarNutri();
 		for(int i=0;i<5;i++)assertThat(requisitar("GET","/eu",a.token(),null).statusCode()).isEqualTo(200);

@@ -19,6 +19,19 @@ class TransporteSessaoTest {
 		req.addHeader("Origin","https://app.example.invalid");
 		assertThat(transporte("https://app.example.invalid").lerRefresh(null,req)).isEqualTo("FICTICIO_SEM_VALIDADE");
 	}
+	@Test void pedidoDoSiteRecebeRefreshSoNoCookie() {
+		var sessao = new SessaoResposta("ACESSO_FICTICIO","REFRESH_FICTICIO",relogio.instant(),null);
+		var site = new MockHttpServletRequest();site.addHeader("Origin","https://app.example.invalid");
+		var doSite = transporte("https://app.example.invalid").sessao(sessao,site);
+		assertThat(doSite.getBody().refreshToken()).isNull();
+		assertThat(doSite.getBody().accessToken()).isEqualTo("ACESSO_FICTICIO");
+		assertThat(doSite.getHeaders().getFirst("Set-Cookie")).contains("refreshToken=REFRESH_FICTICIO","HttpOnly");
+		var app = transporte("https://app.example.invalid").sessao(sessao,new MockHttpServletRequest());
+		assertThat(app.getBody().refreshToken()).isEqualTo("REFRESH_FICTICIO");
+		var alheia = new MockHttpServletRequest();alheia.addHeader("Origin","https://alheio.example.invalid");
+		assertThat(transporte("https://app.example.invalid").sessao(sessao,alheia).getBody().refreshToken()).isEqualTo("REFRESH_FICTICIO");
+		assertThat(transporte("").sessao(sessao,site).getBody().refreshToken()).isEqualTo("REFRESH_FICTICIO");
+	}
 	@Test void configuraSomenteOrigemHttpsExata() {
 		assertThatThrownBy(() -> transporte("http://app.example.invalid")).isInstanceOf(IllegalStateException.class);
 		assertThatThrownBy(() -> transporte("https://app.example.invalid/caminho")).isInstanceOf(IllegalStateException.class);

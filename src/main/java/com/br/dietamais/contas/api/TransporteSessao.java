@@ -36,10 +36,16 @@ public class TransporteSessao {
 		}
 		throw new ExcecaoNegocio(CodigoErro.OBRIGATORIO, null);
 	}
-	public ResponseEntity<SessaoResposta> sessao(SessaoResposta sessao) {
+	/** BE-37: pedido vindo do site (Origin igual a WEB_ORIGEM) recebe o refresh só no cookie HttpOnly, nunca no corpo. */
+	public ResponseEntity<SessaoResposta> sessao(SessaoResposta sessao, HttpServletRequest requisicao) {
 		var resposta = ResponseEntity.ok().cacheControl(CacheControl.noStore());
 		if (sessao.refreshToken() != null) resposta.header(HttpHeaders.SET_COOKIE, cookie(sessao.refreshToken(), Duration.ofDays(30)));
+		if (sessao.refreshToken() != null && doSite(requisicao))
+			sessao = new SessaoResposta(sessao.accessToken(), null, sessao.expiraEm(), sessao.usuario());
 		return resposta.body(sessao);
+	}
+	private boolean doSite(HttpServletRequest requisicao) {
+		return !origem.isBlank() && origem.equals(requisicao.getHeader("Origin"));
 	}
 	public ResponseEntity<Void> encerrada() {
 		return ResponseEntity.noContent().cacheControl(CacheControl.noStore())
