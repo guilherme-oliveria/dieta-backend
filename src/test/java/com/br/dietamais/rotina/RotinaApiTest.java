@@ -114,4 +114,26 @@ class RotinaApiTest extends TesteComPaciente {
 			corpo=json(requisitar("GET","/sync?limite=1000&cursor="+corpo.path("cursor").asString(),token,null));
 		}
 	}
+	@Test void leituraDaRotinaPorPeriodoSoDoProprioPacienteComJanelaMaxima() throws Exception {
+		var c=cenario();var t=c.paciente().token();
+		var corpo=checkin(c,"FEITO",hoje());corpo.put("id",novoId());assertThat(requisitar("POST","/eu/checkins",t,corpo).statusCode()).isEqualTo(201);
+		assertThat(requisitar("POST","/eu/agua",t,Map.of("id",novoId(),"ml",250,"registradoEm",Instant.now().toString())).statusCode()).isEqualTo(201);
+		assertThat(requisitar("POST","/eu/pesos",t,Map.of("id",novoId(),"pesoKg",72.5,"registradoEm",Instant.now().toString())).statusCode()).isEqualTo(201);
+		var r=requisitar("GET","/eu/rotina?de="+hoje()+"&ate="+hoje(),t,null);assertThat(r.statusCode()).as(r.body()).isEqualTo(200);
+		var j=json(r);assertThat(j.path("checkins")).hasSize(1);assertThat(j.path("checkins").get(0).path("id").asString()).isEqualTo(corpo.get("id"));
+		assertThat(j.path("agua")).hasSize(1);assertThat(j.path("pesos")).hasSize(1);
+		// período sem registros e dia anterior ao registro
+		var vazio=json(requisitar("GET","/eu/rotina?de="+hoje().minusDays(10)+"&ate="+hoje().minusDays(5),t,null));
+		assertThat(vazio.path("checkins")).isEmpty();assertThat(vazio.path("agua")).isEmpty();assertThat(vazio.path("pesos")).isEmpty();
+		// janela de 31 dias vale; 32 não
+		assertThat(requisitar("GET","/eu/rotina?de="+hoje().minusDays(30)+"&ate="+hoje(),t,null).statusCode()).isEqualTo(200);
+		erro(requisitar("GET","/eu/rotina?de="+hoje().minusDays(31)+"&ate="+hoje(),t,null),400,"FORMATO_INVALIDO");
+		erro(requisitar("GET","/eu/rotina?de="+hoje()+"&ate="+hoje().minusDays(1),t,null),400,"FORMATO_INVALIDO");
+		// isolamento: outro paciente não vê, nutri não acessa pelo perfil, sem token é 401
+		var outro=pacienteVinculado(c.nutri());
+		var deOutro=json(requisitar("GET","/eu/rotina?de="+hoje()+"&ate="+hoje(),outro.token(),null));
+		assertThat(deOutro.path("checkins")).isEmpty();assertThat(deOutro.path("agua")).isEmpty();assertThat(deOutro.path("pesos")).isEmpty();
+		erro(requisitar("GET","/eu/rotina?de="+hoje()+"&ate="+hoje(),c.nutri().token(),null),403,"PERFIL_INVALIDO");
+		assertThat(requisitar("GET","/eu/rotina?de="+hoje()+"&ate="+hoje(),null,null).statusCode()).isEqualTo(401);
+	}
 }

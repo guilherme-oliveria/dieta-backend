@@ -1,6 +1,7 @@
 package com.br.dietamais.rotina.api;
 
 import com.br.dietamais.comum.api.*;
+import com.br.dietamais.rotina.aplicacao.ConsultarRotina;
 import com.br.dietamais.rotina.aplicacao.RegistrarRotina;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.*;
@@ -8,8 +9,10 @@ import io.swagger.v3.oas.annotations.responses.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.time.LocalDate;
 import java.util.UUID;
 import org.springframework.http.CacheControl;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +29,15 @@ import org.springframework.web.bind.annotation.*;
 	@ApiResponse(responseCode="422",description="ProblemDetail com código estável",content=@Content(mediaType="application/problem+json",schema=@Schema(implementation=ProblemaResposta.class)))
 })
 public class RotinaController {
-	private final RegistrarRotina rotina;
-	public RotinaController(RegistrarRotina rotina){this.rotina=rotina;}
+	private final RegistrarRotina rotina;private final ConsultarRotina consulta;
+	public RotinaController(RegistrarRotina rotina,ConsultarRotina consulta){this.rotina=rotina;this.consulta=consulta;}
+
+	@GetMapping("/rotina")
+	@Operation(operationId="consultarRotina",summary="Rotina do paciente num período",description="Check-ins, água e pesos do próprio paciente entre as datas (inclusive, no fuso dele), no formato do /sync. Janela de até 31 dias. Para clientes sem banco local. BE-38.")
+	@ApiResponse(responseCode="200",description="Registros do período",content=@Content(mediaType="application/json",schema=@Schema(implementation=RotinaResposta.class)))
+	public ResponseEntity<RotinaResposta> consultarRotina(@RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate de,@RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate ate){
+		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(consulta.periodo(de,ate));
+	}
 
 	@PostMapping("/checkins")
 	@Idempotente

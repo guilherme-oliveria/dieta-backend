@@ -58,4 +58,15 @@ public class RotinaStore {
 			(rs,n)->new com.br.dietamais.rotina.api.PesosEmCasa.Ponto(rs.getTimestamp(1).toInstant(),rs.getBigDecimal(2)),paciente,limite));
 		java.util.Collections.reverse(l);return l;
 	}
+	public List<CheckinResposta> checkinsDoPaciente(UUID paciente,LocalDate de,LocalDate ate){
+		return jdbc.query("select * from checkin where paciente_id=? and data between ? and ? order by registrado_em,id",(rs,n)->new CheckinResposta(rs.getObject("id",UUID.class),rs.getObject("paciente_id",UUID.class),rs.getObject("dieta_id",UUID.class),
+			rs.getObject("refeicao_id",UUID.class),rs.getObject("data",LocalDate.class),StatusCheckin.valueOf(rs.getString("status")),
+			mapper.readValue(rs.getString("trocas"),new TypeReference<List<TrocaCheckin>>(){}),rs.getTimestamp("registrado_em").toInstant()),paciente,java.sql.Date.valueOf(de),java.sql.Date.valueOf(ate));
+	}
+	public List<AguaResposta> aguaDoPaciente(UUID paciente,Instant inicio,Instant fim){
+		return jdbc.query("select * from registro_agua where paciente_id=? and registrado_em>=? and registrado_em<? order by registrado_em,id",(rs,n)->new AguaResposta(rs.getObject("id",UUID.class),rs.getObject("paciente_id",UUID.class),rs.getInt("ml"),rs.getTimestamp("registrado_em").toInstant()),paciente,Timestamp.from(inicio),Timestamp.from(fim));
+	}
+	public List<PesoResposta> pesosDoPacienteNoPeriodo(UUID paciente,Instant inicio,Instant fim){
+		return jdbc.query("select * from registro_peso where paciente_id=? and registrado_em>=? and registrado_em<? order by registrado_em,id",(rs,n)->new PesoResposta(rs.getObject("id",UUID.class),rs.getObject("paciente_id",UUID.class),rs.getBigDecimal("peso_kg"),rs.getTimestamp("registrado_em").toInstant()),paciente,Timestamp.from(inicio),Timestamp.from(fim));
+	}
 }
