@@ -114,4 +114,27 @@ class RotinaApiTest extends TesteComPaciente {
 			corpo=json(requisitar("GET","/sync?limite=1000&cursor="+corpo.path("cursor").asString(),token,null));
 		}
 	}
+	@Test void consultarRotinaDevolveSoOsRegistrosDoProprioPacienteNoPeriodo() throws Exception {
+		var c=cenario();var t=c.paciente().token();
+		var feito=checkin(c,"FEITO",hoje());assertThat(requisitar("POST","/eu/checkins",t,feito).statusCode()).isEqualTo(201);
+		assertThat(requisitar("POST","/eu/agua",t,Map.of("ml",250,"registradoEm",Instant.now().toString())).statusCode()).isEqualTo(201);
+		assertThat(requisitar("POST","/eu/pesos",t,Map.of("pesoKg",70.5,"registradoEm",Instant.now().toString())).statusCode()).isEqualTo(201);
+		var hojeTexto=hoje().toString();
+		var r=json(requisitar("GET","/eu/rotina?de="+hojeTexto+"&ate="+hojeTexto,t,null));
+		assertThat(r.path("checkins")).hasSize(1);assertThat(r.path("agua")).hasSize(1);assertThat(r.path("pesos")).hasSize(1);
+		assertThat(r.path("agua").get(0).path("ml").asInt()).isEqualTo(250);
+		// período sem registros
+		var vazio=json(requisitar("GET","/eu/rotina?de="+hoje().minusDays(20)+"&ate="+hoje().minusDays(10),t,null));
+		assertThat(vazio.path("checkins")).isEmpty();assertThat(vazio.path("agua")).isEmpty();assertThat(vazio.path("pesos")).isEmpty();
+		// isolamento: outro paciente da mesma nutri não vê nada; a nutri não usa a rota do paciente
+		var outro=pacienteVinculado(c.nutri());
+		var deOutro=json(requisitar("GET","/eu/rotina?de="+hojeTexto+"&ate="+hojeTexto,outro.token(),null));
+		assertThat(deOutro.path("checkins")).isEmpty();assertThat(deOutro.path("agua")).isEmpty();assertThat(deOutro.path("pesos")).isEmpty();
+		erro(requisitar("GET","/eu/rotina?de="+hojeTexto+"&ate="+hojeTexto,c.nutri().token(),null),403,"PERFIL_INVALIDO");
+		assertThat(requisitar("GET","/eu/rotina?de="+hojeTexto+"&ate="+hojeTexto,null,null).statusCode()).isEqualTo(401);
+		// janela inválida: ao contrário ou acima de 366 dias
+		erro(requisitar("GET","/eu/rotina?de="+hoje()+"&ate="+hoje().minusDays(1),t,null),400,"FORMATO_INVALIDO");
+		erro(requisitar("GET","/eu/rotina?de="+hoje().minusDays(366)+"&ate="+hoje(),t,null),400,"FORMATO_INVALIDO");
+		assertThat(requisitar("GET","/eu/rotina?de="+hoje().minusDays(365)+"&ate="+hoje(),t,null).statusCode()).isEqualTo(200);
+	}
 }
