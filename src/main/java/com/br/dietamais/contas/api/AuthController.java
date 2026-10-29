@@ -69,8 +69,9 @@ public class AuthController {
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	@ApiResponse(responseCode = "429", description = "Limite de taxa ou bloqueio; consultar Retry-After",
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
-	public ResponseEntity<SessaoResposta> entrar(@Valid @RequestBody LoginRequisicao requisicao) {
-		return transporte.sessao(sessoes.entrar(requisicao));
+	public ResponseEntity<SessaoResposta> entrar(@Valid @RequestBody LoginRequisicao requisicao,
+			jakarta.servlet.http.HttpServletRequest http) {
+		return transporte.sessao(sessoes.entrar(requisicao), http);
 	}
 
 	@PostMapping("/auth/refresh")
@@ -86,7 +87,7 @@ public class AuthController {
 			content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaResposta.class)))
 	public ResponseEntity<SessaoResposta> renovarSessao(@Valid @RequestBody(required = false) RefreshRequisicao requisicao,
 			jakarta.servlet.http.HttpServletRequest http) {
-		return transporte.sessao(sessoes.renovar(transporte.lerRefresh(requisicao == null ? null : requisicao.refreshToken(), http)));
+		return transporte.sessao(sessoes.renovar(transporte.lerRefresh(requisicao == null ? null : requisicao.refreshToken(), http)), http);
 	}
 
 	@PostMapping("/auth/logout")

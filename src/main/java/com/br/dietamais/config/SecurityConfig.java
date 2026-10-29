@@ -68,7 +68,7 @@ public class SecurityConfig {
 		var cors = new org.springframework.web.cors.CorsConfiguration();
 		cors.setAllowedOrigins(lista);
 		cors.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-		cors.setAllowedHeaders(java.util.List.of("Authorization", "Content-Type", "If-Match", "Idempotency-Key", "X-App-Versao"));
+		cors.setAllowedHeaders(java.util.List.of("Authorization", "Content-Type", "If-Match", "Idempotency-Key", "X-App-Versao", "X-Plataforma"));
 		cors.setExposedHeaders(java.util.List.of("ETag", "Retry-After", "Location"));
 		cors.setAllowCredentials(true); // cookie HttpOnly do refresh no site; só vale com origem explícita
 		cors.setMaxAge(3600L);

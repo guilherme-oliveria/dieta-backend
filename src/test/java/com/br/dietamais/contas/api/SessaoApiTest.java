@@ -130,9 +130,25 @@ class SessaoApiTest {
 		erro(cookie("/auth/refresh",refresh,"https://alheio.example.invalid"),403,"ACESSO_NEGADO");
 		var resposta=cookie("/auth/refresh",refresh,"https://app.example.invalid");
 		assertThat(resposta.statusCode()).isEqualTo(200);
-		var logout=cookie("/auth/logout",token(resposta),"https://app.example.invalid");
+		// BE-37: com a Origin do site o refresh vem só no cookie, nunca no corpo
+		assertThat(json(resposta).path("refreshToken").isMissingNode()||json(resposta).path("refreshToken").isNull()).isTrue();
+		String rotacionado=resposta.headers().firstValue("Set-Cookie").orElseThrow().split(";")[0].substring("refreshToken=".length());
+		var logout=cookie("/auth/logout",rotacionado,"https://app.example.invalid");
 		assertThat(logout.statusCode()).isEqualTo(204);
 		assertThat(logout.headers().firstValue("Set-Cookie").orElseThrow()).contains("Max-Age=0");
+	}
+	@Test void loginEmRefreshDoSiteNaoDevolvemRefreshNoCorpo() throws Exception {
+		String email=cadastrar();
+		var corpo=Map.of("email",email,"senha",SENHA,"dispositivo",Map.of("id",UUID.randomUUID(),"plataforma","WEB","nomeAparelho","Navegador"));
+		var login=cliente.send(HttpRequest.newBuilder(uri("/auth/login")).header("Content-Type","application/json").header("Origin","https://app.example.invalid")
+				.POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(corpo))).build(),HttpResponse.BodyHandlers.ofString());
+		assertThat(login.statusCode()).isEqualTo(200);
+		assertThat(json(login).path("refreshToken").isMissingNode()||json(login).path("refreshToken").isNull()).isTrue();
+		String cookie=login.headers().firstValue("Set-Cookie").orElseThrow().split(";")[0].substring("refreshToken=".length());
+		var renovada=cookie("/auth/refresh",cookie,"https://app.example.invalid");
+		assertThat(renovada.statusCode()).isEqualTo(200);
+		assertThat(json(renovada).path("refreshToken").isMissingNode()||json(renovada).path("refreshToken").isNull()).isTrue();
+		assertThat(renovada.headers().firstValue("Set-Cookie").orElseThrow()).contains("refreshToken=","HttpOnly");
 	}
 	@Test void usuarioInativadoNaoPodeUsarRefreshOuSenhaCorreta() throws Exception {
 		String email=cadastrar(); String token=token(login(email,SENHA,UUID.randomUUID(),null));

@@ -10,7 +10,7 @@ Revisão do backend contra o OWASP ASVS nível 2 e as decisões de endurecimento
 | CORS por variável | Só as origens listadas, HTTPS exatas (ou `http://localhost` em dev); métodos e cabeçalhos explícitos; sem coringa. Vazio = nenhuma origem de navegador | `CORS_ORIGENS` (vírgula) |
 | HSTS | `max-age=31536000; includeSubDomains` quando o ambiente termina o TLS (atrás do Caddy). Desligado em dev | `HSTS_HABILITADO=true` |
 | Cabeçalhos | `Content-Security-Policy: default-src 'none'; frame-ancestors 'none'`, `X-Frame-Options: DENY`, `Referrer-Policy: no-referrer`, `X-Content-Type-Options: nosniff`, `Cache-Control: no-store` nas respostas de dado | fixo |
-| Versão mínima do app | Cabeçalho `X-App-Versao` abaixo do mínimo: `426 VERSAO_APP_OBSOLETA` em `/api/v1/**` (menos webhooks e links públicos). Sem o cabeçalho (site, curl) não bloqueia | `APP_VERSAO_MINIMA` (ex.: `1.4.0`; vazio desliga) |
+| Versão mínima do app | Cabeçalho `X-App-Versao` abaixo do mínimo: `426 VERSAO_APP_OBSOLETA` em `/api/v1/**` (menos webhooks e links públicos). Sem o cabeçalho (site, curl) não bloqueia | `APP_VERSAO_MINIMA` (ex.: `1.4.0`; vazio desliga); `X-Plataforma: WEB` usa `APP_VERSAO_MINIMA_WEB` |
 | IP real atrás do proxy | `SERVER_FORWARD_HEADERS_STRATEGY=native`: o Tomcat só aceita `X-Forwarded-For` de proxies internos (faixas privadas e loopback). Os limites por IP usam esse endereço | `compose.prod.yaml` |
 
 ## Revisão ASVS nível 2 (resumo)
