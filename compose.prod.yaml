@@ -96,6 +96,8 @@ services:
       DOMINIO: ${DOMINIO}
     volumes:
       - ./ops/Caddyfile:/etc/caddy/Caddyfile:ro
+      # web em KMP (MOB-46): descompacte aqui o artefato `web` do CI do dieta-mobile; vazio = só a API responde
+      - ./web:/srv/web:ro
       - caddy-data:/data
       - caddy-config:/config
 

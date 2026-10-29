@@ -21,7 +21,9 @@ public class TransporteSessao {
 		this.problemas = problemas;
 		if (!origem.isBlank()) {
 			var uri = URI.create(origem);
-			if (!"https".equals(uri.getScheme()) || uri.getHost() == null || uri.getRawUserInfo() != null
+			// http só para o servidor de desenvolvimento da web em localhost (o cookie Secure vale em localhost); em produção, HTTPS
+			boolean local = "http".equals(uri.getScheme()) && ("localhost".equals(uri.getHost()) || "127.0.0.1".equals(uri.getHost()));
+			if (!("https".equals(uri.getScheme()) || local) || uri.getHost() == null || uri.getRawUserInfo() != null
 					|| uri.getRawQuery() != null || uri.getRawFragment() != null || !uri.getPath().isEmpty())
 				throw new IllegalStateException("WEB_ORIGEM precisa ser uma origem HTTPS sem caminho.");
 		}

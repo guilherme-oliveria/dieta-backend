@@ -34,6 +34,8 @@ class TransporteSessaoTest {
 	}
 	@Test void configuraSomenteOrigemHttpsExata() {
 		assertThatThrownBy(() -> transporte("http://app.example.invalid")).isInstanceOf(IllegalStateException.class);
+		assertThat(transporte("http://localhost:8081")).isNotNull(); // desenvolvimento da web
+		assertThat(transporte("http://127.0.0.1:8081")).isNotNull();
 		assertThatThrownBy(() -> transporte("https://app.example.invalid/caminho")).isInstanceOf(IllegalStateException.class);
 	}
 	@Test void bloqueioRetornaTempoDoClockENaoArmazenaCache() {

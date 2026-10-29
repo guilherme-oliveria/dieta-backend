@@ -1,4 +1,5 @@
 # HTTPS automático (Let's Encrypt) para o domínio em DOMINIO.
+# Mesma origem para tudo: `/api/*` e `/legal/*` vão para a API; o resto é a web em KMP (arquivos estáticos em /srv/web).
 {$DOMINIO} {
 	encode zstd gzip
 	header {
@@ -6,5 +7,22 @@
 		X-Content-Type-Options nosniff
 		-Server
 	}
-	reverse_proxy app:8080
+
+	handle /api/* {
+		reverse_proxy app:8080
+	}
+	handle /legal/* {
+		reverse_proxy app:8080
+	}
+
+	# Web (MOB-46). Os arquivos do Kotlin/Wasm não têm hash no nome, então tudo revalida a cada abertura (ETag): sem cache velho,
+	# e um 304 quando nada mudou. O .wasm sai como application/wasm (o Caddy já conhece o tipo).
+	handle {
+		root * /srv/web
+		header Cache-Control "no-cache"
+		# Em modo só-relatório até testar num navegador real; depois trocar por Content-Security-Policy.
+		header Content-Security-Policy-Report-Only "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; worker-src 'self' blob:; frame-ancestors 'none'"
+		try_files {path} /index.html
+		file_server
+	}
 }

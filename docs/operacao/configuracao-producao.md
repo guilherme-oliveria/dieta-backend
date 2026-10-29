@@ -47,7 +47,7 @@ Legenda: **Obrigatória** = a API não sobe ou a função não funciona sem ela.
 | `ARQUIVOS_SEGREDO` | **sim** (disco local) | — | Segredo que assina os links de PDF/logo/exportação. `openssl rand -base64 32` |
 | `HSTS_HABILITADO` | recomendado | `false` | `true` quando o HTTPS é terminado no proxy (o compose já define `true`) |
 | `CORS_ORIGENS` | só com site | vazio | Origens HTTPS exatas, separadas por vírgula (ex.: `https://app.exemplo.com.br`). O app mobile não precisa de CORS |
-| `WEB_ORIGEM` | só com site | vazio | Origem do site (app web em KMP; cookie de refresh). Pedido com esta `Origin` recebe o refresh só no cookie |
+| `WEB_ORIGEM` | só com site | vazio | Origem do site (app web em KMP; cookie de refresh), HTTPS (em desenvolvimento aceita `http://localhost:porta`). Pedido com esta `Origin` recebe o refresh só no cookie |
 | `SERVER_FORWARD_HEADERS_STRATEGY` | sim atrás de proxy | `native` no compose | Faz a API enxergar o IP real do cliente (limites por IP). Mantenha `native` com o Caddy/nginx na frente |
 | `TAXA_USUARIO_POR_MINUTO` | não | `300` | Limite geral de requisições por usuário por minuto (429 com `Retry-After`) |
 | `APP_VERSAO_MINIMA` | não | vazio | Ex.: `1.4.0`. Apps abaixo dessa versão recebem 426 e a tela "atualize o app". Vazio desliga |

@@ -16,7 +16,7 @@ O Liquibase aplica as migrações na subida. Para atualizar: `git pull` e repita
 | --- | --- |
 | `app` | API Spring Boot (perfil `prod`, usuário não-root, readiness em `/actuator/health/readiness`) |
 | `postgres` | Postgres 18, volume `pgdata`, sem porta publicada |
-| `caddy` | HTTPS e proxy reverso para o `app`; o IP do cliente chega por `X-Forwarded-For` |
+| `caddy` | HTTPS; `/api/*` e `/legal/*` vão para o `app` (IP do cliente por `X-Forwarded-For`) e o resto serve a web em KMP de `./web` (arquivos estáticos, sem Node nem nginx) |
 | `backup` | `pg_dump` comprimido todo dia às 03:00 UTC em `/backups` (volume `backups`), guarda 14 dias |
 
 ## Variáveis (ver `.env.prod.example`)
@@ -24,7 +24,11 @@ O Liquibase aplica as migrações na subida. Para atualizar: `git pull` e repita
 - `JWT_CHAVE_PRIVADA` / `JWT_CHAVE_PUBLICA`: par RSA 2048+ em PEM; sem elas o app não sobe fora de dev/test.
 - `IDEMPOTENCIA_CHAVE`, `NOTIFICACOES_CHAVE`: 32 bytes em Base64 (`openssl rand -base64 32`), cada uma diferente. Sem a primeira, POSTs idempotentes falham.
 - `CONSENTIMENTO_VERSAO` / `CONSENTIMENTO_TEXTO`: texto do termo de consentimento clínico (RN-VIN-04). **Decisão do Guilherme**: sem ele, nenhum paciente aceita convite. Em dev há um termo fictício.
-- `WEB_ORIGEM`: origem HTTPS do site (só quando o site em KMP existir).
+- `WEB_ORIGEM`: origem HTTPS do site (a mesma de `DOMINIO`, ex.: `https://app.exemplo.com.br`) e também em `CORS_ORIGENS`. Vazio = a web não consegue manter login.
+
+## Publicar a web (MOB-46)
+
+A web é só arquivos estáticos: o CI do `dieta-mobile` gera o artefato `web` (`:webApp:wasmJsBrowserDistribution`). Na VPS: baixe o artefato, descompacte em `./web` ao lado do `compose.prod.yaml` e recarregue o Caddy (`docker compose -f compose.prod.yaml exec caddy caddy reload --config /etc/caddy/Caddyfile`, ou nem isso: arquivos novos já valem na próxima abertura). Não há build nem processo extra no servidor. `index.html` e os `.wasm` saem com `Cache-Control: no-cache` (revalidam por ETag). A política de segurança de conteúdo está em modo só-relatório até ser testada num navegador real.
 - `EMAIL_ENVIO_HABILITADO=false` mantém o envio de e-mail desligado (convite e recuperação de senha dependem dele em produção).
 - Push (FCM) entra na BE-24; a credencial será outra variável de ambiente.
 
