@@ -1,6 +1,7 @@
 package com.br.dietamais.rotina.api;
 
 import com.br.dietamais.comum.api.*;
+import com.br.dietamais.rotina.aplicacao.ConsultarRotina;
 import com.br.dietamais.rotina.aplicacao.RegistrarRotina;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.*;
@@ -27,7 +28,16 @@ import org.springframework.web.bind.annotation.*;
 })
 public class RotinaController {
 	private final RegistrarRotina rotina;
-	public RotinaController(RegistrarRotina rotina){this.rotina=rotina;}
+	private final ConsultarRotina consulta;
+	public RotinaController(RegistrarRotina rotina,ConsultarRotina consulta){this.rotina=rotina;this.consulta=consulta;}
+
+	@GetMapping("/rotina")
+	@Operation(operationId="consultarRotina",summary="Consultar a rotina do período",description="BE-38. Check-ins, água e peso do próprio paciente entre `de` e `ate` (datas no fuso do usuário, no máximo 31 dias), no formato do /sync. Para a web, que não tem banco local.")
+	@ApiResponse(responseCode="200",description="Registros do período",content=@Content(mediaType="application/json",schema=@Schema(implementation=RotinaResposta.class)))
+	public ResponseEntity<RotinaResposta> consultarRotina(@RequestParam @org.springframework.format.annotation.DateTimeFormat(iso=org.springframework.format.annotation.DateTimeFormat.ISO.DATE) java.time.LocalDate de,
+			@RequestParam @org.springframework.format.annotation.DateTimeFormat(iso=org.springframework.format.annotation.DateTimeFormat.ISO.DATE) java.time.LocalDate ate){
+		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(consulta.periodo(de,ate));
+	}
 
 	@PostMapping("/checkins")
 	@Idempotente

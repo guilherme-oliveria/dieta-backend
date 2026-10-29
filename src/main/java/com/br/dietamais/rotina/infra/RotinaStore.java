@@ -52,6 +52,18 @@ public class RotinaStore {
 			select p.* from registro_peso p where p.id=? and exists(select 1 from vinculo v where v.paciente_id=p.paciente_id and v.nutricionista_id=? and v.status='ATIVO' and v.excluido_em is null)
 			""",(rs,n)->new PesoResposta(rs.getObject("id",UUID.class),rs.getObject("paciente_id",UUID.class),rs.getBigDecimal("peso_kg"),rs.getTimestamp("registrado_em").toInstant()),id,nutri).stream().findFirst().orElse(null);
 	}
+	public List<CheckinResposta> checkinsDoPeriodo(UUID paciente,LocalDate de,LocalDate ate){
+		return jdbc.query("select * from checkin where paciente_id=? and data between ? and ? order by registrado_em,id",(rs,n)->new CheckinResposta(rs.getObject("id",UUID.class),rs.getObject("paciente_id",UUID.class),rs.getObject("dieta_id",UUID.class),
+			rs.getObject("refeicao_id",UUID.class),rs.getObject("data",LocalDate.class),StatusCheckin.valueOf(rs.getString("status")),
+			mapper.readValue(rs.getString("trocas"),new TypeReference<List<TrocaCheckin>>(){}),rs.getTimestamp("registrado_em").toInstant()),paciente,java.sql.Date.valueOf(de),java.sql.Date.valueOf(ate));
+	}
+	/** Janela semiaberta [inicio, fim). */
+	public List<AguaResposta> aguaDoPeriodo(UUID paciente,Instant inicio,Instant fim){
+		return jdbc.query("select * from registro_agua where paciente_id=? and registrado_em>=? and registrado_em<? order by registrado_em,id",(rs,n)->new AguaResposta(rs.getObject("id",UUID.class),rs.getObject("paciente_id",UUID.class),rs.getInt("ml"),rs.getTimestamp("registrado_em").toInstant()),paciente,Timestamp.from(inicio),Timestamp.from(fim));
+	}
+	public List<PesoResposta> pesosDoPeriodo(UUID paciente,Instant inicio,Instant fim){
+		return jdbc.query("select * from registro_peso where paciente_id=? and registrado_em>=? and registrado_em<? order by registrado_em,id",(rs,n)->new PesoResposta(rs.getObject("id",UUID.class),rs.getObject("paciente_id",UUID.class),rs.getBigDecimal("peso_kg"),rs.getTimestamp("registrado_em").toInstant()),paciente,Timestamp.from(inicio),Timestamp.from(fim));
+	}
 	/** Os registros mais recentes do paciente, devolvidos do mais antigo para o mais novo. */
 	public java.util.List<com.br.dietamais.rotina.api.PesosEmCasa.Ponto> pesosDoPaciente(UUID paciente,int limite){
 		var l=new java.util.ArrayList<>(jdbc.query("select registrado_em,peso_kg from registro_peso where paciente_id=? order by registrado_em desc,id desc limit ?",
