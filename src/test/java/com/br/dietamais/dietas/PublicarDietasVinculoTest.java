@@ -30,7 +30,7 @@ class PublicarDietasVinculoTest {
 		when(usuario.obter()).thenReturn(new ContextoUsuario(new UsuarioResposta(UUID.randomUUID(),"Fictício","ficticio@example.invalid",true,List.of(Perfil.NUTRICIONISTA),Perfil.NUTRICIONISTA,nutri,null,"UTC"),UUID.randomUUID()));
 		when(dietas.dieta(id,nutri,true)).thenReturn(origem);when(dietas.dieta(id,nutri,false)).thenReturn(origem);when(dietas.dieta(gerado,nutri,false)).thenReturn(copia);when(ids.novo()).thenReturn(gerado);
 		var totais=new TotaisNutricionaisResposta(BigDecimal.ONE,BigDecimal.ONE,BigDecimal.ONE,BigDecimal.ONE);
-		var item=new ItemRefeicaoResposta(UUID.randomUUID(),food,UUID.randomUUID(),"Fictício",BigDecimal.ONE,"1 unidade",BigDecimal.ONE,null,totais);
+		var item=new ItemRefeicaoResposta(UUID.randomUUID(),food,UUID.randomUUID(),"Fictício",BigDecimal.ONE,"1 unidade",BigDecimal.ONE,null,totais,null);
 		var refeicao=new RefeicaoResposta(UUID.randomUUID(),"Fictícia",LocalTime.NOON,0,List.of(item),totais);
 		when(montador.montar(List.of(origem),nutri)).thenReturn(List.of(new DietaResposta(id,paciente,antigo,"Fictício",StatusDieta.RASCUNHO,null,List.of(refeicao),totais,1L,agora,agora)));
 		when(montador.montar(List.of(copia),nutri)).thenReturn(List.of(new DietaResposta(gerado,paciente,antigo,"Fictício (cópia)",StatusDieta.RASCUNHO,null,List.of(),totais,1L,agora,agora)));

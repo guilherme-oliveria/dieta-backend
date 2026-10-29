@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 class CalculadoraTotaisTest {
 	AlimentoParaDieta pao=new AlimentoParaDieta(UUID.randomUUID(),UUID.randomUUID(),"Pão fictício","1 fatia",new BigDecimal("50"),true,
-		new BigDecimal("150"),new BigDecimal("28.3333"),new BigDecimal("4.5"),new BigDecimal("1.25"));
+		new BigDecimal("150"),new BigDecimal("28.3333"),new BigDecimal("4.5"),new BigDecimal("1.25"),"Grupo fictício");
 	@Test void itemMultiplicaPorcoesEArredondaMeioParaCima() {
 		var t=CalculadoraTotais.item(pao,new BigDecimal("1.5"));
 		assertThat(t.kcal()).isEqualByComparingTo("225.00");assertThat(t.carboidratos()).isEqualByComparingTo("42.50");

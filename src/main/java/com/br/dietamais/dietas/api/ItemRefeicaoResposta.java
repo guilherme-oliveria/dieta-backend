@@ -14,5 +14,9 @@ public record ItemRefeicaoResposta(
 	@NotBlank String medidaCaseira,
 	@NotNull @Positive BigDecimal gramas,
 	String observacao,
-	@NotNull @Valid TotaisNutricionaisResposta totais) {
+	@NotNull @Valid TotaisNutricionaisResposta totais,
+	/** Nome do grupo (campo opcional: snapshots antigos não têm; serve para agrupar a lista de compras). */
+	@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+	@io.swagger.v3.oas.annotations.media.Schema(nullable=true,requiredMode=io.swagger.v3.oas.annotations.media.Schema.RequiredMode.NOT_REQUIRED)
+	String grupoNome) {
 }
