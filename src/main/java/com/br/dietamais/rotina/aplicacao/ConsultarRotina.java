@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 /** Leitura da rotina do próprio paciente num período (BE-38). O dono vem de {@link UsuarioAtual}, nunca da requisição. */
 @Service
 public class ConsultarRotina {
-	static final int DIAS_MAXIMOS=31;
+	static final int DIAS_MAXIMOS=366;
 	private final RotinaStore rotina;private final UsuarioAtual usuario;
 	public ConsultarRotina(RotinaStore rotina,UsuarioAtual usuario){this.rotina=rotina;this.usuario=usuario;}
 

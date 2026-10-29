@@ -32,7 +32,7 @@ public class RotinaController {
 	public RotinaController(RegistrarRotina rotina,ConsultarRotina consulta){this.rotina=rotina;this.consulta=consulta;}
 
 	@GetMapping("/rotina")
-	@Operation(operationId="consultarRotina",summary="Consultar a rotina do período",description="BE-38. Check-ins, água e peso do próprio paciente entre `de` e `ate` (datas no fuso do usuário, no máximo 31 dias), no formato do /sync. Para a web, que não tem banco local.")
+	@Operation(operationId="consultarRotina",summary="Consultar a rotina do período",description="BE-38. Check-ins, água e peso do próprio paciente entre `de` e `ate` (datas no fuso do usuário, no máximo 366 dias), no formato do /sync. Para a web, que não tem banco local.")
 	@ApiResponse(responseCode="200",description="Registros do período",content=@Content(mediaType="application/json",schema=@Schema(implementation=RotinaResposta.class)))
 	public ResponseEntity<RotinaResposta> consultarRotina(@RequestParam @org.springframework.format.annotation.DateTimeFormat(iso=org.springframework.format.annotation.DateTimeFormat.ISO.DATE) java.time.LocalDate de,
 			@RequestParam @org.springframework.format.annotation.DateTimeFormat(iso=org.springframework.format.annotation.DateTimeFormat.ISO.DATE) java.time.LocalDate ate){

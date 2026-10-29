@@ -132,9 +132,9 @@ class RotinaApiTest extends TesteComPaciente {
 		assertThat(deOutro.path("checkins")).isEmpty();assertThat(deOutro.path("agua")).isEmpty();assertThat(deOutro.path("pesos")).isEmpty();
 		erro(requisitar("GET","/eu/rotina?de="+hojeTexto+"&ate="+hojeTexto,c.nutri().token(),null),403,"PERFIL_INVALIDO");
 		assertThat(requisitar("GET","/eu/rotina?de="+hojeTexto+"&ate="+hojeTexto,null,null).statusCode()).isEqualTo(401);
-		// janela inválida: ao contrário ou acima de 31 dias
+		// janela inválida: ao contrário ou acima de 366 dias
 		erro(requisitar("GET","/eu/rotina?de="+hoje()+"&ate="+hoje().minusDays(1),t,null),400,"FORMATO_INVALIDO");
-		erro(requisitar("GET","/eu/rotina?de="+hoje().minusDays(31)+"&ate="+hoje(),t,null),400,"FORMATO_INVALIDO");
-		assertThat(requisitar("GET","/eu/rotina?de="+hoje().minusDays(30)+"&ate="+hoje(),t,null).statusCode()).isEqualTo(200);
+		erro(requisitar("GET","/eu/rotina?de="+hoje().minusDays(366)+"&ate="+hoje(),t,null),400,"FORMATO_INVALIDO");
+		assertThat(requisitar("GET","/eu/rotina?de="+hoje().minusDays(365)+"&ate="+hoje(),t,null).statusCode()).isEqualTo(200);
 	}
 }
