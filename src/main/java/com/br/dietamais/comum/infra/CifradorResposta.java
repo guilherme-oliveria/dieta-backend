@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CifradorResposta {
+public class CifradorResposta implements com.br.dietamais.comum.api.AutenticadorConteudo {
 	private static final byte VERSAO = 1;
 	private static final int NONCE_BYTES = 12;
 	private final SecretKey chave;
