@@ -130,7 +130,10 @@ class SessaoApiTest {
 		erro(cookie("/auth/refresh",refresh,"https://alheio.example.invalid"),403,"ACESSO_NEGADO");
 		var resposta=cookie("/auth/refresh",refresh,"https://app.example.invalid");
 		assertThat(resposta.statusCode()).isEqualTo(200);
-		var logout=cookie("/auth/logout",token(resposta),"https://app.example.invalid");
+		// BE-37: com a Origin do site o refresh vem só no cookie, nunca no corpo
+		assertThat(json(resposta).path("refreshToken").isMissingNode()||json(resposta).path("refreshToken").isNull()).isTrue();
+		String rotacionado=resposta.headers().firstValue("Set-Cookie").orElseThrow().split(";")[0].substring("refreshToken=".length());
+		var logout=cookie("/auth/logout",rotacionado,"https://app.example.invalid");
 		assertThat(logout.statusCode()).isEqualTo(204);
 		assertThat(logout.headers().firstValue("Set-Cookie").orElseThrow()).contains("Max-Age=0");
 	}
