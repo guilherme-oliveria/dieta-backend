@@ -24,6 +24,7 @@ class DietasApiTest extends TesteIsolamento {
 		assertThat(d.path("refeicoes").get(0).path("totais").path("kcal").decimalValue()).isEqualByComparingTo(esperado);
 		assertThat(d.path("refeicoes").get(1).path("itens")).isEmpty();assertThat(d.path("refeicoes").get(1).path("totais").path("kcal").decimalValue()).isEqualByComparingTo("0");
 		assertThat(d.path("refeicoes").get(0).path("itens").get(0).path("nomeAlimento").asString()).isEqualTo(primeiro.path("nome").asString());
+		assertThat(d.path("refeicoes").get(0).path("itens").get(0).path("grupoNome").asString()).isNotBlank();
 		var lido=requisitar("GET","/dietas/"+d.path("id").asString(),a.token(),null);assertThat(lido.statusCode()).isEqualTo(200);assertThat(json(lido)).isEqualTo(d);
 		var lista=json(requisitar("GET","/pacientes/"+pid+"/dietas",a.token(),null));assertThat(lista.path("itens")).hasSize(1);assertThat(lista.path("itens").get(0)).isEqualTo(d);
 		assertThat(jdbc.queryForObject("select count(*) from log_acesso where usuario_id=? and entidade='dieta' and acao='ESCRITA'",Integer.class,a.usuario())).isEqualTo(1);

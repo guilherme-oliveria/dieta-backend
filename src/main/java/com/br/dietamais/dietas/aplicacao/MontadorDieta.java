@@ -27,7 +27,7 @@ public class MontadorDieta {
 				var is=new ArrayList<ItemRefeicaoResposta>();
 				for(var item:itensPorRefeicao.getOrDefault(refeicao.id(),List.of())){
 					var a=base.get(item.alimentoId());
-					is.add(new ItemRefeicaoResposta(item.id(),a.id(),a.grupoId(),a.nome(),item.porcoes(),a.medidaCaseira(),CalculadoraTotais.gramas(a,item.porcoes()),item.observacao(),CalculadoraTotais.item(a,item.porcoes())));
+					is.add(new ItemRefeicaoResposta(item.id(),a.id(),a.grupoId(),a.nome(),item.porcoes(),a.medidaCaseira(),CalculadoraTotais.gramas(a,item.porcoes()),item.observacao(),CalculadoraTotais.item(a,item.porcoes()),a.grupoNome()));
 				}
 				rs.add(new RefeicaoResposta(refeicao.id(),refeicao.nome(),refeicao.horario(),refeicao.ordem(),is,CalculadoraTotais.somar(is.stream().map(ItemRefeicaoResposta::totais).toList())));
 			}
