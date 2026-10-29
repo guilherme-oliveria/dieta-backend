@@ -81,6 +81,12 @@ Definição de pronto de toda tarefa:
 - [x] **BE-32 Deploy na VPS (repositório).** Dockerfile, `compose.prod.yaml` completo (app, Postgres 18, Caddy HTTPS, volume de arquivos, variáveis de segurança, pagamento, push e admin), backup diário **criptografado** (`ops/backup.sh`), teste de restauração (`ops/testar-restauracao.sh`), logs em JSON no perfil `prod`, workflow de deploy por tag em `ops/github/workflows/deploy.yml` e guia em `docs/operacao/producao.md`.
 - [ ] **BE-32b Implantação real.** Subir na VPS: depende do Guilherme (VPS, domínio, `.env.prod`, segredos do GitHub e cópia de `ops/github/` para `.github/`). Fecha o marco de produção.
 
+## Fase 7 — Web no navegador (P1)
+
+A web passa a ser um alvo do app KMP (`dieta-mobile/docs/arquitetura/web.md`, MOB-40 a MOB-46), não mais o Angular do `dieta-frontend`. O backend já tem refresh em cookie `HttpOnly` (`TransporteSessao`) e CORS com credenciais (BE-31); falta só o modo navegador.
+
+- [ ] **BE-37 Modo navegador.** `WEB` em `Plataforma` (`X-Plataforma` e dispositivos; o app trata valor desconhecido como `OUTRO`); quando a sessão é renovada ou criada por requisição com `Origin` igual a `WEB_ORIGEM`, `refreshToken` não vem no corpo (só no cookie; campo já é opcional para o cliente); `426 VERSAO_APP_OBSOLETA` com versão mínima própria para `WEB` (`APP_VERSAO_MINIMA_WEB`, vazia = sem bloqueio, pois o site é publicado junto); testes de API (login web sem refresh no corpo, refresh por cookie com e sem `Origin` certo, logout limpa o cookie). Atualizar `integracao.md` (cabeçalhos, sessão da web, tabela de clientes) e `visao-geral.md` (repositórios, roadmap P1 e decisões: web em KMP, `dieta-frontend` arquivado) e avisar no PR para copiar no mobile. *Depende de:* BE-31.
+
 ## Pós-MVP (P2, ainda sem tarefas)
 
 Troca de nutri com cópia de histórico (RN-VIN-06), clínicas (organização com várias nutris e secretária), vitrine de nutris e cadastro avulso de paciente, consultoria online paga com split, anúncios, fórmulas da planilha (7 dobras, Pollock e Wilmore) com testes contra a planilha, foto do prato, chat, RabbitMQ quando o volume pedir.
