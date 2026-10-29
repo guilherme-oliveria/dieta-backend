@@ -30,6 +30,7 @@ Java 25 · Spring Boot 4.1.2 (webmvc, data-jpa, security, validation, actuator) 
 | Rodar (sobe Postgres pelo `compose.yaml`) | `./gradlew bootRun` |
 | Testes (precisa de Docker) | `./gradlew test` |
 | Build completo (o que o CI roda) | `./gradlew build` |
+| Validar no WSL (igual ao CI, precisa de Docker) | `ops/validar-wsl.sh` |
 | Só o banco | `docker compose up -d` |
 | Rodar com Postgres de Testcontainers | classe `TestDietamaisApplication` em `src/test` |
 
