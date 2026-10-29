@@ -14,7 +14,10 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipInputStream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.TestPropertySource;
 
+/** O processador agendado fica desligado: o teste chama {@code processar()} e não pode correr com a execução automática (que pegaria o pedido entre as asserções). */
+@TestPropertySource(properties={"dieta.exportacao.intervalo=PT24H","dieta.exportacao.atraso-inicial=PT24H"})
 class ExportacaoApiTest extends TesteComPaciente {
 	@Autowired ProcessadorExportacao processador;
 	@Autowired ProcessarEmails emails;

@@ -43,7 +43,7 @@ public class ProcessadorExportacao {
 		this.store=store;this.contextos=contextos;this.coleta=coleta;this.pdfs=pdfs;this.armazenamento=armazenamento;this.emails=emails;this.ids=ids;this.relogio=relogio;this.mapper=mapper;this.tx=tx;
 	}
 
-	@Scheduled(fixedDelayString="${dieta.exportacao.intervalo:PT30S}",initialDelayString="PT20S")
+	@Scheduled(fixedDelayString="${dieta.exportacao.intervalo:PT30S}",initialDelayString="${dieta.exportacao.atraso-inicial:PT20S}")
 	public void processar(){
 		while(Boolean.TRUE.equals(tx.execute(s->processarUm()))) { }
 		tx.executeWithoutResult(s->{
