@@ -40,4 +40,4 @@ Não foi possível rodar `docker compose` no ambiente de desenvolvimento desta e
 
 ## Dados de exemplo (só desenvolvimento)
 
-`./gradlew bootRun --args=--dieta.dev.dados-exemplo=true` cria (uma vez) a nutri `nutri@exemplo.dev`, 3 pacientes (`maria@`, `joao@`, `ana@exemplo.dev`; Maria já vinculada, João com convite pendente) e uma dieta fictícia de ≈2510 kcal publicada para Maria. Senha de todas: `Exemplo de frase para desenvolvimento 2026`. Só roda no perfil `dev`; nunca em produção.
+`./gradlew bootRun --args=--dieta.dev.dados-exemplo=true` cria (uma vez) a nutri `nutri@exemplo.dev`, 3 pacientes (`maria@`, `joao@`, `ana@exemplo.dev`; Maria já vinculada, João com convite pendente) e uma dieta fictícia de ≈2510 kcal publicada para Maria. Senha de todas: `teste123` (só nas contas `@exemplo.dev` do perfil dev). Só roda no perfil `dev`; nunca em produção.

@@ -1,6 +1,7 @@
 package com.br.dietamais.config;
 
 import java.math.BigDecimal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -32,13 +33,16 @@ import tools.jackson.databind.json.JsonMapper;
 @ConditionalOnProperty(name = "dieta.dev.dados-exemplo", havingValue = "true")
 public class DadosExemploDev implements ApplicationRunner {
 	static final String EMAIL_NUTRI = "nutri@exemplo.dev";
+	/** Senha usada só para criar as contas pela API (a política exige 10+ caracteres). */
 	static final String SENHA = "Exemplo de frase para desenvolvimento 2026";
+	/** Senha final das contas de exemplo, curta para facilitar o teste manual. Só existe no perfil dev. */
+	static final String SENHA_TESTE = "teste123";
 	private static final Logger LOG = LoggerFactory.getLogger(DadosExemploDev.class);
-	private final Environment ambiente;private final JdbcTemplate jdbc;private final JsonMapper mapper;
+	private final Environment ambiente;private final JdbcTemplate jdbc;private final JsonMapper mapper;private final PasswordEncoder encoder;
 	private final HttpClient http = HttpClient.newHttpClient();
 	private String base;
 
-	public DadosExemploDev(Environment ambiente, JdbcTemplate jdbc, JsonMapper mapper) { this.ambiente = ambiente; this.jdbc = jdbc; this.mapper = mapper; }
+	public DadosExemploDev(Environment ambiente, JdbcTemplate jdbc, JsonMapper mapper, PasswordEncoder encoder) { this.ambiente = ambiente; this.jdbc = jdbc; this.mapper = mapper; this.encoder = encoder; }
 
 	@Override public void run(ApplicationArguments args) throws Exception {
 		if (jdbc.queryForObject("select count(*) from usuario where email=?", Integer.class, EMAIL_NUTRI) > 0) { LOG.info("Dados de exemplo já existem; nada a fazer."); return; }
@@ -57,7 +61,8 @@ public class DadosExemploDev implements ApplicationRunner {
 		avaliacao.put("dataHora", java.time.Instant.now().minusSeconds(3600).toString()); avaliacao.put("pesoKg", new BigDecimal("68.4")); avaliacao.put("estaturaM", new BigDecimal("1.65"));
 		avaliacao.put("perimetros", Map.of("cintura", new BigDecimal("78"), "quadril", new BigDecimal("98"))); avaliacao.put("parecer", "Avaliação fictícia de exemplo.");
 		chamar("POST", "/pacientes/" + maria + "/avaliacoes", token, avaliacao, 201);
-		LOG.info("Dados de exemplo criados. Nutri: {} / paciente: maria@exemplo.dev (mesma senha): {}", EMAIL_NUTRI, SENHA);
+		jdbc.update("update usuario set senha_hash=? where email like '%@exemplo.dev'", encoder.encode(SENHA_TESTE));
+		LOG.info("Dados de exemplo criados. Nutri: {} / paciente: maria@exemplo.dev (mesma senha): {}", EMAIL_NUTRI, SENHA_TESTE);
 	}
 
 	/** Dieta fictícia de cerca de 2510 kcal em 6 refeições, montada com o catálogo da nutri. */
