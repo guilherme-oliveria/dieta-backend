@@ -1,7 +1,6 @@
-package com.br.dietamais.config;
+package com.br.dietamais.contas.infra;
 
 import com.br.dietamais.contas.dominio.DocumentoTermosUso;
-import com.br.dietamais.contas.infra.FonteTermosUso;
 import java.time.Instant;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.*;
