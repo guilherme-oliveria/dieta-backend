@@ -5,7 +5,7 @@ Instruções para agentes de código (Codex, Claude Code e outros). O `CLAUDE.md
 ## O projeto
 
 Dieta+: app para nutricionistas e pacientes (multi-nutri, com assinatura). Este repositório é a **API**: única fonte de verdade e de regras de negócio.
-Repositórios irmãos: `guilherme-oliveria/dieta-mobile` (KMP: Android, iOS, Desktop) e `guilherme-oliveria/dieta-frontend` (Angular, pós-MVP).
+Repositórios irmãos: `guilherme-oliveria/dieta-mobile` (KMP: Android, iOS, Desktop e web em `wasmJs`). O `guilherme-oliveria/dieta-frontend` (Angular) foi arquivado.
 Idioma: **português** em docs, commits, PRs, mensagens de erro e nomes de domínio. Termos técnicos (controller, repository) ficam em inglês.
 
 ## Leia antes de começar
