@@ -4,6 +4,7 @@ WORKDIR /src
 COPY gradlew settings.gradle.kts build.gradle.kts ./
 COPY gradle gradle
 RUN ./gradlew --no-daemon --version
+COPY docs/legal docs/legal
 COPY src src
 RUN ./gradlew --no-daemon bootJar -x test \
 	&& cp "$(ls build/libs/*.jar | grep -v -- '-plain' | head -n 1)" /app.jar

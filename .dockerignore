@@ -3,5 +3,6 @@
 build
 *.md
 !README.md
-docs
+docs/*
+!docs/legal
 .env*
