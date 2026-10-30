@@ -11,6 +11,10 @@
 	handle /api/* {
 		reverse_proxy app:8080
 	}
+	# Só o health (liveness e readiness) fica público, para monitor externo e para o curl do roteiro de produção; o Actuator só expõe `health`.
+	handle /actuator/health/* {
+		reverse_proxy app:8080
+	}
 	handle /legal/* {
 		reverse_proxy app:8080
 	}
