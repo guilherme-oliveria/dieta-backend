@@ -44,6 +44,10 @@ public class TratadorErros {
 			MethodArgumentTypeMismatchException.class, jakarta.validation.ConstraintViolationException.class,
 			org.springframework.web.method.annotation.HandlerMethodValidationException.class })
 	ResponseEntity<ProblemDetail> formato(Exception erro) {
+		// RN-CAL-03: protocolo desconhecido tem código próprio (422), em qualquer endpoint que receba protocolo
+		for(Throwable causa=erro;causa!=null;causa=causa.getCause())
+			if(causa instanceof tools.jackson.databind.exc.InvalidFormatException f&&f.getTargetType()!=null&&f.getTargetType().isEnum()&&f.getTargetType().getSimpleName().startsWith("Protocolo"))
+				return resposta(CodigoErro.PROTOCOLO_INVALIDO,"RN-CAL-03","Protocolo desconhecido.",List.of(),null);
 		return resposta(CodigoErro.FORMATO_INVALIDO, null, "Requisição em formato inválido.", List.of(), null);
 	}
 

@@ -2,6 +2,7 @@ package com.br.dietamais.sync.api;
 
 import java.util.List;
 import com.br.dietamais.notificacoes.api.AvisoResposta;
+import com.br.dietamais.avaliacoes.api.ProtocolosNutriResposta;
 import com.br.dietamais.agenda.api.ConsultaResposta;
 import com.br.dietamais.alimentos.api.AlimentoResposta;
 import com.br.dietamais.alimentos.api.GrupoAlimentoResposta;
@@ -45,8 +46,9 @@ public record MudancasFase1Resposta(
 		@Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED) @Valid List<MudancaSyncResposta<ModeloQuestionarioResposta>> modelos,
 		@Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED) @Valid List<MudancaSyncResposta<QuestionarioResposta>> questionarios,
 		@Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED) @Valid List<MudancaSyncResposta<ConsultaResposta>> consultas,
-		@Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED) @Valid List<MudancaSyncResposta<AvisoResposta>> avisos) {
+		@Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED) @Valid List<MudancaSyncResposta<AvisoResposta>> avisos,
+		@Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED) @Valid List<MudancaSyncResposta<ProtocolosNutriResposta>> protocolos) {
 	public MudancasFase1Resposta(List<MudancaSyncResposta<PacienteResposta>> pacientes,List<MudancaSyncResposta<VinculoResposta>> vinculos,List<MudancaSyncResposta<NutricionistaResumoResposta>> nutris) {
-		this(pacientes,vinculos,nutris,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+		this(pacientes,vinculos,nutris,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
 	}
 }
