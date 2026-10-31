@@ -13,7 +13,7 @@ Tudo aqui é **aditivo**: campos novos são opcionais, o contrato antigo (fase 4
 | Funções de cálculo (domínio) | vetores em `calculos/adulto.json` | BE-40 |
 | `AvaliacaoResposta` com `resultados`, `protocolo`, `complementares`, `compartilhamento`; gravação e `/sync` | BE-C7 | BE-41 (pronto) |
 | `GET/PUT /eu/nutri/protocolos` | BE-C7 | BE-42 (pronto) |
-| `energia` e `energiaResultado` na avaliação; `GET /referencias/atividades-met` e `/referencias/dri` | BE-C8 | BE-43b (pronto) |
+| `energia` e `energiaResultado` na avaliação; `GET /referencias/atividades-met` e `/referencias/dri` | BE-C7 | BE-43b (pronto) |
 
 Desde o BE-41 o servidor grava a entrada e calcula `resultados` ao salvar (REST e `POST /sync` usam o mesmo caso de uso). Detalhes:
 
