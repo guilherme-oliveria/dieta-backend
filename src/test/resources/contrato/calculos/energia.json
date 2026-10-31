@@ -1,6 +1,6 @@
 {
  "versao": "1.0.0",
- "descricao": "Vetores de teste do gasto energético e das metas de macronutrientes de adulto e idoso (BE-43, MOB-52). Mesmo arquivo nos dois repositórios (RN-CAL-06). Valores esperados calculados de forma independente (script separado do código) a partir das fórmulas da seção 3.2 do plano das planilhas. A RDA de proteína do protocolo 2 fora de gestação e lactação é suposição (56 g homem, 46 g mulher) até a tabela do BE-45.",
+ "descricao": "Vetores de teste do gasto energético e das metas de macronutrientes de adulto e idoso (BE-43, MOB-52). Mesmo arquivo nos dois repositórios (RN-CAL-06). Valores esperados calculados de forma independente (script separado do código) a partir das fórmulas da seção 3.2 do plano das planilhas. A RDA de proteína do protocolo 2 vem da macro RDI_PTN (71 g gestante e lactante; adulto 56 g homem e 46 g mulher).",
  "tolerancia": {
   "kcal": 0.01,
   "gramas": 0.01,
@@ -810,7 +810,7 @@
   },
   {
    "id": "PTN-RDA-homem",
-   "descricao": "Proteína RDA (suposição S-CAL)",
+   "descricao": "Proteína RDA",
    "origem": "proteína protocolo 2; correção 3.6 item 6",
    "funcao": "proteina",
    "entrada": {
@@ -831,7 +831,7 @@
   },
   {
    "id": "PTN-RDA-mulher",
-   "descricao": "Proteína RDA (suposição S-CAL)",
+   "descricao": "Proteína RDA",
    "origem": "proteína protocolo 2; correção 3.6 item 6",
    "funcao": "proteina",
    "entrada": {
