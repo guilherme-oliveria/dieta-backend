@@ -4,7 +4,7 @@ import com.br.dietamais.avaliacoes.api.*;
 import com.br.dietamais.avaliacoes.dominio.*;
 import com.br.dietamais.pacientes.api.FichaParaLista;
 import com.br.dietamais.pacientes.api.Sexo;
-import com.br.dietamais.referencias.api.ConsultaReferencias;
+import com.br.dietamais.referencias.api.*;
 import java.math.BigDecimal;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
@@ -21,31 +21,34 @@ public class CalculoAvaliacao {
 	static final ZoneId FUSO=ZoneId.of("America/Sao_Paulo");
 	public static final ProtocoloDobras DOBRAS_PADRAO=ProtocoloDobras.SETE;
 	public static final ProtocoloMassa MASSA_PADRAO=ProtocoloMassa.MAGRO;
-	private final CalculadoraAntropometriaAdulto adulto;private final ConsultaReferencias referencias;
-	public CalculoAvaliacao(ConsultaReferencias referencias){this.referencias=referencias;this.adulto=new CalculadoraAntropometriaAdulto(referencias);}
+	private final CalculadoraAntropometriaAdulto adulto;private final ConsultaReferencias referencias;private final CalculoEnergiaAvaliacao energia;
+	@org.springframework.beans.factory.annotation.Autowired
+	public CalculoAvaliacao(ConsultaReferencias referencias,ConsultaAtividadesMet atividades){this.referencias=referencias;this.adulto=new CalculadoraAntropometriaAdulto(referencias);this.energia=new CalculoEnergiaAvaliacao(atividades);}
 
-	public record Calculado(FaixaEtaria faixaEtaria,ProtocoloAvaliacao protocolo,ResultadosAvaliacao resultados) {}
+	public record Calculado(FaixaEtaria faixaEtaria,ProtocoloAvaliacao protocolo,ResultadosAvaliacao resultados,EnergiaResultado energia) {}
 
 	public static FaixaEtaria faixa(int idadeAnos){return idadeAnos<10?FaixaEtaria.CRIANCA:idadeAnos<18?FaixaEtaria.ADOLESCENTE:idadeAnos<60?FaixaEtaria.ADULTO:FaixaEtaria.IDOSO;}
 
 	/** {@code protocoloPedido} nulo usa o padrão; a versão gravada é a vigente, nunca a que o cliente mandou. */
 	public Calculado calcular(SalvarAvaliacaoRequisicao r,FichaParaLista ficha,ProtocoloAvaliacao protocoloPedido,BigDecimal imc){
 		var protocolo=new ProtocoloAvaliacao(protocoloPedido==null?DOBRAS_PADRAO:protocoloPedido.dobras(),protocoloPedido==null?MASSA_PADRAO:protocoloPedido.massa(),referencias.versaoVigente());
-		if(ficha.dataNascimento()==null)return semDados(protocolo,null,"FALTA_NASCIMENTO");
+		if(ficha.dataNascimento()==null)return semDados(r,protocolo,null,"FALTA_NASCIMENTO");
 		var dia=r.dataHora().atZone(FUSO).toLocalDate();
 		int idade=CalculadoraAntropometriaAdulto.idadeEmAnos(ChronoUnit.DAYS.between(ficha.dataNascimento(),dia));
 		var faixa=faixa(Math.max(idade,0));
-		if(idade<0)return semDados(protocolo,null,"FALTA_NASCIMENTO");
-		if(faixa==FaixaEtaria.CRIANCA||faixa==FaixaEtaria.ADOLESCENTE)return new Calculado(faixa,protocolo,new ResultadosAvaliacao(idade,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Map.of("resultados","FAIXA_ETARIA_NAO_SUPORTADA")));
+		if(idade<0)return semDados(r,protocolo,null,"FALTA_NASCIMENTO");
+		if(faixa==FaixaEtaria.CRIANCA||faixa==FaixaEtaria.ADOLESCENTE)return new Calculado(faixa,protocolo,new ResultadosAvaliacao(idade,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Map.of("resultados","FAIXA_ETARIA_NAO_SUPORTADA")),semEnergia(r,"FAIXA_ETARIA_NAO_SUPORTADA"));
 		String sexo=ficha.sexo()==Sexo.MASCULINO?"masculino":ficha.sexo()==Sexo.FEMININO?"feminino":null;
-		if(sexo==null)return new Calculado(faixa,protocolo,new ResultadosAvaliacao(idade,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Map.of("resultados","FALTA_SEXO")));
+		if(sexo==null)return new Calculado(faixa,protocolo,new ResultadosAvaliacao(idade,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Map.of("resultados","FALTA_SEXO")),semEnergia(r,"FALTA_SEXO"));
 		var d=r.dobras()==null?DobrasAvaliacao.VAZIO:r.dobras();var p=r.perimetros()==null?PerimetrosAvaliacao.VAZIO:r.perimetros();
 		var c=r.complementares();
 		var entrada=new EntradaAvaliacaoAdulto(sexo,idade,r.pesoKg(),r.estaturaM(),protocolo.dobras(),protocolo.massa(),d.triceps(),d.peitoral(),d.axilarMedia(),d.subescapular(),
 			d.abdominal(),d.suprailiaca(),d.coxa(),p.cintura(),c==null?null:c.punhoCm(),c==null?null:c.diametroPunhoCm(),c==null?null:c.diametroJoelhoCm(),c==null?null:c.percentualGorduraDesejado());
-		return new Calculado(faixa,protocolo,adulto.avaliar(entrada).resultados());
+		var resultados=adulto.avaliar(entrada).resultados();
+		return new Calculado(faixa,protocolo,resultados,CalculoEnergiaAvaliacao.pedida(r)?energia.calcular(r,sexo,idade,resultados):null);
 	}
-	private Calculado semDados(ProtocoloAvaliacao protocolo,Integer idade,String motivo){
-		return new Calculado(null,protocolo,new ResultadosAvaliacao(idade,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Map.of("resultados",motivo)));
+	private EnergiaResultado semEnergia(SalvarAvaliacaoRequisicao r,String motivo){return CalculoEnergiaAvaliacao.pedida(r)?energia.semDados(r,motivo):null;}
+	private Calculado semDados(SalvarAvaliacaoRequisicao r,ProtocoloAvaliacao protocolo,Integer idade,String motivo){
+		return new Calculado(null,protocolo,new ResultadosAvaliacao(idade,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Map.of("resultados",motivo)),semEnergia(r,motivo));
 	}
 }

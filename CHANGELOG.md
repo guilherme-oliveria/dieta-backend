@@ -11,6 +11,10 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/), versões [S
 - Texto do termo de consentimento do paciente (`CONSENTIMENTO_VERSAO` e `CONSENTIMENTO_TEXTO`) e política de privacidade.
 - Provedor de e-mail transacional, projeto Firebase (push) e conta do gateway de pagamento (Asaas): o código está pronto e desligado sem as credenciais.
 
+## [1.3.0] — M9: necessidades e protocolos (em andamento)
+
+- BE-43a/b GEB, GET (FAO 1985 e 2004, IOM, RDI e MET), VET e metas de macronutrientes, gravados na avaliação (`energia`, `energiaResultado`). BE-44 Tabela de MET. BE-45 Tabelas DRI. Endpoints `GET /referencias/atividades-met` e `/referencias/dri`.
+
 ## [1.2.0] — M8: avaliação de adulto completa
 
 - BE-C7 Contrato da fase 7 (avaliação ampliada, resultados, protocolos) com vetores de teste da planilha (`contrato/calculos/adulto.json`, iguais no mobile). BE-39 Tabelas de referência do adulto. BE-40 Motor de cálculo antropométrico do adulto (IMC, gordura, composição, peso para o % desejado; dado ausente vira motivo, nunca zero).

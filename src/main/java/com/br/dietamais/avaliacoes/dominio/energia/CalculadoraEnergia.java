@@ -14,17 +14,6 @@ public final class CalculadoraEnergia {
 	private static final BigDecimal CEM=BigDecimal.valueOf(100),QUATRO=BigDecimal.valueOf(4),NOVE=BigDecimal.valueOf(9);
 	private CalculadoraEnergia(){}
 
-	/** Lactação: o período muda o acréscimo da RDI (0 a 6 meses ou 7 a 12). */
-	public enum PeriodoLactacao { ATE_6_MESES, DE_7_A_12_MESES }
-	public enum ProtocoloCarboidrato { FAIXA_DRI, MINIMO_RDA, FAIXA_ESPORTIVA, POR_KG }
-	public enum ProtocoloProteina { FAIXA_DRI, RDA, MINIMO_15, ENDURANCE, HIPERTROFIA }
-	public enum ProtocoloLipidio { MINIMO_20, MINIMO_25 }
-
-	/** Faixa de um macronutriente em % do VET e em gramas; {@code maximo} nulo quando só há mínimo. */
-	public record MetaMacro(BigDecimal percentualMinimo,BigDecimal percentualMaximo,BigDecimal gramasMinimo,BigDecimal gramasMaximo){}
-	/** Frações do lipídio total para dislipidêmico (SBC 2007), em % do VET e em g. */
-	public record Lipidios(MetaMacro total,MetaMacro saturado,MetaMacro monoinsaturado,MetaMacro poliinsaturado,MetaMacro trans){}
-
 	// ---------- GEB (kcal/dia) ----------
 	/** FAO/OMS 1985. */
 	public static BigDecimal gebFao1985(String sexo,int idadeAnos,BigDecimal pesoKg){
@@ -115,8 +104,8 @@ public final class CalculadoraEnergia {
 	/** Lipídio: mínimo 20% (protocolo 1) ou 25% (protocolo 2) e máximo 35%. */
 	public static MetaMacro lipidio(ProtocoloLipidio protocolo,BigDecimal vet){return porPercentual(vet,protocolo==ProtocoloLipidio.MINIMO_20?20:25,35,NOVE);}
 	/** Dislipidêmico (SBC 2007): saturado 7%, mono 20%, poli 10%, trans 1% do VET. */
-	public static Lipidios lipidiosDislipidemico(BigDecimal vet){
-		return new Lipidios(porPercentual(vet,20,35,NOVE),fixo(vet,7),fixo(vet,20),fixo(vet,10),fixo(vet,1));
+	public static LipidiosDislipidemico lipidiosDislipidemico(BigDecimal vet){
+		return new LipidiosDislipidemico(porPercentual(vet,20,35,NOVE),fixo(vet,7),fixo(vet,20),fixo(vet,10),fixo(vet,1));
 	}
 	/** 300 mg/dia, ou 200 se o colesterol total da bioquímica for 200 ou mais. */
 	public static BigDecimal colesterolMaximoMg(BigDecimal colesterolTotal){return colesterolTotal!=null&&colesterolTotal.compareTo(d(200))>=0?d(200):d(300);}

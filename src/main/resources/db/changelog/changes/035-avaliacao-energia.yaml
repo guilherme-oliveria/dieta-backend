@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: 035-avaliacao-energia
+      author: dietamais
+      changes:
+        - addColumn:
+            tableName: avaliacao
+            columns:
+              - column: { name: energia, type: jsonb, remarks: 'Escolhas da nutri para gasto energético e metas (BE-43b)' }
+              - column: { name: energia_resultado, type: jsonb, remarks: 'GEB, GET, VET e metas calculados pelo servidor (BE-43b, RN-CAL-01)' }

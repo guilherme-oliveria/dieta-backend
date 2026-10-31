@@ -32,6 +32,16 @@ public final class LimitesAvaliacao {
 			opcional("complementares.percentualGorduraDesejado",m.percentualGorduraDesejado(),new BigDecimal("3"),new BigDecimal("60"));
 			opcional("complementares.objetivoKgPorMes",m.objetivoKgPorMes(),BigDecimal.ZERO,BigDecimal.TEN);
 		}
+		var en=r.energia();
+		if(en!=null){
+			opcional("energia.colesterolTotal",en.colesterolTotal(),BigDecimal.ZERO,new BigDecimal("1000"));
+			var rm=en.rotinaMet();
+			if(rm!=null){
+				var horas=new BigDecimal("24");
+				faixa("energia.rotinaMet.horasSono",rm.horasSono(),BigDecimal.ZERO,horas);faixa("energia.rotinaMet.horasTrabalho",rm.horasTrabalho(),BigDecimal.ZERO,horas);
+				if(rm.atividades()!=null)for(int i=0;i<rm.atividades().size();i++)faixa("energia.rotinaMet.atividades["+i+"].minutos",rm.atividades().get(i).minutos(),BigDecimal.ZERO,new BigDecimal("1440"));
+			}
+		}
 	}
 	private static void opcional(String campo,BigDecimal v,BigDecimal min,BigDecimal max){if(v!=null)faixa(campo,v,min,max);}
 	private static void faixa(String campo,BigDecimal v,BigDecimal min,BigDecimal max){
