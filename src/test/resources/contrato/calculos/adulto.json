@@ -873,14 +873,14 @@
    "esperado": "MEDIA"
   },
   {
-   "id": "compleicao-feminino-1.65-16.4",
-   "descricao": "Compleição feminino, 1.65 m, punho 16.4 cm",
+   "id": "compleicao-feminino-1.65-16.3",
+   "descricao": "Compleição feminino, 1.65 m, punho 16.3 cm",
    "origem": "aba av.antropométrica H5",
    "funcao": "classificarCompleicao",
    "entrada": {
     "sexo": "feminino",
     "estaturaM": 1.65,
-    "punhoCm": 16.4
+    "punhoCm": 16.3
    },
    "esperado": "MEDIA"
   },

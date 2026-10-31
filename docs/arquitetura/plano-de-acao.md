@@ -93,7 +93,7 @@ A web passa a ser um alvo do app KMP (`dieta-mobile/docs/arquitetura/web.md`, MO
 Detalhe em [plano-melhorias-planilhas.md](plano-melhorias-planilhas.md) (ondas 17 a 23, seção 6.2). Contrato em [contrato-fase-7.md](contrato-fase-7.md).
 
 - [x] **BE-C7 Contrato da fase 7.** Tipos de resultados, protocolo, complementares e compartilhamento, `CodigoErro` `DADO_INSUFICIENTE_CALCULO` e `PROTOCOLO_INVALIDO`, RN-CAL/RN-MOD/RN-RES, JSONs de exemplo e vetores de adulto em `contrato/calculos/`.
-- [ ] **BE-39 Tabelas de referência (adulto).** Módulo `referencias` com `referencia_faixa` (IMC adulto e idoso, risco, cintura, compleição, Pollock e Wilmore) por changeset com `fonte` e `versao_referencia`.
+- [x] **BE-39 Tabelas de referência (adulto).** Módulo `referencias` com `referencia_faixa` (IMC adulto e idoso, risco, cintura, compleição, Pollock e Wilmore) por changeset com `fonte` e `versao_referencia`.
 - [ ] **BE-40 Motor de cálculo antropométrico adulto.** Funções puras com `BigDecimal` e as correções da seção 3.6; 100% dos vetores verdes.
 - [ ] **BE-41 Avaliação ampliada** · [ ] **BE-42 Meus protocolos** · [ ] **BE-43 GEB/GET e metas** · [ ] **BE-44 MET** · [ ] **BE-45 DRI** · [ ] **BE-46 PDF da avaliação**
 - [ ] **BE-C8, BE-47 a BE-50** dieta por porções · [ ] **BE-51 a BE-53** modelos de dieta · [ ] **BE-54, BE-55** crianças e adolescentes · [ ] **BE-56, BE-57** exames e anamnese estruturada

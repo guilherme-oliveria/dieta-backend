@@ -182,3 +182,7 @@ Todo teste roda em `./gradlew test` com Docker ativo; o CI roda `./gradlew build
 | Local | `./gradlew bootRun` (sobe o `compose.yaml`: Postgres 18, Mailpit, MinIO) | volume Docker |
 | Testes | Testcontainers | descartável |
 | Produção | Imagem Docker (`bootBuildImage` ou Dockerfile) + `compose.prod.yaml` na VPS com Caddy (HTTPS automático) | Postgres 18 com backup diário criptografado |
+
+## Módulo `referencias` (BE-39)
+
+Tabelas de referência clínica como **dado**: `referencia_faixa` (changeset `030-referencias`, carga do CSV `db/changelog/dados/referencias-adulto.csv`) com IMC adulto e idoso, risco de comorbidades, cintura, compleição e Pollock e Wilmore (% de gordura). Cada linha tem `fonte` e `versao_referencia` (hoje `adulto-1.0.0`). Faixa de idade é [min, max); faixa de valor tem marcadores de limite inclusivo (ex.: IMC de idoso normal 23 a 28 fechado). Outros módulos só usam `referencias.api.ConsultaReferencias`; os testes de cálculo usam `TabelaFaixas.doCsv` sobre o mesmo CSV. Corrigir uma faixa = novo changeset (nunca editar o 030) com nova `versao_referencia`. Pressão arterial entra no BE-57.
