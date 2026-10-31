@@ -44,23 +44,10 @@ public class GeradorPdf {
 	public byte[] avaliacao(Cabecalho c,AvaliacaoResposta a){
 		var h=new StringBuilder();
 		cabecalho(h,c,"Avaliação física");
-		h.append("<p class=\"meta\">Data: ").append(DATA_HORA.format(a.dataHora().atZone(FUSO))).append("</p>");
-		h.append("<div class=\"bloco\"><h3>Medidas</h3><table><tbody>");
-		linha(h,"Peso",num(a.pesoKg(),1)+" kg");linha(h,"Estatura",num(a.estaturaM(),2)+" m");
-		linha(h,"IMC",num(a.imc(),1)+" kg/m2 ("+classificacao(a.classificacaoImc())+")");
-		h.append("</tbody></table></div>");
-		var p=a.perimetros();
-		secao(h,"Perímetros (cm)",new String[][]{{"Pescoço",n1(p.pescoco())},{"Tórax",n1(p.torax())},{"Cintura",n1(p.cintura())},{"Abdômen",n1(p.abdomen())},{"Quadril",n1(p.quadril())},
-			{"Braço",n1(p.braco())},{"Antebraço",n1(p.antebraco())},{"Coxa",n1(p.coxa())},{"Panturrilha",n1(p.panturrilha())}});
-		var d=a.dobras();
-		secao(h,"Dobras cutâneas (mm)",new String[][]{{"Tríceps",n1(d.triceps())},{"Subescapular",n1(d.subescapular())},{"Peitoral",n1(d.peitoral())},{"Axilar média",n1(d.axilarMedia())},
-			{"Suprailíaca",n1(d.suprailiaca())},{"Abdominal",n1(d.abdominal())},{"Coxa",n1(d.coxa())}});
-		var k=a.composicao();
-		secao(h,"Composição corporal",new String[][]{{"Gordura",k.percentualGordura()==null?null:num(k.percentualGordura(),1)+" %"},
-			{"Peso gordo",k.pesoGordoKg()==null?null:num(k.pesoGordoKg(),1)+" kg"},{"Peso magro",k.pesoMagroKg()==null?null:num(k.pesoMagroKg(),1)+" kg"}});
-		if(a.parecer()!=null&&!a.parecer().isBlank())h.append("<div class=\"bloco\"><h3>Parecer</h3><p class=\"texto\">").append(esc(a.parecer())).append("</p></div>");
-		return pdf(h.toString());
+		h.append(PdfAvaliacao.corpo(a));
+		return pdf(h.toString(),PdfAvaliacao.CSS,c.nutricionista()+" - "+c.crn());
 	}
+	static String dataHora(java.time.Instant i){return DATA_HORA.format(i.atZone(FUSO));}
 
 	private void cabecalho(StringBuilder h,Cabecalho c,String titulo){
 		h.append("<div class=\"topo\">");
@@ -69,17 +56,11 @@ public class GeradorPdf {
 		h.append("<h1>").append(esc(titulo)).append("</h1>");
 		if(c.paciente()!=null)h.append("<p class=\"meta\">Paciente: <strong>").append(esc(c.paciente())).append("</strong></p>");
 	}
-	private void secao(StringBuilder h,String titulo,String[][] linhas){
-		var corpo=new StringBuilder();
-		for(var l:linhas)if(l[1]!=null)linha(corpo,l[0],l[1]);
-		if(corpo.isEmpty())return;
-		h.append("<div class=\"bloco\"><h3>").append(esc(titulo)).append("</h3><table><tbody>").append(corpo).append("</tbody></table></div>");
-	}
 	private void linha(StringBuilder h,String rotulo,String valor){h.append("<tr><td>").append(esc(rotulo)).append("</td><td class=\"n\">").append(esc(valor)).append("</td></tr>");}
 	private String totais(TotaisNutricionaisResposta t){
 		return "Total: "+num(t.kcal(),0)+" kcal | carboidratos "+num(t.carboidratos(),1)+" g | proteínas "+num(t.proteinas(),1)+" g | gorduras "+num(t.gorduras(),1)+" g";
 	}
-	private static String classificacao(ClassificacaoImc c){
+	static String classificacao(ClassificacaoImc c){
 		return switch(c){case ABAIXO_DO_PESO->"abaixo do peso";case NORMAL->"peso normal";case SOBREPESO->"sobrepeso";case OBESIDADE_I->"obesidade grau I";case OBESIDADE_II->"obesidade grau II";case OBESIDADE_III->"obesidade grau III";};
 	}
 	private static String n1(BigDecimal v){return v==null?null:num(v,1);}
@@ -112,8 +93,11 @@ public class GeradorPdf {
 		.texto { margin: 2px 0; }
 		""";
 
-	private byte[] pdf(String corpo){
-		String html="<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><meta charset=\"UTF-8\"/><style>"+CSS+"</style></head><body>"+corpo+"</body></html>";
+	private byte[] pdf(String corpo){return pdf(corpo,"",null);}
+	/** {@code rodape} aparece no canto esquerdo de todas as páginas (nome e CRN da nutri). */
+	private byte[] pdf(String corpo,String cssExtra,String rodape){
+		String css=rodape==null?"":"@page { @bottom-left { content: \""+rodape.replace("\\","").replace("\"","").replace("\n"," ")+"\"; font-size: 9pt; color: #666; } }";
+		String html="<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><meta charset=\"UTF-8\"/><style>"+CSS+cssExtra+css+"</style></head><body>"+corpo+"</body></html>";
 		try(var saida=new ByteArrayOutputStream()){
 			var b=new PdfRendererBuilder();b.useFastMode();b.withHtmlContent(html,null);b.toStream(saida);b.run();
 			return saida.toByteArray();
