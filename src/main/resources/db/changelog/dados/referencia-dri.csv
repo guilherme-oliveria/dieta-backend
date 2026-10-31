@@ -1,293 +1,293 @@
 ordem;nutriente;nome;sexo;gestante;lactante;idade_min_meses;idade_max_meses;valor;unidade;fonte;versao_referencia
-1;proteina;Proteína;NULL;false;false;0;7;9.1;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-2;proteina;Proteína;NULL;false;false;7;12;11;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-3;proteina;Proteína;NULL;false;false;12;48;13;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-4;proteina;Proteína;NULL;false;false;48;108;19;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-5;proteina;Proteína;NULL;false;false;108;168;34;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-6;proteina;Proteína;masculino;false;false;168;228;52;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-7;proteina;Proteína;feminino;false;false;168;228;46;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-8;proteina;Proteína;masculino;false;false;228;NULL;56;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-9;proteina;Proteína;feminino;false;false;228;NULL;46;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-10;proteina;Proteína;NULL;true;false;0;NULL;71;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-11;proteina;Proteína;feminino;false;true;0;NULL;71;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-12;fibras;Fibras totais;NULL;false;false;12;48;19;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-13;fibras;Fibras totais;NULL;false;false;48;108;25;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-14;fibras;Fibras totais;masculino;false;false;108;168;31;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-15;fibras;Fibras totais;feminino;false;false;108;168;26;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-16;fibras;Fibras totais;masculino;false;false;168;228;38;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-17;fibras;Fibras totais;feminino;false;false;168;228;26;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-18;fibras;Fibras totais;masculino;false;false;228;612;38;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-19;fibras;Fibras totais;feminino;false;false;228;612;25;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-20;fibras;Fibras totais;masculino;false;false;612;NULL;30;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-21;fibras;Fibras totais;feminino;false;false;612;NULL;21;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-22;fibras;Fibras totais;NULL;true;false;12;NULL;28;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-23;fibras;Fibras totais;feminino;false;true;0;NULL;29;g/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-24;agua;Água;NULL;false;false;0;7;0.7;l/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-25;agua;Água;NULL;false;false;7;12;0.8;l/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-26;agua;Água;NULL;false;false;12;48;1.3;l/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-27;agua;Água;NULL;false;false;48;108;1.7;l/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-28;agua;Água;masculino;false;false;108;168;2.4;l/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-29;agua;Água;feminino;false;false;108;168;2.1;l/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-30;agua;Água;masculino;false;false;168;228;3.3;l/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-31;agua;Água;feminino;false;false;168;228;2.3;l/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-32;agua;Água;masculino;false;false;228;NULL;3.7;l/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-33;agua;Água;feminino;false;false;228;NULL;2.7;l/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-34;agua;Água;NULL;true;false;0;NULL;3;l/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-35;agua;Água;feminino;false;true;0;NULL;3.8;l/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-36;calcio;Cálcio;NULL;false;false;0;7;200;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-37;calcio;Cálcio;NULL;false;false;7;12;260;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-38;calcio;Cálcio;NULL;false;false;12;48;700;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-39;calcio;Cálcio;NULL;false;false;48;108;1000;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-40;calcio;Cálcio;NULL;false;false;108;228;1300;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-41;calcio;Cálcio;NULL;false;false;228;612;1000;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-42;calcio;Cálcio;masculino;false;false;612;852;1000;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-43;calcio;Cálcio;feminino;false;false;612;852;1200;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-44;calcio;Cálcio;NULL;false;false;852;NULL;1200;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-45;calcio;Cálcio;NULL;true;false;0;228;1300;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-46;calcio;Cálcio;NULL;true;false;228;NULL;1000;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-47;calcio;Cálcio;feminino;false;true;0;228;1300;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-48;calcio;Cálcio;feminino;false;true;228;NULL;1000;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-49;cobre;Cobre;NULL;false;false;0;7;200;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-50;cobre;Cobre;NULL;false;false;7;12;220;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-51;cobre;Cobre;NULL;false;false;12;48;340;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-52;cobre;Cobre;NULL;false;false;48;108;440;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-53;cobre;Cobre;NULL;false;false;108;168;700;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-54;cobre;Cobre;NULL;false;false;168;228;890;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-55;cobre;Cobre;NULL;false;false;228;NULL;900;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-56;cobre;Cobre;NULL;true;false;0;NULL;1000;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-57;cobre;Cobre;feminino;false;true;0;NULL;1300;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-58;cromo;Cromo;NULL;false;false;0;7;0.2;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-59;cromo;Cromo;NULL;false;false;7;12;5.5;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-60;cromo;Cromo;NULL;false;false;12;48;11;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-61;cromo;Cromo;NULL;false;false;48;108;15;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-62;cromo;Cromo;masculino;false;false;108;168;25;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-63;cromo;Cromo;feminino;false;false;108;168;21;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-64;cromo;Cromo;masculino;false;false;168;228;35;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-65;cromo;Cromo;feminino;false;false;168;228;24;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-66;cromo;Cromo;masculino;false;false;228;612;35;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-67;cromo;Cromo;feminino;false;false;228;612;25;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-68;cromo;Cromo;masculino;false;false;612;NULL;30;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-69;cromo;Cromo;feminino;false;false;612;NULL;20;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-70;cromo;Cromo;NULL;true;false;0;228;29;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-71;cromo;Cromo;NULL;true;false;228;NULL;30;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-72;cromo;Cromo;feminino;false;true;0;228;44;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-73;cromo;Cromo;feminino;false;true;228;NULL;45;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-74;ferro;Ferro;NULL;false;false;0;7;0.27;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-75;ferro;Ferro;NULL;false;false;7;12;11;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-76;ferro;Ferro;NULL;false;false;12;48;7;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-77;ferro;Ferro;NULL;false;false;48;108;10;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-78;ferro;Ferro;NULL;false;false;108;168;8;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-79;ferro;Ferro;masculino;false;false;168;228;11;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-80;ferro;Ferro;feminino;false;false;168;228;15;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-81;ferro;Ferro;masculino;false;false;228;612;8;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-82;ferro;Ferro;feminino;false;false;228;612;18;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-83;ferro;Ferro;NULL;false;false;612;NULL;8;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-84;ferro;Ferro;NULL;true;false;0;NULL;27;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-85;ferro;Ferro;feminino;false;true;0;228;10;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-86;ferro;Ferro;feminino;false;true;228;NULL;9;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-87;fosforo;Fósforo;NULL;false;false;0;7;100;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-88;fosforo;Fósforo;NULL;false;false;7;12;275;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-89;fosforo;Fósforo;NULL;false;false;12;48;460;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-90;fosforo;Fósforo;NULL;false;false;48;108;500;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-91;fosforo;Fósforo;NULL;false;false;108;228;1250;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-92;fosforo;Fósforo;NULL;false;false;228;NULL;700;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-93;fosforo;Fósforo;NULL;true;false;0;228;1250;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-94;fosforo;Fósforo;NULL;true;false;228;NULL;700;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-95;fosforo;Fósforo;feminino;false;true;0;228;1250;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-96;fosforo;Fósforo;feminino;false;true;228;NULL;700;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-97;iodo;Iodo;NULL;false;false;0;7;110;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-98;iodo;Iodo;NULL;false;false;7;12;130;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-99;iodo;Iodo;NULL;false;false;12;108;90;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-100;iodo;Iodo;NULL;false;false;108;168;120;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-101;iodo;Iodo;NULL;false;false;168;NULL;150;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-102;iodo;Iodo;NULL;true;false;0;NULL;220;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-103;iodo;Iodo;feminino;false;true;0;NULL;290;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-104;magnesio;Magnésio;NULL;false;false;0;7;30;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-105;magnesio;Magnésio;NULL;false;false;7;12;75;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-106;magnesio;Magnésio;NULL;false;false;12;48;80;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-107;magnesio;Magnésio;NULL;false;false;48;108;130;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-108;magnesio;Magnésio;NULL;false;false;108;168;240;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-109;magnesio;Magnésio;masculino;false;false;168;228;410;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-110;magnesio;Magnésio;feminino;false;false;168;228;360;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-111;magnesio;Magnésio;masculino;false;false;228;372;400;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-112;magnesio;Magnésio;feminino;false;false;228;372;310;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-113;magnesio;Magnésio;masculino;false;false;372;NULL;420;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-114;magnesio;Magnésio;feminino;false;false;372;NULL;320;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-115;magnesio;Magnésio;NULL;true;false;0;228;400;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-116;magnesio;Magnésio;NULL;true;false;228;372;350;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-117;magnesio;Magnésio;NULL;true;false;372;NULL;360;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-118;magnesio;Magnésio;feminino;false;true;0;228;360;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-119;magnesio;Magnésio;feminino;false;true;228;372;310;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-120;magnesio;Magnésio;feminino;false;true;372;NULL;320;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-121;manganes;Manganês;NULL;false;false;0;7;0.003;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-122;manganes;Manganês;NULL;false;false;7;12;0.6;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-123;manganes;Manganês;NULL;false;false;12;48;1.2;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-124;manganes;Manganês;NULL;false;false;48;108;1.5;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-125;manganes;Manganês;masculino;false;false;108;168;1.9;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-126;manganes;Manganês;feminino;false;false;108;168;1.6;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-127;manganes;Manganês;masculino;false;false;168;228;2.2;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-128;manganes;Manganês;feminino;false;false;168;228;1.6;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-129;manganes;Manganês;masculino;false;false;228;NULL;2.3;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-130;manganes;Manganês;feminino;false;false;228;NULL;1.8;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-131;manganes;Manganês;NULL;true;false;0;NULL;2;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-132;manganes;Manganês;feminino;false;true;0;NULL;2.6;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-133;potassio;Potássio;NULL;false;false;0;7;400;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-134;potassio;Potássio;NULL;false;false;7;12;700;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-135;potassio;Potássio;NULL;false;false;12;48;3000;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-136;potassio;Potássio;NULL;false;false;48;108;3800;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-137;potassio;Potássio;NULL;false;false;108;168;4500;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-138;potassio;Potássio;NULL;false;false;168;NULL;4700;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-139;potassio;Potássio;NULL;true;false;0;NULL;4700;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-140;potassio;Potássio;feminino;false;true;0;NULL;5100;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-141;selenio;Selênio;NULL;false;false;0;7;15;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-142;selenio;Selênio;NULL;false;false;7;48;20;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-143;selenio;Selênio;NULL;false;false;48;108;30;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-144;selenio;Selênio;NULL;false;false;108;168;40;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-145;selenio;Selênio;NULL;false;false;168;NULL;55;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-146;selenio;Selênio;NULL;true;false;0;NULL;60;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-147;selenio;Selênio;feminino;false;true;0;NULL;70;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-148;sodio;Sódio;NULL;false;false;0;7;120;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-149;sodio;Sódio;NULL;false;false;7;12;370;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-150;sodio;Sódio;NULL;false;false;12;48;1000;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-151;sodio;Sódio;NULL;false;false;48;108;1200;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-152;sodio;Sódio;NULL;false;false;108;612;1500;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-153;sodio;Sódio;NULL;false;false;612;852;1300;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-154;sodio;Sódio;NULL;false;false;852;NULL;1200;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-155;sodio;Sódio;NULL;true;false;0;NULL;1500;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-156;sodio;Sódio;feminino;false;true;0;NULL;1500;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-157;zinco;Zinco;NULL;false;false;0;7;2;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-158;zinco;Zinco;NULL;false;false;7;48;3;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-159;zinco;Zinco;NULL;false;false;48;108;5;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-160;zinco;Zinco;NULL;false;false;108;168;8;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-161;zinco;Zinco;masculino;false;false;168;228;11;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-162;zinco;Zinco;feminino;false;false;168;228;9;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-163;zinco;Zinco;masculino;false;false;228;NULL;11;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-164;zinco;Zinco;feminino;false;false;228;NULL;8;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-165;zinco;Zinco;NULL;true;false;0;228;12;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-166;zinco;Zinco;NULL;true;false;228;NULL;11;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-167;zinco;Zinco;feminino;false;true;0;228;13;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-168;zinco;Zinco;feminino;false;true;228;NULL;12;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-169;vitamina_b1;Tiamina (B1);NULL;false;false;0;7;0.2;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-170;vitamina_b1;Tiamina (B1);NULL;false;false;7;12;0.3;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-171;vitamina_b1;Tiamina (B1);NULL;false;false;12;48;0.5;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-172;vitamina_b1;Tiamina (B1);NULL;false;false;48;108;0.6;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-173;vitamina_b1;Tiamina (B1);NULL;false;false;108;168;0.9;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-174;vitamina_b1;Tiamina (B1);masculino;false;false;168;228;1.2;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-175;vitamina_b1;Tiamina (B1);feminino;false;false;168;228;1;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-176;vitamina_b1;Tiamina (B1);masculino;false;false;228;NULL;1.2;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-177;vitamina_b1;Tiamina (B1);feminino;false;false;228;NULL;1.1;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-178;vitamina_b1;Tiamina (B1);NULL;true;false;0;NULL;1.4;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-179;vitamina_b1;Tiamina (B1);feminino;false;true;0;NULL;1.4;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-180;vitamina_b2;Riboflavina (B2);NULL;false;false;0;7;0.3;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-181;vitamina_b2;Riboflavina (B2);NULL;false;false;7;12;0.4;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-182;vitamina_b2;Riboflavina (B2);NULL;false;false;12;48;0.5;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-183;vitamina_b2;Riboflavina (B2);NULL;false;false;48;108;0.6;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-184;vitamina_b2;Riboflavina (B2);NULL;false;false;108;168;0.9;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-185;vitamina_b2;Riboflavina (B2);masculino;false;false;168;228;1.3;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-186;vitamina_b2;Riboflavina (B2);feminino;false;false;168;228;1;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-187;vitamina_b2;Riboflavina (B2);masculino;false;false;228;NULL;1.3;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-188;vitamina_b2;Riboflavina (B2);feminino;false;false;228;NULL;1.1;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-189;vitamina_b2;Riboflavina (B2);NULL;true;false;0;NULL;1.4;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-190;vitamina_b2;Riboflavina (B2);feminino;false;true;0;NULL;1.6;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-191;vitamina_b3;Niacina (B3);NULL;false;false;0;7;2;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-192;vitamina_b3;Niacina (B3);NULL;false;false;7;12;4;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-193;vitamina_b3;Niacina (B3);NULL;false;false;12;48;6;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-194;vitamina_b3;Niacina (B3);NULL;false;false;48;108;8;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-195;vitamina_b3;Niacina (B3);NULL;false;false;108;168;12;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-196;vitamina_b3;Niacina (B3);masculino;false;false;168;NULL;16;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-197;vitamina_b3;Niacina (B3);feminino;false;false;168;NULL;14;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-198;vitamina_b3;Niacina (B3);NULL;true;false;0;NULL;18;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-199;vitamina_b3;Niacina (B3);feminino;false;true;0;NULL;17;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-200;vitamina_b5;Ácido pantotênico (B5);NULL;false;false;0;7;1.7;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-201;vitamina_b5;Ácido pantotênico (B5);NULL;false;false;7;12;1.8;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-202;vitamina_b5;Ácido pantotênico (B5);NULL;false;false;12;48;2;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-203;vitamina_b5;Ácido pantotênico (B5);NULL;false;false;48;108;3;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-204;vitamina_b5;Ácido pantotênico (B5);NULL;false;false;108;168;4;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-205;vitamina_b5;Ácido pantotênico (B5);NULL;false;false;168;NULL;5;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-206;vitamina_b5;Ácido pantotênico (B5);NULL;true;false;0;NULL;6;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-207;vitamina_b5;Ácido pantotênico (B5);feminino;false;true;0;NULL;7;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-208;vitamina_b6;Piridoxina (B6);NULL;false;false;0;7;0.1;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-209;vitamina_b6;Piridoxina (B6);NULL;false;false;7;12;0.3;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-210;vitamina_b6;Piridoxina (B6);NULL;false;false;12;48;0.5;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-211;vitamina_b6;Piridoxina (B6);NULL;false;false;48;108;0.6;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-212;vitamina_b6;Piridoxina (B6);NULL;false;false;108;168;1;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-213;vitamina_b6;Piridoxina (B6);masculino;false;false;168;228;1.3;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-214;vitamina_b6;Piridoxina (B6);feminino;false;false;168;228;1.2;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-215;vitamina_b6;Piridoxina (B6);NULL;false;false;228;612;1.3;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-216;vitamina_b6;Piridoxina (B6);masculino;false;false;612;NULL;1.7;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-217;vitamina_b6;Piridoxina (B6);feminino;false;false;612;NULL;1.5;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-218;vitamina_b6;Piridoxina (B6);NULL;true;false;0;NULL;1.9;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-219;vitamina_b6;Piridoxina (B6);feminino;false;true;0;NULL;2;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-220;vitamina_b7;Biotina (B7);NULL;false;false;0;7;5;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-221;vitamina_b7;Biotina (B7);NULL;false;false;7;12;6;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-222;vitamina_b7;Biotina (B7);NULL;false;false;12;48;8;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-223;vitamina_b7;Biotina (B7);NULL;false;false;48;108;12;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-224;vitamina_b7;Biotina (B7);NULL;false;false;108;168;20;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-225;vitamina_b7;Biotina (B7);NULL;false;false;168;228;25;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-226;vitamina_b7;Biotina (B7);NULL;false;false;228;NULL;30;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-227;vitamina_b7;Biotina (B7);NULL;true;false;0;NULL;30;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-228;vitamina_b7;Biotina (B7);feminino;false;true;0;NULL;35;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-229;colina;Colina (B8);NULL;false;false;0;7;125;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-230;colina;Colina (B8);NULL;false;false;7;12;150;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-231;colina;Colina (B8);NULL;false;false;12;48;200;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-232;colina;Colina (B8);NULL;false;false;48;108;250;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-233;colina;Colina (B8);NULL;false;false;108;168;375;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-234;colina;Colina (B8);masculino;false;false;168;228;550;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-235;colina;Colina (B8);feminino;false;false;168;228;400;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-236;colina;Colina (B8);masculino;false;false;228;NULL;550;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-237;colina;Colina (B8);feminino;false;false;228;NULL;425;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-238;colina;Colina (B8);NULL;true;false;0;NULL;450;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-239;colina;Colina (B8);feminino;false;true;0;NULL;550;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-240;vitamina_b9;Folato (B9);NULL;false;false;0;7;65;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-241;vitamina_b9;Folato (B9);NULL;false;false;7;12;80;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-242;vitamina_b9;Folato (B9);NULL;false;false;12;48;150;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-243;vitamina_b9;Folato (B9);NULL;false;false;48;108;200;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-244;vitamina_b9;Folato (B9);NULL;false;false;108;168;300;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-245;vitamina_b9;Folato (B9);NULL;false;false;168;NULL;400;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-246;vitamina_b9;Folato (B9);NULL;true;false;0;NULL;600;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-247;vitamina_b9;Folato (B9);feminino;false;true;0;NULL;500;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-248;vitamina_b12;Cianocobalamina (B12);NULL;false;false;0;7;0.4;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-249;vitamina_b12;Cianocobalamina (B12);NULL;false;false;7;12;0.5;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-250;vitamina_b12;Cianocobalamina (B12);NULL;false;false;12;48;0.9;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-251;vitamina_b12;Cianocobalamina (B12);NULL;false;false;48;108;1.2;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-252;vitamina_b12;Cianocobalamina (B12);NULL;false;false;108;168;1.8;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-253;vitamina_b12;Cianocobalamina (B12);NULL;false;false;168;NULL;2.4;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-254;vitamina_b12;Cianocobalamina (B12);NULL;true;false;0;NULL;2.6;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-255;vitamina_b12;Cianocobalamina (B12);feminino;false;true;0;NULL;2.8;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-256;vitamina_c;Vitamina C;NULL;false;false;0;7;40;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-257;vitamina_c;Vitamina C;NULL;false;false;7;12;50;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-258;vitamina_c;Vitamina C;NULL;false;false;12;48;15;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-259;vitamina_c;Vitamina C;NULL;false;false;48;108;25;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-260;vitamina_c;Vitamina C;NULL;false;false;108;168;45;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-261;vitamina_c;Vitamina C;masculino;false;false;168;228;75;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-262;vitamina_c;Vitamina C;feminino;false;false;168;228;65;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-263;vitamina_c;Vitamina C;masculino;false;false;228;NULL;90;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-264;vitamina_c;Vitamina C;feminino;false;false;228;NULL;75;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-265;vitamina_c;Vitamina C;NULL;true;false;0;228;80;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-266;vitamina_c;Vitamina C;NULL;true;false;228;NULL;85;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-267;vitamina_c;Vitamina C;feminino;false;true;0;228;115;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-268;vitamina_c;Vitamina C;feminino;false;true;228;NULL;120;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-269;vitamina_a;Vitamina A;NULL;false;false;0;7;400;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-270;vitamina_a;Vitamina A;NULL;false;false;7;12;500;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-271;vitamina_a;Vitamina A;NULL;false;false;12;48;300;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-272;vitamina_a;Vitamina A;NULL;false;false;48;108;400;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-273;vitamina_a;Vitamina A;NULL;false;false;108;168;600;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-274;vitamina_a;Vitamina A;masculino;false;false;168;NULL;900;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-275;vitamina_a;Vitamina A;feminino;false;false;168;NULL;700;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-276;vitamina_a;Vitamina A;NULL;true;false;0;228;750;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-277;vitamina_a;Vitamina A;NULL;true;false;228;NULL;770;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-278;vitamina_a;Vitamina A;feminino;false;true;0;228;1200;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-279;vitamina_a;Vitamina A;feminino;false;true;228;NULL;1300;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-280;vitamina_d;Vitamina D;NULL;false;false;0;12;10;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-281;vitamina_d;Vitamina D;NULL;false;false;12;852;15;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-282;vitamina_d;Vitamina D;NULL;false;false;852;NULL;20;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-283;vitamina_d;Vitamina D;NULL;true;false;0;NULL;15;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-284;vitamina_d;Vitamina D;feminino;false;true;0;NULL;15;mcg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-285;vitamina_e;Vitamina E;NULL;false;false;0;7;4;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-286;vitamina_e;Vitamina E;NULL;false;false;7;12;5;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-287;vitamina_e;Vitamina E;NULL;false;false;12;48;6;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-288;vitamina_e;Vitamina E;NULL;false;false;48;108;7;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-289;vitamina_e;Vitamina E;NULL;false;false;108;168;11;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-290;vitamina_e;Vitamina E;NULL;false;false;168;NULL;15;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-291;vitamina_e;Vitamina E;NULL;true;false;0;NULL;15;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
-292;vitamina_e;Vitamina E;feminino;false;true;0;NULL;19;mg/dia;planilha da Nut. Luciana (macros RDI_*; DRI/IOM 2005);dri-1.0.0
+1;proteina;Proteína;NULL;false;false;0;7;9.1;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+2;proteina;Proteína;NULL;false;false;7;12;11;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+3;proteina;Proteína;NULL;false;false;12;48;13;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+4;proteina;Proteína;NULL;false;false;48;108;19;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+5;proteina;Proteína;NULL;false;false;108;168;34;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+6;proteina;Proteína;masculino;false;false;168;228;52;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+7;proteina;Proteína;feminino;false;false;168;228;46;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+8;proteina;Proteína;masculino;false;false;228;NULL;56;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+9;proteina;Proteína;feminino;false;false;228;NULL;46;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+10;proteina;Proteína;NULL;true;false;0;NULL;71;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+11;proteina;Proteína;feminino;false;true;0;NULL;71;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+12;fibras;Fibras totais;NULL;false;false;12;48;19;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+13;fibras;Fibras totais;NULL;false;false;48;108;25;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+14;fibras;Fibras totais;masculino;false;false;108;168;31;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+15;fibras;Fibras totais;feminino;false;false;108;168;26;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+16;fibras;Fibras totais;masculino;false;false;168;228;38;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+17;fibras;Fibras totais;feminino;false;false;168;228;26;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+18;fibras;Fibras totais;masculino;false;false;228;612;38;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+19;fibras;Fibras totais;feminino;false;false;228;612;25;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+20;fibras;Fibras totais;masculino;false;false;612;NULL;30;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+21;fibras;Fibras totais;feminino;false;false;612;NULL;21;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+22;fibras;Fibras totais;NULL;true;false;12;NULL;28;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+23;fibras;Fibras totais;feminino;false;true;0;NULL;29;g/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+24;agua;Água;NULL;false;false;0;7;0.7;l/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+25;agua;Água;NULL;false;false;7;12;0.8;l/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+26;agua;Água;NULL;false;false;12;48;1.3;l/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+27;agua;Água;NULL;false;false;48;108;1.7;l/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+28;agua;Água;masculino;false;false;108;168;2.4;l/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+29;agua;Água;feminino;false;false;108;168;2.1;l/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+30;agua;Água;masculino;false;false;168;228;3.3;l/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+31;agua;Água;feminino;false;false;168;228;2.3;l/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+32;agua;Água;masculino;false;false;228;NULL;3.7;l/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+33;agua;Água;feminino;false;false;228;NULL;2.7;l/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+34;agua;Água;NULL;true;false;0;NULL;3;l/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+35;agua;Água;feminino;false;true;0;NULL;3.8;l/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+36;calcio;Cálcio;NULL;false;false;0;7;200;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+37;calcio;Cálcio;NULL;false;false;7;12;260;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+38;calcio;Cálcio;NULL;false;false;12;48;700;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+39;calcio;Cálcio;NULL;false;false;48;108;1000;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+40;calcio;Cálcio;NULL;false;false;108;228;1300;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+41;calcio;Cálcio;NULL;false;false;228;612;1000;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+42;calcio;Cálcio;masculino;false;false;612;852;1000;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+43;calcio;Cálcio;feminino;false;false;612;852;1200;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+44;calcio;Cálcio;NULL;false;false;852;NULL;1200;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+45;calcio;Cálcio;NULL;true;false;0;228;1300;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+46;calcio;Cálcio;NULL;true;false;228;NULL;1000;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+47;calcio;Cálcio;feminino;false;true;0;228;1300;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+48;calcio;Cálcio;feminino;false;true;228;NULL;1000;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+49;cobre;Cobre;NULL;false;false;0;7;200;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+50;cobre;Cobre;NULL;false;false;7;12;220;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+51;cobre;Cobre;NULL;false;false;12;48;340;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+52;cobre;Cobre;NULL;false;false;48;108;440;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+53;cobre;Cobre;NULL;false;false;108;168;700;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+54;cobre;Cobre;NULL;false;false;168;228;890;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+55;cobre;Cobre;NULL;false;false;228;NULL;900;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+56;cobre;Cobre;NULL;true;false;0;NULL;1000;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+57;cobre;Cobre;feminino;false;true;0;NULL;1300;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+58;cromo;Cromo;NULL;false;false;0;7;0.2;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+59;cromo;Cromo;NULL;false;false;7;12;5.5;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+60;cromo;Cromo;NULL;false;false;12;48;11;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+61;cromo;Cromo;NULL;false;false;48;108;15;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+62;cromo;Cromo;masculino;false;false;108;168;25;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+63;cromo;Cromo;feminino;false;false;108;168;21;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+64;cromo;Cromo;masculino;false;false;168;228;35;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+65;cromo;Cromo;feminino;false;false;168;228;24;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+66;cromo;Cromo;masculino;false;false;228;612;35;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+67;cromo;Cromo;feminino;false;false;228;612;25;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+68;cromo;Cromo;masculino;false;false;612;NULL;30;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+69;cromo;Cromo;feminino;false;false;612;NULL;20;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+70;cromo;Cromo;NULL;true;false;0;228;29;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+71;cromo;Cromo;NULL;true;false;228;NULL;30;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+72;cromo;Cromo;feminino;false;true;0;228;44;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+73;cromo;Cromo;feminino;false;true;228;NULL;45;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+74;ferro;Ferro;NULL;false;false;0;7;0.27;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+75;ferro;Ferro;NULL;false;false;7;12;11;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+76;ferro;Ferro;NULL;false;false;12;48;7;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+77;ferro;Ferro;NULL;false;false;48;108;10;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+78;ferro;Ferro;NULL;false;false;108;168;8;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+79;ferro;Ferro;masculino;false;false;168;228;11;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+80;ferro;Ferro;feminino;false;false;168;228;15;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+81;ferro;Ferro;masculino;false;false;228;612;8;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+82;ferro;Ferro;feminino;false;false;228;612;18;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+83;ferro;Ferro;NULL;false;false;612;NULL;8;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+84;ferro;Ferro;NULL;true;false;0;NULL;27;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+85;ferro;Ferro;feminino;false;true;0;228;10;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+86;ferro;Ferro;feminino;false;true;228;NULL;9;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+87;fosforo;Fósforo;NULL;false;false;0;7;100;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+88;fosforo;Fósforo;NULL;false;false;7;12;275;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+89;fosforo;Fósforo;NULL;false;false;12;48;460;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+90;fosforo;Fósforo;NULL;false;false;48;108;500;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+91;fosforo;Fósforo;NULL;false;false;108;228;1250;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+92;fosforo;Fósforo;NULL;false;false;228;NULL;700;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+93;fosforo;Fósforo;NULL;true;false;0;228;1250;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+94;fosforo;Fósforo;NULL;true;false;228;NULL;700;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+95;fosforo;Fósforo;feminino;false;true;0;228;1250;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+96;fosforo;Fósforo;feminino;false;true;228;NULL;700;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+97;iodo;Iodo;NULL;false;false;0;7;110;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+98;iodo;Iodo;NULL;false;false;7;12;130;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+99;iodo;Iodo;NULL;false;false;12;108;90;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+100;iodo;Iodo;NULL;false;false;108;168;120;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+101;iodo;Iodo;NULL;false;false;168;NULL;150;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+102;iodo;Iodo;NULL;true;false;0;NULL;220;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+103;iodo;Iodo;feminino;false;true;0;NULL;290;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+104;magnesio;Magnésio;NULL;false;false;0;7;30;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+105;magnesio;Magnésio;NULL;false;false;7;12;75;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+106;magnesio;Magnésio;NULL;false;false;12;48;80;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+107;magnesio;Magnésio;NULL;false;false;48;108;130;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+108;magnesio;Magnésio;NULL;false;false;108;168;240;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+109;magnesio;Magnésio;masculino;false;false;168;228;410;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+110;magnesio;Magnésio;feminino;false;false;168;228;360;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+111;magnesio;Magnésio;masculino;false;false;228;372;400;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+112;magnesio;Magnésio;feminino;false;false;228;372;310;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+113;magnesio;Magnésio;masculino;false;false;372;NULL;420;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+114;magnesio;Magnésio;feminino;false;false;372;NULL;320;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+115;magnesio;Magnésio;NULL;true;false;0;228;400;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+116;magnesio;Magnésio;NULL;true;false;228;372;350;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+117;magnesio;Magnésio;NULL;true;false;372;NULL;360;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+118;magnesio;Magnésio;feminino;false;true;0;228;360;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+119;magnesio;Magnésio;feminino;false;true;228;372;310;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+120;magnesio;Magnésio;feminino;false;true;372;NULL;320;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+121;manganes;Manganês;NULL;false;false;0;7;0.003;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+122;manganes;Manganês;NULL;false;false;7;12;0.6;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+123;manganes;Manganês;NULL;false;false;12;48;1.2;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+124;manganes;Manganês;NULL;false;false;48;108;1.5;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+125;manganes;Manganês;masculino;false;false;108;168;1.9;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+126;manganes;Manganês;feminino;false;false;108;168;1.6;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+127;manganes;Manganês;masculino;false;false;168;228;2.2;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+128;manganes;Manganês;feminino;false;false;168;228;1.6;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+129;manganes;Manganês;masculino;false;false;228;NULL;2.3;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+130;manganes;Manganês;feminino;false;false;228;NULL;1.8;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+131;manganes;Manganês;NULL;true;false;0;NULL;2;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+132;manganes;Manganês;feminino;false;true;0;NULL;2.6;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+133;potassio;Potássio;NULL;false;false;0;7;400;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+134;potassio;Potássio;NULL;false;false;7;12;700;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+135;potassio;Potássio;NULL;false;false;12;48;3000;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+136;potassio;Potássio;NULL;false;false;48;108;3800;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+137;potassio;Potássio;NULL;false;false;108;168;4500;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+138;potassio;Potássio;NULL;false;false;168;NULL;4700;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+139;potassio;Potássio;NULL;true;false;0;NULL;4700;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+140;potassio;Potássio;feminino;false;true;0;NULL;5100;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+141;selenio;Selênio;NULL;false;false;0;7;15;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+142;selenio;Selênio;NULL;false;false;7;48;20;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+143;selenio;Selênio;NULL;false;false;48;108;30;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+144;selenio;Selênio;NULL;false;false;108;168;40;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+145;selenio;Selênio;NULL;false;false;168;NULL;55;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+146;selenio;Selênio;NULL;true;false;0;NULL;60;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+147;selenio;Selênio;feminino;false;true;0;NULL;70;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+148;sodio;Sódio;NULL;false;false;0;7;120;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+149;sodio;Sódio;NULL;false;false;7;12;370;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+150;sodio;Sódio;NULL;false;false;12;48;1000;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+151;sodio;Sódio;NULL;false;false;48;108;1200;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+152;sodio;Sódio;NULL;false;false;108;612;1500;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+153;sodio;Sódio;NULL;false;false;612;852;1300;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+154;sodio;Sódio;NULL;false;false;852;NULL;1200;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+155;sodio;Sódio;NULL;true;false;0;NULL;1500;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+156;sodio;Sódio;feminino;false;true;0;NULL;1500;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+157;zinco;Zinco;NULL;false;false;0;7;2;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+158;zinco;Zinco;NULL;false;false;7;48;3;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+159;zinco;Zinco;NULL;false;false;48;108;5;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+160;zinco;Zinco;NULL;false;false;108;168;8;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+161;zinco;Zinco;masculino;false;false;168;228;11;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+162;zinco;Zinco;feminino;false;false;168;228;9;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+163;zinco;Zinco;masculino;false;false;228;NULL;11;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+164;zinco;Zinco;feminino;false;false;228;NULL;8;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+165;zinco;Zinco;NULL;true;false;0;228;12;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+166;zinco;Zinco;NULL;true;false;228;NULL;11;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+167;zinco;Zinco;feminino;false;true;0;228;13;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+168;zinco;Zinco;feminino;false;true;228;NULL;12;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+169;vitamina_b1;Tiamina (B1);NULL;false;false;0;7;0.2;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+170;vitamina_b1;Tiamina (B1);NULL;false;false;7;12;0.3;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+171;vitamina_b1;Tiamina (B1);NULL;false;false;12;48;0.5;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+172;vitamina_b1;Tiamina (B1);NULL;false;false;48;108;0.6;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+173;vitamina_b1;Tiamina (B1);NULL;false;false;108;168;0.9;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+174;vitamina_b1;Tiamina (B1);masculino;false;false;168;228;1.2;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+175;vitamina_b1;Tiamina (B1);feminino;false;false;168;228;1;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+176;vitamina_b1;Tiamina (B1);masculino;false;false;228;NULL;1.2;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+177;vitamina_b1;Tiamina (B1);feminino;false;false;228;NULL;1.1;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+178;vitamina_b1;Tiamina (B1);NULL;true;false;0;NULL;1.4;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+179;vitamina_b1;Tiamina (B1);feminino;false;true;0;NULL;1.4;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+180;vitamina_b2;Riboflavina (B2);NULL;false;false;0;7;0.3;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+181;vitamina_b2;Riboflavina (B2);NULL;false;false;7;12;0.4;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+182;vitamina_b2;Riboflavina (B2);NULL;false;false;12;48;0.5;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+183;vitamina_b2;Riboflavina (B2);NULL;false;false;48;108;0.6;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+184;vitamina_b2;Riboflavina (B2);NULL;false;false;108;168;0.9;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+185;vitamina_b2;Riboflavina (B2);masculino;false;false;168;228;1.3;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+186;vitamina_b2;Riboflavina (B2);feminino;false;false;168;228;1;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+187;vitamina_b2;Riboflavina (B2);masculino;false;false;228;NULL;1.3;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+188;vitamina_b2;Riboflavina (B2);feminino;false;false;228;NULL;1.1;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+189;vitamina_b2;Riboflavina (B2);NULL;true;false;0;NULL;1.4;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+190;vitamina_b2;Riboflavina (B2);feminino;false;true;0;NULL;1.6;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+191;vitamina_b3;Niacina (B3);NULL;false;false;0;7;2;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+192;vitamina_b3;Niacina (B3);NULL;false;false;7;12;4;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+193;vitamina_b3;Niacina (B3);NULL;false;false;12;48;6;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+194;vitamina_b3;Niacina (B3);NULL;false;false;48;108;8;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+195;vitamina_b3;Niacina (B3);NULL;false;false;108;168;12;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+196;vitamina_b3;Niacina (B3);masculino;false;false;168;NULL;16;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+197;vitamina_b3;Niacina (B3);feminino;false;false;168;NULL;14;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+198;vitamina_b3;Niacina (B3);NULL;true;false;0;NULL;18;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+199;vitamina_b3;Niacina (B3);feminino;false;true;0;NULL;17;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+200;vitamina_b5;Ácido pantotênico (B5);NULL;false;false;0;7;1.7;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+201;vitamina_b5;Ácido pantotênico (B5);NULL;false;false;7;12;1.8;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+202;vitamina_b5;Ácido pantotênico (B5);NULL;false;false;12;48;2;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+203;vitamina_b5;Ácido pantotênico (B5);NULL;false;false;48;108;3;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+204;vitamina_b5;Ácido pantotênico (B5);NULL;false;false;108;168;4;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+205;vitamina_b5;Ácido pantotênico (B5);NULL;false;false;168;NULL;5;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+206;vitamina_b5;Ácido pantotênico (B5);NULL;true;false;0;NULL;6;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+207;vitamina_b5;Ácido pantotênico (B5);feminino;false;true;0;NULL;7;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+208;vitamina_b6;Piridoxina (B6);NULL;false;false;0;7;0.1;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+209;vitamina_b6;Piridoxina (B6);NULL;false;false;7;12;0.3;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+210;vitamina_b6;Piridoxina (B6);NULL;false;false;12;48;0.5;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+211;vitamina_b6;Piridoxina (B6);NULL;false;false;48;108;0.6;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+212;vitamina_b6;Piridoxina (B6);NULL;false;false;108;168;1;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+213;vitamina_b6;Piridoxina (B6);masculino;false;false;168;228;1.3;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+214;vitamina_b6;Piridoxina (B6);feminino;false;false;168;228;1.2;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+215;vitamina_b6;Piridoxina (B6);NULL;false;false;228;612;1.3;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+216;vitamina_b6;Piridoxina (B6);masculino;false;false;612;NULL;1.7;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+217;vitamina_b6;Piridoxina (B6);feminino;false;false;612;NULL;1.5;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+218;vitamina_b6;Piridoxina (B6);NULL;true;false;0;NULL;1.9;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+219;vitamina_b6;Piridoxina (B6);feminino;false;true;0;NULL;2;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+220;vitamina_b7;Biotina (B7);NULL;false;false;0;7;5;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+221;vitamina_b7;Biotina (B7);NULL;false;false;7;12;6;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+222;vitamina_b7;Biotina (B7);NULL;false;false;12;48;8;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+223;vitamina_b7;Biotina (B7);NULL;false;false;48;108;12;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+224;vitamina_b7;Biotina (B7);NULL;false;false;108;168;20;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+225;vitamina_b7;Biotina (B7);NULL;false;false;168;228;25;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+226;vitamina_b7;Biotina (B7);NULL;false;false;228;NULL;30;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+227;vitamina_b7;Biotina (B7);NULL;true;false;0;NULL;30;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+228;vitamina_b7;Biotina (B7);feminino;false;true;0;NULL;35;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+229;colina;Colina (B8);NULL;false;false;0;7;125;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+230;colina;Colina (B8);NULL;false;false;7;12;150;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+231;colina;Colina (B8);NULL;false;false;12;48;200;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+232;colina;Colina (B8);NULL;false;false;48;108;250;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+233;colina;Colina (B8);NULL;false;false;108;168;375;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+234;colina;Colina (B8);masculino;false;false;168;228;550;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+235;colina;Colina (B8);feminino;false;false;168;228;400;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+236;colina;Colina (B8);masculino;false;false;228;NULL;550;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+237;colina;Colina (B8);feminino;false;false;228;NULL;425;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+238;colina;Colina (B8);NULL;true;false;0;NULL;450;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+239;colina;Colina (B8);feminino;false;true;0;NULL;550;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+240;vitamina_b9;Folato (B9);NULL;false;false;0;7;65;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+241;vitamina_b9;Folato (B9);NULL;false;false;7;12;80;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+242;vitamina_b9;Folato (B9);NULL;false;false;12;48;150;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+243;vitamina_b9;Folato (B9);NULL;false;false;48;108;200;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+244;vitamina_b9;Folato (B9);NULL;false;false;108;168;300;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+245;vitamina_b9;Folato (B9);NULL;false;false;168;NULL;400;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+246;vitamina_b9;Folato (B9);NULL;true;false;0;NULL;600;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+247;vitamina_b9;Folato (B9);feminino;false;true;0;NULL;500;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+248;vitamina_b12;Cianocobalamina (B12);NULL;false;false;0;7;0.4;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+249;vitamina_b12;Cianocobalamina (B12);NULL;false;false;7;12;0.5;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+250;vitamina_b12;Cianocobalamina (B12);NULL;false;false;12;48;0.9;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+251;vitamina_b12;Cianocobalamina (B12);NULL;false;false;48;108;1.2;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+252;vitamina_b12;Cianocobalamina (B12);NULL;false;false;108;168;1.8;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+253;vitamina_b12;Cianocobalamina (B12);NULL;false;false;168;NULL;2.4;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+254;vitamina_b12;Cianocobalamina (B12);NULL;true;false;0;NULL;2.6;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+255;vitamina_b12;Cianocobalamina (B12);feminino;false;true;0;NULL;2.8;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+256;vitamina_c;Vitamina C;NULL;false;false;0;7;40;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+257;vitamina_c;Vitamina C;NULL;false;false;7;12;50;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+258;vitamina_c;Vitamina C;NULL;false;false;12;48;15;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+259;vitamina_c;Vitamina C;NULL;false;false;48;108;25;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+260;vitamina_c;Vitamina C;NULL;false;false;108;168;45;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+261;vitamina_c;Vitamina C;masculino;false;false;168;228;75;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+262;vitamina_c;Vitamina C;feminino;false;false;168;228;65;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+263;vitamina_c;Vitamina C;masculino;false;false;228;NULL;90;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+264;vitamina_c;Vitamina C;feminino;false;false;228;NULL;75;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+265;vitamina_c;Vitamina C;NULL;true;false;0;228;80;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+266;vitamina_c;Vitamina C;NULL;true;false;228;NULL;85;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+267;vitamina_c;Vitamina C;feminino;false;true;0;228;115;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+268;vitamina_c;Vitamina C;feminino;false;true;228;NULL;120;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+269;vitamina_a;Vitamina A;NULL;false;false;0;7;400;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+270;vitamina_a;Vitamina A;NULL;false;false;7;12;500;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+271;vitamina_a;Vitamina A;NULL;false;false;12;48;300;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+272;vitamina_a;Vitamina A;NULL;false;false;48;108;400;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+273;vitamina_a;Vitamina A;NULL;false;false;108;168;600;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+274;vitamina_a;Vitamina A;masculino;false;false;168;NULL;900;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+275;vitamina_a;Vitamina A;feminino;false;false;168;NULL;700;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+276;vitamina_a;Vitamina A;NULL;true;false;0;228;750;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+277;vitamina_a;Vitamina A;NULL;true;false;228;NULL;770;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+278;vitamina_a;Vitamina A;feminino;false;true;0;228;1200;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+279;vitamina_a;Vitamina A;feminino;false;true;228;NULL;1300;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+280;vitamina_d;Vitamina D;NULL;false;false;0;12;10;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+281;vitamina_d;Vitamina D;NULL;false;false;12;852;15;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+282;vitamina_d;Vitamina D;NULL;false;false;852;NULL;20;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+283;vitamina_d;Vitamina D;NULL;true;false;0;NULL;15;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+284;vitamina_d;Vitamina D;feminino;false;true;0;NULL;15;mcg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+285;vitamina_e;Vitamina E;NULL;false;false;0;7;4;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+286;vitamina_e;Vitamina E;NULL;false;false;7;12;5;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+287;vitamina_e;Vitamina E;NULL;false;false;12;48;6;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+288;vitamina_e;Vitamina E;NULL;false;false;48;108;7;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+289;vitamina_e;Vitamina E;NULL;false;false;108;168;11;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+290;vitamina_e;Vitamina E;NULL;false;false;168;NULL;15;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+291;vitamina_e;Vitamina E;NULL;true;false;0;NULL;15;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0
+292;vitamina_e;Vitamina E;feminino;false;true;0;NULL;19;mg/dia;planilha da Nut. Luciana (macros RDI_*, DRI/IOM 2005);dri-1.0.0

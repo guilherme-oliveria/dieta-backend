@@ -23,6 +23,7 @@ public final class TabelaAtividadesMet implements ConsultaAtividadesMet {
 			for(String linha;(linha=leitor.readLine())!=null;){
 				if(linha.isBlank())continue;
 				String[] c=linha.split(";",-1);
+				if(c.length!=6)throw new IllegalStateException("CSV de MET com "+c.length+" colunas (esperava 6; ';' dentro de um campo?): "+linha);
 				lista.add(new AtividadeMet(Integer.parseInt(c[0]),c[1],c[2],new BigDecimal(c[3]),c[4],c[5]));
 			}
 			return new TabelaAtividadesMet(lista);

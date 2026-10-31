@@ -28,6 +28,7 @@ public final class TabelaDri implements ConsultaDri {
 			for(String linha;(linha=leitor.readLine())!=null;){
 				if(linha.isBlank())continue;
 				String[] c=linha.split(";",-1);
+				if(c.length!=12)throw new IllegalStateException("CSV de DRI com "+c.length+" colunas (esperava 12; ';' dentro de um campo?): "+linha);
 				lista.add(new Linha(Integer.parseInt(c[0]),c[1],c[2],c[3].equals("NULL")?null:c[3],Boolean.parseBoolean(c[4]),Boolean.parseBoolean(c[5]),Integer.parseInt(c[6]),
 					c[7].equals("NULL")?null:Integer.valueOf(c[7]),new BigDecimal(c[8]),c[9]));
 			}
