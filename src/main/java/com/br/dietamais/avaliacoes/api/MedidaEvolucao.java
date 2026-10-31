@@ -4,7 +4,9 @@ package com.br.dietamais.avaliacoes.api;
 public enum MedidaEvolucao {
 	PESO("kg"),IMC("kg/m²"),PERCENTUAL_GORDURA("%"),PESO_GORDO("kg"),PESO_MAGRO("kg"),
 	PERIMETRO_PESCOCO("cm"),PERIMETRO_TORAX("cm"),PERIMETRO_CINTURA("cm"),PERIMETRO_ABDOMEN("cm"),PERIMETRO_QUADRIL("cm"),
-	PERIMETRO_BRACO("cm"),PERIMETRO_ANTEBRACO("cm"),PERIMETRO_COXA("cm"),PERIMETRO_PANTURRILHA("cm"),PESO_EM_CASA("kg");
+	PERIMETRO_BRACO("cm"),PERIMETRO_ANTEBRACO("cm"),PERIMETRO_COXA("cm"),PERIMETRO_PANTURRILHA("cm"),PESO_EM_CASA("kg"),
+	/** Série de dobras (BE-41): soma das sete dobras calculada pelo servidor e cada dobra. */
+	SOMATORIO_DOBRAS("mm"),DOBRA_TRICEPS("mm"),DOBRA_SUBESCAPULAR("mm"),DOBRA_PEITORAL("mm"),DOBRA_AXILAR_MEDIA("mm"),DOBRA_SUPRAILIACA("mm"),DOBRA_ABDOMINAL("mm"),DOBRA_COXA("mm");
 	private final String unidade;
 	MedidaEvolucao(String unidade){this.unidade=unidade;}
 	public String unidade(){return unidade;}
