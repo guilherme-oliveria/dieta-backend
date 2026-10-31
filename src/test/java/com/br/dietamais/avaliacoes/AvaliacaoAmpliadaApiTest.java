@@ -19,7 +19,7 @@ class AvaliacaoAmpliadaApiTest extends TesteComPaciente {
 	}
 	PacienteTeste paciente(ContaTeste nutri,String sexo,LocalDate nascimento) throws Exception {
 		var p=pacienteVinculado(nutri);
-		jdbc.update("update ficha_paciente set sexo=?,data_nascimento=? where id=?::uuid",sexo,nascimento==null?null:java.sql.Date.valueOf(nascimento),p.fichaId());
+		jdbc.update("update ficha_paciente set sexo=?,data_nascimento=? where vinculo_id=?::uuid",sexo,nascimento==null?null:java.sql.Date.valueOf(nascimento),p.vinculoId());
 		return p;
 	}
 	JsonNode criar(ContaTeste nutri,PacienteTeste p,Map<String,Object> corpo) throws Exception {
