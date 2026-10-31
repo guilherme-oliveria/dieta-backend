@@ -64,6 +64,9 @@ public class ConsultarEvolucao {
 		m.put(MedidaEvolucao.PERIMETRO_PESCOCO,a->a.perimetros().pescoco());m.put(MedidaEvolucao.PERIMETRO_TORAX,a->a.perimetros().torax());m.put(MedidaEvolucao.PERIMETRO_CINTURA,a->a.perimetros().cintura());
 		m.put(MedidaEvolucao.PERIMETRO_ABDOMEN,a->a.perimetros().abdomen());m.put(MedidaEvolucao.PERIMETRO_QUADRIL,a->a.perimetros().quadril());m.put(MedidaEvolucao.PERIMETRO_BRACO,a->a.perimetros().braco());
 		m.put(MedidaEvolucao.PERIMETRO_ANTEBRACO,a->a.perimetros().antebraco());m.put(MedidaEvolucao.PERIMETRO_COXA,a->a.perimetros().coxa());m.put(MedidaEvolucao.PERIMETRO_PANTURRILHA,a->a.perimetros().panturrilha());
+		m.put(MedidaEvolucao.SOMATORIO_DOBRAS,a->a.resultados()==null?null:a.resultados().somatorioDobrasMm());
+		m.put(MedidaEvolucao.DOBRA_TRICEPS,a->a.dobras().triceps());m.put(MedidaEvolucao.DOBRA_SUBESCAPULAR,a->a.dobras().subescapular());m.put(MedidaEvolucao.DOBRA_PEITORAL,a->a.dobras().peitoral());
+		m.put(MedidaEvolucao.DOBRA_AXILAR_MEDIA,a->a.dobras().axilarMedia());m.put(MedidaEvolucao.DOBRA_SUPRAILIACA,a->a.dobras().suprailiaca());m.put(MedidaEvolucao.DOBRA_ABDOMINAL,a->a.dobras().abdominal());m.put(MedidaEvolucao.DOBRA_COXA,a->a.dobras().coxa());
 		return m;
 	}
 }

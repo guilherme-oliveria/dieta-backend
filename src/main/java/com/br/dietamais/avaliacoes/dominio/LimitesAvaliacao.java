@@ -24,6 +24,14 @@ public final class LimitesAvaliacao {
 		var c=r.composicao()==null?ComposicaoAvaliacao.VAZIO:r.composicao();
 		opcional("composicao.percentualGordura",c.percentualGordura(),BigDecimal.ZERO,PERC_MAX);opcional("composicao.pesoGordoKg",c.pesoGordoKg(),BigDecimal.ZERO,PESO_MAX);
 		opcional("composicao.pesoMagroKg",c.pesoMagroKg(),BigDecimal.ZERO,PESO_MAX);
+		var m=r.complementares();
+		if(m!=null){
+			opcional("complementares.pesoUsualKg",m.pesoUsualKg(),PESO_MIN,PESO_MAX);opcional("complementares.pesoDesejadoKg",m.pesoDesejadoKg(),PESO_MIN,PESO_MAX);
+			opcional("complementares.punhoCm",m.punhoCm(),new BigDecimal("5"),new BigDecimal("40"));
+			opcional("complementares.diametroPunhoCm",m.diametroPunhoCm(),BigDecimal.ONE,new BigDecimal("30"));opcional("complementares.diametroJoelhoCm",m.diametroJoelhoCm(),BigDecimal.ONE,new BigDecimal("30"));
+			opcional("complementares.percentualGorduraDesejado",m.percentualGorduraDesejado(),new BigDecimal("3"),new BigDecimal("60"));
+			opcional("complementares.objetivoKgPorMes",m.objetivoKgPorMes(),BigDecimal.ZERO,BigDecimal.TEN);
+		}
 	}
 	private static void opcional(String campo,BigDecimal v,BigDecimal min,BigDecimal max){if(v!=null)faixa(campo,v,min,max);}
 	private static void faixa(String campo,BigDecimal v,BigDecimal min,BigDecimal max){

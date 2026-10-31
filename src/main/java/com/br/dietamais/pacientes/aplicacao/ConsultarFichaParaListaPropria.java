@@ -13,6 +13,6 @@ public class ConsultarFichaParaListaPropria implements ConsultarFichaParaLista {
 	@Override public FichaParaLista consultar(UUID paciente,boolean bloquear){
 		var ficha=fichas.consultar(paciente,usuario.obter().exigirNutricionista(),bloquear);
 		if(ficha==null)throw new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null);
-		return new FichaParaLista(ficha.vinculoId(),ficha.id(),ficha.status());
+		return new FichaParaLista(ficha.vinculoId(),ficha.id(),ficha.status(),ficha.dataNascimento(),ficha.sexo());
 	}
 }
