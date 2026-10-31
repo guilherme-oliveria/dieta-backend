@@ -12,6 +12,6 @@ class ArquiteturaTest {
 		modulos.verify();
 		assertThat(modulos.stream().map(modulo -> modulo.getIdentifier().toString()))
 				.contains("comum", "contas", "pacientes", "assinaturas", "sync", "dietas", "alimentos",
-						"rotina", "avaliacoes", "questionarios", "agenda", "notificacoes", "relatorios", "admin");
+						"rotina", "referencias", "avaliacoes", "questionarios", "agenda", "notificacoes", "relatorios", "admin");
 	}
 }

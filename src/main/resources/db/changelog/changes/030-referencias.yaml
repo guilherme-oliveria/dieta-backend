@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: 030-referencias
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: referencia_faixa
+            remarks: Tabelas de referência clínica (BE-39). Dado, não código; cada linha cita fonte e versão (RN-CAL-03).
+            columns:
+              - column: { name: ordem, type: int, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: tabela, type: varchar(40), constraints: { nullable: false } }
+              - column: { name: sexo, type: varchar(10) }
+              - column: { name: idade_min, type: int }
+              - column: { name: idade_max, type: int }
+              - column: { name: valor_min, type: 'numeric(8,3)' }
+              - column: { name: min_inclusivo, type: boolean, constraints: { nullable: false } }
+              - column: { name: valor_max, type: 'numeric(8,3)' }
+              - column: { name: max_inclusivo, type: boolean, constraints: { nullable: false } }
+              - column: { name: codigo, type: varchar(40), constraints: { nullable: false } }
+              - column: { name: fonte, type: varchar(200), constraints: { nullable: false } }
+              - column: { name: versao_referencia, type: varchar(40), constraints: { nullable: false } }
+        - createIndex:
+            tableName: referencia_faixa
+            indexName: ix_referencia_faixa_tabela
+            columns:
+              - column: { name: tabela }
+        - sql:
+            sql: >-
+              ALTER TABLE referencia_faixa ADD CONSTRAINT ck_referencia_faixa_sexo CHECK (sexo IS NULL OR sexo IN ('masculino','feminino'));
+              ALTER TABLE referencia_faixa ADD CONSTRAINT ck_referencia_faixa_idade CHECK (idade_min IS NULL OR idade_max IS NULL OR idade_min < idade_max);
+              ALTER TABLE referencia_faixa ADD CONSTRAINT ck_referencia_faixa_valor CHECK (valor_min IS NULL OR valor_max IS NULL OR valor_min <= valor_max);
+        - loadData:
+            tableName: referencia_faixa
+            file: db/changelog/dados/referencias-adulto.csv
+            encoding: UTF-8
+            separator: ";"
+            usePreparedStatements: true
+            columns:
+              - column: { header: ordem, name: ordem, type: NUMERIC }
+              - column: { header: tabela, name: tabela, type: STRING }
+              - column: { header: sexo, name: sexo, type: STRING }
+              - column: { header: idade_min, name: idade_min, type: NUMERIC }
+              - column: { header: idade_max, name: idade_max, type: NUMERIC }
+              - column: { header: valor_min, name: valor_min, type: NUMERIC }
+              - column: { header: min_inclusivo, name: min_inclusivo, type: BOOLEAN }
+              - column: { header: valor_max, name: valor_max, type: NUMERIC }
+              - column: { header: max_inclusivo, name: max_inclusivo, type: BOOLEAN }
+              - column: { header: codigo, name: codigo, type: STRING }
+              - column: { header: fonte, name: fonte, type: STRING }
+              - column: { header: versao_referencia, name: versao_referencia, type: STRING }
