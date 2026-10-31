@@ -11,6 +11,12 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/), versões [S
 - Texto do termo de consentimento do paciente (`CONSENTIMENTO_VERSAO` e `CONSENTIMENTO_TEXTO`) e política de privacidade.
 - Provedor de e-mail transacional, projeto Firebase (push) e conta do gateway de pagamento (Asaas): o código está pronto e desligado sem as credenciais.
 
+## [1.2.0] — M8: avaliação de adulto completa
+
+- BE-C7 Contrato da fase 7 (avaliação ampliada, resultados, protocolos) com vetores de teste da planilha (`contrato/calculos/adulto.json`, iguais no mobile). BE-39 Tabelas de referência do adulto. BE-40 Motor de cálculo antropométrico do adulto (IMC, gordura, composição, peso para o % desejado; dado ausente vira motivo, nunca zero).
+- BE-41 Avaliação ampliada: campos novos opcionais, protocolo usado e resultados gravados com o texto-resumo; compartilhamento por seção (RN-RES-01).
+- BE-42 "Meus protocolos" da nutri (`/api/v1/nutri/protocolos`, sincronizado; padrão 7 dobras e peso magro).
+
 ## [1.1.0] — M7: web no navegador
 
 - BE-37 Modo navegador: `X-Plataforma: WEB`, cookie `HttpOnly` do refresh (`Secure`, `SameSite=Strict`, `Path=/api/v1/auth`), conferência de `Origin` com `WEB_ORIGEM`, versão mínima própria da web (`APP_VERSAO_MINIMA_WEB`) e CORS liberando `X-Plataforma`.
