@@ -32,7 +32,8 @@ public final class TabelaFaixas implements ConsultaReferencias {
 		return porTabela.getOrDefault(tabela,List.of()).stream().filter(f->f.contem(sexo,idadeAnos,valor)).map(FaixaReferencia::codigo).findFirst();
 	}
 	@Override public String versaoVigente(){return versao;}
-	private static String vazioNulo(String s){return s.isEmpty()?null:s;}
-	private static Integer inteiro(String s){return s.isEmpty()?null:Integer.valueOf(s);}
-	private static BigDecimal decimal(String s){return s.isEmpty()?null:new BigDecimal(s);}
+	private static boolean vazio(String s){return s.isEmpty()||s.equals("NULL");}
+	private static String vazioNulo(String s){return vazio(s)?null:s;}
+	private static Integer inteiro(String s){return vazio(s)?null:Integer.valueOf(s);}
+	private static BigDecimal decimal(String s){return vazio(s)?null:new BigDecimal(s);}
 }
