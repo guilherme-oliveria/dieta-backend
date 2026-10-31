@@ -14,6 +14,7 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/), versões [S
 ## [1.3.0] — M9: necessidades e protocolos (em andamento)
 
 - BE-43a/b GEB, GET (FAO 1985 e 2004, IOM, RDI e MET), VET e metas de macronutrientes, gravados na avaliação (`energia`, `energiaResultado`). BE-44 Tabela de MET. BE-45 Tabelas DRI. Endpoints `GET /referencias/atividades-met` e `/referencias/dri`.
+- BE-46 PDF da avaliação no layout da nutri, com 4 gráficos (peso × faixa teórica, perímetros, dobras e rosca da composição), energia e metas, referências e rodapé com o CRN.
 
 ## [1.2.0] — M8: avaliação de adulto completa
 
