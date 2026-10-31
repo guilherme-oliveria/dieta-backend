@@ -76,6 +76,7 @@ public class AvaliacaoStore {
 			new DobrasAvaliacao(rs.getBigDecimal("d_triceps"),rs.getBigDecimal("d_subescapular"),rs.getBigDecimal("d_peitoral"),rs.getBigDecimal("d_axilar_media"),
 				rs.getBigDecimal("d_suprailiaca"),rs.getBigDecimal("d_abdominal"),rs.getBigDecimal("d_coxa")),
 			new ComposicaoAvaliacao(rs.getBigDecimal("percentual_gordura"),rs.getBigDecimal("peso_gordo_kg"),rs.getBigDecimal("peso_magro_kg")),
-			rs.getString("parecer"),rs.getBoolean("compartilhada"),rs.getLong("versao"),rs.getTimestamp("criado_em").toInstant(),rs.getTimestamp("atualizado_em").toInstant());
+			rs.getString("parecer"),rs.getBoolean("compartilhada"),rs.getLong("versao"),rs.getTimestamp("criado_em").toInstant(),rs.getTimestamp("atualizado_em").toInstant(),
+			null,null,null,null,null);
 	}
 }

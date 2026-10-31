@@ -88,6 +88,16 @@ A web passa a ser um alvo do app KMP (`dieta-mobile/docs/arquitetura/web.md`, MO
 - [x] **BE-37 Modo navegador.** `WEB` em `Plataforma` (`X-Plataforma` e dispositivos; o app trata valor desconhecido como `OUTRO`); quando a sessão é renovada ou criada por requisição com `Origin` igual a `WEB_ORIGEM`, `refreshToken` não vem no corpo (só no cookie; campo já é opcional para o cliente); `426 VERSAO_APP_OBSOLETA` com versão mínima própria para `WEB` (`APP_VERSAO_MINIMA_WEB`, vazia = sem bloqueio, pois o site é publicado junto); testes de API (login web sem refresh no corpo, refresh por cookie com e sem `Origin` certo, logout limpa o cookie). Atualizar `integracao.md` (cabeçalhos, sessão da web, tabela de clientes) e `visao-geral.md` (repositórios, roadmap P1 e decisões: web em KMP, `dieta-frontend` arquivado) e avisar no PR para copiar no mobile. *Depende de:* BE-31.
 - [x] **BE-38 Leitura da rotina do paciente para a web.** Hoje `RotinaController` só tem `POST /eu/checkins`, `/eu/agua` e `/eu/pesos`: o app lê o que registrou pelo `/sync`, e a web (sem banco local) não tem como mostrar o "Hoje". Criar `GET /eu/rotina?de=AAAA-MM-DD&ate=AAAA-MM-DD` (perfil PACIENTE, janela máxima de 366 dias, vínculo e dono vindos de `UsuarioAtual`) devolvendo `checkins`, `agua` e `pesos` do período no mesmo formato do `/sync`; teste de isolamento e OpenAPI. Contrato novo e opcional (não quebra apps). *Depende de:* BE-37. Bloqueia MOB-44.
 
+## Fase 8 — Melhorias das planilhas da nutri (P1)
+
+Detalhe em [plano-melhorias-planilhas.md](plano-melhorias-planilhas.md) (ondas 17 a 23, seção 6.2). Contrato em [contrato-fase-7.md](contrato-fase-7.md).
+
+- [x] **BE-C7 Contrato da fase 7.** Tipos de resultados, protocolo, complementares e compartilhamento, `CodigoErro` `DADO_INSUFICIENTE_CALCULO` e `PROTOCOLO_INVALIDO`, RN-CAL/RN-MOD/RN-RES, JSONs de exemplo e vetores de adulto em `contrato/calculos/`.
+- [ ] **BE-39 Tabelas de referência (adulto).** Módulo `referencias` com `referencia_faixa` (IMC adulto e idoso, risco, cintura, compleição, Pollock e Wilmore) por changeset com `fonte` e `versao_referencia`.
+- [ ] **BE-40 Motor de cálculo antropométrico adulto.** Funções puras com `BigDecimal` e as correções da seção 3.6; 100% dos vetores verdes.
+- [ ] **BE-41 Avaliação ampliada** · [ ] **BE-42 Meus protocolos** · [ ] **BE-43 GEB/GET e metas** · [ ] **BE-44 MET** · [ ] **BE-45 DRI** · [ ] **BE-46 PDF da avaliação**
+- [ ] **BE-C8, BE-47 a BE-50** dieta por porções · [ ] **BE-51 a BE-53** modelos de dieta · [ ] **BE-54, BE-55** crianças e adolescentes · [ ] **BE-56, BE-57** exames e anamnese estruturada
+
 ## Pós-MVP (P2, ainda sem tarefas)
 
 Troca de nutri com cópia de histórico (RN-VIN-06), clínicas (organização com várias nutris e secretária), vitrine de nutris e cadastro avulso de paciente, consultoria online paga com split, anúncios, fórmulas da planilha (7 dobras, Pollock e Wilmore) com testes contra a planilha, foto do prato, chat, RabbitMQ quando o volume pedir.

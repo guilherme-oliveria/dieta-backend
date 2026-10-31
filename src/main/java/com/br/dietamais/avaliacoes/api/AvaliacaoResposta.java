@@ -22,5 +22,10 @@ public record AvaliacaoResposta(
 		@NotNull Boolean compartilhada,
 		@NotNull @PositiveOrZero Long versao,
 		@NotNull Instant criadoEm,
-		@NotNull Instant atualizadoEm) {
+		@NotNull Instant atualizadoEm,
+		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) FaixaEtaria faixaEtaria,
+		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) @Valid ProtocoloAvaliacao protocolo,
+		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) @Valid MedidasComplementaresAvaliacao complementares,
+		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) @Valid ResultadosAvaliacao resultados,
+		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) @Valid CompartilhamentoAvaliacao compartilhamento) {
 }
