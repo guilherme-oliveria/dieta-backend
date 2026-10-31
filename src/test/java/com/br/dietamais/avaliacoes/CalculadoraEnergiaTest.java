@@ -3,7 +3,6 @@ package com.br.dietamais.avaliacoes;
 import static org.assertj.core.api.Assertions.*;
 import com.br.dietamais.avaliacoes.api.*;
 import com.br.dietamais.avaliacoes.dominio.energia.CalculadoraEnergia;
-import com.br.dietamais.avaliacoes.dominio.energia.CalculadoraEnergia.*;
 import java.math.BigDecimal;
 import java.util.*;
 import org.junit.jupiter.api.Test;

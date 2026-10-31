@@ -12,7 +12,7 @@ import java.util.*;
 import org.junit.jupiter.api.Test;
 
 class CalculoAvaliacaoTest {
-	final CalculoAvaliacao calculo=new CalculoAvaliacao(TabelaFaixas.doCsv(getClass().getClassLoader().getResourceAsStream(TabelaFaixas.CSV_ADULTO)));
+	final CalculoAvaliacao calculo=new CalculoAvaliacao(TabelaFaixas.doCsv(getClass().getClassLoader().getResourceAsStream(TabelaFaixas.CSV_ADULTO)),com.br.dietamais.referencias.api.TabelaAtividadesMet.doCsv(getClass().getClassLoader().getResourceAsStream(com.br.dietamais.referencias.api.TabelaAtividadesMet.CSV)));
 	static final UUID ID=UUID.randomUUID();
 	SalvarAvaliacaoRequisicao requisicao(Instant quando,ComposicaoAvaliacao c){
 		return new SalvarAvaliacaoRequisicao(null,quando,new BigDecimal("102.5"),new BigDecimal("1.93"),new PerimetrosAvaliacao(null,null,new BigDecimal("100"),null,null,null,null,null,null),

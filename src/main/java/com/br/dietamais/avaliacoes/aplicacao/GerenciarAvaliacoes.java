@@ -86,7 +86,7 @@ public class GerenciarAvaliacoes {
 		return new Dados(r.dataHora(),r.pesoKg(),r.estaturaM(),imc,CalculadoraImc.classificar(imc),r.perimetros()==null?PerimetrosAvaliacao.VAZIO:r.perimetros(),
 			r.dobras()==null?DobrasAvaliacao.VAZIO:r.dobras(),r.composicao()==null?ComposicaoAvaliacao.VAZIO:r.composicao(),
 			r.parecer()==null||r.parecer().isBlank()?null:r.parecer().strip(),r.compartilhada()==null||r.compartilhada(),
-			calculado.faixaEtaria(),calculado.protocolo(),r.complementares(),calculado.resultados(),r.compartilhamento());
+			calculado.faixaEtaria(),calculado.protocolo(),r.complementares(),calculado.resultados(),r.compartilhamento(),r.energia(),calculado.energia());
 	}
 	private AvaliacaoResposta propria(UUID id,UUID nutri){
 		var a=avaliacoes.daNutri(id,nutri);if(a==null)throw new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null);return a;

@@ -20,5 +20,11 @@ public record SalvarAvaliacaoRequisicao(
 		@Size(max=1000) String justificativa,
 		@Valid ProtocoloAvaliacao protocolo,
 		@Valid MedidasComplementaresAvaliacao complementares,
-		@Valid CompartilhamentoAvaliacao compartilhamento) {
+		@Valid CompartilhamentoAvaliacao compartilhamento,
+		@Valid EnergiaAvaliacao energia) {
+	/** Contrato anterior ao BE-43b, sem as escolhas de energia. */
+	public SalvarAvaliacaoRequisicao(UUID id,Instant dataHora,BigDecimal pesoKg,BigDecimal estaturaM,PerimetrosAvaliacao perimetros,DobrasAvaliacao dobras,ComposicaoAvaliacao composicao,
+			String parecer,Boolean compartilhada,String justificativa,ProtocoloAvaliacao protocolo,MedidasComplementaresAvaliacao complementares,CompartilhamentoAvaliacao compartilhamento){
+		this(id,dataHora,pesoKg,estaturaM,perimetros,dobras,composicao,parecer,compartilhada,justificativa,protocolo,complementares,compartilhamento,null);
+	}
 }

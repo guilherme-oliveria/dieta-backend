@@ -19,7 +19,7 @@ public final class VisibilidadeAvaliacao {
 		return new AvaliacaoResposta(a.id(),a.pacienteId(),a.vinculoId(),a.dataHora(),a.pesoKg(),a.estaturaM(),a.imc(),a.classificacaoImc(),
 			medidas?a.perimetros():PerimetrosAvaliacao.VAZIO,medidas?a.dobras():DobrasAvaliacao.VAZIO,composicao?a.composicao():ComposicaoAvaliacao.VAZIO,
 			resumo?a.parecer():null,a.compartilhada(),a.versao(),a.criadoEm(),a.atualizadoEm(),a.faixaEtaria(),a.protocolo(),
-			necessidades?a.complementares():null,r,a.compartilhamento());
+			necessidades?a.complementares():null,r,a.compartilhamento(),necessidades?a.energia():null,necessidades?a.energiaResultado():null);
 	}
 
 	private static ResultadosAvaliacao filtrar(ResultadosAvaliacao r,boolean medidas,boolean composicao,boolean resumo){

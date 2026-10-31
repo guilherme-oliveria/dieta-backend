@@ -76,4 +76,40 @@ class AvaliacaoAmpliadaApiTest extends TesteComPaciente {
 		var r=requisitar("POST","/pacientes/"+p.fichaId()+"/avaliacoes",a.token(),corpo(Map.of("complementares",Map.of("punhoCm",2))));
 		assertThat(r.statusCode()).isEqualTo(422);assertThat(json(r).path("codigo").asString()).isEqualTo("VALOR_FORA_DO_INTERVALO");
 	}
+	@Test void energiaEscolhidaVaiParaOCalculoEFicaGravada() throws Exception {
+		var a=cadastrarNutri();var p=paciente(a,"MASCULINO",LocalDate.now().minusYears(29).minusMonths(6));
+		var compl=Map.of("punhoCm",18,"nivelAtividade","MODERADO");
+		var av=criar(a,p,corpo(Map.of("complementares",compl,"energia",Map.of("metodo","FAO_2004","carboidrato","FAIXA_ESPORTIVA","dislipidemico",true,"colesterolTotal",230))));
+		var e=av.path("energiaResultado");
+		assertThat(e.path("metodo").asString()).isEqualTo("FAO_2004");assertThat(e.path("gebKcal").decimalValue()).isEqualByComparingTo("2235.54");
+		assertThat(e.path("getKcal").decimalValue()).isEqualByComparingTo("3934.55");assertThat(e.path("carboidrato").path("percentualMinimo").decimalValue()).isEqualByComparingTo("50");
+		assertThat(e.path("colesterolMaximoMg").decimalValue()).isEqualByComparingTo("200");assertThat(av.path("energia").path("carboidrato").asString()).isEqualTo("FAIXA_ESPORTIVA");
+		var lido=json(requisitar("GET","/avaliacoes/"+av.path("id").asString(),a.token(),null));
+		assertThat(lido.path("energiaResultado").path("vetKcal").decimalValue()).isEqualByComparingTo("3934.55");
+	}
+	@Test void semEscolhaAAvaliacaoNaoTemEnergia() throws Exception {
+		var a=cadastrarNutri();var p=paciente(a,"MASCULINO",LocalDate.now().minusYears(29));
+		var av=criar(a,p,corpo(Map.of()));
+		assertThat(av.has("energiaResultado")).isFalse();assertThat(av.has("energia")).isFalse();
+	}
+	@Test void pacienteSoVeAEnergiaSeNecessidadesForCompartilhada() throws Exception {
+		var a=cadastrarNutri();var p=paciente(a,"MASCULINO",LocalDate.now().minusYears(29));
+		criar(a,p,corpo(Map.of("complementares",Map.of("nivelAtividade","LEVE"),"energia",Map.of("metodo","FAO_2004"),"compartilhamento",Map.of("necessidades",false))));
+		var visto=json(requisitar("GET","/eu/avaliacoes",p.token(),null)).path("itens").get(0);
+		assertThat(visto.has("energiaResultado")).isFalse();assertThat(visto.has("energia")).isFalse();
+	}
+	@Test void rotinaMetComAtividadeDesconhecidaERejeitada() throws Exception {
+		var a=cadastrarNutri();var p=paciente(a,"MASCULINO",LocalDate.now().minusYears(29));
+		var rotina=Map.of("horasSono",8,"horasTrabalho",8,"intensidadeTrabalho","LEVE","atividades",List.of(Map.of("codigo","inexistente","minutos",60)));
+		var r=requisitar("POST","/pacientes/"+p.fichaId()+"/avaliacoes",a.token(),corpo(Map.of("energia",Map.of("metodo","MET","rotinaMet",rotina))));
+		assertThat(r.statusCode()).isEqualTo(400);assertThat(json(r).path("codigo").asString()).isEqualTo("FORMATO_INVALIDO");
+	}
+	@Test void listaAtividadesMetEMetasDriParaOApp() throws Exception {
+		var a=cadastrarNutri();
+		var mets=json(requisitar("GET","/referencias/atividades-met",a.token(),null)).path("itens");
+		assertThat(mets.size()).isGreaterThan(100);assertThat(mets.get(0).path("codigo").asString()).isEqualTo("alpinismo");
+		var dri=json(requisitar("GET","/referencias/dri?sexo=feminino&idadeMeses=360&lactante=true",a.token(),null));
+		assertThat(dri.path("lactante").asBoolean()).isTrue();assertThat(dri.path("itens").size()).isGreaterThan(20);
+		assertThat(requisitar("GET","/referencias/dri?sexo=outro&idadeMeses=360",a.token(),null).statusCode()).isEqualTo(400);
+	}
 }
