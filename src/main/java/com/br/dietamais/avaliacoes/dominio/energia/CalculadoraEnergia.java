@@ -102,7 +102,7 @@ public final class CalculadoraEnergia {
 			case MINIMO_RDA->minimoEmGramas(vet,d(lactante?210:gestante?175:130),QUATRO);
 		};
 	}
-	/** RDA (protocolo 2): 71 g para lactante e gestante; fora disso 56 g (homem) e 46 g (mulher) adultos [SUPOSIÇÃO S-CAL: tabela completa no BE-45]. */
+	/** RDA (protocolo 2), da macro {@code RDI_PTN}: 71 g para gestante e lactante; adulto 56 g (homem) e 46 g (mulher). Adolescente e criança ficam no BE-55. */
 	public static MetaMacro proteina(ProtocoloProteina protocolo,BigDecimal vet,BigDecimal pesoKg,String sexo,int idadeAnos,boolean gestante,boolean lactante){
 		return switch(protocolo){
 			case FAIXA_DRI->porPercentual(vet,10,35,QUATRO);
