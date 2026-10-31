@@ -15,7 +15,7 @@ databaseChangeLog:
               - column: { name: lactante, type: boolean, constraints: { nullable: false } }
               - column: { name: idade_min_meses, type: int, constraints: { nullable: false } }
               - column: { name: idade_max_meses, type: int }
-              - column: { name: valor, type: 'numeric(10,2)', constraints: { nullable: false } }
+              - column: { name: valor, type: 'numeric(12,4)', constraints: { nullable: false } }
               - column: { name: unidade, type: varchar(12), constraints: { nullable: false } }
               - column: { name: fonte, type: varchar(200), constraints: { nullable: false } }
               - column: { name: versao_referencia, type: varchar(40), constraints: { nullable: false } }

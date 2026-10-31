@@ -44,4 +44,13 @@ class ConsultaDriTest {
 	@Test void semReferenciaNaoViraZero(){
 		assertThat(tabela.meta("fibras","masculino",3,false,false)).isEmpty();
 	}
+
+	/** Espelha as restrições do changeset 034 (numeric(12,4) e valor > 0), que o CI só roda com Docker. */
+	@Test void valoresCabemNaColunaDoBanco(){
+		for(var m:tabela.metas("masculino",0,false,false)){
+			assertThat(m.valor().scale()).as(m.nutriente()).isLessThanOrEqualTo(4);
+			assertThat(m.valor()).as(m.nutriente()).isPositive();
+		}
+		assertThat(tabela.meta("manganes","masculino",0,false,false).orElseThrow().valor()).isEqualByComparingTo("0.003");
+	}
 }
