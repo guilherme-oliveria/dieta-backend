@@ -112,4 +112,16 @@ class AvaliacaoAmpliadaApiTest extends TesteComPaciente {
 		assertThat(dri.path("lactante").asBoolean()).isTrue();assertThat(dri.path("itens").size()).isGreaterThan(20);
 		assertThat(requisitar("GET","/referencias/dri?sexo=outro&idadeMeses=360",a.token(),null).statusCode()).isEqualTo(400);
 	}
+	@Test void buscaAlimentosNaTacoComFonte() throws Exception {
+		var a=cadastrarNutri();
+		var r=json(requisitar("GET","/referencias/taco?busca=ARROZ%20integral&limite=5",a.token(),null));
+		assertThat(r.path("fonte").asString()).contains("TACO");assertThat(r.path("categorias").size()).isEqualTo(15);
+		assertThat(r.path("itens").size()).isEqualTo(2);assertThat(r.path("itens").get(0).path("nome").asString()).isEqualTo("Arroz, integral, cozido");
+		var arroz=json(requisitar("GET","/referencias/taco/1",a.token(),null));
+		assertThat(arroz.path("nutrientes").path("energia_kcal").decimalValue()).isEqualByComparingTo("124");
+		assertThat(arroz.path("nutrientes").has("colesterol_mg")).isFalse();
+		assertThat(arroz.path("tracos").toString()).contains("riboflavina_mg");
+		assertThat(requisitar("GET","/referencias/taco/9999",a.token(),null).statusCode()).isEqualTo(404);
+		assertThat(requisitar("GET","/referencias/taco?limite=0",a.token(),null).statusCode()).isEqualTo(400);
+	}
 }
