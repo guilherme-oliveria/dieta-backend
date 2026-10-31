@@ -17,5 +17,8 @@ public record SalvarAvaliacaoRequisicao(
 		@Valid ComposicaoAvaliacao composicao,
 		@Size(max=10000) String parecer,
 		Boolean compartilhada,
-		@Size(max=1000) String justificativa) {
+		@Size(max=1000) String justificativa,
+		@Valid ProtocoloAvaliacao protocolo,
+		@Valid MedidasComplementaresAvaliacao complementares,
+		@Valid CompartilhamentoAvaliacao compartilhamento) {
 }

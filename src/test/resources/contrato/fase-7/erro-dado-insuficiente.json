@@ -1,0 +1,11 @@
+{
+  "type": "https://dietamais.com.br/erros/dado-insuficiente-calculo",
+  "title": "Erro de exemplo",
+  "status": 422,
+  "detail": "Mensagem fictícia; o cliente decide pelo codigo.",
+  "codigo": "DADO_INSUFICIENTE_CALCULO",
+  "regra": "RN-CAL-04",
+  "campos": [],
+  "traceId": "0000000000000001",
+  "atual": null
+}
