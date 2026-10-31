@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: 034-referencia-dri
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: referencia_dri
+            remarks: Ingestões de referência (DRI 2005) de proteína, fibras, água, minerais e vitaminas por sexo, idade, gestação e lactação (BE-45). Dado, não código.
+            columns:
+              - column: { name: ordem, type: int, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: nutriente, type: varchar(40), constraints: { nullable: false } }
+              - column: { name: nome, type: varchar(80), constraints: { nullable: false } }
+              - column: { name: sexo, type: varchar(10) }
+              - column: { name: gestante, type: boolean, constraints: { nullable: false } }
+              - column: { name: lactante, type: boolean, constraints: { nullable: false } }
+              - column: { name: idade_min_meses, type: int, constraints: { nullable: false } }
+              - column: { name: idade_max_meses, type: int }
+              - column: { name: valor, type: 'numeric(10,2)', constraints: { nullable: false } }
+              - column: { name: unidade, type: varchar(12), constraints: { nullable: false } }
+              - column: { name: fonte, type: varchar(200), constraints: { nullable: false } }
+              - column: { name: versao_referencia, type: varchar(40), constraints: { nullable: false } }
+        - createIndex:
+            tableName: referencia_dri
+            indexName: ix_referencia_dri_nutriente
+            columns:
+              - column: { name: nutriente }
+        - sql:
+            sql: >-
+              ALTER TABLE referencia_dri ADD CONSTRAINT ck_referencia_dri_sexo CHECK (sexo IS NULL OR sexo IN ('masculino','feminino'));
+              ALTER TABLE referencia_dri ADD CONSTRAINT ck_referencia_dri_idade CHECK (idade_max_meses IS NULL OR idade_min_meses < idade_max_meses);
+              ALTER TABLE referencia_dri ADD CONSTRAINT ck_referencia_dri_valor CHECK (valor > 0);
+        - loadData:
+            tableName: referencia_dri
+            file: db/changelog/dados/referencia-dri.csv
+            encoding: UTF-8
+            separator: ";"
+            usePreparedStatements: true
+            columns:
+              - column: { header: ordem, name: ordem, type: NUMERIC }
+              - column: { header: nutriente, name: nutriente, type: STRING }
+              - column: { header: nome, name: nome, type: STRING }
+              - column: { header: sexo, name: sexo, type: STRING }
+              - column: { header: gestante, name: gestante, type: BOOLEAN }
+              - column: { header: lactante, name: lactante, type: BOOLEAN }
+              - column: { header: idade_min_meses, name: idade_min_meses, type: NUMERIC }
+              - column: { header: idade_max_meses, name: idade_max_meses, type: NUMERIC }
+              - column: { header: valor, name: valor, type: NUMERIC }
+              - column: { header: unidade, name: unidade, type: STRING }
+              - column: { header: fonte, name: fonte, type: STRING }
+              - column: { header: versao_referencia, name: versao_referencia, type: STRING }
