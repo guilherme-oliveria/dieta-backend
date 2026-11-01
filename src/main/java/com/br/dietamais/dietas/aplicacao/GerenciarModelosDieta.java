@@ -112,7 +112,7 @@ public class GerenciarModelosDieta {
 		}
 		var metas=modelo.metas();
 		if(metas!=null&&r!=null&&r.vetKcal()!=null)metas=new MetasDieta(r.vetKcal(),metas.carboidratoPct(),metas.proteinaPct(),metas.lipidioPct());
-		var dieta=dietas.criar(paciente,new SalvarDietaRequisicao(r==null?null:r.id(),modelo.titulo(),modelo.orientacao(),refeicoes,modelo.porcoes(),metas,modelo.rodape()));
+		var dieta=dietas.criar(paciente,new SalvarDietaRequisicao(r==null?null:r.id(),modelo.titulo(),modelo.orientacao(),refeicoes,modelo.porcoes(),metas,modelo.rodape(),modelo.restricoes().isEmpty()?null:modelo.restricoes()));
 		return new DietaDeModeloResposta(dieta,fator,avisos);
 	}
 	private ModeloDietaResposta inserir(UUID nutri,SalvarModeloDietaRequisicao r){

@@ -109,6 +109,36 @@ class ModelosDietaApiTest extends TesteIsolamento {
 		erro(requisitar("POST","/eu/nutri/modelos-dieta",a.token(),corpo),422,"PORCAO_INVALIDA");
 	}
 
+	/** BE-52b, RN-MOD-03: a restrição do modelo vai para a dieta, sobrevive à edição sem o campo e tira da lista do paciente na publicação. */
+	@Test void restricaoDoModeloVaiParaADietaEFiltraAListaDoSnapshot() throws Exception {
+		var a=cadastrarNutri();
+		String g=json(requisitar("GET","/grupos-alimentos",a.token(),null)).path("itens").get(0).path("id").asString();
+		var salgado=json(requisitar("POST","/alimentos",a.token(),alimento(g,"Salgado fictício",List.of("ALTO_SODIO"))));
+		var neutro=json(requisitar("POST","/alimentos",a.token(),alimento(g,"Neutro fictício",List.of())));
+		// a lista do paciente nasce com os alimentos que a nutri já tem: criar o paciente depois
+		String pid=paciente(a.token());
+		var comRestricao=json(requisitar("POST","/eu/nutri/modelos-dieta",a.token(),modelo("Com restrição")));
+		var d=json(requisitar("POST","/pacientes/"+pid+"/dietas/de-modelo/"+comRestricao.path("id").asString(),a.token(),Map.of())).path("dieta");
+		assertThat(d.path("restricoes").toString()).contains("ALTO_SODIO");
+		// editar sem informar restricoes mantém; informar vazio limpa
+		var corpo=new HashMap<String,Object>();corpo.put("titulo","Editada");
+		var refeicao=modelo("x").get("refeicoes");corpo.put("refeicoes",refeicao);corpo.put("porcoes",modelo("x").get("porcoes"));
+		var put=requisitar("PUT","/dietas/"+d.path("id").asString(),a.token(),corpo,Map.of("If-Match","\"1\""));assertThat(put.statusCode()).as(put.body()).isEqualTo(200);
+		assertThat(json(put).path("restricoes").toString()).contains("ALTO_SODIO");
+		var snap=json(requisitar("POST","/dietas/"+d.path("id").asString()+"/publicar",a.token(),null,Map.of("If-Match","\"2\"")));
+		assertThat(snap.path("restricoes").toString()).contains("ALTO_SODIO");
+		var naLista=new ArrayList<String>();snap.path("listaSubstituicao").path("alimentos").forEach(x->naLista.add(x.path("id").asString()));
+		assertThat(naLista).contains(neutro.path("id").asString()).doesNotContain(salgado.path("id").asString());
+		// sem restrição, o alimento marcado continua na lista
+		var livre=modelo("Livre");livre.put("restricoes",List.of());
+		var m2=json(requisitar("POST","/eu/nutri/modelos-dieta",a.token(),livre));
+		var d2=json(requisitar("POST","/pacientes/"+pid+"/dietas/de-modelo/"+m2.path("id").asString(),a.token(),Map.of())).path("dieta");
+		assertThat(d2.has("restricoes")).isFalse();
+		var snap2=json(requisitar("POST","/dietas/"+d2.path("id").asString()+"/publicar",a.token(),null,Map.of("If-Match","\"1\"")));
+		var lista2=new ArrayList<String>();snap2.path("listaSubstituicao").path("alimentos").forEach(x->lista2.add(x.path("id").asString()));
+		assertThat(lista2).contains(salgado.path("id").asString());
+	}
+
 	// ---- auxiliares
 	String paciente(String token) throws Exception {var r=requisitar("POST","/pacientes",token,Map.of("nome","Paciente fictício","email",UUID.randomUUID()+"@example.invalid"));assertThat(r.statusCode()).isEqualTo(201);return json(r).path("id").asString();}
 	List<String> ids(JsonNode lista){var l=new ArrayList<String>();lista.path("itens").forEach(x->l.add(x.path("id").asString()));return l;}

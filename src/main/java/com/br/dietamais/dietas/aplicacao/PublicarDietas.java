@@ -45,8 +45,11 @@ public class PublicarDietas {
 		if(resumo==null)throw new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null);
 		String orientacao=atual.orientacao()!=null?atual.orientacao():nutricionistas.orientacaoPadrao(nutri).orElse(null);
 		var lista=listas.consultar(atual.vinculoId(),atual.pacienteId(),nutri);
+		// RN-MOD-03: a restrição da dieta tira da lista do paciente os alimentos que carregam o marcador.
+		if(resposta.restricoes()!=null)lista=new ListaSubstituicaoResposta(lista.pacienteId(),lista.versao(),
+			lista.alimentos().stream().filter(a->a.marcadores()==null||a.marcadores().stream().noneMatch(resposta.restricoes()::contains)).toList(),lista.adicionados(),lista.removidos());
 		var snapshot=new DietaSnapshotResposta(ids.novo(),atual.id(),atual.pacienteId(),atual.vinculoId(),new NutricionistaResumoResposta(nutri,resumo.nome(),resumo.crn()),
-			atual.titulo(),orientacao,refeicoes,lista,resposta.totais(),agora,resposta.porcoes(),resposta.metas(),resposta.pesoReferenciaKg(),resposta.rodape());
+			atual.titulo(),orientacao,refeicoes,lista,resposta.totais(),agora,resposta.porcoes(),resposta.metas(),resposta.pesoReferenciaKg(),resposta.rodape(),resposta.restricoes());
 		dietas.substituirPublicada(atual.vinculoId(),atual.id(),agora);dietas.marcarPublicada(atual.id(),nutri,agora);
 		dietas.inserirSnapshot(snapshot.id(),atual.id(),atual.vinculoId(),nutri,atual.pacienteId(),mapper.writeValueAsString(snapshot),agora);
 		auditoria.escrita(referencia(atual,contexto));
@@ -60,7 +63,7 @@ public class PublicarDietas {
 		var origem=propria(id,nutri,false);var ficha=fichas.consultar(origem.pacienteId(),true);
 		if(!ficha.vinculoId().equals(origem.vinculoId())||ficha.status()==StatusVinculo.ENCERRADO)throw new ExcecaoNegocio(CodigoErro.ACESSO_NEGADO,"RN-VIN-05");
 		var agora=relogio.instant();UUID novo=ids.novo();String titulo=origem.titulo();titulo=(titulo.length()>141?titulo.substring(0,141):titulo)+" (cópia)";
-		dietas.inserir(novo,origem.vinculoId(),nutri,origem.pacienteId(),titulo,origem.orientacao(),new DietaStore.Extras(origem.porcoesJson(),origem.metasJson(),origem.pesoReferenciaKg(),origem.rodape()),agora);
+		dietas.inserir(novo,origem.vinculoId(),nutri,origem.pacienteId(),titulo,origem.orientacao(),new DietaStore.Extras(origem.porcoesJson(),origem.metasJson(),origem.pesoReferenciaKg(),origem.rodape(),origem.restricoes()),agora);
 		var refeicoes=dietas.refeicoes(List.of(id));var itens=dietas.itens(refeicoes.stream().map(Refeicao::id).toList());
 		var novosIds=new HashMap<UUID,UUID>();for(var r:refeicoes)novosIds.put(r.id(),ids.novo());
 		for(var r:refeicoes){

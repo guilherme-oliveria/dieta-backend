@@ -108,7 +108,8 @@ public class GerenciarDietas {
 		var encontrados=alimentos.consultar(nutri,usados);
 		if(!encontrados.keySet().containsAll(usados))throw new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null);
 		for(var a:encontrados.values())if(!a.ativo())throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-ALI-03");
-		var extras=new DietaStore.Extras(r.porcoes()==null||r.porcoes().isEmpty()?null:mapper.writeValueAsString(r.porcoes()),r.metas()==null?null:mapper.writeValueAsString(r.metas()),null,texto(r.rodape()));
+		var extras=new DietaStore.Extras(r.porcoes()==null||r.porcoes().isEmpty()?null:mapper.writeValueAsString(r.porcoes()),r.metas()==null?null:mapper.writeValueAsString(r.metas()),null,texto(r.rodape()),
+			r.restricoes()==null?null:r.restricoes().stream().distinct().sorted().map(Enum::name).toList());
 		return new Conteudo(extras);
 	}
 	private void unico(UUID id,Set<UUID> vistos){if(id!=null&&(id.version()!=7||!vistos.add(id)))throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,null);}

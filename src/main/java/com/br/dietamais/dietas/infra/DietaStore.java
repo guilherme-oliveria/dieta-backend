@@ -14,18 +14,20 @@ public class DietaStore {
 	public DietaStore(JdbcTemplate jdbc){this.jdbc=jdbc;}
 	public void bloquear(UUID nutri){jdbc.queryForObject("select pg_advisory_xact_lock(hashtextextended(?,0))",Object.class,"dietas:"+nutri);}
 	/** Campos da dieta por porções (BE-49a): jsons já serializados, nulos quando não informados. */
-	public record Extras(String porcoesJson,String metasJson,java.math.BigDecimal pesoReferenciaKg,String rodape) {
+	/** {@code restricoes} nulo = não informadas: ao inserir fica vazio, ao atualizar mantém as atuais (BE-52b). */
+	public record Extras(String porcoesJson,String metasJson,java.math.BigDecimal pesoReferenciaKg,String rodape,java.util.List<String> restricoes) {
+		public Extras(String porcoesJson,String metasJson,java.math.BigDecimal pesoReferenciaKg,String rodape){this(porcoesJson,metasJson,pesoReferenciaKg,rodape,null);}
 		public static final Extras VAZIO=new Extras(null,null,null,null);
 	}
 	public boolean inserir(UUID id,UUID vinculo,UUID nutri,UUID paciente,String titulo,String orientacao,Extras x,Instant agora){
 		return jdbc.update("""
-			insert into dieta(id,vinculo_id,nutricionista_id,paciente_id,titulo,orientacao,porcoes,metas,peso_referencia_kg,rodape,criado_em,atualizado_em) values(?,?,?,?,?,?,?::jsonb,?::jsonb,?,?,?,?) on conflict(id) do nothing
-			""",id,vinculo,nutri,paciente,titulo,orientacao,x.porcoesJson(),x.metasJson(),x.pesoReferenciaKg(),x.rodape(),Timestamp.from(agora),Timestamp.from(agora))==1;
+			insert into dieta(id,vinculo_id,nutricionista_id,paciente_id,titulo,orientacao,porcoes,metas,peso_referencia_kg,rodape,restricoes,criado_em,atualizado_em) values(?,?,?,?,?,?,?::jsonb,?::jsonb,?,?,?::text[],?,?) on conflict(id) do nothing
+			""",id,vinculo,nutri,paciente,titulo,orientacao,x.porcoesJson(),x.metasJson(),x.pesoReferenciaKg(),x.rodape(),texto(x.restricoes()==null?java.util.List.of():x.restricoes()),Timestamp.from(agora),Timestamp.from(agora))==1;
 	}
 	public void atualizar(UUID id,UUID nutri,String titulo,String orientacao,Extras x,Instant agora){
 		jdbc.update("""
-			update dieta set titulo=?,orientacao=?,porcoes=?::jsonb,metas=?::jsonb,peso_referencia_kg=?,rodape=?,versao=versao+1,seq=nextval('seq_sync'),atualizado_em=? where id=? and nutricionista_id=? and excluido_em is null
-			""",titulo,orientacao,x.porcoesJson(),x.metasJson(),x.pesoReferenciaKg(),x.rodape(),Timestamp.from(agora),id,nutri);
+			update dieta set titulo=?,orientacao=?,porcoes=?::jsonb,metas=?::jsonb,peso_referencia_kg=?,rodape=?,restricoes=coalesce(?::text[],restricoes),versao=versao+1,seq=nextval('seq_sync'),atualizado_em=? where id=? and nutricionista_id=? and excluido_em is null
+			""",titulo,orientacao,x.porcoesJson(),x.metasJson(),x.pesoReferenciaKg(),x.rodape(),x.restricoes()==null?null:texto(x.restricoes()),Timestamp.from(agora),id,nutri);
 	}
 	public Dieta dieta(UUID id,UUID nutri,boolean bloquear){
 		return jdbc.query("select * from dieta where id=? and nutricionista_id=? and excluido_em is null"+(bloquear?" for update":""),this::mapear,id,nutri).stream().findFirst().orElse(null);
@@ -88,6 +90,10 @@ public class DietaStore {
 	private Dieta mapear(ResultSet rs,int linha) throws SQLException {
 		return new Dieta(rs.getObject("id",UUID.class),rs.getObject("vinculo_id",UUID.class),rs.getObject("paciente_id",UUID.class),rs.getString("titulo"),rs.getString("orientacao"),
 			StatusDieta.valueOf(rs.getString("status")),rs.getLong("versao"),rs.getTimestamp("criado_em").toInstant(),rs.getTimestamp("atualizado_em").toInstant(),
-			rs.getString("porcoes"),rs.getString("metas"),rs.getBigDecimal("peso_referencia_kg"),rs.getString("rodape"));
+			rs.getString("porcoes"),rs.getString("metas"),rs.getBigDecimal("peso_referencia_kg"),rs.getString("rodape"),restricoes(rs));
+	}
+	private static String texto(java.util.List<String> lista){return "{"+String.join(",",lista)+"}";}
+	private static java.util.List<String> restricoes(ResultSet rs) throws SQLException {
+		var a=rs.getArray("restricoes");return a==null?java.util.List.of():java.util.List.of((String[])a.getArray());
 	}
 }
