@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: 043-modelo-dieta
+      author: dietamais
+      comment: >-
+        BE-52: modelos de dieta. nutricionista_id nulo = modelo do sistema (somente leitura, RN-MOD-01); preenchido = cópia da nutri.
+        Só os modelos da nutri entram no sync (coleção MODELOS_DIETA); os do sistema vêm só pelo GET.
+      changes:
+        - sql:
+            sql: >-
+              CREATE TABLE modelo_dieta (
+              id uuid PRIMARY KEY DEFAULT uuidv7(),
+              nutricionista_id uuid REFERENCES nutricionista(id),
+              titulo varchar(150) NOT NULL,
+              descricao varchar(500),
+              condicao varchar(60),
+              orientacao varchar(10000),
+              rodape varchar(2000),
+              porcoes jsonb,
+              metas jsonb,
+              restricoes text[] NOT NULL DEFAULT '{}',
+              kcal_referencia numeric(8,2),
+              refeicoes jsonb NOT NULL,
+              versao bigint NOT NULL DEFAULT 1,
+              seq bigint NOT NULL DEFAULT nextval('seq_sync'),
+              criado_em timestamptz NOT NULL DEFAULT now(),
+              atualizado_em timestamptz NOT NULL DEFAULT now(),
+              excluido_em timestamptz,
+              CONSTRAINT ck_modelo_dieta_restricoes CHECK
+              (restricoes <@ ARRAY['CONTEM_LACTOSE','CONTEM_GLUTEN','ALTO_SODIO','ACUCAR_ADICIONADO','ALTO_POTASSIO']::text[]),
+              CONSTRAINT ck_modelo_dieta_kcal CHECK (kcal_referencia IS NULL OR kcal_referencia>0));
+              CREATE INDEX ix_modelo_dieta_nutri ON modelo_dieta(nutricionista_id);
+              ALTER TABLE diario_sync DROP CONSTRAINT ck_diario_sync_colecao;
+              ALTER TABLE diario_sync ADD CONSTRAINT ck_diario_sync_colecao CHECK (colecao IN
+              ('PACIENTES','VINCULOS','NUTRIS','GRUPOS','ALIMENTOS','LISTAS','DIETAS','SNAPSHOTS','DIETA_EM_USO','CHECKINS','AGUA','PESOS','AVALIACOES','MODELOS','QUESTIONARIOS','CONSULTAS','AVISOS','PROTOCOLOS','MODELOS_DIETA'));
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION modelo_dieta_diario_sync() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                IF NEW.nutricionista_id IS NOT NULL THEN
+                  PERFORM registrar_mudanca_sync('NUTRICIONISTA',NEW.nutricionista_id,'MODELOS_DIETA',NEW.id,NEW.nutricionista_id,NULL);
+                END IF;
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            sql: >-
+              CREATE TRIGGER modelo_dieta_diario_sync AFTER INSERT OR UPDATE ON modelo_dieta FOR EACH ROW EXECUTE FUNCTION modelo_dieta_diario_sync();
