@@ -145,4 +145,13 @@ class AvaliacaoAmpliadaApiTest extends TesteComPaciente {
 		assertThat(requisitar("GET","/referencias/exames/nao-existe/classificar?faixaEtaria=ADULTO&valor=1",a.token(),null).statusCode()).isEqualTo(404);
 		assertThat(requisitar("GET","/referencias/exames?faixaEtaria=IDOSO",a.token(),null).statusCode()).isEqualTo(400);
 	}
+	@Test void consultaPercentisDeFrisancho() throws Exception {
+		var a=cadastrarNutri();
+		var ambc=json(requisitar("GET","/referencias/frisancho?indicador=AMBC&sexo=feminino&idadeAnos=5",a.token(),null));
+		assertThat(ambc.path("p5").decimalValue()).isEqualByComparingTo("1238");assertThat(ambc.path("p90").decimalValue()).isEqualByComparingTo("2012");
+		var cb=json(requisitar("GET","/referencias/frisancho?indicador=CB&sexo=masculino&idadeAnos=9",a.token(),null));
+		assertThat(cb.path("p50").decimalValue()).isEqualByComparingTo("20");assertThat(cb.path("p5").isNull()).isTrue();
+		assertThat(requisitar("GET","/referencias/frisancho?indicador=AGB&sexo=feminino&idadeAnos=10",a.token(),null).statusCode()).isEqualTo(404);
+		assertThat(requisitar("GET","/referencias/frisancho?indicador=XX&sexo=feminino&idadeAnos=5",a.token(),null).statusCode()).isEqualTo(400);
+	}
 }

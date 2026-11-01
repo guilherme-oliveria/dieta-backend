@@ -19,3 +19,7 @@ Curvas da OMS (2006/2007) copiadas das abas **P.I.**, **E.I.** e **I.M.C.** da p
 
 Catálogo da aba **av. bioquimica** das três planilhas (0 a 9, 10 a 17 e 18 anos acima): 395 exames (131, 132 e 132) e 2.223 degraus, na ordem das fórmulas dos IF aninhados (o primeiro que serve vale). Os degraus foram extraídos das fórmulas por script e conferidos contra elas com um interpretador independente (mais de 160 mil combinações de valor, sexo, fase e idade, zero diferenças). Rótulos como na planilha (normal, alto, limite superior...). Exames qualitativos comparam o texto (ausente, não reagente...) e o resto cai em "alterado".
 Inconsistência da planilha de 10 a 17 anos (G-16): a referência ao sexo (e à data de nascimento em alguns exames) virou `#REF!` em 30 fórmulas, então no Excel esses exames dão erro; tratamos `#REF!="feminino"` como o sexo e `#REF!<=12` como idade em anos. Na planilha de 0 a 9 a idade vem de `cadastro!$I$3` (idade de hoje); aqui vale a idade na data do exame.
+
+## referencia-frisancho.csv (BE-54b)
+
+Percentis de Frisancho (1981) copiados da aba **outras** da planilha de 0 a 9 anos: CB, DCT e DCSE (só a mediana), área muscular do braço corrigida (AMBC) e área de gordura do braço (AGB) com percentis 5, 10, 50 e 90, de 2 a 9 anos por sexo (80 linhas). A planilha não traz Frisancho abaixo de 2 anos nem para 10 a 17 anos. Inconsistência (G-16): AMBC masculino de 4 anos tem o percentil 5 (1297) acima do 10 (1264); mantido e coberto por `FrisanchoCsvTest`.

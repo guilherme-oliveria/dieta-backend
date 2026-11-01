@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: 039-referencia-frisancho
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: referencia_frisancho
+            remarks: Percentis de Frisancho (1981) de 2 a 9 anos, como na aba outras da planilha de 0 a 9 anos (BE-54b). CB, DCT e DCSE só têm o percentil 50; AMBC (área muscular do braço corrigida, cm2) e AGB (área de gordura do braço, cm2) têm 5, 10, 50 e 90. Dado, não código.
+            columns:
+              - column: { name: indicador, type: varchar(10), constraints: { nullable: false } }
+              - column: { name: sexo, type: varchar(10), constraints: { nullable: false } }
+              - column: { name: idade_anos, type: int, constraints: { nullable: false } }
+              - column: { name: p5, type: 'numeric(8,2)' }
+              - column: { name: p10, type: 'numeric(8,2)' }
+              - column: { name: p50, type: 'numeric(8,2)', constraints: { nullable: false } }
+              - column: { name: p90, type: 'numeric(8,2)' }
+        - addPrimaryKey: { tableName: referencia_frisancho, columnNames: 'indicador, sexo, idade_anos', constraintName: pk_referencia_frisancho }
+        - sql:
+            sql: >-
+              ALTER TABLE referencia_frisancho ADD CONSTRAINT ck_referencia_frisancho_indicador CHECK (indicador IN ('CB','DCT','DCSE','AMBC','AGB'));
+              ALTER TABLE referencia_frisancho ADD CONSTRAINT ck_referencia_frisancho_sexo CHECK (sexo IN ('masculino','feminino'));
+        - loadData:
+            tableName: referencia_frisancho
+            file: db/changelog/dados/referencia-frisancho.csv
+            encoding: UTF-8
+            separator: ";"
+            usePreparedStatements: true
+            columns:
+              - column: { header: indicador, name: indicador, type: STRING }
+              - column: { header: sexo, name: sexo, type: STRING }
+              - column: { header: idade_anos, name: idade_anos, type: NUMERIC }
+              - column: { header: p5, name: p5, type: NUMERIC }
+              - column: { header: p10, name: p10, type: NUMERIC }
+              - column: { header: p50, name: p50, type: NUMERIC }
+              - column: { header: p90, name: p90, type: NUMERIC }
