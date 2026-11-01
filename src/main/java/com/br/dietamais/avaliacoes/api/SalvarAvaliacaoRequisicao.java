@@ -21,10 +21,17 @@ public record SalvarAvaliacaoRequisicao(
 		@Valid ProtocoloAvaliacao protocolo,
 		@Valid MedidasComplementaresAvaliacao complementares,
 		@Valid CompartilhamentoAvaliacao compartilhamento,
-		@Valid EnergiaAvaliacao energia) {
+		@Valid EnergiaAvaliacao energia,
+		/** Substitui a lista de exames; ausente mantém os já lançados (BE-56b). */
+		@Size(max=400) java.util.List<@Valid ExameLancado> exames) {
+	/** Contrato anterior ao BE-56b, sem exames. */
+	public SalvarAvaliacaoRequisicao(UUID id,Instant dataHora,BigDecimal pesoKg,BigDecimal estaturaM,PerimetrosAvaliacao perimetros,DobrasAvaliacao dobras,ComposicaoAvaliacao composicao,
+			String parecer,Boolean compartilhada,String justificativa,ProtocoloAvaliacao protocolo,MedidasComplementaresAvaliacao complementares,CompartilhamentoAvaliacao compartilhamento,EnergiaAvaliacao energia){
+		this(id,dataHora,pesoKg,estaturaM,perimetros,dobras,composicao,parecer,compartilhada,justificativa,protocolo,complementares,compartilhamento,energia,null);
+	}
 	/** Contrato anterior ao BE-43b, sem as escolhas de energia. */
 	public SalvarAvaliacaoRequisicao(UUID id,Instant dataHora,BigDecimal pesoKg,BigDecimal estaturaM,PerimetrosAvaliacao perimetros,DobrasAvaliacao dobras,ComposicaoAvaliacao composicao,
 			String parecer,Boolean compartilhada,String justificativa,ProtocoloAvaliacao protocolo,MedidasComplementaresAvaliacao complementares,CompartilhamentoAvaliacao compartilhamento){
-		this(id,dataHora,pesoKg,estaturaM,perimetros,dobras,composicao,parecer,compartilhada,justificativa,protocolo,complementares,compartilhamento,null);
+		this(id,dataHora,pesoKg,estaturaM,perimetros,dobras,composicao,parecer,compartilhada,justificativa,protocolo,complementares,compartilhamento,null,null);
 	}
 }

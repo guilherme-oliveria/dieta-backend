@@ -29,11 +29,18 @@ public record AvaliacaoResposta(
 		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) @Valid ResultadosAvaliacao resultados,
 		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) @Valid CompartilhamentoAvaliacao compartilhamento,
 		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) @Valid EnergiaAvaliacao energia,
-		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) @Valid EnergiaResultado energiaResultado) {
+		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) @Valid EnergiaResultado energiaResultado,
+		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) java.util.List<@Valid ExameResultado> exames) {
+	/** Contrato anterior ao BE-56b, sem exames. */
+	public AvaliacaoResposta(UUID id,UUID pacienteId,UUID vinculoId,Instant dataHora,BigDecimal pesoKg,BigDecimal estaturaM,BigDecimal imc,ClassificacaoImc classificacaoImc,PerimetrosAvaliacao perimetros,
+			DobrasAvaliacao dobras,ComposicaoAvaliacao composicao,String parecer,Boolean compartilhada,Long versao,Instant criadoEm,Instant atualizadoEm,FaixaEtaria faixaEtaria,ProtocoloAvaliacao protocolo,
+			MedidasComplementaresAvaliacao complementares,ResultadosAvaliacao resultados,CompartilhamentoAvaliacao compartilhamento,EnergiaAvaliacao energia,EnergiaResultado energiaResultado){
+		this(id,pacienteId,vinculoId,dataHora,pesoKg,estaturaM,imc,classificacaoImc,perimetros,dobras,composicao,parecer,compartilhada,versao,criadoEm,atualizadoEm,faixaEtaria,protocolo,complementares,resultados,compartilhamento,energia,energiaResultado,null);
+	}
 	/** Contrato anterior ao BE-43b, sem gasto energético. */
 	public AvaliacaoResposta(UUID id,UUID pacienteId,UUID vinculoId,Instant dataHora,BigDecimal pesoKg,BigDecimal estaturaM,BigDecimal imc,ClassificacaoImc classificacaoImc,PerimetrosAvaliacao perimetros,
 			DobrasAvaliacao dobras,ComposicaoAvaliacao composicao,String parecer,Boolean compartilhada,Long versao,Instant criadoEm,Instant atualizadoEm,FaixaEtaria faixaEtaria,ProtocoloAvaliacao protocolo,
 			MedidasComplementaresAvaliacao complementares,ResultadosAvaliacao resultados,CompartilhamentoAvaliacao compartilhamento){
-		this(id,pacienteId,vinculoId,dataHora,pesoKg,estaturaM,imc,classificacaoImc,perimetros,dobras,composicao,parecer,compartilhada,versao,criadoEm,atualizadoEm,faixaEtaria,protocolo,complementares,resultados,compartilhamento,null,null);
+		this(id,pacienteId,vinculoId,dataHora,pesoKg,estaturaM,imc,classificacaoImc,perimetros,dobras,composicao,parecer,compartilhada,versao,criadoEm,atualizadoEm,faixaEtaria,protocolo,complementares,resultados,compartilhamento,null,null,null);
 	}
 }
