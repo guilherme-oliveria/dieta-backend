@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 046-avaliacao-exames
+      author: dietamais
+      changes:
+        - addColumn:
+            tableName: avaliacao
+            columns:
+              - column: { name: exames, type: jsonb, remarks: 'Exames lançados com a classificação calculada no lançamento (BE-56b, RN-EXA-01); aparece ao paciente só se compartilhamento.exames' }
