@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: 042-marcadores-alimento
+      author: dietamais
+      comment: >-
+        BE-51: marcadores de restrição nos alimentos (CONTEM_LACTOSE, CONTEM_GLUTEN, ALTO_SODIO, ACUCAR_ADICIONADO, ALTO_POTASSIO).
+        A sugestão inicial por nome do catálogo é [SUPOSIÇÃO G-15] e a nutri ajusta nos alimentos dela.
+      changes:
+        - sql:
+            sql: >-
+              ALTER TABLE alimento ADD COLUMN marcadores text[] NOT NULL DEFAULT '{}';
+              ALTER TABLE alimento_nutri ADD COLUMN marcadores text[] NOT NULL DEFAULT '{}';
+              ALTER TABLE alimento ADD CONSTRAINT ck_alimento_marcadores CHECK
+              (marcadores <@ ARRAY['CONTEM_LACTOSE','CONTEM_GLUTEN','ALTO_SODIO','ACUCAR_ADICIONADO','ALTO_POTASSIO']::text[]);
+              ALTER TABLE alimento_nutri ADD CONSTRAINT ck_alimento_nutri_marcadores CHECK
+              (marcadores <@ ARRAY['CONTEM_LACTOSE','CONTEM_GLUTEN','ALTO_SODIO','ACUCAR_ADICIONADO','ALTO_POTASSIO']::text[]);
+              CREATE TABLE alimento_marcador_tmp (alimento_id uuid NOT NULL, marcador text NOT NULL);
+        - loadData:
+            tableName: alimento_marcador_tmp
+            file: db/changelog/dados/alimento-marcadores.csv
+            encoding: UTF-8
+            separator: ";"
+            usePreparedStatements: true
+            columns:
+              - column: { header: alimento_id, name: alimento_id, type: UUID }
+              - column: { header: marcador, name: marcador, type: STRING }
+        - sql:
+            sql: >-
+              UPDATE alimento a SET marcadores = s.m
+              FROM (SELECT alimento_id, array_agg(marcador ORDER BY marcador) AS m FROM alimento_marcador_tmp GROUP BY alimento_id) s
+              WHERE a.id = s.alimento_id;
+              UPDATE alimento_nutri n SET marcadores = a.marcadores, versao = n.versao + 1, seq = nextval('seq_sync'), atualizado_em = now()
+              FROM alimento a WHERE n.catalogo_id = a.id AND a.marcadores <> '{}';
+              DROP TABLE alimento_marcador_tmp;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE OR REPLACE FUNCTION copiar_catalogo_nutri(p_nutri uuid) RETURNS void LANGUAGE plpgsql AS $$
+              BEGIN
+                INSERT INTO lista_alimentos_nutri(nutricionista_id) VALUES(p_nutri) ON CONFLICT DO NOTHING;
+                IF NOT FOUND THEN RETURN; END IF;
+                LOCK TABLE grupo_alimento,alimento,fonte_macros_grupo IN SHARE MODE;
+                INSERT INTO grupo_alimento_nutri(nutricionista_id,grupo_id,nome,kcal_por_porcao,carboidratos_por_porcao,proteinas_por_porcao,gorduras_por_porcao,origem_macros,origem_base,estimativa)
+                SELECT p_nutri,g.id,g.nome,g.kcal_por_porcao,g.carboidratos_por_porcao,g.proteinas_por_porcao,g.gorduras_por_porcao,
+                  CASE WHEN f.estimativa IS TRUE THEN 'CATALOGO_ESTIMADO' ELSE 'CATALOGO' END,coalesce(to_jsonb(f),'{}'::jsonb),f.estimativa
+                FROM grupo_alimento g LEFT JOIN fonte_macros_grupo f ON f.grupo_id=g.id WHERE g.excluido_em IS NULL
+                ON CONFLICT(nutricionista_id,grupo_id) DO NOTHING;
+                INSERT INTO alimento_nutri(nutricionista_id,catalogo_id,grupo_id,nome,medida_caseira,gramas_por_porcao,ativo,marcadores)
+                SELECT p_nutri,a.id,a.grupo_id,a.nome,a.medida_caseira,a.gramas_por_porcao,a.ativo,a.marcadores FROM alimento a
+                JOIN grupo_alimento_nutri g ON g.nutricionista_id=p_nutri AND g.grupo_id=a.grupo_id
+                WHERE a.excluido_em IS NULL ON CONFLICT(nutricionista_id,catalogo_id) DO NOTHING;
+              END;
+              $$;
