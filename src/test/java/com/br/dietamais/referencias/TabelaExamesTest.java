@@ -52,4 +52,12 @@ class TabelaExamesTest {
 		assertThat(T.classificar("ADULTO","nao-existe",BigDecimal.ONE,null,null,null,null)).isEmpty();
 		assertThat(T.exame("IDOSO","ferritina")).isEmpty();
 	}
+	@Test void faixasValemParaOPacienteESemDadoNaoHaChute(){
+		var diabetes=T.faixas("ADULTO","glicemia-de-jejum","masculino",30.0,null).stream().filter(f->"diabetes".equals(f.rotulo())).findFirst().orElseThrow();
+		assertThat(diabetes.min()).isEqualByComparingTo("125");assertThat(diabetes.minIncl()).isFalse();assertThat(diabetes.max()).isNull();
+		assertThat(T.faixas("ADULTO","glicemia-de-jejum","masculino",30.0,null)).extracting(f->f.rotulo()).contains("normal","int. à glicose","diabetes");
+		assertThat(T.faixas("ADULTO","ferritina","feminino",30.0,null)).isEmpty();
+		assertThat(T.faixas("ADULTO","ferritina","feminino",30.0,"menarca")).isNotEmpty();
+		assertThat(T.faixas("ADULTO","nao-existe","feminino",30.0,null)).isEmpty();
+	}
 }

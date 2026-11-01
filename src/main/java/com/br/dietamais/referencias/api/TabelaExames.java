@@ -48,6 +48,9 @@ public final class TabelaExames implements ConsultaExames {
 		if(faltas.contains(RegraExame.Falta.IDADE))return Optional.of(ClassificacaoExame.sem("FALTA_IDADE"));
 		return Optional.of(ClassificacaoExame.sem("FORA_DAS_FAIXAS"));
 	}
+	@Override public List<FaixaExame> faixas(String faixaEtaria,String codigo,String sexo,Double idadeAnos,String condicao){
+		return regras.getOrDefault(faixaEtaria+"|"+codigo,List.of()).stream().map(r->r.faixaPara(sexo,idadeAnos,condicao)).flatMap(Optional::stream).toList();
+	}
 	private static boolean vazio(String s){return s==null||s.isEmpty()||s.equals("NULL");}
 	private static String vazioNulo(String s){return vazio(s)?null:s;}
 	private static BigDecimal decimal(String s){return vazio(s)?null:new BigDecimal(s);}

@@ -7,6 +7,7 @@ import com.br.dietamais.avaliacoes.infra.AvaliacaoStore.Dados;
 import com.br.dietamais.comum.api.*;
 import com.br.dietamais.pacientes.api.*;
 import com.br.dietamais.referencias.api.ConsultaExames;
+import com.br.dietamais.referencias.api.FaixaExame;
 import java.time.Clock;
 import java.time.Duration;
 import java.util.*;
@@ -110,7 +111,8 @@ public class GerenciarAvaliacoes {
 			String condicao=l.condicao()==null||l.condicao().isBlank()?null:l.condicao();
 			if(condicao!=null&&!ex.condicoes().contains(condicao))throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-EXA-01");
 			var c=exames.classificar(catalogo,ex.codigo(),l.valor(),texto?l.texto().strip():null,sexo,idade,condicao).orElseThrow(()->new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-EXA-01"));
-			saida.add(new ExameResultado(ex.codigo(),ex.secao(),ex.nome(),ex.unidade(),l.valor(),texto?l.texto().strip():null,condicao,c.rotulo(),c.motivo()));
+			var faixas=ex.qualitativo()?List.<FaixaExame>of():exames.faixas(catalogo,ex.codigo(),sexo,idade,condicao);
+			saida.add(new ExameResultado(ex.codigo(),ex.secao(),ex.nome(),ex.unidade(),l.valor(),texto?l.texto().strip():null,condicao,c.rotulo(),c.motivo(),faixas.isEmpty()?null:faixas));
 		}
 		return saida;
 	}

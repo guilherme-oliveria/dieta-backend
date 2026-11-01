@@ -38,4 +38,5 @@ class ConsultaExamesBanco implements ConsultaExames {
 	@Override public Optional<ClassificacaoExame> classificar(String faixaEtaria,String codigo,BigDecimal valor,String texto,String sexo,Double idadeAnos,String condicao){
 		return tabela().classificar(faixaEtaria,codigo,valor,texto,sexo,idadeAnos,condicao);
 	}
+	@Override public List<FaixaExame> faixas(String faixaEtaria,String codigo,String sexo,Double idadeAnos,String condicao){return tabela().faixas(faixaEtaria,codigo,sexo,idadeAnos,condicao);}
 }

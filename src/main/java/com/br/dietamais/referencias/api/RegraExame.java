@@ -25,6 +25,13 @@ public record RegraExame(int ordem,String sexo,String condicao,BigDecimal idadeM
 		}
 		return Falta.NENHUMA;
 	}
+	/** Faixa numérica desta regra se ela vale para este paciente; vazia se pede sexo, fase ou idade que não bate (ou que falta) ou se é qualitativa. */
+	java.util.Optional<FaixaExame> faixaPara(String sexoPaciente,Double idadeAnos,String condicaoEscolhida){
+		if(textoIgual!=null||valorMin==null&&valorMax==null)return java.util.Optional.empty();
+		if(sexo!=null&&!sexo.equals(sexoPaciente)||condicao!=null&&!condicao.equals(condicaoEscolhida))return java.util.Optional.empty();
+		if(idadeMin!=null||idadeMax!=null){if(idadeAnos==null||!dentro(BigDecimal.valueOf(idadeAnos),idadeMin,idadeMinIncl,idadeMax,idadeMaxIncl))return java.util.Optional.empty();}
+		return java.util.Optional.of(new FaixaExame(rotulo,valorMin,valorMinIncl,valorMax,valorMaxIncl));
+	}
 	private static boolean dentro(BigDecimal v,BigDecimal min,boolean minIncl,BigDecimal max,boolean maxIncl){
 		if(min!=null){int c=v.compareTo(min);if(c<0||(c==0&&!minIncl))return false;}
 		if(max!=null){int c=v.compareTo(max);if(c>0||(c==0&&!maxIncl))return false;}
