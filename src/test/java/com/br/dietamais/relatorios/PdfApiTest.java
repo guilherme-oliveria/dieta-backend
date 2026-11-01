@@ -9,6 +9,29 @@ import java.util.*;
 import org.junit.jupiter.api.Test;
 
 class PdfApiTest extends TesteComPaciente {
+	@Test void listaTemQuatroVersoesEIsolamentoDoSnapshot() throws Exception {
+		var a=cadastrarNutri();var p=pacienteVinculado(a);var ali=alimentos(a.token(),1);
+		var d=criarDieta(a.token(),p.fichaId(),dieta("Lista de teste",refeicao("Almoço",0,item(ali.get(0),"1"))));
+		String caminho="/dietas/"+d.path("id").asString()+"/pdf-lista";
+		erro(requisitar("GET",caminho,a.token(),null),404,"RECURSO_NAO_ENCONTRADO");
+		publicar(a.token(),d);
+		for(String tamanho:List.of("PEQUENA","MEDIA","GRANDE","CARBOIDRATOS")){
+			var r=requisitar("GET",caminho+"?tamanho="+tamanho,a.token(),null);
+			assertThat(r.statusCode()).as(r.body()).isEqualTo(200);
+			assertThat(r.headers().firstValue("Cache-Control").orElse("")).contains("no-store");
+			var t=texto(baixar(json(r).path("url").asString()).body());
+			assertThat(t).contains("Lista de substituição","Nutri fictícia","Paciente fictício","mesmo grupo","Gerado pelo Dieta+");
+			if(tamanho.equals("CARBOIDRATOS"))assertThat(t).contains("Carb. (g)");
+			else assertThat(t).doesNotContain("Carb. (g)");
+		}
+		assertThat(requisitar("GET","/eu"+caminho,p.token(),null).statusCode()).isEqualTo(200);
+		var outro=pacienteVinculado(a);var b=cadastrarNutri();
+		erro(requisitar("GET","/eu"+caminho,outro.token(),null),404,"RECURSO_NAO_ENCONTRADO");
+		erro(requisitar("GET",caminho,b.token(),null),404,"RECURSO_NAO_ENCONTRADO");
+		erro(requisitar("GET",caminho,p.token(),null),403,"PERFIL_INVALIDO");
+		assertThat(requisitar("GET",caminho+"?tamanho=INVALIDO",a.token(),null).statusCode()).isEqualTo(400);
+		assertThat(requisitar("GET",caminho,null,null).statusCode()).isEqualTo(401);
+	}
 	static final byte[] PNG={(byte)0x89,'P','N','G',0x0D,0x0A,0x1A,0x0A,0,0,0,0x0D,'I','H','D','R'};
 
 	HttpResponse<byte[]> baixar(String url) throws Exception {
