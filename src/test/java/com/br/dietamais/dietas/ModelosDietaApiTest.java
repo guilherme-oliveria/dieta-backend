@@ -139,6 +139,24 @@ class ModelosDietaApiTest extends TesteIsolamento {
 		assertThat(lista2).contains(salgado.path("id").asString());
 	}
 
+	/** BE-53: nutri nova já vê os modelos iniciais do sistema e todos se aplicam, escalados, como rascunho. */
+	@Test void modelosIniciaisDoSistemaAparecemParaNutriNovaEAplicamSemErro() throws Exception {
+		var a=cadastrarNutri();String pid=paciente(a.token());
+		var itens=json(requisitar("GET","/eu/nutri/modelos-dieta",a.token(),null)).path("itens");
+		var sistema=new ArrayList<JsonNode>();for(var x:itens)if("SISTEMA".equals(x.path("escopo").asString()))sistema.add(x);
+		assertThat(sistema).hasSizeGreaterThanOrEqualTo(9);
+		var titulos=new ArrayList<String>();sistema.forEach(x->titulos.add(x.path("titulo").asString()));
+		assertThat(titulos).contains("Sem restrições","Hipertensão (DASH)","Intolerância à lactose","Diabetes tipo 2","Dislipidemia","Doença celíaca","Gestante","Obesidade (hipocalórica)","Doença renal crônica (sem diálise)");
+		for(var m:sistema){
+			var r=requisitar("POST","/pacientes/"+pid+"/dietas/de-modelo/"+m.path("id").asString(),a.token(),Map.of("vetKcal",1800));
+			assertThat(r.statusCode()).as(m.path("titulo").asString()+": "+r.body()).isEqualTo(201);
+			var d=json(r).path("dieta");assertThat(d.path("status").asString()).isEqualTo("RASCUNHO");
+			assertThat(d.path("totais").path("kcal").decimalValue()).isBetween(new BigDecimal("1000"),new BigDecimal("2700"));
+		}
+		var dash=sistema.stream().filter(x->x.path("titulo").asString().startsWith("Hipertensão")).findFirst().orElseThrow();
+		assertThat(dash.path("restricoes").toString()).contains("ALTO_SODIO");
+	}
+
 	// ---- auxiliares
 	String paciente(String token) throws Exception {var r=requisitar("POST","/pacientes",token,Map.of("nome","Paciente fictício","email",UUID.randomUUID()+"@example.invalid"));assertThat(r.statusCode()).isEqualTo(201);return json(r).path("id").asString();}
 	List<String> ids(JsonNode lista){var l=new ArrayList<String>();lista.path("itens").forEach(x->l.add(x.path("id").asString()));return l;}

@@ -19,7 +19,7 @@ Tudo aqui é **aditivo**: campos novos são opcionais, o contrato da fase 3 (die
 | PDF da dieta e das listas de substituição | — | BE-50 |
 | Modelos de dieta: CRUD, duplicar, salvar dieta como modelo, aplicar com escala (sync `modelosDieta`) | BE-C8 | BE-52a (pronto) |
 | Restrição do modelo na dieta publicada e no snapshot (RN-MOD-03) | BE-C8 | BE-52b (pronto) |
-| Modelos iniciais do sistema (seed) | BE-C8 | BE-53 |
+| Modelos iniciais do sistema (seed) | BE-C8 | BE-53 (pronto) |
 
 ## Porções por grupo (pronto, BE-47b)
 
