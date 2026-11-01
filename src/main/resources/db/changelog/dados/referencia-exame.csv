@@ -1,396 +1,396 @@
 faixa_etaria;codigo;secao;nome;unidade;ordem;qualitativo;condicoes
-CRIANCA;acido-urico;Exames de rotina básicos em consultório;Ácido úrico;mg/dl;1;false;
-CRIANCA;creatinina;Exames de rotina básicos em consultório;Creatinina;mg/dl;2;false;
-CRIANCA;ferritina;Exames de rotina básicos em consultório;Ferritina;ng/ml;3;false;
-CRIANCA;glicemia-de-jejum;Exames de rotina básicos em consultório;Glicemia de jejum;mg/dl;4;false;
-CRIANCA;ureia;Exames de rotina básicos em consultório;Ureia;mg/dl;5;false;
-CRIANCA;capac-fixacao-do-ferro;Exames de rotina complementares em consultório;Capac. fixação do ferro;mcg/dl;6;false;
-CRIANCA;creatina-fosfoquinase-ck-ou-cpk;Exames de rotina complementares em consultório;Creatina fosfoquinase (CK ou CPK);U/l;7;false;
-CRIANCA;glicemia-pos-prandial;Exames de rotina complementares em consultório;Glicemia pós-prandial;mg/dl;8;false;
-CRIANCA;hemoglobina-glicada-hba1c;Exames de rotina complementares em consultório;Hemoglobina glicada (HbA1c);%;9;false;
-CRIANCA;homocisteina;Exames de rotina complementares em consultório;Homocisteína;mcmol/l;10;false;
-CRIANCA;insulina;Exames de rotina complementares em consultório;Insulina;mcUI/ml;11;false;
-CRIANCA;saturacao-de-transferrina;Exames de rotina complementares em consultório;Saturação de transferrina;%;12;false;
-CRIANCA;transferrina;Exames de rotina complementares em consultório;Transferrina;mg/dl;13;false;
-CRIANCA;tgo;Exames de rotina complementares em consultório;TGO;U/l;14;false;
-CRIANCA;tgp;Exames de rotina complementares em consultório;TGP;U/l;15;false;
-CRIANCA;eritrocitos;Hemograma Completo - Série vermelha;Eritrócitos;tera/l;16;false;
-CRIANCA;hematocrito;Hemograma Completo - Série vermelha;Hematócrito;%;17;false;
-CRIANCA;hemoglobina;Hemograma Completo - Série vermelha;Hemoglobina;g/dl;18;false;
-CRIANCA;vcm;Hemograma Completo - Série vermelha;VCM;fl;19;false;
-CRIANCA;hcm;Hemograma Completo - Série vermelha;HCM;pg;20;false;
-CRIANCA;rdw;Hemograma Completo - Série vermelha;RDW;%;21;false;
-CRIANCA;chcm;Hemograma Completo - Série vermelha;CHCM;%;22;false;
-CRIANCA;leucocitos-totais;Hemograma Completo - Série branca e plaquetas;Leucócitos totais;mcl;23;false;
-CRIANCA;basofilos;Hemograma Completo - Série branca e plaquetas;Basófilos;mcl;24;false;
-CRIANCA;bastonetes;Hemograma Completo - Série branca e plaquetas;Bastonetes;mcl;25;false;
-CRIANCA;blastos;Hemograma Completo - Série branca e plaquetas;Blastos;mcl;26;false;
-CRIANCA;eosinofilos;Hemograma Completo - Série branca e plaquetas;Eosinófilos;mcl;27;false;
-CRIANCA;linfocitos;Hemograma Completo - Série branca e plaquetas;Linfócitos;mcl;28;false;
-CRIANCA;metamielocitos;Hemograma Completo - Série branca e plaquetas;Metamielócitos;mcl;29;false;
-CRIANCA;mielocitos;Hemograma Completo - Série branca e plaquetas;Mielócitos;mcl;30;false;
-CRIANCA;monocitos;Hemograma Completo - Série branca e plaquetas;Monócitos;mcl;31;false;
-CRIANCA;neutrofilos;Hemograma Completo - Série branca e plaquetas;Neutrófilos;mcl;32;false;
-CRIANCA;plasmocitos;Hemograma Completo - Série branca e plaquetas;Plasmócitos;mcl;33;false;
-CRIANCA;promielocitos;Hemograma Completo - Série branca e plaquetas;Promielócitos;mcl;34;false;
-CRIANCA;reticulocitos;Hemograma Completo - Série branca e plaquetas;Reticulócitos;%;35;false;
-CRIANCA;segmentados;Hemograma Completo - Série branca e plaquetas;Segmentados;mcl;36;false;
-CRIANCA;plaquetas;Hemograma Completo - Série branca e plaquetas;Plaquetas;Ul;37;false;
-CRIANCA;lipideos-totais;Perfil Lipídico;Lipídeos totais;mg/dl;38;false;
-CRIANCA;fosfolipides;Perfil Lipídico;Fosfolípides;mg/dl;39;false;
-CRIANCA;triglicerides;Perfil Lipídico;Triglicérides;mg/dl;40;false;
-CRIANCA;colesterol-total;Perfil Lipídico;Colesterol total;mg/dl;41;false;
-CRIANCA;ldl;Perfil Lipídico;LDL;mg/dl;42;false;
-CRIANCA;vldl;Perfil Lipídico;VLDL;mg/dl;43;false;
-CRIANCA;hdl;Perfil Lipídico;HDL;mg/dl;44;false;
-CRIANCA;apolipoproteina-a;Perfil Lipídico;Apolipoproteína A;mg/dl;45;false;
-CRIANCA;apolipoproteina-b;Perfil Lipídico;Apolipoproteína B;mg/dl;46;false;
-CRIANCA;indice-de-castelli-i;Perfil Lipídico;Índice de Castelli I;Ct/HDL;47;false;
-CRIANCA;indice-de-castelli-ii;Perfil Lipídico;Índice de Castelli II;LDL/HDL;48;false;
-CRIANCA;densidade;EAS Tipo I - densidade e química;Densidade;mg/ml;49;false;
-CRIANCA;ph;EAS Tipo I - densidade e química;pH;;50;false;
-CRIANCA;calcio;EAS Tipo I - densidade e química;Cálcio;mg/dl;51;false;
-CRIANCA;cetonas-ou-corpos-cetonicos;EAS Tipo I - densidade e química;Cetonas ou corpos cetônicos;;52;true;
-CRIANCA;citrato;EAS Tipo I - densidade e química;Citrato;mg/dia;53;false;
-CRIANCA;glicose;EAS Tipo I - densidade e química;Glicose;;54;true;
-CRIANCA;nitrito;EAS Tipo I - densidade e química;Nitrito;;55;true;
-CRIANCA;proteinas;EAS Tipo I - densidade e química;Proteínas;;56;true;
-CRIANCA;sangue-hemoglobina-ou-hemacias;EAS Tipo I - densidade e química;Sangue, hemoglobina ou hemácias;;57;true;
-CRIANCA;urobilinogenio-ou-bilirrubina;EAS Tipo I - densidade e química;Urobilinogênio ou bilirrubina;;58;true;
-CRIANCA;cilindros;EAS tipo I - sedimentoscopia;Cilindros;;59;true;
-CRIANCA;granulosos;EAS tipo I - sedimentoscopia;Granulosos;células/ml;60;false;
-CRIANCA;hematicos;EAS tipo I - sedimentoscopia;Hemáticos;;61;true;
-CRIANCA;hialinos;EAS tipo I - sedimentoscopia;Hialinos;células/ml;62;false;
-CRIANCA;leucocitarios;EAS tipo I - sedimentoscopia;Leucocitários;;63;true;
-CRIANCA;leucocitos-ou-piocitos;EAS tipo I - sedimentoscopia;Leucócitos ou piócitos;células/ml;64;false;
-CRIANCA;albumina;Outras proteínas plasmáticas;Albumina;g/dl;65;false;
-CRIANCA;pre-albumina;Outras proteínas plasmáticas;Pré-albumina;mg/dl;66;false;
-CRIANCA;proteina-c-reativa-pcr;Outras proteínas plasmáticas;Proteína C-reativa (PCR);mg/dl;67;false;
-CRIANCA;proteinas-totais;Outras proteínas plasmáticas;Proteínas totais;g/dl;68;false;
-CRIANCA;proteina-transportadora-de-retinol;Outras proteínas plasmáticas;Proteína transportadora de retinol;mg/l;69;false;
-CRIANCA;calcio-total;Minerais séricos;Cálcio total;mg/dl;70;false;
-CRIANCA;calcio-ionico;Minerais séricos;Cálcio iônico;mg/dl;71;false;
-CRIANCA;cloro;Minerais séricos;Cloro;milimol ou mEq/l;72;false;
-CRIANCA;cobre;Minerais séricos;Cobre;mcg/dl;73;false;
-CRIANCA;cromo;Minerais séricos;Cromo;mcg/l;74;false;
-CRIANCA;ferro;Minerais séricos;Ferro;mcg/dl;75;false;
-CRIANCA;folato;Minerais séricos;Folato;mcg ou ng/ml;76;false;
-CRIANCA;fosforo;Minerais séricos;Fósforo;mg ou mmol/dl;77;false;
-CRIANCA;magnesio;Minerais séricos;Magnésio;mg/dl;78;false;
-CRIANCA;potassio;Minerais séricos;Potássio;mg ou mmol/l;79;false;
-CRIANCA;selenio;Minerais séricos;Selênio;mcg/l;80;false;
-CRIANCA;sodio;Minerais séricos;Sódio;milimol ou mEq/l;81;false;
-CRIANCA;zinco;Minerais séricos;Zinco;mcg/dl;82;false;
-CRIANCA;vitamina-a-retinol;Vitaminas séricas;Vitamina A (retinol);mcg/dl;83;false;
-CRIANCA;vitamina-b2;Vitaminas séricas;Vitamina B2;%;84;false;
-CRIANCA;vitamina-b6;Vitaminas séricas;Vitamina B6;mcg/dl;85;false;
-CRIANCA;vitamina-b12;Vitaminas séricas;Vitamina B12;ng/l;86;false;
-CRIANCA;vitamina-c;Vitaminas séricas;Vitamina C;mg/dl;87;false;
-CRIANCA;vitamina-d3-colecalciferol;Vitaminas séricas;Vitamina D3 (colecalciferol);U/l;88;false;
-CRIANCA;vitamina-e;Vitaminas séricas;Vitamina E;mg/dl;89;false;
-CRIANCA;vitamina-k;Vitaminas séricas;Vitamina K;segundos;90;false;
-CRIANCA;cultura;Fezes;Cultura;;91;true;
-CRIANCA;gordura;Fezes;Gordura;g/24h;92;false;
-CRIANCA;nitrogenio;Fezes;Nitrogênio;g/dia;93;false;
-CRIANCA;sangue-oculto;Fezes;Sangue oculto;;94;true;
-CRIANCA;acth;Hormônios;ACTH;pg/ml;95;false;
-CRIANCA;adh;Hormônios;ADH;pg/ml;96;false;
-CRIANCA;calcitonina;Hormônios;Calcitonina;pg/ml;97;false;
-CRIANCA;cortisol-8-h;Hormônios;Cortisol - 8 h;mcg/dl;98;false;
-CRIANCA;cortisol-16-h;Hormônios;Cortisol - 16 h;mcg/dl;99;false;
-CRIANCA;cortisol-23-h;Hormônios;Cortisol - 23 h;mcg/dl;100;false;
-CRIANCA;fsh;Hormônios;FSH;mUI/ml;101;false;
-CRIANCA;gh;Hormônios;GH;ng/ml;102;false;
-CRIANCA;progesterona;Hormônios;Progesterona;ng/dl;103;false;
-CRIANCA;prolactina;Hormônios;Prolactina;ng/ml;104;false;
-CRIANCA;t-3;Hormônios;T-3;ng/dl;105;false;
-CRIANCA;t-4-livre;Hormônios;T-4 livre;ng/dl;106;false;
-CRIANCA;testosterona;Hormônios;Testosterona;ng/dl;107;false;
-CRIANCA;tsh;Hormônios;TSH;uUI/ml;108;false;
-CRIANCA;ig-a;Imunoglobulinas;Ig A;;109;true;
-CRIANCA;ig-e;Imunoglobulinas;Ig E;;110;true;
-CRIANCA;ig-f;Imunoglobulinas;Ig F;;111;true;
-CRIANCA;ig-g;Imunoglobulinas;Ig G;;112;true;
-CRIANCA;ig-m;Imunoglobulinas;Ig M;;113;true;
-CRIANCA;amilase;Outros exames;Amilase;u/l;114;false;
-CRIANCA;amonia;Outros exames;Amônia;mol/l;115;false;
-CRIANCA;beta-hcg;Outros exames;Beta HcG;mUI/ml;116;false;
-CRIANCA;bilirrubina-direta;Outros exames;Bilirrubina direta;mg/dl;117;false;
-CRIANCA;bilirrubina-indireta;Outros exames;Bilirrubina indireta;mg/dl;118;false;
-CRIANCA;bilirrubina-total;Outros exames;Bilirrubina total;mg/dl;119;false;
-CRIANCA;ceruloplasmina;Outros exames;Ceruloplasmina;mg/dl;120;false;
-CRIANCA;creatinina-urinaria;Outros exames;Creatinina urinária;mg/Kg peso/24h;121;false;
-CRIANCA;filtracao-glomerular;Outros exames;Filtração glomerular;ml/min;122;false;
-CRIANCA;fosfatase-alcalina;Outros exames;Fosfatase alcalina;U/l;123;false;
-CRIANCA;frutosamina;Outros exames;Frutosamina;mmol/l;124;false;
-CRIANCA;gama-gt;Outros exames;Gama GT;U/l;125;false;
-CRIANCA;gastrina;Outros exames;Gastrina;pg/ml;126;false;
-CRIANCA;lipase;Outros exames;Lipase;U/l;127;false;
-CRIANCA;oxalato;Outros exames;Oxalato;mg/24h;128;false;
-CRIANCA;superoxido-dismutase-sod;Outros exames;Superóxido Dismutase (SOD);U/gHb;129;false;
-CRIANCA;tempo-de-protrombina;Outros exames;Tempo de protrombina;%;130;false;
-CRIANCA;tempo-de-tromboplastina-parcial-ttp;Outros exames;Tempo de tromboplastina parcial (TTP);seg;131;false;
-ADOLESCENTE;acido-urico;Exames de rotina básicos em consultório;Ácido úrico;mg/dl;1;false;
-ADOLESCENTE;creatinina;Exames de rotina básicos em consultório;Creatinina;mg/dl;2;false;
+CRIANCA;acido-urico;Exames de rotina básicos em consultório;Ácido úrico;mg/dl;1;false;NULL
+CRIANCA;creatinina;Exames de rotina básicos em consultório;Creatinina;mg/dl;2;false;NULL
+CRIANCA;ferritina;Exames de rotina básicos em consultório;Ferritina;ng/ml;3;false;NULL
+CRIANCA;glicemia-de-jejum;Exames de rotina básicos em consultório;Glicemia de jejum;mg/dl;4;false;NULL
+CRIANCA;ureia;Exames de rotina básicos em consultório;Ureia;mg/dl;5;false;NULL
+CRIANCA;capac-fixacao-do-ferro;Exames de rotina complementares em consultório;Capac. fixação do ferro;mcg/dl;6;false;NULL
+CRIANCA;creatina-fosfoquinase-ck-ou-cpk;Exames de rotina complementares em consultório;Creatina fosfoquinase (CK ou CPK);U/l;7;false;NULL
+CRIANCA;glicemia-pos-prandial;Exames de rotina complementares em consultório;Glicemia pós-prandial;mg/dl;8;false;NULL
+CRIANCA;hemoglobina-glicada-hba1c;Exames de rotina complementares em consultório;Hemoglobina glicada (HbA1c);%;9;false;NULL
+CRIANCA;homocisteina;Exames de rotina complementares em consultório;Homocisteína;mcmol/l;10;false;NULL
+CRIANCA;insulina;Exames de rotina complementares em consultório;Insulina;mcUI/ml;11;false;NULL
+CRIANCA;saturacao-de-transferrina;Exames de rotina complementares em consultório;Saturação de transferrina;%;12;false;NULL
+CRIANCA;transferrina;Exames de rotina complementares em consultório;Transferrina;mg/dl;13;false;NULL
+CRIANCA;tgo;Exames de rotina complementares em consultório;TGO;U/l;14;false;NULL
+CRIANCA;tgp;Exames de rotina complementares em consultório;TGP;U/l;15;false;NULL
+CRIANCA;eritrocitos;Hemograma Completo - Série vermelha;Eritrócitos;tera/l;16;false;NULL
+CRIANCA;hematocrito;Hemograma Completo - Série vermelha;Hematócrito;%;17;false;NULL
+CRIANCA;hemoglobina;Hemograma Completo - Série vermelha;Hemoglobina;g/dl;18;false;NULL
+CRIANCA;vcm;Hemograma Completo - Série vermelha;VCM;fl;19;false;NULL
+CRIANCA;hcm;Hemograma Completo - Série vermelha;HCM;pg;20;false;NULL
+CRIANCA;rdw;Hemograma Completo - Série vermelha;RDW;%;21;false;NULL
+CRIANCA;chcm;Hemograma Completo - Série vermelha;CHCM;%;22;false;NULL
+CRIANCA;leucocitos-totais;Hemograma Completo - Série branca e plaquetas;Leucócitos totais;mcl;23;false;NULL
+CRIANCA;basofilos;Hemograma Completo - Série branca e plaquetas;Basófilos;mcl;24;false;NULL
+CRIANCA;bastonetes;Hemograma Completo - Série branca e plaquetas;Bastonetes;mcl;25;false;NULL
+CRIANCA;blastos;Hemograma Completo - Série branca e plaquetas;Blastos;mcl;26;false;NULL
+CRIANCA;eosinofilos;Hemograma Completo - Série branca e plaquetas;Eosinófilos;mcl;27;false;NULL
+CRIANCA;linfocitos;Hemograma Completo - Série branca e plaquetas;Linfócitos;mcl;28;false;NULL
+CRIANCA;metamielocitos;Hemograma Completo - Série branca e plaquetas;Metamielócitos;mcl;29;false;NULL
+CRIANCA;mielocitos;Hemograma Completo - Série branca e plaquetas;Mielócitos;mcl;30;false;NULL
+CRIANCA;monocitos;Hemograma Completo - Série branca e plaquetas;Monócitos;mcl;31;false;NULL
+CRIANCA;neutrofilos;Hemograma Completo - Série branca e plaquetas;Neutrófilos;mcl;32;false;NULL
+CRIANCA;plasmocitos;Hemograma Completo - Série branca e plaquetas;Plasmócitos;mcl;33;false;NULL
+CRIANCA;promielocitos;Hemograma Completo - Série branca e plaquetas;Promielócitos;mcl;34;false;NULL
+CRIANCA;reticulocitos;Hemograma Completo - Série branca e plaquetas;Reticulócitos;%;35;false;NULL
+CRIANCA;segmentados;Hemograma Completo - Série branca e plaquetas;Segmentados;mcl;36;false;NULL
+CRIANCA;plaquetas;Hemograma Completo - Série branca e plaquetas;Plaquetas;Ul;37;false;NULL
+CRIANCA;lipideos-totais;Perfil Lipídico;Lipídeos totais;mg/dl;38;false;NULL
+CRIANCA;fosfolipides;Perfil Lipídico;Fosfolípides;mg/dl;39;false;NULL
+CRIANCA;triglicerides;Perfil Lipídico;Triglicérides;mg/dl;40;false;NULL
+CRIANCA;colesterol-total;Perfil Lipídico;Colesterol total;mg/dl;41;false;NULL
+CRIANCA;ldl;Perfil Lipídico;LDL;mg/dl;42;false;NULL
+CRIANCA;vldl;Perfil Lipídico;VLDL;mg/dl;43;false;NULL
+CRIANCA;hdl;Perfil Lipídico;HDL;mg/dl;44;false;NULL
+CRIANCA;apolipoproteina-a;Perfil Lipídico;Apolipoproteína A;mg/dl;45;false;NULL
+CRIANCA;apolipoproteina-b;Perfil Lipídico;Apolipoproteína B;mg/dl;46;false;NULL
+CRIANCA;indice-de-castelli-i;Perfil Lipídico;Índice de Castelli I;Ct/HDL;47;false;NULL
+CRIANCA;indice-de-castelli-ii;Perfil Lipídico;Índice de Castelli II;LDL/HDL;48;false;NULL
+CRIANCA;densidade;EAS Tipo I - densidade e química;Densidade;mg/ml;49;false;NULL
+CRIANCA;ph;EAS Tipo I - densidade e química;pH;NULL;50;false;NULL
+CRIANCA;calcio;EAS Tipo I - densidade e química;Cálcio;mg/dl;51;false;NULL
+CRIANCA;cetonas-ou-corpos-cetonicos;EAS Tipo I - densidade e química;Cetonas ou corpos cetônicos;NULL;52;true;NULL
+CRIANCA;citrato;EAS Tipo I - densidade e química;Citrato;mg/dia;53;false;NULL
+CRIANCA;glicose;EAS Tipo I - densidade e química;Glicose;NULL;54;true;NULL
+CRIANCA;nitrito;EAS Tipo I - densidade e química;Nitrito;NULL;55;true;NULL
+CRIANCA;proteinas;EAS Tipo I - densidade e química;Proteínas;NULL;56;true;NULL
+CRIANCA;sangue-hemoglobina-ou-hemacias;EAS Tipo I - densidade e química;Sangue, hemoglobina ou hemácias;NULL;57;true;NULL
+CRIANCA;urobilinogenio-ou-bilirrubina;EAS Tipo I - densidade e química;Urobilinogênio ou bilirrubina;NULL;58;true;NULL
+CRIANCA;cilindros;EAS tipo I - sedimentoscopia;Cilindros;NULL;59;true;NULL
+CRIANCA;granulosos;EAS tipo I - sedimentoscopia;Granulosos;células/ml;60;false;NULL
+CRIANCA;hematicos;EAS tipo I - sedimentoscopia;Hemáticos;NULL;61;true;NULL
+CRIANCA;hialinos;EAS tipo I - sedimentoscopia;Hialinos;células/ml;62;false;NULL
+CRIANCA;leucocitarios;EAS tipo I - sedimentoscopia;Leucocitários;NULL;63;true;NULL
+CRIANCA;leucocitos-ou-piocitos;EAS tipo I - sedimentoscopia;Leucócitos ou piócitos;células/ml;64;false;NULL
+CRIANCA;albumina;Outras proteínas plasmáticas;Albumina;g/dl;65;false;NULL
+CRIANCA;pre-albumina;Outras proteínas plasmáticas;Pré-albumina;mg/dl;66;false;NULL
+CRIANCA;proteina-c-reativa-pcr;Outras proteínas plasmáticas;Proteína C-reativa (PCR);mg/dl;67;false;NULL
+CRIANCA;proteinas-totais;Outras proteínas plasmáticas;Proteínas totais;g/dl;68;false;NULL
+CRIANCA;proteina-transportadora-de-retinol;Outras proteínas plasmáticas;Proteína transportadora de retinol;mg/l;69;false;NULL
+CRIANCA;calcio-total;Minerais séricos;Cálcio total;mg/dl;70;false;NULL
+CRIANCA;calcio-ionico;Minerais séricos;Cálcio iônico;mg/dl;71;false;NULL
+CRIANCA;cloro;Minerais séricos;Cloro;milimol ou mEq/l;72;false;NULL
+CRIANCA;cobre;Minerais séricos;Cobre;mcg/dl;73;false;NULL
+CRIANCA;cromo;Minerais séricos;Cromo;mcg/l;74;false;NULL
+CRIANCA;ferro;Minerais séricos;Ferro;mcg/dl;75;false;NULL
+CRIANCA;folato;Minerais séricos;Folato;mcg ou ng/ml;76;false;NULL
+CRIANCA;fosforo;Minerais séricos;Fósforo;mg ou mmol/dl;77;false;NULL
+CRIANCA;magnesio;Minerais séricos;Magnésio;mg/dl;78;false;NULL
+CRIANCA;potassio;Minerais séricos;Potássio;mg ou mmol/l;79;false;NULL
+CRIANCA;selenio;Minerais séricos;Selênio;mcg/l;80;false;NULL
+CRIANCA;sodio;Minerais séricos;Sódio;milimol ou mEq/l;81;false;NULL
+CRIANCA;zinco;Minerais séricos;Zinco;mcg/dl;82;false;NULL
+CRIANCA;vitamina-a-retinol;Vitaminas séricas;Vitamina A (retinol);mcg/dl;83;false;NULL
+CRIANCA;vitamina-b2;Vitaminas séricas;Vitamina B2;%;84;false;NULL
+CRIANCA;vitamina-b6;Vitaminas séricas;Vitamina B6;mcg/dl;85;false;NULL
+CRIANCA;vitamina-b12;Vitaminas séricas;Vitamina B12;ng/l;86;false;NULL
+CRIANCA;vitamina-c;Vitaminas séricas;Vitamina C;mg/dl;87;false;NULL
+CRIANCA;vitamina-d3-colecalciferol;Vitaminas séricas;Vitamina D3 (colecalciferol);U/l;88;false;NULL
+CRIANCA;vitamina-e;Vitaminas séricas;Vitamina E;mg/dl;89;false;NULL
+CRIANCA;vitamina-k;Vitaminas séricas;Vitamina K;segundos;90;false;NULL
+CRIANCA;cultura;Fezes;Cultura;NULL;91;true;NULL
+CRIANCA;gordura;Fezes;Gordura;g/24h;92;false;NULL
+CRIANCA;nitrogenio;Fezes;Nitrogênio;g/dia;93;false;NULL
+CRIANCA;sangue-oculto;Fezes;Sangue oculto;NULL;94;true;NULL
+CRIANCA;acth;Hormônios;ACTH;pg/ml;95;false;NULL
+CRIANCA;adh;Hormônios;ADH;pg/ml;96;false;NULL
+CRIANCA;calcitonina;Hormônios;Calcitonina;pg/ml;97;false;NULL
+CRIANCA;cortisol-8-h;Hormônios;Cortisol - 8 h;mcg/dl;98;false;NULL
+CRIANCA;cortisol-16-h;Hormônios;Cortisol - 16 h;mcg/dl;99;false;NULL
+CRIANCA;cortisol-23-h;Hormônios;Cortisol - 23 h;mcg/dl;100;false;NULL
+CRIANCA;fsh;Hormônios;FSH;mUI/ml;101;false;NULL
+CRIANCA;gh;Hormônios;GH;ng/ml;102;false;NULL
+CRIANCA;progesterona;Hormônios;Progesterona;ng/dl;103;false;NULL
+CRIANCA;prolactina;Hormônios;Prolactina;ng/ml;104;false;NULL
+CRIANCA;t-3;Hormônios;T-3;ng/dl;105;false;NULL
+CRIANCA;t-4-livre;Hormônios;T-4 livre;ng/dl;106;false;NULL
+CRIANCA;testosterona;Hormônios;Testosterona;ng/dl;107;false;NULL
+CRIANCA;tsh;Hormônios;TSH;uUI/ml;108;false;NULL
+CRIANCA;ig-a;Imunoglobulinas;Ig A;NULL;109;true;NULL
+CRIANCA;ig-e;Imunoglobulinas;Ig E;NULL;110;true;NULL
+CRIANCA;ig-f;Imunoglobulinas;Ig F;NULL;111;true;NULL
+CRIANCA;ig-g;Imunoglobulinas;Ig G;NULL;112;true;NULL
+CRIANCA;ig-m;Imunoglobulinas;Ig M;NULL;113;true;NULL
+CRIANCA;amilase;Outros exames;Amilase;u/l;114;false;NULL
+CRIANCA;amonia;Outros exames;Amônia;mol/l;115;false;NULL
+CRIANCA;beta-hcg;Outros exames;Beta HcG;mUI/ml;116;false;NULL
+CRIANCA;bilirrubina-direta;Outros exames;Bilirrubina direta;mg/dl;117;false;NULL
+CRIANCA;bilirrubina-indireta;Outros exames;Bilirrubina indireta;mg/dl;118;false;NULL
+CRIANCA;bilirrubina-total;Outros exames;Bilirrubina total;mg/dl;119;false;NULL
+CRIANCA;ceruloplasmina;Outros exames;Ceruloplasmina;mg/dl;120;false;NULL
+CRIANCA;creatinina-urinaria;Outros exames;Creatinina urinária;mg/Kg peso/24h;121;false;NULL
+CRIANCA;filtracao-glomerular;Outros exames;Filtração glomerular;ml/min;122;false;NULL
+CRIANCA;fosfatase-alcalina;Outros exames;Fosfatase alcalina;U/l;123;false;NULL
+CRIANCA;frutosamina;Outros exames;Frutosamina;mmol/l;124;false;NULL
+CRIANCA;gama-gt;Outros exames;Gama GT;U/l;125;false;NULL
+CRIANCA;gastrina;Outros exames;Gastrina;pg/ml;126;false;NULL
+CRIANCA;lipase;Outros exames;Lipase;U/l;127;false;NULL
+CRIANCA;oxalato;Outros exames;Oxalato;mg/24h;128;false;NULL
+CRIANCA;superoxido-dismutase-sod;Outros exames;Superóxido Dismutase (SOD);U/gHb;129;false;NULL
+CRIANCA;tempo-de-protrombina;Outros exames;Tempo de protrombina;%;130;false;NULL
+CRIANCA;tempo-de-tromboplastina-parcial-ttp;Outros exames;Tempo de tromboplastina parcial (TTP);seg;131;false;NULL
+ADOLESCENTE;acido-urico;Exames de rotina básicos em consultório;Ácido úrico;mg/dl;1;false;NULL
+ADOLESCENTE;creatinina;Exames de rotina básicos em consultório;Creatinina;mg/dl;2;false;NULL
 ADOLESCENTE;ferritina;Exames de rotina básicos em consultório;Ferritina;ng/ml;3;false;menarca|não menarca|homem
-ADOLESCENTE;glicemia-de-jejum;Exames de rotina básicos em consultório;Glicemia de jejum;mg/dl;4;false;
-ADOLESCENTE;ureia;Exames de rotina básicos em consultório;Ureia;mg/dl;5;false;
-ADOLESCENTE;capac-fixacao-do-ferro;Exames de rotina complementares em consultório;Capac. fixação do ferro;mcg/dl;6;false;
-ADOLESCENTE;creatina-fosfoquinase-ck-ou-cpk;Exames de rotina complementares em consultório;Creatina fosfoquinase (CK ou CPK);U/l;7;false;
-ADOLESCENTE;glicemia-pos-prandial;Exames de rotina complementares em consultório;Glicemia pós-prandial;mg/dl;8;false;
-ADOLESCENTE;hemoglobina-glicada-hba1c;Exames de rotina complementares em consultório;Hemoglobina glicada (HbA1c);%;9;false;
-ADOLESCENTE;homocisteina;Exames de rotina complementares em consultório;Homocisteína;mcmol/l;10;false;
-ADOLESCENTE;insulina;Exames de rotina complementares em consultório;Insulina;mcUI/ml;11;false;
-ADOLESCENTE;saturacao-de-transferrina;Exames de rotina complementares em consultório;Saturação de transferrina;%;12;false;
-ADOLESCENTE;transferrina;Exames de rotina complementares em consultório;Transferrina;mg/dl;13;false;
-ADOLESCENTE;tgo;Exames de rotina complementares em consultório;TGO;U/l;14;false;
-ADOLESCENTE;tgp;Exames de rotina complementares em consultório;TGP;U/l;15;false;
-ADOLESCENTE;eritrocitos;Hemograma Completo -  Série vermelha;Eritrócitos;tera/l;16;false;
-ADOLESCENTE;hematocrito;Hemograma Completo -  Série vermelha;Hematócrito;%;17;false;
-ADOLESCENTE;hemoglobina;Hemograma Completo -  Série vermelha;Hemoglobina;g/dl;18;false;
-ADOLESCENTE;vcm;Hemograma Completo -  Série vermelha;VCM;fl;19;false;
-ADOLESCENTE;hcm;Hemograma Completo -  Série vermelha;HCM;pg;20;false;
-ADOLESCENTE;rdw;Hemograma Completo -  Série vermelha;RDW;%;21;false;
-ADOLESCENTE;chcm;Hemograma Completo -  Série vermelha;CHCM;%;22;false;
-ADOLESCENTE;leucocitos-totais;Hemograma Completo -  Série branca e plaquetas;Leucócitos totais;mcl;23;false;
-ADOLESCENTE;basofilos;Hemograma Completo -  Série branca e plaquetas;Basófilos;mcl;24;false;
-ADOLESCENTE;bastonetes;Hemograma Completo -  Série branca e plaquetas;Bastonetes;mcl;25;false;
-ADOLESCENTE;blastos;Hemograma Completo -  Série branca e plaquetas;Blastos;mcl;26;false;
-ADOLESCENTE;eosinofilos;Hemograma Completo -  Série branca e plaquetas;Eosinófilos;mcl;27;false;
-ADOLESCENTE;linfocitos;Hemograma Completo -  Série branca e plaquetas;Linfócitos;mcl;28;false;
-ADOLESCENTE;metamielocitos;Hemograma Completo -  Série branca e plaquetas;Metamielócitos;mcl;29;false;
-ADOLESCENTE;mielocitos;Hemograma Completo -  Série branca e plaquetas;Mielócitos;mcl;30;false;
-ADOLESCENTE;monocitos;Hemograma Completo -  Série branca e plaquetas;Monócitos;mcl;31;false;
-ADOLESCENTE;neutrofilos;Hemograma Completo -  Série branca e plaquetas;Neutrófilos;mcl;32;false;
-ADOLESCENTE;plasmocitos;Hemograma Completo -  Série branca e plaquetas;Plasmócitos;mcl;33;false;
-ADOLESCENTE;promielocitos;Hemograma Completo -  Série branca e plaquetas;Promielócitos;mcl;34;false;
-ADOLESCENTE;reticulocitos;Hemograma Completo -  Série branca e plaquetas;Reticulócitos;%;35;false;
-ADOLESCENTE;segmentados;Hemograma Completo -  Série branca e plaquetas;Segmentados;mcl;36;false;
-ADOLESCENTE;plaquetas;Hemograma Completo -  Série branca e plaquetas;Plaquetas;Ul;37;false;
-ADOLESCENTE;lipideos-totais;Perfil Lipídico;Lipídeos totais;mg/dl;38;false;
-ADOLESCENTE;fosfolipides;Perfil Lipídico;Fosfolípides;mg/dl;39;false;
-ADOLESCENTE;triglicerides;Perfil Lipídico;Triglicérides;mg/dl;40;false;
-ADOLESCENTE;colesterol-total;Perfil Lipídico;Colesterol total;mg/dl;41;false;
-ADOLESCENTE;ldl;Perfil Lipídico;LDL;mg/dl;42;false;
-ADOLESCENTE;vldl;Perfil Lipídico;VLDL;mg/dl;43;false;
-ADOLESCENTE;hdl;Perfil Lipídico;HDL;mg/dl;44;false;
-ADOLESCENTE;apolipoproteina-a;Perfil Lipídico;Apolipoproteína A;mg/dl;45;false;
-ADOLESCENTE;apolipoproteina-b;Perfil Lipídico;Apolipoproteína B;mg/dl;46;false;
-ADOLESCENTE;indice-de-castelli-i;Perfil Lipídico;Índice de Castelli I;Ct/HDL;47;false;
-ADOLESCENTE;indice-de-castelli-ii;Perfil Lipídico;Índice de Castelli II;LDL/HDL;48;false;
-ADOLESCENTE;densidade;EAS Tipo I - densidade e química;Densidade;mg/ml;49;false;
-ADOLESCENTE;ph;EAS Tipo I - densidade e química;pH;;50;false;
-ADOLESCENTE;calcio;EAS Tipo I - densidade e química;Cálcio;mg/dl;51;false;
-ADOLESCENTE;cetonas-ou-corpos-cetonicos;EAS Tipo I - densidade e química;Cetonas ou corpos cetônicos;;52;true;
-ADOLESCENTE;citrato;EAS Tipo I - densidade e química;Citrato;mg/dia;53;false;
-ADOLESCENTE;glicose;EAS Tipo I - densidade e química;Glicose;;54;true;
-ADOLESCENTE;nitrito;EAS Tipo I - densidade e química;Nitrito;;55;true;
-ADOLESCENTE;proteinas;EAS Tipo I - densidade e química;Proteínas;;56;true;
-ADOLESCENTE;sangue-hemoglobina-ou-hemacias;EAS Tipo I - densidade e química;Sangue, hemoglobina ou hemácias;;57;true;
-ADOLESCENTE;urobilinogenio-ou-bilirrubina;EAS Tipo I - densidade e química;Urobilinogênio ou bilirrubina;;58;true;
-ADOLESCENTE;cilindros;EAS tipo I - sedimentoscopia;Cilindros;;59;true;
-ADOLESCENTE;granulosos;EAS tipo I - sedimentoscopia;Granulosos;células/ml;60;false;
-ADOLESCENTE;hematicos;EAS tipo I - sedimentoscopia;Hemáticos;;61;true;
-ADOLESCENTE;hialinos;EAS tipo I - sedimentoscopia;Hialinos;células/ml;62;false;
-ADOLESCENTE;leucocitarios;EAS tipo I - sedimentoscopia;Leucocitários;;63;true;
-ADOLESCENTE;leucocitos-ou-piocitos;EAS tipo I - sedimentoscopia;Leucócitos ou piócitos;células/ml;64;false;
-ADOLESCENTE;albumina;Outras proteínas plasmáticas;Albumina;g/dl;65;false;
-ADOLESCENTE;pre-albumina;Outras proteínas plasmáticas;Pré-albumina;mg/dl;66;false;
-ADOLESCENTE;proteina-c-reativa-pcr;Outras proteínas plasmáticas;Proteína C-reativa (PCR);mg/dl;67;false;
-ADOLESCENTE;proteinas-totais;Outras proteínas plasmáticas;Proteínas totais;g/dl;68;false;
-ADOLESCENTE;proteina-transportadora-de-retinol;Outras proteínas plasmáticas;Proteína transportadora de retinol;mg/l;69;false;
-ADOLESCENTE;calcio-total;Minerais séricos;Cálcio total;mg/dl;70;false;
-ADOLESCENTE;calcio-ionico;Minerais séricos;Cálcio iônico;mg/dl;71;false;
-ADOLESCENTE;cloro;Minerais séricos;Cloro;milimol ou mEq/l;72;false;
-ADOLESCENTE;cobre;Minerais séricos;Cobre;mcg/dl;73;false;
-ADOLESCENTE;cromo;Minerais séricos;Cromo;mcg/l;74;false;
-ADOLESCENTE;ferro;Minerais séricos;Ferro;mcg/dl;75;false;
-ADOLESCENTE;folato;Minerais séricos;Folato;mcg ou ng/ml;76;false;
-ADOLESCENTE;fosforo;Minerais séricos;Fósforo;mg ou mmol/dl;77;false;
-ADOLESCENTE;magnesio;Minerais séricos;Magnésio;mg/dl;78;false;
-ADOLESCENTE;potassio;Minerais séricos;Potássio;mg ou mmol/l;79;false;
-ADOLESCENTE;selenio;Minerais séricos;Selênio;mcg/l;80;false;
-ADOLESCENTE;sodio;Minerais séricos;Sódio;milimol ou mEq/l;81;false;
-ADOLESCENTE;zinco;Minerais séricos;Zinco;mcg/dl;82;false;
-ADOLESCENTE;vitamina-a-retinol;Vitaminas séricas;Vitamina A (retinol);mcg/dl;83;false;
-ADOLESCENTE;vitamina-b2;Vitaminas séricas;Vitamina B2;%;84;false;
-ADOLESCENTE;vitamina-b6;Vitaminas séricas;Vitamina B6;mcg/dl;85;false;
-ADOLESCENTE;vitamina-b12;Vitaminas séricas;Vitamina B12;ng/l;86;false;
-ADOLESCENTE;vitamina-c;Vitaminas séricas;Vitamina C;mg/dl;87;false;
-ADOLESCENTE;vitamina-d3-colecalciferol;Vitaminas séricas;Vitamina D3 (colecalciferol);U/l;88;false;
-ADOLESCENTE;vitamina-e;Vitaminas séricas;Vitamina E;mg/dl;89;false;
-ADOLESCENTE;vitamina-k;Vitaminas séricas;Vitamina K;segundos;90;false;
-ADOLESCENTE;cultura;Fezes;Cultura;;91;true;
-ADOLESCENTE;gordura;Fezes;Gordura;g/24h;92;false;
-ADOLESCENTE;nitrogenio;Fezes;Nitrogênio;g/dia;93;false;
-ADOLESCENTE;sangue-oculto;Fezes;Sangue oculto;;94;true;
-ADOLESCENTE;acth;Hormônios;ACTH;pg/ml;95;false;
-ADOLESCENTE;adh;Hormônios;ADH;pg/ml;96;false;
-ADOLESCENTE;calcitonina;Hormônios;Calcitonina;pg/ml;97;false;
-ADOLESCENTE;cortisol-8-h;Hormônios;Cortisol - 8 h;mcg/dl;98;false;
-ADOLESCENTE;cortisol-16-h;Hormônios;Cortisol - 16 h;mcg/dl;99;false;
-ADOLESCENTE;cortisol-23-h;Hormônios;Cortisol - 23 h;mcg/dl;100;false;
+ADOLESCENTE;glicemia-de-jejum;Exames de rotina básicos em consultório;Glicemia de jejum;mg/dl;4;false;NULL
+ADOLESCENTE;ureia;Exames de rotina básicos em consultório;Ureia;mg/dl;5;false;NULL
+ADOLESCENTE;capac-fixacao-do-ferro;Exames de rotina complementares em consultório;Capac. fixação do ferro;mcg/dl;6;false;NULL
+ADOLESCENTE;creatina-fosfoquinase-ck-ou-cpk;Exames de rotina complementares em consultório;Creatina fosfoquinase (CK ou CPK);U/l;7;false;NULL
+ADOLESCENTE;glicemia-pos-prandial;Exames de rotina complementares em consultório;Glicemia pós-prandial;mg/dl;8;false;NULL
+ADOLESCENTE;hemoglobina-glicada-hba1c;Exames de rotina complementares em consultório;Hemoglobina glicada (HbA1c);%;9;false;NULL
+ADOLESCENTE;homocisteina;Exames de rotina complementares em consultório;Homocisteína;mcmol/l;10;false;NULL
+ADOLESCENTE;insulina;Exames de rotina complementares em consultório;Insulina;mcUI/ml;11;false;NULL
+ADOLESCENTE;saturacao-de-transferrina;Exames de rotina complementares em consultório;Saturação de transferrina;%;12;false;NULL
+ADOLESCENTE;transferrina;Exames de rotina complementares em consultório;Transferrina;mg/dl;13;false;NULL
+ADOLESCENTE;tgo;Exames de rotina complementares em consultório;TGO;U/l;14;false;NULL
+ADOLESCENTE;tgp;Exames de rotina complementares em consultório;TGP;U/l;15;false;NULL
+ADOLESCENTE;eritrocitos;Hemograma Completo -  Série vermelha;Eritrócitos;tera/l;16;false;NULL
+ADOLESCENTE;hematocrito;Hemograma Completo -  Série vermelha;Hematócrito;%;17;false;NULL
+ADOLESCENTE;hemoglobina;Hemograma Completo -  Série vermelha;Hemoglobina;g/dl;18;false;NULL
+ADOLESCENTE;vcm;Hemograma Completo -  Série vermelha;VCM;fl;19;false;NULL
+ADOLESCENTE;hcm;Hemograma Completo -  Série vermelha;HCM;pg;20;false;NULL
+ADOLESCENTE;rdw;Hemograma Completo -  Série vermelha;RDW;%;21;false;NULL
+ADOLESCENTE;chcm;Hemograma Completo -  Série vermelha;CHCM;%;22;false;NULL
+ADOLESCENTE;leucocitos-totais;Hemograma Completo -  Série branca e plaquetas;Leucócitos totais;mcl;23;false;NULL
+ADOLESCENTE;basofilos;Hemograma Completo -  Série branca e plaquetas;Basófilos;mcl;24;false;NULL
+ADOLESCENTE;bastonetes;Hemograma Completo -  Série branca e plaquetas;Bastonetes;mcl;25;false;NULL
+ADOLESCENTE;blastos;Hemograma Completo -  Série branca e plaquetas;Blastos;mcl;26;false;NULL
+ADOLESCENTE;eosinofilos;Hemograma Completo -  Série branca e plaquetas;Eosinófilos;mcl;27;false;NULL
+ADOLESCENTE;linfocitos;Hemograma Completo -  Série branca e plaquetas;Linfócitos;mcl;28;false;NULL
+ADOLESCENTE;metamielocitos;Hemograma Completo -  Série branca e plaquetas;Metamielócitos;mcl;29;false;NULL
+ADOLESCENTE;mielocitos;Hemograma Completo -  Série branca e plaquetas;Mielócitos;mcl;30;false;NULL
+ADOLESCENTE;monocitos;Hemograma Completo -  Série branca e plaquetas;Monócitos;mcl;31;false;NULL
+ADOLESCENTE;neutrofilos;Hemograma Completo -  Série branca e plaquetas;Neutrófilos;mcl;32;false;NULL
+ADOLESCENTE;plasmocitos;Hemograma Completo -  Série branca e plaquetas;Plasmócitos;mcl;33;false;NULL
+ADOLESCENTE;promielocitos;Hemograma Completo -  Série branca e plaquetas;Promielócitos;mcl;34;false;NULL
+ADOLESCENTE;reticulocitos;Hemograma Completo -  Série branca e plaquetas;Reticulócitos;%;35;false;NULL
+ADOLESCENTE;segmentados;Hemograma Completo -  Série branca e plaquetas;Segmentados;mcl;36;false;NULL
+ADOLESCENTE;plaquetas;Hemograma Completo -  Série branca e plaquetas;Plaquetas;Ul;37;false;NULL
+ADOLESCENTE;lipideos-totais;Perfil Lipídico;Lipídeos totais;mg/dl;38;false;NULL
+ADOLESCENTE;fosfolipides;Perfil Lipídico;Fosfolípides;mg/dl;39;false;NULL
+ADOLESCENTE;triglicerides;Perfil Lipídico;Triglicérides;mg/dl;40;false;NULL
+ADOLESCENTE;colesterol-total;Perfil Lipídico;Colesterol total;mg/dl;41;false;NULL
+ADOLESCENTE;ldl;Perfil Lipídico;LDL;mg/dl;42;false;NULL
+ADOLESCENTE;vldl;Perfil Lipídico;VLDL;mg/dl;43;false;NULL
+ADOLESCENTE;hdl;Perfil Lipídico;HDL;mg/dl;44;false;NULL
+ADOLESCENTE;apolipoproteina-a;Perfil Lipídico;Apolipoproteína A;mg/dl;45;false;NULL
+ADOLESCENTE;apolipoproteina-b;Perfil Lipídico;Apolipoproteína B;mg/dl;46;false;NULL
+ADOLESCENTE;indice-de-castelli-i;Perfil Lipídico;Índice de Castelli I;Ct/HDL;47;false;NULL
+ADOLESCENTE;indice-de-castelli-ii;Perfil Lipídico;Índice de Castelli II;LDL/HDL;48;false;NULL
+ADOLESCENTE;densidade;EAS Tipo I - densidade e química;Densidade;mg/ml;49;false;NULL
+ADOLESCENTE;ph;EAS Tipo I - densidade e química;pH;NULL;50;false;NULL
+ADOLESCENTE;calcio;EAS Tipo I - densidade e química;Cálcio;mg/dl;51;false;NULL
+ADOLESCENTE;cetonas-ou-corpos-cetonicos;EAS Tipo I - densidade e química;Cetonas ou corpos cetônicos;NULL;52;true;NULL
+ADOLESCENTE;citrato;EAS Tipo I - densidade e química;Citrato;mg/dia;53;false;NULL
+ADOLESCENTE;glicose;EAS Tipo I - densidade e química;Glicose;NULL;54;true;NULL
+ADOLESCENTE;nitrito;EAS Tipo I - densidade e química;Nitrito;NULL;55;true;NULL
+ADOLESCENTE;proteinas;EAS Tipo I - densidade e química;Proteínas;NULL;56;true;NULL
+ADOLESCENTE;sangue-hemoglobina-ou-hemacias;EAS Tipo I - densidade e química;Sangue, hemoglobina ou hemácias;NULL;57;true;NULL
+ADOLESCENTE;urobilinogenio-ou-bilirrubina;EAS Tipo I - densidade e química;Urobilinogênio ou bilirrubina;NULL;58;true;NULL
+ADOLESCENTE;cilindros;EAS tipo I - sedimentoscopia;Cilindros;NULL;59;true;NULL
+ADOLESCENTE;granulosos;EAS tipo I - sedimentoscopia;Granulosos;células/ml;60;false;NULL
+ADOLESCENTE;hematicos;EAS tipo I - sedimentoscopia;Hemáticos;NULL;61;true;NULL
+ADOLESCENTE;hialinos;EAS tipo I - sedimentoscopia;Hialinos;células/ml;62;false;NULL
+ADOLESCENTE;leucocitarios;EAS tipo I - sedimentoscopia;Leucocitários;NULL;63;true;NULL
+ADOLESCENTE;leucocitos-ou-piocitos;EAS tipo I - sedimentoscopia;Leucócitos ou piócitos;células/ml;64;false;NULL
+ADOLESCENTE;albumina;Outras proteínas plasmáticas;Albumina;g/dl;65;false;NULL
+ADOLESCENTE;pre-albumina;Outras proteínas plasmáticas;Pré-albumina;mg/dl;66;false;NULL
+ADOLESCENTE;proteina-c-reativa-pcr;Outras proteínas plasmáticas;Proteína C-reativa (PCR);mg/dl;67;false;NULL
+ADOLESCENTE;proteinas-totais;Outras proteínas plasmáticas;Proteínas totais;g/dl;68;false;NULL
+ADOLESCENTE;proteina-transportadora-de-retinol;Outras proteínas plasmáticas;Proteína transportadora de retinol;mg/l;69;false;NULL
+ADOLESCENTE;calcio-total;Minerais séricos;Cálcio total;mg/dl;70;false;NULL
+ADOLESCENTE;calcio-ionico;Minerais séricos;Cálcio iônico;mg/dl;71;false;NULL
+ADOLESCENTE;cloro;Minerais séricos;Cloro;milimol ou mEq/l;72;false;NULL
+ADOLESCENTE;cobre;Minerais séricos;Cobre;mcg/dl;73;false;NULL
+ADOLESCENTE;cromo;Minerais séricos;Cromo;mcg/l;74;false;NULL
+ADOLESCENTE;ferro;Minerais séricos;Ferro;mcg/dl;75;false;NULL
+ADOLESCENTE;folato;Minerais séricos;Folato;mcg ou ng/ml;76;false;NULL
+ADOLESCENTE;fosforo;Minerais séricos;Fósforo;mg ou mmol/dl;77;false;NULL
+ADOLESCENTE;magnesio;Minerais séricos;Magnésio;mg/dl;78;false;NULL
+ADOLESCENTE;potassio;Minerais séricos;Potássio;mg ou mmol/l;79;false;NULL
+ADOLESCENTE;selenio;Minerais séricos;Selênio;mcg/l;80;false;NULL
+ADOLESCENTE;sodio;Minerais séricos;Sódio;milimol ou mEq/l;81;false;NULL
+ADOLESCENTE;zinco;Minerais séricos;Zinco;mcg/dl;82;false;NULL
+ADOLESCENTE;vitamina-a-retinol;Vitaminas séricas;Vitamina A (retinol);mcg/dl;83;false;NULL
+ADOLESCENTE;vitamina-b2;Vitaminas séricas;Vitamina B2;%;84;false;NULL
+ADOLESCENTE;vitamina-b6;Vitaminas séricas;Vitamina B6;mcg/dl;85;false;NULL
+ADOLESCENTE;vitamina-b12;Vitaminas séricas;Vitamina B12;ng/l;86;false;NULL
+ADOLESCENTE;vitamina-c;Vitaminas séricas;Vitamina C;mg/dl;87;false;NULL
+ADOLESCENTE;vitamina-d3-colecalciferol;Vitaminas séricas;Vitamina D3 (colecalciferol);U/l;88;false;NULL
+ADOLESCENTE;vitamina-e;Vitaminas séricas;Vitamina E;mg/dl;89;false;NULL
+ADOLESCENTE;vitamina-k;Vitaminas séricas;Vitamina K;segundos;90;false;NULL
+ADOLESCENTE;cultura;Fezes;Cultura;NULL;91;true;NULL
+ADOLESCENTE;gordura;Fezes;Gordura;g/24h;92;false;NULL
+ADOLESCENTE;nitrogenio;Fezes;Nitrogênio;g/dia;93;false;NULL
+ADOLESCENTE;sangue-oculto;Fezes;Sangue oculto;NULL;94;true;NULL
+ADOLESCENTE;acth;Hormônios;ACTH;pg/ml;95;false;NULL
+ADOLESCENTE;adh;Hormônios;ADH;pg/ml;96;false;NULL
+ADOLESCENTE;calcitonina;Hormônios;Calcitonina;pg/ml;97;false;NULL
+ADOLESCENTE;cortisol-8-h;Hormônios;Cortisol - 8 h;mcg/dl;98;false;NULL
+ADOLESCENTE;cortisol-16-h;Hormônios;Cortisol - 16 h;mcg/dl;99;false;NULL
+ADOLESCENTE;cortisol-23-h;Hormônios;Cortisol - 23 h;mcg/dl;100;false;NULL
 ADOLESCENTE;fsh;Hormônios;FSH;mUI/ml;101;false;fase folicular|meio do ciclo|fase lútea|pós-menopausa|homem
-ADOLESCENTE;gh;Hormônios;GH;ng/ml;102;false;
+ADOLESCENTE;gh;Hormônios;GH;ng/ml;102;false;NULL
 ADOLESCENTE;progesterona;Hormônios;Progesterona;ng/dl;103;false;fase folicular|fase lútea|pico ovulatório|menopausa|homem
-ADOLESCENTE;prolactina;Hormônios;Prolactina;ng/ml;104;false;
-ADOLESCENTE;t-3;Hormônios;T-3;ng/dl;105;false;
-ADOLESCENTE;t-4-livre;Hormônios;T-4 livre;ng/dl;106;false;
-ADOLESCENTE;testosterona;Hormônios;Testosterona;ng/dl;107;false;
-ADOLESCENTE;tsh;Hormônios;TSH;uUI/ml;108;false;
-ADOLESCENTE;ig-a;Imunoglobulinas;Ig A;;109;true;
-ADOLESCENTE;ig-e;Imunoglobulinas;Ig E;;110;true;
-ADOLESCENTE;ig-f;Imunoglobulinas;Ig F;;111;true;
-ADOLESCENTE;ig-g;Imunoglobulinas;Ig G;;112;true;
-ADOLESCENTE;ig-m;Imunoglobulinas;Ig M;;113;true;
-ADOLESCENTE;amilase;Outros exames;Amilase;u/l;114;false;
-ADOLESCENTE;amonia;Outros exames;Amônia;mol/l;115;false;
-ADOLESCENTE;beta-hcg;Outros exames;Beta HcG;mUI/ml;116;false;
-ADOLESCENTE;bilirrubina-direta;Outros exames;Bilirrubina direta;mg/dl;117;false;
-ADOLESCENTE;bilirrubina-indireta;Outros exames;Bilirrubina indireta;mg/dl;118;false;
-ADOLESCENTE;bilirrubina-total;Outros exames;Bilirrubina total;mg/dl;119;false;
-ADOLESCENTE;ceruloplasmina;Outros exames;Ceruloplasmina;mg/dl;120;false;
-ADOLESCENTE;creatinina-urinaria;Outros exames;Creatinina urinária;mg/Kg peso/24h;121;false;
-ADOLESCENTE;filtracao-glomerular;Outros exames;Filtração glomerular;ml/min;122;false;
-ADOLESCENTE;fosfatase-alcalina;Outros exames;Fosfatase alcalina;U/l;123;false;
-ADOLESCENTE;frutosamina;Outros exames;Frutosamina;mmol/l;124;false;
-ADOLESCENTE;gama-gt;Outros exames;Gama GT;U/l;125;false;
-ADOLESCENTE;gastrina;Outros exames;Gastrina;pg/ml;126;false;
+ADOLESCENTE;prolactina;Hormônios;Prolactina;ng/ml;104;false;NULL
+ADOLESCENTE;t-3;Hormônios;T-3;ng/dl;105;false;NULL
+ADOLESCENTE;t-4-livre;Hormônios;T-4 livre;ng/dl;106;false;NULL
+ADOLESCENTE;testosterona;Hormônios;Testosterona;ng/dl;107;false;NULL
+ADOLESCENTE;tsh;Hormônios;TSH;uUI/ml;108;false;NULL
+ADOLESCENTE;ig-a;Imunoglobulinas;Ig A;NULL;109;true;NULL
+ADOLESCENTE;ig-e;Imunoglobulinas;Ig E;NULL;110;true;NULL
+ADOLESCENTE;ig-f;Imunoglobulinas;Ig F;NULL;111;true;NULL
+ADOLESCENTE;ig-g;Imunoglobulinas;Ig G;NULL;112;true;NULL
+ADOLESCENTE;ig-m;Imunoglobulinas;Ig M;NULL;113;true;NULL
+ADOLESCENTE;amilase;Outros exames;Amilase;u/l;114;false;NULL
+ADOLESCENTE;amonia;Outros exames;Amônia;mol/l;115;false;NULL
+ADOLESCENTE;beta-hcg;Outros exames;Beta HcG;mUI/ml;116;false;NULL
+ADOLESCENTE;bilirrubina-direta;Outros exames;Bilirrubina direta;mg/dl;117;false;NULL
+ADOLESCENTE;bilirrubina-indireta;Outros exames;Bilirrubina indireta;mg/dl;118;false;NULL
+ADOLESCENTE;bilirrubina-total;Outros exames;Bilirrubina total;mg/dl;119;false;NULL
+ADOLESCENTE;ceruloplasmina;Outros exames;Ceruloplasmina;mg/dl;120;false;NULL
+ADOLESCENTE;creatinina-urinaria;Outros exames;Creatinina urinária;mg/Kg peso/24h;121;false;NULL
+ADOLESCENTE;filtracao-glomerular;Outros exames;Filtração glomerular;ml/min;122;false;NULL
+ADOLESCENTE;fosfatase-alcalina;Outros exames;Fosfatase alcalina;U/l;123;false;NULL
+ADOLESCENTE;frutosamina;Outros exames;Frutosamina;mmol/l;124;false;NULL
+ADOLESCENTE;gama-gt;Outros exames;Gama GT;U/l;125;false;NULL
+ADOLESCENTE;gastrina;Outros exames;Gastrina;pg/ml;126;false;NULL
 ADOLESCENTE;leptina;Outros exames;Leptina;ng/ml;127;false;IMC < 27|IMC > 27
-ADOLESCENTE;lipase;Outros exames;Lipase;U/l;128;false;
-ADOLESCENTE;oxalato;Outros exames;Oxalato;mg/24h;129;false;
-ADOLESCENTE;superoxido-dismutase-sod;Outros exames;Superóxido Dismutase (SOD);U/gHb;130;false;
-ADOLESCENTE;tempo-de-protrombina;Outros exames;Tempo de protrombina;%;131;false;
-ADOLESCENTE;tempo-de-tromboplastina-parcial-ttp;Outros exames;Tempo de tromboplastina parcial (TTP);seg;132;false;
-ADULTO;acido-urico;Exames de rotina básicos em consultório;Ácido úrico;mg/dl;1;false;
-ADULTO;creatinina;Exames de rotina básicos em consultório;Creatinina;mg/dl;2;false;
+ADOLESCENTE;lipase;Outros exames;Lipase;U/l;128;false;NULL
+ADOLESCENTE;oxalato;Outros exames;Oxalato;mg/24h;129;false;NULL
+ADOLESCENTE;superoxido-dismutase-sod;Outros exames;Superóxido Dismutase (SOD);U/gHb;130;false;NULL
+ADOLESCENTE;tempo-de-protrombina;Outros exames;Tempo de protrombina;%;131;false;NULL
+ADOLESCENTE;tempo-de-tromboplastina-parcial-ttp;Outros exames;Tempo de tromboplastina parcial (TTP);seg;132;false;NULL
+ADULTO;acido-urico;Exames de rotina básicos em consultório;Ácido úrico;mg/dl;1;false;NULL
+ADULTO;creatinina;Exames de rotina básicos em consultório;Creatinina;mg/dl;2;false;NULL
 ADULTO;ferritina;Exames de rotina básicos em consultório;Ferritina;ng/ml;3;false;menarca|pós-menopausa|nenhuma delas|homem
-ADULTO;glicemia-de-jejum;Exames de rotina básicos em consultório;Glicemia de jejum;mg/dl;4;false;
-ADULTO;ureia;Exames de rotina básicos em consultório;Ureia;mg/dl;5;false;
-ADULTO;capac-fixacao-do-ferro;Exames de rotina complementares em consultório;Capac. fixação do ferro;mcg/dl;6;false;
-ADULTO;creatina-fosfoquinase-ck-ou-cpk;Exames de rotina complementares em consultório;Creatina fosfoquinase (CK ou CPK);U/l;7;false;
-ADULTO;glicemia-pos-prandial;Exames de rotina complementares em consultório;Glicemia pós-prandial;mg/dl;8;false;
-ADULTO;hemoglobina-glicada-hba1c;Exames de rotina complementares em consultório;Hemoglobina glicada (HbA1c);%;9;false;
-ADULTO;homocisteina;Exames de rotina complementares em consultório;Homocisteína;mcmol/l;10;false;
-ADULTO;insulina;Exames de rotina complementares em consultório;Insulina;mcUI/ml;11;false;
-ADULTO;saturacao-de-transferrina;Exames de rotina complementares em consultório;Saturação de transferrina;%;12;false;
-ADULTO;transferrina;Exames de rotina complementares em consultório;Transferrina;mg/dl;13;false;
-ADULTO;tgo;Exames de rotina complementares em consultório;TGO;U/l;14;false;
-ADULTO;tgp;Exames de rotina complementares em consultório;TGP;U/l;15;false;
-ADULTO;eritrocitos;Hemograma Completo - Série vermelha;Eritrócitos;tera/l;16;false;
-ADULTO;hematocrito;Hemograma Completo - Série vermelha;Hematócrito;%;17;false;
-ADULTO;hemoglobina;Hemograma Completo - Série vermelha;Hemoglobina;g/dl;18;false;
-ADULTO;vcm;Hemograma Completo - Série vermelha;VCM;fl;19;false;
-ADULTO;hcm;Hemograma Completo - Série vermelha;HCM;pg;20;false;
-ADULTO;rdw;Hemograma Completo - Série vermelha;RDW;%;21;false;
-ADULTO;chcm;Hemograma Completo - Série vermelha;CHCM;%;22;false;
-ADULTO;leucocitos-totais;Hemograma Completo - Série branca e plaquetas;Leucócitos totais;mcl;23;false;
-ADULTO;basofilos;Hemograma Completo - Série branca e plaquetas;Basófilos;mcl;24;false;
-ADULTO;bastonetes;Hemograma Completo - Série branca e plaquetas;Bastonetes;mcl;25;false;
-ADULTO;blastos;Hemograma Completo - Série branca e plaquetas;Blastos;mcl;26;false;
-ADULTO;eosinofilos;Hemograma Completo - Série branca e plaquetas;Eosinófilos;mcl;27;false;
-ADULTO;linfocitos;Hemograma Completo - Série branca e plaquetas;Linfócitos;mcl;28;false;
-ADULTO;metamielocitos;Hemograma Completo - Série branca e plaquetas;Metamielócitos;mcl;29;false;
-ADULTO;mielocitos;Hemograma Completo - Série branca e plaquetas;Mielócitos;mcl;30;false;
-ADULTO;monocitos;Hemograma Completo - Série branca e plaquetas;Monócitos;mcl;31;false;
-ADULTO;neutrofilos;Hemograma Completo - Série branca e plaquetas;Neutrófilos;mcl;32;false;
-ADULTO;plasmocitos;Hemograma Completo - Série branca e plaquetas;Plasmócitos;mcl;33;false;
-ADULTO;promielocitos;Hemograma Completo - Série branca e plaquetas;Promielócitos;mcl;34;false;
-ADULTO;reticulocitos;Hemograma Completo - Série branca e plaquetas;Reticulócitos;%;35;false;
-ADULTO;segmentados;Hemograma Completo - Série branca e plaquetas;Segmentados;mcl;36;false;
-ADULTO;plaquetas;Hemograma Completo - Série branca e plaquetas;Plaquetas;Ul;37;false;
-ADULTO;lipideos-totais;Perfil Lipídico;Lipídeos totais;mg/dl;38;false;
-ADULTO;fosfolipides;Perfil Lipídico;Fosfolípides;mg/dl;39;false;
-ADULTO;triglicerides;Perfil Lipídico;Triglicérides;mg/dl;40;false;
-ADULTO;colesterol-total;Perfil Lipídico;Colesterol total;mg/dl;41;false;
-ADULTO;ldl;Perfil Lipídico;LDL;mg/dl;42;false;
-ADULTO;vldl;Perfil Lipídico;VLDL;mg/dl;43;false;
-ADULTO;hdl;Perfil Lipídico;HDL;mg/dl;44;false;
-ADULTO;apolipoproteina-a;Perfil Lipídico;Apolipoproteína A;mg/dl;45;false;
-ADULTO;apolipoproteina-b;Perfil Lipídico;Apolipoproteína B;mg/dl;46;false;
-ADULTO;indice-de-castelli-i;Perfil Lipídico;Índice de Castelli I;Ct/HDL;47;false;
-ADULTO;indice-de-castelli-ii;Perfil Lipídico;Índice de Castelli II;LDL/HDL;48;false;
-ADULTO;densidade;EAS Tipo I - densidade e química;Densidade;mg/ml;49;false;
-ADULTO;ph;EAS Tipo I - densidade e química;pH;;50;false;
-ADULTO;calcio;EAS Tipo I - densidade e química;Cálcio;mg/dl;51;false;
-ADULTO;cetonas-ou-corpos-cetonicos;EAS Tipo I - densidade e química;Cetonas ou corpos cetônicos;;52;true;
-ADULTO;citrato;EAS Tipo I - densidade e química;Citrato;mg/dia;53;false;
-ADULTO;glicose;EAS Tipo I - densidade e química;Glicose;;54;true;
-ADULTO;nitrito;EAS Tipo I - densidade e química;Nitrito;;55;true;
-ADULTO;proteinas;EAS Tipo I - densidade e química;Proteínas;;56;true;
-ADULTO;sangue-hemoglobina-ou-hemacias;EAS Tipo I - densidade e química;Sangue, hemoglobina ou hemácias;;57;true;
-ADULTO;urobilinogenio-ou-bilirrubina;EAS Tipo I - densidade e química;Urobilinogênio ou bilirrubina;;58;true;
-ADULTO;cilindros;EAS tipo I - sedimentoscopia;Cilindros;;59;true;
-ADULTO;granulosos;EAS tipo I - sedimentoscopia;Granulosos;células/ml;60;false;
-ADULTO;hematicos;EAS tipo I - sedimentoscopia;Hemáticos;;61;true;
-ADULTO;hialinos;EAS tipo I - sedimentoscopia;Hialinos;células/ml;62;false;
-ADULTO;leucocitarios;EAS tipo I - sedimentoscopia;Leucocitários;;63;true;
-ADULTO;leucocitos-ou-piocitos;EAS tipo I - sedimentoscopia;Leucócitos ou piócitos;células/ml;64;false;
-ADULTO;albumina;Outras proteínas plasmáticas;Albumina;g/dl;65;false;
-ADULTO;pre-albumina;Outras proteínas plasmáticas;Pré-albumina;mg/dl;66;false;
-ADULTO;proteina-c-reativa-pcr;Outras proteínas plasmáticas;Proteína C-reativa (PCR);mg/dl;67;false;
-ADULTO;proteinas-totais;Outras proteínas plasmáticas;Proteínas totais;g/dl;68;false;
-ADULTO;proteina-transportadora-de-retinol;Outras proteínas plasmáticas;Proteína transportadora de retinol;mg/l;69;false;
-ADULTO;calcio-total;Minerais séricos;Cálcio total;mg/dl;70;false;
-ADULTO;calcio-ionico;Minerais séricos;Cálcio iônico;mg/dl;71;false;
-ADULTO;cloro;Minerais séricos;Cloro;milimol ou mEq/l;72;false;
-ADULTO;cobre;Minerais séricos;Cobre;mcg/dl;73;false;
-ADULTO;cromo;Minerais séricos;Cromo;mcg/l;74;false;
-ADULTO;ferro;Minerais séricos;Ferro;mcg/dl;75;false;
-ADULTO;folato;Minerais séricos;Folato;mcg ou ng/ml;76;false;
-ADULTO;fosforo;Minerais séricos;Fósforo;mg ou mmol/dl;77;false;
-ADULTO;magnesio;Minerais séricos;Magnésio;mg/dl;78;false;
-ADULTO;potassio;Minerais séricos;Potássio;mg ou mmol/l;79;false;
-ADULTO;selenio;Minerais séricos;Selênio;mcg/l;80;false;
-ADULTO;sodio;Minerais séricos;Sódio;milimol ou mEq/l;81;false;
-ADULTO;zinco;Minerais séricos;Zinco;mcg/dl;82;false;
-ADULTO;vitamina-a-retinol;Vitaminas séricas;Vitamina A (retinol);mcg/dl;83;false;
-ADULTO;vitamina-b2;Vitaminas séricas;Vitamina B2;%;84;false;
-ADULTO;vitamina-b6;Vitaminas séricas;Vitamina B6;mcg/dl;85;false;
-ADULTO;vitamina-b12;Vitaminas séricas;Vitamina B12;ng/l;86;false;
-ADULTO;vitamina-c;Vitaminas séricas;Vitamina C;mg/dl;87;false;
-ADULTO;vitamina-d3-colecalciferol;Vitaminas séricas;Vitamina D3 (colecalciferol);U/l;88;false;
-ADULTO;vitamina-e;Vitaminas séricas;Vitamina E;mg/dl;89;false;
-ADULTO;vitamina-k;Vitaminas séricas;Vitamina K;segundos;90;false;
-ADULTO;cultura;Fezes;Cultura;;91;true;
-ADULTO;gordura;Fezes;Gordura;g/24h;92;false;
-ADULTO;nitrogenio;Fezes;Nitrogênio;g/dia;93;false;
-ADULTO;sangue-oculto;Fezes;Sangue oculto;;94;true;
-ADULTO;acth;Hormônios;ACTH;pg/ml;95;false;
-ADULTO;adh;Hormônios;ADH;pg/ml;96;false;
-ADULTO;calcitonina;Hormônios;Calcitonina;pg/ml;97;false;
-ADULTO;cortisol-8-h;Hormônios;Cortisol - 8 h;mcg/dl;98;false;
-ADULTO;cortisol-16-h;Hormônios;Cortisol - 16 h;mcg/dl;99;false;
-ADULTO;cortisol-23-h;Hormônios;Cortisol - 23 h;mcg/dl;100;false;
+ADULTO;glicemia-de-jejum;Exames de rotina básicos em consultório;Glicemia de jejum;mg/dl;4;false;NULL
+ADULTO;ureia;Exames de rotina básicos em consultório;Ureia;mg/dl;5;false;NULL
+ADULTO;capac-fixacao-do-ferro;Exames de rotina complementares em consultório;Capac. fixação do ferro;mcg/dl;6;false;NULL
+ADULTO;creatina-fosfoquinase-ck-ou-cpk;Exames de rotina complementares em consultório;Creatina fosfoquinase (CK ou CPK);U/l;7;false;NULL
+ADULTO;glicemia-pos-prandial;Exames de rotina complementares em consultório;Glicemia pós-prandial;mg/dl;8;false;NULL
+ADULTO;hemoglobina-glicada-hba1c;Exames de rotina complementares em consultório;Hemoglobina glicada (HbA1c);%;9;false;NULL
+ADULTO;homocisteina;Exames de rotina complementares em consultório;Homocisteína;mcmol/l;10;false;NULL
+ADULTO;insulina;Exames de rotina complementares em consultório;Insulina;mcUI/ml;11;false;NULL
+ADULTO;saturacao-de-transferrina;Exames de rotina complementares em consultório;Saturação de transferrina;%;12;false;NULL
+ADULTO;transferrina;Exames de rotina complementares em consultório;Transferrina;mg/dl;13;false;NULL
+ADULTO;tgo;Exames de rotina complementares em consultório;TGO;U/l;14;false;NULL
+ADULTO;tgp;Exames de rotina complementares em consultório;TGP;U/l;15;false;NULL
+ADULTO;eritrocitos;Hemograma Completo - Série vermelha;Eritrócitos;tera/l;16;false;NULL
+ADULTO;hematocrito;Hemograma Completo - Série vermelha;Hematócrito;%;17;false;NULL
+ADULTO;hemoglobina;Hemograma Completo - Série vermelha;Hemoglobina;g/dl;18;false;NULL
+ADULTO;vcm;Hemograma Completo - Série vermelha;VCM;fl;19;false;NULL
+ADULTO;hcm;Hemograma Completo - Série vermelha;HCM;pg;20;false;NULL
+ADULTO;rdw;Hemograma Completo - Série vermelha;RDW;%;21;false;NULL
+ADULTO;chcm;Hemograma Completo - Série vermelha;CHCM;%;22;false;NULL
+ADULTO;leucocitos-totais;Hemograma Completo - Série branca e plaquetas;Leucócitos totais;mcl;23;false;NULL
+ADULTO;basofilos;Hemograma Completo - Série branca e plaquetas;Basófilos;mcl;24;false;NULL
+ADULTO;bastonetes;Hemograma Completo - Série branca e plaquetas;Bastonetes;mcl;25;false;NULL
+ADULTO;blastos;Hemograma Completo - Série branca e plaquetas;Blastos;mcl;26;false;NULL
+ADULTO;eosinofilos;Hemograma Completo - Série branca e plaquetas;Eosinófilos;mcl;27;false;NULL
+ADULTO;linfocitos;Hemograma Completo - Série branca e plaquetas;Linfócitos;mcl;28;false;NULL
+ADULTO;metamielocitos;Hemograma Completo - Série branca e plaquetas;Metamielócitos;mcl;29;false;NULL
+ADULTO;mielocitos;Hemograma Completo - Série branca e plaquetas;Mielócitos;mcl;30;false;NULL
+ADULTO;monocitos;Hemograma Completo - Série branca e plaquetas;Monócitos;mcl;31;false;NULL
+ADULTO;neutrofilos;Hemograma Completo - Série branca e plaquetas;Neutrófilos;mcl;32;false;NULL
+ADULTO;plasmocitos;Hemograma Completo - Série branca e plaquetas;Plasmócitos;mcl;33;false;NULL
+ADULTO;promielocitos;Hemograma Completo - Série branca e plaquetas;Promielócitos;mcl;34;false;NULL
+ADULTO;reticulocitos;Hemograma Completo - Série branca e plaquetas;Reticulócitos;%;35;false;NULL
+ADULTO;segmentados;Hemograma Completo - Série branca e plaquetas;Segmentados;mcl;36;false;NULL
+ADULTO;plaquetas;Hemograma Completo - Série branca e plaquetas;Plaquetas;Ul;37;false;NULL
+ADULTO;lipideos-totais;Perfil Lipídico;Lipídeos totais;mg/dl;38;false;NULL
+ADULTO;fosfolipides;Perfil Lipídico;Fosfolípides;mg/dl;39;false;NULL
+ADULTO;triglicerides;Perfil Lipídico;Triglicérides;mg/dl;40;false;NULL
+ADULTO;colesterol-total;Perfil Lipídico;Colesterol total;mg/dl;41;false;NULL
+ADULTO;ldl;Perfil Lipídico;LDL;mg/dl;42;false;NULL
+ADULTO;vldl;Perfil Lipídico;VLDL;mg/dl;43;false;NULL
+ADULTO;hdl;Perfil Lipídico;HDL;mg/dl;44;false;NULL
+ADULTO;apolipoproteina-a;Perfil Lipídico;Apolipoproteína A;mg/dl;45;false;NULL
+ADULTO;apolipoproteina-b;Perfil Lipídico;Apolipoproteína B;mg/dl;46;false;NULL
+ADULTO;indice-de-castelli-i;Perfil Lipídico;Índice de Castelli I;Ct/HDL;47;false;NULL
+ADULTO;indice-de-castelli-ii;Perfil Lipídico;Índice de Castelli II;LDL/HDL;48;false;NULL
+ADULTO;densidade;EAS Tipo I - densidade e química;Densidade;mg/ml;49;false;NULL
+ADULTO;ph;EAS Tipo I - densidade e química;pH;NULL;50;false;NULL
+ADULTO;calcio;EAS Tipo I - densidade e química;Cálcio;mg/dl;51;false;NULL
+ADULTO;cetonas-ou-corpos-cetonicos;EAS Tipo I - densidade e química;Cetonas ou corpos cetônicos;NULL;52;true;NULL
+ADULTO;citrato;EAS Tipo I - densidade e química;Citrato;mg/dia;53;false;NULL
+ADULTO;glicose;EAS Tipo I - densidade e química;Glicose;NULL;54;true;NULL
+ADULTO;nitrito;EAS Tipo I - densidade e química;Nitrito;NULL;55;true;NULL
+ADULTO;proteinas;EAS Tipo I - densidade e química;Proteínas;NULL;56;true;NULL
+ADULTO;sangue-hemoglobina-ou-hemacias;EAS Tipo I - densidade e química;Sangue, hemoglobina ou hemácias;NULL;57;true;NULL
+ADULTO;urobilinogenio-ou-bilirrubina;EAS Tipo I - densidade e química;Urobilinogênio ou bilirrubina;NULL;58;true;NULL
+ADULTO;cilindros;EAS tipo I - sedimentoscopia;Cilindros;NULL;59;true;NULL
+ADULTO;granulosos;EAS tipo I - sedimentoscopia;Granulosos;células/ml;60;false;NULL
+ADULTO;hematicos;EAS tipo I - sedimentoscopia;Hemáticos;NULL;61;true;NULL
+ADULTO;hialinos;EAS tipo I - sedimentoscopia;Hialinos;células/ml;62;false;NULL
+ADULTO;leucocitarios;EAS tipo I - sedimentoscopia;Leucocitários;NULL;63;true;NULL
+ADULTO;leucocitos-ou-piocitos;EAS tipo I - sedimentoscopia;Leucócitos ou piócitos;células/ml;64;false;NULL
+ADULTO;albumina;Outras proteínas plasmáticas;Albumina;g/dl;65;false;NULL
+ADULTO;pre-albumina;Outras proteínas plasmáticas;Pré-albumina;mg/dl;66;false;NULL
+ADULTO;proteina-c-reativa-pcr;Outras proteínas plasmáticas;Proteína C-reativa (PCR);mg/dl;67;false;NULL
+ADULTO;proteinas-totais;Outras proteínas plasmáticas;Proteínas totais;g/dl;68;false;NULL
+ADULTO;proteina-transportadora-de-retinol;Outras proteínas plasmáticas;Proteína transportadora de retinol;mg/l;69;false;NULL
+ADULTO;calcio-total;Minerais séricos;Cálcio total;mg/dl;70;false;NULL
+ADULTO;calcio-ionico;Minerais séricos;Cálcio iônico;mg/dl;71;false;NULL
+ADULTO;cloro;Minerais séricos;Cloro;milimol ou mEq/l;72;false;NULL
+ADULTO;cobre;Minerais séricos;Cobre;mcg/dl;73;false;NULL
+ADULTO;cromo;Minerais séricos;Cromo;mcg/l;74;false;NULL
+ADULTO;ferro;Minerais séricos;Ferro;mcg/dl;75;false;NULL
+ADULTO;folato;Minerais séricos;Folato;mcg ou ng/ml;76;false;NULL
+ADULTO;fosforo;Minerais séricos;Fósforo;mg ou mmol/dl;77;false;NULL
+ADULTO;magnesio;Minerais séricos;Magnésio;mg/dl;78;false;NULL
+ADULTO;potassio;Minerais séricos;Potássio;mg ou mmol/l;79;false;NULL
+ADULTO;selenio;Minerais séricos;Selênio;mcg/l;80;false;NULL
+ADULTO;sodio;Minerais séricos;Sódio;milimol ou mEq/l;81;false;NULL
+ADULTO;zinco;Minerais séricos;Zinco;mcg/dl;82;false;NULL
+ADULTO;vitamina-a-retinol;Vitaminas séricas;Vitamina A (retinol);mcg/dl;83;false;NULL
+ADULTO;vitamina-b2;Vitaminas séricas;Vitamina B2;%;84;false;NULL
+ADULTO;vitamina-b6;Vitaminas séricas;Vitamina B6;mcg/dl;85;false;NULL
+ADULTO;vitamina-b12;Vitaminas séricas;Vitamina B12;ng/l;86;false;NULL
+ADULTO;vitamina-c;Vitaminas séricas;Vitamina C;mg/dl;87;false;NULL
+ADULTO;vitamina-d3-colecalciferol;Vitaminas séricas;Vitamina D3 (colecalciferol);U/l;88;false;NULL
+ADULTO;vitamina-e;Vitaminas séricas;Vitamina E;mg/dl;89;false;NULL
+ADULTO;vitamina-k;Vitaminas séricas;Vitamina K;segundos;90;false;NULL
+ADULTO;cultura;Fezes;Cultura;NULL;91;true;NULL
+ADULTO;gordura;Fezes;Gordura;g/24h;92;false;NULL
+ADULTO;nitrogenio;Fezes;Nitrogênio;g/dia;93;false;NULL
+ADULTO;sangue-oculto;Fezes;Sangue oculto;NULL;94;true;NULL
+ADULTO;acth;Hormônios;ACTH;pg/ml;95;false;NULL
+ADULTO;adh;Hormônios;ADH;pg/ml;96;false;NULL
+ADULTO;calcitonina;Hormônios;Calcitonina;pg/ml;97;false;NULL
+ADULTO;cortisol-8-h;Hormônios;Cortisol - 8 h;mcg/dl;98;false;NULL
+ADULTO;cortisol-16-h;Hormônios;Cortisol - 16 h;mcg/dl;99;false;NULL
+ADULTO;cortisol-23-h;Hormônios;Cortisol - 23 h;mcg/dl;100;false;NULL
 ADULTO;fsh;Hormônios;FSH;mUI/ml;101;false;fase folicular|meio do ciclo|fase lútea|pós-menopausa|homem
-ADULTO;gh;Hormônios;GH;ng/ml;102;false;
+ADULTO;gh;Hormônios;GH;ng/ml;102;false;NULL
 ADULTO;progesterona;Hormônios;Progesterona;ng/dl;103;false;fase folicular|fase lútea|pico ovulatório|menopausa|homem
-ADULTO;prolactina;Hormônios;Prolactina;ng/ml;104;false;
-ADULTO;t-3;Hormônios;T-3;ng/dl;105;false;
-ADULTO;t-4-livre;Hormônios;T-4 livre;ng/dl;106;false;
-ADULTO;testosterona;Hormônios;Testosterona;ng/dl;107;false;
-ADULTO;tsh;Hormônios;TSH;uUI/ml;108;false;
-ADULTO;ig-a;Imunoglobulinas;Ig A;;109;true;
-ADULTO;ig-e;Imunoglobulinas;Ig E;;110;true;
-ADULTO;ig-f;Imunoglobulinas;Ig F;;111;true;
-ADULTO;ig-g;Imunoglobulinas;Ig G;;112;true;
-ADULTO;ig-m;Imunoglobulinas;Ig M;;113;true;
-ADULTO;amilase;Outros exames;Amilase;u/l;114;false;
-ADULTO;amonia;Outros exames;Amônia;mol/l;115;false;
-ADULTO;beta-hcg;Outros exames;Beta HcG;mUI/ml;116;false;
-ADULTO;bilirrubina-direta;Outros exames;Bilirrubina direta;mg/dl;117;false;
-ADULTO;bilirrubina-indireta;Outros exames;Bilirrubina indireta;mg/dl;118;false;
-ADULTO;bilirrubina-total;Outros exames;Bilirrubina total;mg/dl;119;false;
-ADULTO;ceruloplasmina;Outros exames;Ceruloplasmina;mg/dl;120;false;
-ADULTO;creatinina-urinaria;Outros exames;Creatinina urinária;mg/Kg peso/24h;121;false;
-ADULTO;filtracao-glomerular;Outros exames;Filtração glomerular;ml/min;122;false;
-ADULTO;fosfatase-alcalina;Outros exames;Fosfatase alcalina;U/l;123;false;
-ADULTO;frutosamina;Outros exames;Frutosamina;mmol/l;124;false;
-ADULTO;gama-gt;Outros exames;Gama GT;U/l;125;false;
-ADULTO;gastrina;Outros exames;Gastrina;pg/ml;126;false;
+ADULTO;prolactina;Hormônios;Prolactina;ng/ml;104;false;NULL
+ADULTO;t-3;Hormônios;T-3;ng/dl;105;false;NULL
+ADULTO;t-4-livre;Hormônios;T-4 livre;ng/dl;106;false;NULL
+ADULTO;testosterona;Hormônios;Testosterona;ng/dl;107;false;NULL
+ADULTO;tsh;Hormônios;TSH;uUI/ml;108;false;NULL
+ADULTO;ig-a;Imunoglobulinas;Ig A;NULL;109;true;NULL
+ADULTO;ig-e;Imunoglobulinas;Ig E;NULL;110;true;NULL
+ADULTO;ig-f;Imunoglobulinas;Ig F;NULL;111;true;NULL
+ADULTO;ig-g;Imunoglobulinas;Ig G;NULL;112;true;NULL
+ADULTO;ig-m;Imunoglobulinas;Ig M;NULL;113;true;NULL
+ADULTO;amilase;Outros exames;Amilase;u/l;114;false;NULL
+ADULTO;amonia;Outros exames;Amônia;mol/l;115;false;NULL
+ADULTO;beta-hcg;Outros exames;Beta HcG;mUI/ml;116;false;NULL
+ADULTO;bilirrubina-direta;Outros exames;Bilirrubina direta;mg/dl;117;false;NULL
+ADULTO;bilirrubina-indireta;Outros exames;Bilirrubina indireta;mg/dl;118;false;NULL
+ADULTO;bilirrubina-total;Outros exames;Bilirrubina total;mg/dl;119;false;NULL
+ADULTO;ceruloplasmina;Outros exames;Ceruloplasmina;mg/dl;120;false;NULL
+ADULTO;creatinina-urinaria;Outros exames;Creatinina urinária;mg/Kg peso/24h;121;false;NULL
+ADULTO;filtracao-glomerular;Outros exames;Filtração glomerular;ml/min;122;false;NULL
+ADULTO;fosfatase-alcalina;Outros exames;Fosfatase alcalina;U/l;123;false;NULL
+ADULTO;frutosamina;Outros exames;Frutosamina;mmol/l;124;false;NULL
+ADULTO;gama-gt;Outros exames;Gama GT;U/l;125;false;NULL
+ADULTO;gastrina;Outros exames;Gastrina;pg/ml;126;false;NULL
 ADULTO;leptina;Outros exames;Leptina;ng/ml;127;false;IMC < 27|IMC > 27
-ADULTO;lipase;Outros exames;Lipase;U/l;128;false;
-ADULTO;oxalato;Outros exames;Oxalato;mg/24h;129;false;
-ADULTO;superoxido-dismutase-sod;Outros exames;Superóxido Dismutase (SOD);U/gHb;130;false;
-ADULTO;tempo-de-protrombina;Outros exames;Tempo de protrombina;%;131;false;
-ADULTO;tempo-de-tromboplastina-parcial-ttp;Outros exames;Tempo de tromboplastina parcial (TTP);seg;132;false;
+ADULTO;lipase;Outros exames;Lipase;U/l;128;false;NULL
+ADULTO;oxalato;Outros exames;Oxalato;mg/24h;129;false;NULL
+ADULTO;superoxido-dismutase-sod;Outros exames;Superóxido Dismutase (SOD);U/gHb;130;false;NULL
+ADULTO;tempo-de-protrombina;Outros exames;Tempo de protrombina;%;131;false;NULL
+ADULTO;tempo-de-tromboplastina-parcial-ttp;Outros exames;Tempo de tromboplastina parcial (TTP);seg;132;false;NULL

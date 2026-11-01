@@ -20,7 +20,7 @@ public final class TabelaExames implements ConsultaExames {
 	}
 	public static TabelaExames doCsv(InputStream catalogoCsv,InputStream regrasCsv){
 		var linhas=new ArrayList<LinhaCatalogo>();var rs=new ArrayList<LinhaRegra>();
-		for(var c:ler(catalogoCsv))linhas.add(new LinhaCatalogo(c[0],new ExameCatalogo(c[1],c[2],c[3],vazioNulo(c[4]),Boolean.parseBoolean(c[6]),c[7].isEmpty()?List.of():List.of(c[7].split("\\|")))));
+		for(var c:ler(catalogoCsv))linhas.add(new LinhaCatalogo(c[0],new ExameCatalogo(c[1],c[2],c[3],vazioNulo(c[4]),Boolean.parseBoolean(c[6]),vazio(c[7])?List.of():List.of(c[7].split("\\|")))));
 		for(var c:ler(regrasCsv))rs.add(new LinhaRegra(c[0],c[1],new RegraExame(Integer.parseInt(c[2]),vazioNulo(c[3]),vazioNulo(c[4]),decimal(c[5]),Boolean.parseBoolean(c[6]),decimal(c[7]),Boolean.parseBoolean(c[8]),
 			decimal(c[9]),Boolean.parseBoolean(c[10]),decimal(c[11]),Boolean.parseBoolean(c[12]),vazioNulo(c[13]),c[14])));
 		return new TabelaExames(linhas,rs);
@@ -48,6 +48,7 @@ public final class TabelaExames implements ConsultaExames {
 		if(faltas.contains(RegraExame.Falta.IDADE))return Optional.of(ClassificacaoExame.sem("FALTA_IDADE"));
 		return Optional.of(ClassificacaoExame.sem("FORA_DAS_FAIXAS"));
 	}
-	private static String vazioNulo(String s){return s==null||s.isEmpty()?null:s;}
-	private static BigDecimal decimal(String s){return s.isEmpty()?null:new BigDecimal(s);}
+	private static boolean vazio(String s){return s==null||s.isEmpty()||s.equals("NULL");}
+	private static String vazioNulo(String s){return vazio(s)?null:s;}
+	private static BigDecimal decimal(String s){return vazio(s)?null:new BigDecimal(s);}
 }
