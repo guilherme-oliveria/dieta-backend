@@ -17,10 +17,11 @@ import org.springframework.web.bind.annotation.*;
 @SecurityRequirement(name="bearerAuth")
 @RotaNutri(exclusiva=false)
 public class ReferenciasController {
-	private final ConsultaAtividadesMet atividades;private final ConsultaDri dri;
-	public ReferenciasController(ConsultaAtividadesMet atividades,ConsultaDri dri){this.atividades=atividades;this.dri=dri;}
+	private final ConsultaAtividadesMet atividades;private final ConsultaDri dri;private final ConsultaTaco taco;
+	public ReferenciasController(ConsultaAtividadesMet atividades,ConsultaDri dri,ConsultaTaco taco){this.atividades=atividades;this.dri=dri;this.taco=taco;}
 
 	public record AtividadesMetResposta(List<AtividadeMet> itens){}
+	public record TacoResposta(String fonte,List<String> categorias,List<AlimentoTaco> itens){}
 	public record MetasDriResposta(String sexo,int idadeMeses,boolean gestante,boolean lactante,List<ValorDri> itens){}
 
 	@GetMapping("/atividades-met")
@@ -37,5 +38,22 @@ public class ReferenciasController {
 	public ResponseEntity<MetasDriResposta> consultarMetasDri(@RequestParam String sexo,@RequestParam int idadeMeses,@RequestParam(defaultValue="false") boolean gestante,@RequestParam(defaultValue="false") boolean lactante){
 		if(!sexo.equals("masculino")&&!sexo.equals("feminino")||idadeMeses<0||idadeMeses>1440)throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,null);
 		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(new MetasDriResposta(sexo,idadeMeses,gestante&&!lactante,lactante,dri.metas(sexo,idadeMeses,gestante,lactante)));
+	}
+
+	@GetMapping("/taco")
+	@Operation(operationId="buscarAlimentosTaco",summary="Buscar alimentos na TACO",description="Composição por 100 g de parte comestível (TACO, NEPA-UNICAMP, 4ª edição, 2011). `busca` são palavras do nome (todas devem aparecer, sem acento nem maiúsculas); `categoria` é exata; até `limite` itens (padrão 50, máximo 200). Nutriente ausente em `nutrientes` = não analisado; `tracos` lista os que a fonte marca como traço. A fonte deve ser citada na tela e no PDF. BE-47a.")
+	@ApiResponse(responseCode="200",description="Alimentos",content=@Content(mediaType="application/json",schema=@Schema(implementation=TacoResposta.class)))
+	public ResponseEntity<TacoResposta> buscarAlimentosTaco(@RequestParam(required=false) String busca,@RequestParam(required=false) String categoria,@RequestParam(defaultValue="50") int limite){
+		if(limite<1||limite>200||(busca!=null&&busca.length()>100))throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,null);
+		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(new TacoResposta(AlimentoTaco.FONTE,taco.categorias(),taco.buscar(busca,categoria,limite)));
+	}
+
+	@GetMapping("/taco/{numero}")
+	@Operation(operationId="consultarAlimentoTaco",summary="Consultar um alimento da TACO pelo número",description="Número do alimento na tabela (1 a 597). BE-47a.")
+	@ApiResponse(responseCode="200",description="Alimento",content=@Content(mediaType="application/json",schema=@Schema(implementation=AlimentoTaco.class)))
+	@ApiResponse(responseCode="404",description="Número inexistente",content=@Content(mediaType="application/problem+json"))
+	public ResponseEntity<AlimentoTaco> consultarAlimentoTaco(@PathVariable int numero){
+		var a=taco.porNumero(numero).orElseThrow(()->new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null));
+		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(a);
 	}
 }
