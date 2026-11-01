@@ -57,7 +57,7 @@ public class ConsultarDietasPaciente implements com.br.dietamais.dietas.api.Cons
 	public static DietaSnapshotResposta doPaciente(DietaSnapshotResposta s,UUID paciente){
 		var l=s.listaSubstituicao();
 		return new DietaSnapshotResposta(s.id(),s.dietaId(),paciente,s.vinculoId(),s.nutricionista(),s.titulo(),s.orientacao(),s.refeicoes(),
-			new com.br.dietamais.alimentos.api.ListaSubstituicaoResposta(paciente,l.versao(),l.alimentos(),l.adicionados(),l.removidos()),s.totais(),s.publicadoEm(),s.porcoes(),s.metas(),s.pesoReferenciaKg(),s.rodape());
+			new com.br.dietamais.alimentos.api.ListaSubstituicaoResposta(paciente,l.versao(),l.alimentos(),l.adicionados(),l.removidos()),s.totais(),s.publicadoEm(),s.porcoes(),s.metas(),s.pesoReferenciaKg(),s.rodape(),s.restricoes());
 	}
 	private boolean candidata(SnapshotRecebido r){return r.statusDieta().equals("PUBLICADA")&&r.statusVinculo().equals("ATIVO");}
 	/** Escolha explícita enquanto válida (ou a sucessora publicada do mesmo vínculo); senão a publicada mais recente (S9). */

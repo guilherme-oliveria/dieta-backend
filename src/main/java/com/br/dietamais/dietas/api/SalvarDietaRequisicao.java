@@ -1,5 +1,6 @@
 package com.br.dietamais.dietas.api;
 
+import com.br.dietamais.alimentos.api.MarcadorAlimento;
 import java.util.List;
 import java.util.UUID;
 import jakarta.validation.Valid;
@@ -18,6 +19,10 @@ public record SalvarDietaRequisicao(
 	@Valid MetasDieta metas,
 	/** RN-DIE-12. Opcional. */
 	@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-	@Size(max=2000) String rodape) {
-	public SalvarDietaRequisicao(UUID id,String titulo,String orientacao,List<RefeicaoRequisicao> refeicoes){this(id,titulo,orientacao,refeicoes,null,null,null);}
+	@Size(max=2000) String rodape,
+	/** Marcadores de alimento que a dieta evita (RN-MOD-03). Ausente mantém os atuais; lista vazia limpa. */
+	@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+	@Size(max=5) List<@NotNull MarcadorAlimento> restricoes) {
+	public SalvarDietaRequisicao(UUID id,String titulo,String orientacao,List<RefeicaoRequisicao> refeicoes,List<PorcaoGrupo> porcoes,MetasDieta metas,String rodape){this(id,titulo,orientacao,refeicoes,porcoes,metas,rodape,null);}
+	public SalvarDietaRequisicao(UUID id,String titulo,String orientacao,List<RefeicaoRequisicao> refeicoes){this(id,titulo,orientacao,refeicoes,null,null,null,null);}
 }

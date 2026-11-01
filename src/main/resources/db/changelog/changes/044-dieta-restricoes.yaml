@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 044-dieta-restricoes
+      author: dietamais
+      comment: 'BE-52b: restrições (marcadores de alimento) da dieta; vêm do modelo aplicado e filtram a lista do paciente na publicação (RN-MOD-03)'
+      changes:
+        - sql:
+            sql: >-
+              ALTER TABLE dieta ADD COLUMN restricoes text[] NOT NULL DEFAULT '{}';
+              ALTER TABLE dieta ADD CONSTRAINT ck_dieta_restricoes CHECK
+              (restricoes <@ ARRAY['CONTEM_LACTOSE','CONTEM_GLUTEN','ALTO_SODIO','ACUCAR_ADICIONADO','ALTO_POTASSIO']::text[]);

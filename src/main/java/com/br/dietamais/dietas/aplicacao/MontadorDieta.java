@@ -58,7 +58,8 @@ public class MontadorDieta {
 			// BE-49d: gestante e lactante vêm da avaliação mais recente (só mulher; lactante tem prioridade na tabela DRI).
 			if(perfil!=null)dia=dia.comAdequacao(AdequacaoDri.adequacao(dia,dri.metas(perfil.sexo(),perfil.meses(),perfil.gestante(),perfil.lactante())));
 			respostas.add(new DietaResposta(dieta.id(),dieta.pacienteId(),dieta.vinculoId(),dieta.titulo(),dieta.status(),dieta.orientacao(),rs,dia,dieta.versao(),dieta.criadoEm(),dieta.atualizadoEm(),
-				escolhidas,metas,dieta.pesoReferenciaKg()!=null?dieta.pesoReferenciaKg():perfil==null?null:perfil.pesoReferenciaKg(),dieta.rodape()));
+				escolhidas,metas,dieta.pesoReferenciaKg()!=null?dieta.pesoReferenciaKg():perfil==null?null:perfil.pesoReferenciaKg(),dieta.rodape(),
+				dieta.restricoes().isEmpty()?null:dieta.restricoes().stream().map(MarcadorAlimento::valueOf).toList()));
 		}
 		return respostas;
 	}
