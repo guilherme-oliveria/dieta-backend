@@ -111,10 +111,12 @@ class ModelosDietaApiTest extends TesteIsolamento {
 
 	/** BE-52b, RN-MOD-03: a restrição do modelo vai para a dieta, sobrevive à edição sem o campo e tira da lista do paciente na publicação. */
 	@Test void restricaoDoModeloVaiParaADietaEFiltraAListaDoSnapshot() throws Exception {
-		var a=cadastrarNutri();String pid=paciente(a.token());
+		var a=cadastrarNutri();
 		String g=json(requisitar("GET","/grupos-alimentos",a.token(),null)).path("itens").get(0).path("id").asString();
 		var salgado=json(requisitar("POST","/alimentos",a.token(),alimento(g,"Salgado fictício",List.of("ALTO_SODIO"))));
 		var neutro=json(requisitar("POST","/alimentos",a.token(),alimento(g,"Neutro fictício",List.of())));
+		// a lista do paciente nasce com os alimentos que a nutri já tem: criar o paciente depois
+		String pid=paciente(a.token());
 		var comRestricao=json(requisitar("POST","/eu/nutri/modelos-dieta",a.token(),modelo("Com restrição")));
 		var d=json(requisitar("POST","/pacientes/"+pid+"/dietas/de-modelo/"+comRestricao.path("id").asString(),a.token(),Map.of())).path("dieta");
 		assertThat(d.path("restricoes").toString()).contains("ALTO_SODIO");
