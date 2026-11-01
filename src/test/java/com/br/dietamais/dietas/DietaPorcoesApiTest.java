@@ -80,6 +80,36 @@ class DietaPorcoesApiTest extends TesteIsolamento {
 		erro(requisitar("POST","/pacientes/"+pid+"/dietas",a.token(),corpo),400,"FORMATO_INVALIDO");
 		assertThat(jdbc.queryForObject("select count(*) from dieta where nutricionista_id=?",Integer.class,a.nutri())).isZero();
 	}
+	@Test void somaMicronutrientesEAdequacaoDoDiaComOPerfilDaFicha() throws Exception {
+		var a=cadastrarNutri();
+		var pr=requisitar("POST","/pacientes",a.token(),Map.of("nome","Paciente fictício","email",UUID.randomUUID()+"@example.invalid","sexo","MASCULINO","dataNascimento","1990-05-10"));
+		assertThat(pr.statusCode()).as(pr.body()).isEqualTo(201);String pid=json(pr).path("id").asString();
+		var corpo=dieta("Micros",refeicao("Desjejum","PRINCIPAL",novoId(),null,porGrupo(1,"2"),porGrupo(6,"1"),porGrupo(7,"1")));
+		corpo.put("porcoes",List.of(escolha(1,1),escolha(6,2),escolha(7,1)));
+		var d=json(requisitar("POST","/pacientes/"+pid+"/dietas",a.token(),corpo));
+		var micros=d.path("totais").path("micronutrientes");
+		// vetor "Desjejum" de dieta-porcoes.json
+		assertThat(micros.path("na").decimalValue()).isCloseTo(new BigDecimal("249.77"),within(new BigDecimal("0.01")));
+		assertThat(micros.path("ca").decimalValue()).isCloseTo(new BigDecimal("207.86"),within(new BigDecimal("0.01")));
+		assertThat(micros.path("fe").decimalValue()).isCloseTo(new BigDecimal("2.21"),within(new BigDecimal("0.01")));
+		assertThat(d.path("refeicoes").get(0).path("totais").path("micronutrientes").path("ca").decimalValue()).isEqualByComparingTo(micros.path("ca").decimalValue());
+		assertThat(d.path("refeicoes").get(0).path("itens").get(0).path("totais").path("micronutrientes").path("ca").isNumber()).isTrue();
+		var adequacao=d.path("totais").path("adequacao");assertThat(adequacao.size()).isGreaterThan(3);
+		JsonNode calcio=null;for(var l:adequacao)if(l.path("nutriente").asString().equals("calcio"))calcio=l;
+		assertThat(calcio).isNotNull();assertThat(calcio.path("total").decimalValue()).isEqualByComparingTo(micros.path("ca").decimalValue());
+		assertThat(calcio.path("meta").decimalValue()).isPositive();
+		assertThat(calcio.path("percentual").decimalValue()).isEqualByComparingTo(calcio.path("total").decimalValue().multiply(new BigDecimal("100")).divide(calcio.path("meta").decimalValue(),2,java.math.RoundingMode.HALF_UP));
+		// um item por alimento não informa micronutrientes: a soma fica parcial e o código entra em incompleto
+		var ali=json(requisitar("GET","/alimentos?tamanho=1",a.token(),null)).path("itens").get(0);
+		var misto=dieta("Misto",refeicao("R","PRINCIPAL",novoId(),null,porGrupo(1,"1"),itemSolto(ali.path("id").asString(),null,"1",false,null)));misto.put("porcoes",List.of(escolha(1,1)));
+		var m=json(requisitar("POST","/pacientes/"+pid+"/dietas",a.token(),misto));
+		var incompleto=new ArrayList<String>();m.path("totais").path("incompleto").forEach(x->incompleto.add(x.asString()));
+		assertThat(incompleto).contains("ca");
+		// sem sexo e nascimento na ficha não há adequação
+		String semPerfil=paciente(a.token());var corpo2=dieta("Sem perfil",refeicao("Desjejum","PRINCIPAL",novoId(),null,porGrupo(1,"2")));corpo2.put("porcoes",List.of(escolha(1,1)));
+		var d2=json(requisitar("POST","/pacientes/"+semPerfil+"/dietas",a.token(),corpo2));
+		assertThat(d2.path("totais").has("adequacao")).isFalse();assertThat(d2.path("totais").path("micronutrientes").path("ca").isNumber()).isTrue();
+	}
 	@Test void dietaPorPorcoesDeUmaNutriNaoApareceParaOutra() throws Exception {
 		var a=cadastrarNutri();var b=cadastrarNutri();String pid=paciente(a.token());
 		var corpo=dieta("Da A",refeicao("R","PRINCIPAL",novoId(),null,porGrupo(1,"1")));corpo.put("porcoes",List.of(escolha(1,1)));
