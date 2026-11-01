@@ -14,6 +14,7 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/), versões [S
 ## [1.3.0] — M9: necessidades e protocolos (em andamento)
 
 - BE-43a/b GEB, GET (FAO 1985 e 2004, IOM, RDI e MET), VET e metas de macronutrientes, gravados na avaliação (`energia`, `energiaResultado`). BE-44 Tabela de MET. BE-45 Tabelas DRI. Endpoints `GET /referencias/atividades-met` e `/referencias/dri`.
+- BE-51 Marcadores de restrição nos alimentos (`CONTEM_LACTOSE`, `CONTEM_GLUTEN`, `ALTO_SODIO`, `ACUCAR_ADICIONADO`, `ALTO_POTASSIO`; changeset 042): sugestão inicial por nome no catálogo (SUPOSIÇÃO G-15), editável por nutri e filtro `semMarcador` em `GET /alimentos`.
 - BE-49d Peso ajustado nos "por kg" (RN-CAL-05: adulto com IMC 30 ou mais, `pesoReferenciaKg` em `energiaResultado`), `GET /pacientes/{id}/dietas/referencia-avaliacao` (peso, metas e gestante/lactante da avaliação mais recente) e adequação DRI com gestação e lactação. Vetores `peso-referencia.json`.
 - BE-46 PDF da avaliação no layout da nutri, com 4 gráficos (peso × faixa teórica, perímetros, dobras e rosca da composição), energia e metas, referências e rodapé com o CRN.
 - BE-47a Tabela TACO (597 alimentos, 29 nutrientes por 100 g) com busca em `GET /api/v1/referencias/taco` e `/taco/{numero}`; fonte citada na resposta. Nutriente não analisado fica ausente (nunca zero); traço vira 0 e aparece em `tracos`.

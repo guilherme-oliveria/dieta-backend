@@ -15,6 +15,7 @@ Tudo aqui é **aditivo**: campos novos são opcionais, o contrato da fase 3 (die
 | Totais de micronutrientes, `incompleto`, adequação à DRI | BE-C8 | BE-49b (pronto) |
 | Peso ajustado, metas a partir da avaliação, gestação e lactação na adequação (`GET /pacientes/{id}/dietas/referencia-avaliacao`) | BE-C8 | BE-49d (pronto) |
 | Snapshot e sync com os campos novos | BE-C8 | BE-49c |
+| Marcadores de restrição nos alimentos | BE-C8 | BE-51 (pronto) |
 | PDF da dieta e das listas de substituição | — | BE-50 |
 | Modelos de dieta por condição | BE-C8 | BE-51 a BE-53 |
 
@@ -61,6 +62,13 @@ O total do dia soma só refeições `PRINCIPAL`; cada `ALTERNATIVA` mostra o pr�
 - `GET /pacientes/{id}/dietas/referencia-avaliacao` → `{ avaliacaoId, dataHora, pesoKg, pesoReferenciaKg, metas?, gestante, lactante }`. `metas` (`vetKcal`, `carboidratoPct`, `proteinaPct`, `lipidioPct`) vem do VET da avaliação e do meio da faixa de gramas de carboidrato e proteína; o lipídio fecha 100% (planilha: 100 − %gli − %ptn). É sugestão para o planejador: a nutri confirma e o servidor só grava o que ela enviar. `404 RECURSO_NAO_ENCONTRADO` sem avaliação dela (ou ficha de outra nutri).
 - `micronutrientes` (BE-49b): códigos de `GET /referencias/porcoes` menos `energia`, `gli`, `pro` e `lip` (que têm campo próprio), com 2 casas; ausente quando nenhum item informa micronutriente (dieta só de alimentos do catálogo, que trazem só os 4 macros). `incompleto` lista os códigos de `micronutrientes` em que algum item que conta (não à vontade, não texto livre) não informa o nutriente; um item por alimento do catálogo faz todos os códigos ficarem incompletos.
 - `adequacao` (só no dia): usa sexo e idade em meses da ficha e, para mulher, gestante ou lactante da avaliação mais recente (`energia.gestante` / `energia.lactacao`; lactante tem prioridade, BE-49d); sem sexo ou nascimento a lista não vem. Proteína usa `proteinas` do total; os demais códigos mapeiam assim: `fib`→`fibras`, `na`→`sodio`, `k`→`potassio`, `ca`→`calcio`, `cu`→`cobre`, `i`→`iodo`, `mg`→`magnesio`, `mn`→`manganes`, `p`→`fosforo`, `se`→`selenio`, `zn`→`zinco`, `fe`→`ferro`, `fol`→`vitamina_b9`, `nia`→`vitamina_b3`, `pan`→`vitamina_b5`, `b2`→`vitamina_b2`, `b1`→`vitamina_b1`, `ret`→`vitamina_a`, `b6`→`vitamina_b6`, `b12`→`vitamina_b12`, `c`→`vitamina_c`, `d`→`vitamina_d`, `e`→`vitamina_e`, `agua` (g)→`agua` (l). `percentual` = total ÷ meta × 100; `classe` ABAIXO abaixo de 90, ACIMA acima de 110 (limites provisórios).
+
+## Marcadores de restrição (BE-51)
+
+- `alimento.marcadores`: lista (sem repetição) de `CONTEM_LACTOSE`, `CONTEM_GLUTEN`, `ALTO_SODIO`, `ACUCAR_ADICIONADO`, `ALTO_POTASSIO`. Vem em `GET /alimentos`, nas respostas de criar e editar e no `/sync` da coleção `ALIMENTOS`. Cliente que não conhece o campo ignora (campo novo e opcional); valor de marcador desconhecido numa resposta futura deve ser ignorado pelo app.
+- `POST /alimentos` e `PATCH /alimentos/{id}` aceitam `marcadores`: criar sem o campo grava lista vazia; editar sem o campo **mantém** os atuais; lista vazia limpa. Valor fora do enum dá `400 FORMATO_INVALIDO`.
+- `GET /alimentos?semMarcador=CONTEM_LACTOSE&semMarcador=ALTO_SODIO`: só alimentos que não têm nenhum dos marcadores.
+- A cópia de cada nutri nasce do catálogo com a sugestão inicial; ela ajusta só na própria cópia (outra nutri não vê). A sugestão inicial foi gerada por palavras do nome do alimento (`dados/alimento-marcadores.csv`, 205 pares) e é **[SUPOSIÇÃO G-15]**: uma nutri precisa validar. O marcador não altera a lista do paciente sozinho; o filtro entra com os modelos de dieta (BE-52, RN-MOD-03).
 
 ## Códigos de erro novos
 
