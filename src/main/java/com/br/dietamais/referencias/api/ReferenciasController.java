@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.*;
 @SecurityRequirement(name="bearerAuth")
 @RotaNutri(exclusiva=false)
 public class ReferenciasController {
-	private final ConsultaAtividadesMet atividades;private final ConsultaDri dri;private final ConsultaTaco taco;private final ConsultaOms oms;private final ConsultaExames exames;private final ConsultaFrisancho frisancho;
-	public ReferenciasController(ConsultaAtividadesMet atividades,ConsultaDri dri,ConsultaTaco taco,ConsultaOms oms,ConsultaExames exames,ConsultaFrisancho frisancho){this.atividades=atividades;this.dri=dri;this.taco=taco;this.oms=oms;this.exames=exames;this.frisancho=frisancho;}
+	private final ConsultaAtividadesMet atividades;private final ConsultaDri dri;private final ConsultaTaco taco;private final ConsultaOms oms;private final ConsultaExames exames;private final ConsultaFrisancho frisancho;private final ConsultaPorcoes porcoes;
+	public ReferenciasController(ConsultaAtividadesMet atividades,ConsultaDri dri,ConsultaTaco taco,ConsultaOms oms,ConsultaExames exames,ConsultaFrisancho frisancho,ConsultaPorcoes porcoes){this.atividades=atividades;this.dri=dri;this.taco=taco;this.oms=oms;this.exames=exames;this.frisancho=frisancho;this.porcoes=porcoes;}
 
 	public record AtividadesMetResposta(List<AtividadeMet> itens){}
 	public record TacoResposta(String fonte,List<String> categorias,List<AlimentoTaco> itens){}
@@ -95,5 +95,12 @@ public class ReferenciasController {
 	public ResponseEntity<PercentisFrisancho> consultarFrisancho(@RequestParam String indicador,@RequestParam String sexo,@RequestParam int idadeAnos){
 		if(!PercentisFrisancho.INDICADORES.contains(indicador)||!sexo.equals("masculino")&&!sexo.equals("feminino")||idadeAnos<0||idadeAnos>130)throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,null);
 		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(frisancho.percentis(indicador,sexo,idadeAnos).orElseThrow(()->new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null)));
+	}
+
+	@GetMapping("/porcoes")
+	@Operation(operationId="consultarPorcoesGrupos",summary="Consultar as porções por grupo da dieta",description="Para cada grupo (15, com Vegetal cru ou cozido, Embutido e Bebida), as porções que a nutri escolhe (`opcao`, kcal, medida caseira e `guiaAlimentar` quando a porção aproxima o Guia Alimentar de 2006) e o perfil de nutrientes por porção (até 34, ver `unidades`). Os valores são as médias da planilha da Nut. Luciana e são provisórios; `fonte` traz o texto a citar no app e no PDF. \"Não usar\" e \"à vontade\" são escolhas do cliente, sem linha aqui. BE-47b.")
+	@ApiResponse(responseCode="200",description="Porções",content=@Content(mediaType="application/json",schema=@Schema(implementation=PorcoesGrupos.class)))
+	public ResponseEntity<PorcoesGrupos> consultarPorcoesGrupos(){
+		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(porcoes.porcoes());
 	}
 }
