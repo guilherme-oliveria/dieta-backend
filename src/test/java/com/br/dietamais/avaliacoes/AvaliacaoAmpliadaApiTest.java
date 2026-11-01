@@ -124,4 +124,14 @@ class AvaliacaoAmpliadaApiTest extends TesteComPaciente {
 		assertThat(requisitar("GET","/referencias/taco/9999",a.token(),null).statusCode()).isEqualTo(404);
 		assertThat(requisitar("GET","/referencias/taco?limite=0",a.token(),null).statusCode()).isEqualTo(400);
 	}
+	@Test void consultaCurvasDaOms() throws Exception {
+		var a=cadastrarNutri();
+		var pi=json(requisitar("GET","/referencias/oms?indicador=PESO_IDADE&sexo=feminino&idadeMeses=0",a.token(),null)).path("curva");
+		assertThat(pi.path("percentis").size()).isEqualTo(8);assertThat(pi.path("percentis").get(4).decimalValue()).isEqualByComparingTo("3.2");
+		var imc=json(requisitar("GET","/referencias/oms?indicador=IMC_IDADE&sexo=masculino&idadeMeses=150",a.token(),null)).path("curva");
+		assertThat(imc.path("idadeMeses").asInt()).isEqualTo(144);assertThat(imc.path("percentis").get(4).decimalValue()).isEqualByComparingTo("17.5");
+		assertThat(requisitar("GET","/referencias/oms?indicador=PESO_IDADE&sexo=feminino&idadeMeses=130",a.token(),null).statusCode()).isEqualTo(404);
+		assertThat(requisitar("GET","/referencias/oms?indicador=IMC_IDADE&sexo=feminino&idadeMeses=216",a.token(),null).statusCode()).isEqualTo(404);
+		assertThat(requisitar("GET","/referencias/oms?indicador=X&sexo=feminino&idadeMeses=1",a.token(),null).statusCode()).isEqualTo(400);
+	}
 }
