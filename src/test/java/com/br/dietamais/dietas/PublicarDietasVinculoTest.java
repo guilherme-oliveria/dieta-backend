@@ -49,8 +49,8 @@ class PublicarDietasVinculoTest {
 	@Test void mesmoVinculoAtivoContinuaPermitindoPublicarEDuplicar(){
 		when(fichas.consultar(paciente,true)).thenReturn(new FichaParaLista(antigo,paciente,StatusVinculo.ATIVO));
 		assertThat(caso.publicar(id,"\"1\"").vinculoId()).isEqualTo(antigo);verify(dietas).marcarPublicada(id,nutri,agora);verify(eventos).publishEvent(isA(DietaPublicada.class));
-		assertThat(caso.duplicar(id).vinculoId()).isEqualTo(antigo);verify(dietas).inserir(gerado,antigo,nutri,paciente,"Fictício (cópia)",null,agora);
+		assertThat(caso.duplicar(id).vinculoId()).isEqualTo(antigo);verify(dietas).inserir(gerado,antigo,nutri,paciente,"Fictício (cópia)",null,new DietaStore.Extras(null,null,null,null),agora);
 	}
 	void negado(Runnable acao){assertThatThrownBy(acao::run).isInstanceOfSatisfying(ExcecaoNegocio.class,e->{assertThat(e.codigo()).isEqualTo(CodigoErro.ACESSO_NEGADO);assertThat(e.regra()).isEqualTo("RN-VIN-05");});}
-	void semEscrita(){verify(dietas,never()).marcarPublicada(any(),any(),any());verify(dietas,never()).inserirSnapshot(any(),any(),any(),any(),any(),any(),any());verify(dietas,never()).inserir(any(),any(),any(),any(),any(),any(),any());verifyNoInteractions(eventos);verify(auditoria,never()).escrita(any());}
+	void semEscrita(){verify(dietas,never()).marcarPublicada(any(),any(),any());verify(dietas,never()).inserirSnapshot(any(),any(),any(),any(),any(),any(),any());verify(dietas,never()).inserir(any(),any(),any(),any(),any(),any(),any(),any());verifyNoInteractions(eventos);verify(auditoria,never()).escrita(any());}
 }

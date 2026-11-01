@@ -29,14 +29,15 @@ public class GeradorPdf {
 			h.append("<div class=\"bloco\"><h3>").append(HORA.format(r.horario())).append(" - ").append(esc(r.nome())).append("</h3>");
 			h.append("<table><thead><tr><th>Alimento</th><th class=\"n\">Porções</th><th>Medida caseira</th><th class=\"n\">Gramas</th><th class=\"n\">kcal</th></tr></thead><tbody>");
 			for(var i:r.itens()){
-				h.append("<tr><td>").append(esc(i.nomeAlimento()));
+				h.append("<tr><td>").append(esc(i.textoLivre()!=null?i.textoLivre():i.nomeAlimento()));
 				if(i.observacao()!=null&&!i.observacao().isBlank())h.append("<div class=\"obs\">").append(esc(i.observacao())).append("</div>");
-				h.append("</td><td class=\"n\">").append(num(i.porcoes(),2)).append("</td><td>").append(esc(i.medidaCaseira())).append("</td><td class=\"n\">")
-					.append(num(i.gramas(),0)).append("</td><td class=\"n\">").append(num(i.totais().kcal(),0)).append("</td></tr>");
+				h.append("</td><td class=\"n\">").append(i.porcoes()==null?"":num(i.porcoes(),2)).append("</td><td>").append(esc(i.ehAVontade()?"à vontade":i.medidaCaseira())).append("</td><td class=\"n\">")
+					.append(i.gramas()==null?"":num(i.gramas(),0)).append("</td><td class=\"n\">").append(i.ehAVontade()?"":num(i.totais().kcal(),0)).append("</td></tr>");
 			}
 			h.append("</tbody></table><p class=\"total\">").append(totais(r.totais())).append("</p></div>");
 		}
 		h.append("<div class=\"bloco\"><h3>Total do dia</h3><p class=\"total\">").append(totais(d.totais())).append("</p></div>");
+		if(d.rodape()!=null&&!d.rodape().isBlank())h.append("<div class=\"bloco\"><p class=\"texto\">").append(esc(d.rodape())).append("</p></div>");
 		if(d.orientacao()!=null&&!d.orientacao().isBlank())h.append("<div class=\"bloco\"><h3>Orientações</h3><p class=\"texto\">").append(esc(d.orientacao())).append("</p></div>");
 		return pdf(h.toString());
 	}
