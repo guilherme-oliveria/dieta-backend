@@ -72,7 +72,7 @@ class DietaPorcoesApiTest extends TesteIsolamento {
 		erro(salvar(a.token(),pid,escolha,itemSolto(null,grupo(1),"1",false,"Pão")),422,"ITEM_INVALIDO");
 		// grupo sem a porção escolhida, grupo inexistente, opção inexistente
 		erro(salvar(a.token(),pid,escolha,itemSolto(null,grupo(6),"1",false,null)),422,"PORCAO_INVALIDA");
-		erro(salvar(a.token(),pid,escolha,itemSolto(null,UUID.randomUUID().toString(),"1",true,null)),422,"PORCAO_INVALIDA");
+		erro(salvar(a.token(),pid,escolha,itemSolto(null,UUID.randomUUID().toString(),null,true,null)),422,"PORCAO_INVALIDA");
 		erro(salvar(a.token(),pid,List.of(escolha(1,9)),itemSolto(null,grupo(1),"1",false,null)),422,"PORCAO_INVALIDA");
 		erro(salvar(a.token(),pid,List.of(escolha(1,1),escolha(1,2)),itemSolto(null,grupo(1),"1",false,null)),422,"PORCAO_INVALIDA");
 		// alternativa sem refeição principal desta dieta
