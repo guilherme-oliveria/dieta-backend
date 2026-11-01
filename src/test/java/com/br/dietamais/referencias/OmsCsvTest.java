@@ -40,9 +40,18 @@ class OmsCsvTest {
 			for(int i=8;i<14;i++)assertThat(x.v()[i]).as("Z "+x.indicador()+" "+x.sexo()+" "+x.meses()).isLessThanOrEqualTo(x.v()[i+1]);
 		}
 	}
-	/** Inconsistência da planilha (G-16): de 5 a 10 anos as colunas 0,1° e 3° de peso e estatura andam em degraus anuais e, em 53 linhas, o 3° passa do 10°. Mantemos como está na planilha. */
-	@Test void linhasComTerceiroPercentilMaiorQueODecimoSaoAsConhecidasDaPlanilha() throws Exception {
+	/**
+	 * Correção da planilha (G-16): de 5 a 10 anos as colunas 0,1° e 10° de peso e estatura andavam em degraus anuais e, em 53 linhas,
+	 * o 3° passava do 10°. Elas foram refeitas a partir das tabelas oficiais da OMS (referência de 2007; peso por L, M e S).
+	 */
+	@Test void percentisSaoCrescentesEmTodasAsLinhas() throws Exception {
 		var fora=ler().stream().filter(x->x.v()[0]>x.v()[1]||x.v()[1]>x.v()[2]).toList();
-		assertThat(fora).hasSize(53).allSatisfy(x->assertThat(x.meses()).isBetween(60,119));
+		assertThat(fora).isEmpty();
+	}
+	@Test void estaturaAosSeteAnosBateComATabelaOficialDaOms() throws Exception {
+		// OMS 2007, estatura/idade, meninos, 84 meses: P0,1 = 105,4 e P10 = 115,0 (tabela hfa-boys-perc-who2007-exp)
+		var l=ler().stream().filter(x->x.indicador().equals("ESTATURA_IDADE")&&x.sexo().equals("masculino")&&x.meses()==84).findFirst().orElseThrow();
+		assertThat(l.v()[0]).isBetween(105.3,105.5);
+		assertThat(l.v()[2]).isBetween(114.9,115.1);
 	}
 }
