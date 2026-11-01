@@ -30,6 +30,7 @@ class AvaliacaoExamesApiTest extends TesteComPaciente {
 		var exames=av.path("exames");assertThat(exames).hasSize(2);
 		assertThat(exames.get(0).path("rotulo").asString()).isEqualTo("diabetes");assertThat(exames.get(0).path("nome").asString()).isNotBlank();assertThat(exames.get(0).path("unidade").asString()).isNotBlank();
 		assertThat(exames.get(1).path("rotulo").asString()).isEqualTo("normal");
+		assertThat(exames.get(0).path("faixas")).isNotEmpty();assertThat(exames.get(0).path("faixas").get(0).path("rotulo").asString()).isNotBlank();
 		var lido=json(requisitar("GET","/avaliacoes/"+av.path("id").asString(),a.token(),null));
 		assertThat(lido.path("exames")).hasSize(2);
 	}

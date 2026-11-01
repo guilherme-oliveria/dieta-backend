@@ -14,4 +14,9 @@ public interface ConsultaExames {
 	 * {@code sexo} é masculino ou feminino; {@code idadeAnos} é a idade na data do exame; {@code condicao} é a fase escolhida, entre as do exame.
 	 */
 	Optional<ClassificacaoExame> classificar(String faixaEtaria,String codigo,BigDecimal valor,String texto,String sexo,Double idadeAnos,String condicao);
+	/**
+	 * Faixas numéricas que valem para este paciente, na ordem da planilha (BE-56c). Regra de sexo, fase ou idade que não confere (ou cujo dado falta) fica de fora;
+	 * exame qualitativo devolve lista vazia.
+	 */
+	List<FaixaExame> faixas(String faixaEtaria,String codigo,String sexo,Double idadeAnos,String condicao);
 }
