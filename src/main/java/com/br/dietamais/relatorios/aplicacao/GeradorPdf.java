@@ -70,6 +70,18 @@ public class GeradorPdf {
 		h.append(PdfAvaliacao.corpo(a));
 		return pdf(h.toString(),PdfAvaliacao.CSS,c.nutricionista()+" - "+c.crn());
 	}
+	public byte[] lista(Cabecalho c,DietaSnapshotResposta d,java.util.Map<UUID,com.br.dietamais.alimentos.api.AlimentoParaDieta> alimentos,
+			PorcoesGrupos porcoes,com.br.dietamais.relatorios.api.TamanhoListaPdf tamanho){
+		var h=new StringBuilder("<div class=\"lista-rodape\">");
+		h.append(esc(c.nutricionista())).append(" · ").append(esc(c.crn())).append("<br/>Gerado pelo Dieta+ · não substitui a orientação da sua nutricionista<br/><span class=\"lista-pagina\"></span></div>");
+		h.append("<div class=\"topo\"><div class=\"marca\">D+</div><div class=\"lista-identidade\"><h1>Lista de substituição</h1><strong>")
+			.append(esc(c.nutricionista())).append("</strong> · ").append(esc(c.crn())).append("</div></div>");
+		if(c.paciente()!=null)h.append("<p class=\"meta\">Paciente: <strong>").append(esc(c.paciente())).append("</strong></p>");
+		h.append("<p class=\"meta\"><strong>").append(esc(tamanho.rotulo())).append("</strong> · Publicada em ")
+			.append(DATA.format(d.publicadoEm().atZone(FUSO))).append(" · ").append(esc(c.crn())).append("</p>");
+		h.append(PdfListaSubstituicao.corpo(d.listaSubstituicao(),alimentos,porcoes,tamanho));
+		return pdf(h.toString(),PdfListaSubstituicao.CSS,null);
+	}
 	static String dataHora(java.time.Instant i){return DATA_HORA.format(i.atZone(FUSO));}
 
 	private void cabecalho(StringBuilder h,Cabecalho c,String titulo){
@@ -122,7 +134,12 @@ public class GeradorPdf {
 		String css=rodape==null?"":"@page { @bottom-left { content: \""+rodape.replace("\\","").replace("\"","").replace("\n"," ")+"\"; font-size: 9pt; color: #666; } }";
 		String html="<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><meta charset=\"UTF-8\"/><style>"+CSS+cssExtra+css+"</style></head><body>"+corpo+"</body></html>";
 		try(var saida=new ByteArrayOutputStream()){
-			var b=new PdfRendererBuilder();b.useFastMode();b.withHtmlContent(html,null);b.toStream(saida);b.run();
+			var b=new PdfRendererBuilder();
+			if(cssExtra.equals(PdfListaSubstituicao.CSS)){
+				b.useFont(()->GeradorPdf.class.getResourceAsStream("/fontes/plus_jakarta_sans_regular.ttf"),"Plus Jakarta Sans",400,com.openhtmltopdf.outputdevice.helper.BaseRendererBuilder.FontStyle.NORMAL,true);
+				b.useFont(()->GeradorPdf.class.getResourceAsStream("/fontes/plus_jakarta_sans_bold.ttf"),"Plus Jakarta Sans",700,com.openhtmltopdf.outputdevice.helper.BaseRendererBuilder.FontStyle.NORMAL,true);
+			}
+			b.useFastMode();b.withHtmlContent(html,null);b.toStream(saida);b.run();
 			return saida.toByteArray();
 		}catch(Exception e){throw new IllegalStateException("Falha ao gerar o PDF",e);}
 	}
