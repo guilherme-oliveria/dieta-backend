@@ -39,14 +39,14 @@ public class PublicarDietas {
 		}
 		var refeicoes=resposta.refeicoes().stream().filter(r->!r.itens().isEmpty()).toList();
 		if(refeicoes.isEmpty())throw new ExcecaoNegocio(CodigoErro.DIETA_VAZIA,"RN-DIE-06");
-		var usados=new HashSet<UUID>();refeicoes.forEach(r->r.itens().forEach(i->usados.add(i.alimentoId())));
+		var usados=new HashSet<UUID>();refeicoes.forEach(r->r.itens().forEach(i->{if(i.alimentoId()!=null)usados.add(i.alimentoId());}));
 		for(var a:alimentos.consultar(nutri,usados).values())if(!a.ativo())throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-ALI-03");
 		var agora=relogio.instant();var resumo=nutricionistas.porIds(Set.of(nutri)).get(nutri);
 		if(resumo==null)throw new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null);
 		String orientacao=atual.orientacao()!=null?atual.orientacao():nutricionistas.orientacaoPadrao(nutri).orElse(null);
 		var lista=listas.consultar(atual.vinculoId(),atual.pacienteId(),nutri);
 		var snapshot=new DietaSnapshotResposta(ids.novo(),atual.id(),atual.pacienteId(),atual.vinculoId(),new NutricionistaResumoResposta(nutri,resumo.nome(),resumo.crn()),
-			atual.titulo(),orientacao,refeicoes,lista,CalculadoraTotais.somar(refeicoes.stream().map(RefeicaoResposta::totais).toList()),agora);
+			atual.titulo(),orientacao,refeicoes,lista,resposta.totais(),agora,resposta.porcoes(),resposta.metas(),resposta.pesoReferenciaKg(),resposta.rodape());
 		dietas.substituirPublicada(atual.vinculoId(),atual.id(),agora);dietas.marcarPublicada(atual.id(),nutri,agora);
 		dietas.inserirSnapshot(snapshot.id(),atual.id(),atual.vinculoId(),nutri,atual.pacienteId(),mapper.writeValueAsString(snapshot),agora);
 		auditoria.escrita(referencia(atual,contexto));
@@ -60,11 +60,12 @@ public class PublicarDietas {
 		var origem=propria(id,nutri,false);var ficha=fichas.consultar(origem.pacienteId(),true);
 		if(!ficha.vinculoId().equals(origem.vinculoId())||ficha.status()==StatusVinculo.ENCERRADO)throw new ExcecaoNegocio(CodigoErro.ACESSO_NEGADO,"RN-VIN-05");
 		var agora=relogio.instant();UUID novo=ids.novo();String titulo=origem.titulo();titulo=(titulo.length()>141?titulo.substring(0,141):titulo)+" (cópia)";
-		dietas.inserir(novo,origem.vinculoId(),nutri,origem.pacienteId(),titulo,origem.orientacao(),agora);
+		dietas.inserir(novo,origem.vinculoId(),nutri,origem.pacienteId(),titulo,origem.orientacao(),new DietaStore.Extras(origem.porcoesJson(),origem.metasJson(),origem.pesoReferenciaKg(),origem.rodape()),agora);
 		var refeicoes=dietas.refeicoes(List.of(id));var itens=dietas.itens(refeicoes.stream().map(Refeicao::id).toList());
+		var novosIds=new HashMap<UUID,UUID>();for(var r:refeicoes)novosIds.put(r.id(),ids.novo());
 		for(var r:refeicoes){
-			UUID rid=ids.novo();dietas.inserirRefeicao(new Refeicao(rid,novo,r.nome(),r.horario(),r.ordem()));
-			for(var i:itens)if(i.refeicaoId().equals(r.id()))dietas.inserirItem(new Item(ids.novo(),rid,i.alimentoId(),i.porcoes(),i.observacao(),i.ordem()));
+			UUID rid=novosIds.get(r.id());dietas.inserirRefeicao(new Refeicao(rid,novo,r.nome(),r.horario(),r.ordem(),r.tipo(),r.alternativaDe()==null?null:novosIds.get(r.alternativaDe())));
+			for(var i:itens)if(i.refeicaoId().equals(r.id()))dietas.inserirItem(new Item(ids.novo(),rid,i.alimentoId(),i.grupoId(),i.porcoes(),i.aVontade(),i.textoLivre(),i.observacao(),i.ordem()));
 		}
 		var copia=propria(novo,nutri,false);var resposta=montador.montar(List.of(copia),nutri).get(0);auditoria.escrita(referencia(copia,contexto));return resposta;
 	}
