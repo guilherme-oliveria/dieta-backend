@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.*;
 @SecurityRequirement(name="bearerAuth")
 @RotaNutri(exclusiva=false)
 public class ReferenciasController {
-	private final ConsultaAtividadesMet atividades;private final ConsultaDri dri;private final ConsultaTaco taco;private final ConsultaOms oms;private final ConsultaExames exames;
-	public ReferenciasController(ConsultaAtividadesMet atividades,ConsultaDri dri,ConsultaTaco taco,ConsultaOms oms,ConsultaExames exames){this.atividades=atividades;this.dri=dri;this.taco=taco;this.oms=oms;this.exames=exames;}
+	private final ConsultaAtividadesMet atividades;private final ConsultaDri dri;private final ConsultaTaco taco;private final ConsultaOms oms;private final ConsultaExames exames;private final ConsultaFrisancho frisancho;
+	public ReferenciasController(ConsultaAtividadesMet atividades,ConsultaDri dri,ConsultaTaco taco,ConsultaOms oms,ConsultaExames exames,ConsultaFrisancho frisancho){this.atividades=atividades;this.dri=dri;this.taco=taco;this.oms=oms;this.exames=exames;this.frisancho=frisancho;}
 
 	public record AtividadesMetResposta(List<AtividadeMet> itens){}
 	public record TacoResposta(String fonte,List<String> categorias,List<AlimentoTaco> itens){}
@@ -86,5 +86,14 @@ public class ReferenciasController {
 		if(sexo!=null&&!sexo.equals("masculino")&&!sexo.equals("feminino")||idadeAnos!=null&&(idadeAnos<0||idadeAnos>130)||valor==null&&texto==null||valor!=null&&texto!=null)throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,null);
 		var r=exames.classificar(faixaEtaria,codigo,valor,texto,sexo,idadeAnos,condicao).orElseThrow(()->new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null));
 		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(r);
+	}
+
+	@GetMapping("/frisancho")
+	@Operation(operationId="consultarFrisancho",summary="Consultar os percentis de Frisancho (1981) de 2 a 9 anos",description="`indicador`: CB, DCT e DCSE (só a mediana `p50`) ou AMBC e AGB (`p5`, `p10`, `p50`, `p90`, em cm²). `sexo`: masculino ou feminino; `idadeAnos` de 2 a 9, como na aba outras da planilha. Fora disso: 404. BE-54b.")
+	@ApiResponse(responseCode="200",description="Percentis",content=@Content(mediaType="application/json",schema=@Schema(implementation=PercentisFrisancho.class)))
+	@ApiResponse(responseCode="404",description="Sem percentis para a idade",content=@Content(mediaType="application/problem+json"))
+	public ResponseEntity<PercentisFrisancho> consultarFrisancho(@RequestParam String indicador,@RequestParam String sexo,@RequestParam int idadeAnos){
+		if(!PercentisFrisancho.INDICADORES.contains(indicador)||!sexo.equals("masculino")&&!sexo.equals("feminino")||idadeAnos<0||idadeAnos>130)throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,null);
+		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(frisancho.percentis(indicador,sexo,idadeAnos).orElseThrow(()->new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null)));
 	}
 }
