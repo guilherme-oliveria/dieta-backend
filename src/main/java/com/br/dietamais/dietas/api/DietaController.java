@@ -37,6 +37,13 @@ public class DietaController {
 		return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(dietas.listar(id));
 	}
 
+	@GetMapping("/pacientes/{id}/dietas/referencia-avaliacao")
+	@Operation(operationId="consultarReferenciaAvaliacaoDieta",summary="Peso, metas e condição da avaliação mais recente",description="RN-CAL-05, BE-49d; fichas da nutri autenticada; 404 sem avaliação dela.")
+	@ApiResponse(responseCode="200",description="Referência da avaliação para o planejador",content=@Content(mediaType="application/json",schema=@Schema(implementation=ReferenciaAvaliacaoDietaResposta.class)))
+	public ResponseEntity<ReferenciaAvaliacaoDietaResposta> consultarReferenciaAvaliacaoDieta(@PathVariable UUID id) {
+		return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(dietas.referenciaAvaliacao(id));
+	}
+
 	@PostMapping("/pacientes/{id}/dietas")
 	@Operation(operationId="criarDieta",summary="Criar rascunho de dieta",description="RN-DIE-01, RN-DIE-05; totais são calculados no backend; implementação BE-11. Implementada na BE-11.")
 	@ApiResponse(responseCode="201",description="Resposta prevista após implementação",content=@Content(mediaType="application/json",schema=@Schema(implementation=DietaResposta.class)),headers=@Header(name="ETag",description="Versão forte da entidade para If-Match",schema=@Schema(type="string")))

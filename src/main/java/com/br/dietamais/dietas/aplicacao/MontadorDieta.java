@@ -20,8 +20,8 @@ import tools.jackson.databind.json.JsonMapper;
 /** Monta a resposta da dieta com os dados atuais da lista da nutri e os totais calculados (RN-DIE-05, RN-CAL-07). */
 @Component
 public class MontadorDieta {
-	private final DietaStore dietas;private final ConsultarAlimentosParaDieta alimentos;private final ConsultaPorcoes porcoes;private final ConsultaDri dri;private final ConsultarFichaParaLista fichas;private final Clock relogio;private final JsonMapper mapper;
-	public MontadorDieta(DietaStore dietas,ConsultarAlimentosParaDieta alimentos,ConsultaPorcoes porcoes,ConsultaDri dri,ConsultarFichaParaLista fichas,Clock relogio,JsonMapper mapper){this.dietas=dietas;this.alimentos=alimentos;this.porcoes=porcoes;this.dri=dri;this.fichas=fichas;this.relogio=relogio;this.mapper=mapper;}
+	private final DietaStore dietas;private final ConsultarAlimentosParaDieta alimentos;private final ConsultaPorcoes porcoes;private final ConsultaDri dri;private final ConsultarFichaParaLista fichas;private final ConsultaAvaliacaoParaDieta avaliacoes;private final Clock relogio;private final JsonMapper mapper;
+	public MontadorDieta(DietaStore dietas,ConsultarAlimentosParaDieta alimentos,ConsultaPorcoes porcoes,ConsultaDri dri,ConsultarFichaParaLista fichas,ConsultaAvaliacaoParaDieta avaliacoes,Clock relogio,JsonMapper mapper){this.dietas=dietas;this.alimentos=alimentos;this.porcoes=porcoes;this.dri=dri;this.fichas=fichas;this.avaliacoes=avaliacoes;this.relogio=relogio;this.mapper=mapper;}
 	public List<DietaResposta> montar(List<Dieta> lista,UUID nutri){
 		var refeicoes=dietas.refeicoes(lista.stream().map(Dieta::id).toList());
 		var itens=dietas.itens(refeicoes.stream().map(Refeicao::id).toList());
@@ -54,18 +54,19 @@ public class MontadorDieta {
 			var principais=rs.stream().filter(r->!r.alternativa()).flatMap(r->contribuicoes.get(r.id()).stream()).toList();
 			var microsDia=AdequacaoDri.somar(principais);dia=dia.comMicronutrientes(microsDia.micronutrientes(),microsDia.incompleto());
 			if(metas!=null)dia=dia.comSaldo(CalculadoraTotais.saldo(metas,dia));
-			var perfil=perfil(dieta.pacienteId(),perfis);
-			if(perfil!=null)dia=dia.comAdequacao(AdequacaoDri.adequacao(dia,dri.metas(perfil.sexo(),perfil.meses(),false,false)));
+			var perfil=perfil(dieta.pacienteId(),nutri,perfis);
+			// BE-49d: gestante e lactante vêm da avaliação mais recente (só mulher; lactante tem prioridade na tabela DRI).
+			if(perfil!=null)dia=dia.comAdequacao(AdequacaoDri.adequacao(dia,dri.metas(perfil.sexo(),perfil.meses(),perfil.gestante(),perfil.lactante())));
 			respostas.add(new DietaResposta(dieta.id(),dieta.pacienteId(),dieta.vinculoId(),dieta.titulo(),dieta.status(),dieta.orientacao(),rs,dia,dieta.versao(),dieta.criadoEm(),dieta.atualizadoEm(),
-				escolhidas,metas,dieta.pesoReferenciaKg(),dieta.rodape()));
+				escolhidas,metas,dieta.pesoReferenciaKg()!=null?dieta.pesoReferenciaKg():perfil==null?null:perfil.pesoReferenciaKg(),dieta.rodape()));
 		}
 		return respostas;
 	}
 	private List<PorcaoGrupo> lerPorcoes(String json){return json==null?null:mapper.readValue(json,new TypeReference<List<PorcaoGrupo>>(){});}
 	private record ItemMontado(ItemRefeicaoResposta item,CalculadoraTotais.Parcela exato,AdequacaoDri.Contribuicao contribuicao) {}
-	private record Perfil(String sexo,int meses) {}
-	/** Sexo e idade da ficha para as metas DRI; sem eles (ou sem ficha) não há adequação. Gestação e lactação ainda não vêm da ficha (BE-49d). */
-	private Perfil perfil(UUID paciente,Map<UUID,Perfil> cache){
+	private record Perfil(String sexo,int meses,boolean gestante,boolean lactante,BigDecimal pesoReferenciaKg) {}
+	/** Sexo e idade da ficha para as metas DRI; sem eles (ou sem ficha) não há adequação. Gestação, lactação e o peso dos "por kg" (RN-CAL-05) vêm da avaliação mais recente, quando há. */
+	private Perfil perfil(UUID paciente,UUID nutri,Map<UUID,Perfil> cache){
 		if(cache.containsKey(paciente))return cache.get(paciente);
 		Perfil p=null;
 		try{
@@ -73,7 +74,10 @@ public class MontadorDieta {
 			if(f.dataNascimento()!=null&&(f.sexo()==Sexo.MASCULINO||f.sexo()==Sexo.FEMININO)){
 				var m=Period.between(f.dataNascimento(),LocalDate.now(relogio));
 				int meses=m.getYears()*12+m.getMonths();
-				if(meses>=0&&meses<=1440)p=new Perfil(f.sexo()==Sexo.MASCULINO?"masculino":"feminino",meses);
+				if(meses>=0&&meses<=1440){
+					var ref=avaliacoes.maisRecente(nutri,paciente).orElse(null);boolean mulher=f.sexo()==Sexo.FEMININO;
+					p=new Perfil(f.sexo()==Sexo.MASCULINO?"masculino":"feminino",meses,mulher&&ref!=null&&ref.gestante(),mulher&&ref!=null&&ref.lactante(),ref==null?null:ref.pesoReferenciaKg());
+				}
 			}
 		}catch(com.br.dietamais.comum.api.ExcecaoNegocio e){p=null;}
 		cache.put(paciente,p);return p;

@@ -81,6 +81,17 @@ public final class CalculadoraEnergia {
 		return kcal(objetivo==ObjetivoPeso.GANHO?get.add(ajuste):get.subtract(ajuste));
 	}
 	public static BigDecimal kcalPorKg(BigDecimal vet,BigDecimal pesoKg){return kcal(vet.divide(pesoKg,MC));}
+	/**
+	 * RN-CAL-05: peso para os "por kg". Adulto (18+) com IMC de 30 ou mais usa o peso ajustado {@code (P − Pideal) × 0,25 + Pideal}, com
+	 * {@code Pideal = E² × 21,7} (meio da faixa de IMC 18,5 a 24,9); os demais usam o peso atual. Resultado com 2 casas em HALF_UP.
+	 */
+	public static BigDecimal pesoParaKg(BigDecimal pesoKg,BigDecimal estaturaM,int idadeAnos){
+		if(idadeAnos<18||estaturaM==null||estaturaM.signum()<=0)return pesoKg;
+		var quadrado=estaturaM.multiply(estaturaM);
+		if(pesoKg.divide(quadrado,MC).compareTo(BigDecimal.valueOf(30))<0)return pesoKg;
+		var ideal=quadrado.multiply(new BigDecimal("21.7"));
+		return kcal(pesoKg.subtract(ideal).multiply(new BigDecimal("0.25")).add(ideal));
+	}
 
 	// ---------- Metas de macronutrientes ----------
 	public static MetaMacro carboidrato(ProtocoloCarboidrato protocolo,BigDecimal vet,BigDecimal pesoKg,boolean gestante,boolean lactante){

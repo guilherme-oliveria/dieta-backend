@@ -24,6 +24,18 @@ class CalculadoraEnergiaTest {
 		assertThat(falhas).isEmpty();
 	}
 
+	/** RN-CAL-05: peso ajustado para os "por kg"; o mesmo arquivo roda no mobile (RN-CAL-06). */
+	@Test void pesoParaKgBateComOsVetores() throws Exception {
+		var raiz=JsonMapper.builder().build().readTree(getClass().getResourceAsStream("/contrato/calculos/peso-referencia.json"));
+		int total=0;
+		for(JsonNode caso:raiz.path("casos")){
+			total++;
+			var real=CalculadoraEnergia.pesoParaKg(new BigDecimal(caso.path("pesoKg").asString()),new BigDecimal(caso.path("estaturaM").asString()),caso.path("idadeAnos").asInt());
+			assertThat(real).as(caso.path("id").asString()).isEqualByComparingTo(caso.path("esperado").asString());
+		}
+		assertThat(total).isEqualTo(8);
+	}
+
 	void rodar(JsonNode caso){
 		var e=caso.path("entrada");var esp=caso.path("esperado");
 		switch(caso.path("funcao").asString()){
