@@ -87,6 +87,25 @@ class AvaliacaoAmpliadaApiTest extends TesteComPaciente {
 		var lido=json(requisitar("GET","/avaliacoes/"+av.path("id").asString(),a.token(),null));
 		assertThat(lido.path("energiaResultado").path("vetKcal").decimalValue()).isEqualByComparingTo("3934.55");
 	}
+	/** BE-49d / RN-CAL-05: IMC de 30 ou mais usa o peso ajustado nos "por kg", e a dieta lê peso e metas da avaliação mais recente. */
+	@Test void pesoAjustadoEReferenciaParaADieta() throws Exception {
+		var a=cadastrarNutri();var p=paciente(a,"MASCULINO",LocalDate.now().minusYears(40).minusMonths(2));
+		var semAvaliacao=requisitar("GET","/pacientes/"+p.fichaId()+"/dietas/referencia-avaliacao",a.token(),null);
+		assertThat(semAvaliacao.statusCode()).isEqualTo(404);
+		var av=criar(a,p,corpo(Map.of("pesoKg",120,"estaturaM",1.70,"complementares",Map.of("punhoCm",18,"nivelAtividade","MODERADO"),
+			"energia",Map.of("metodo","FAO_2004","carboidrato","POR_KG","proteina","HIPERTROFIA"))));
+		assertThat(av.path("energiaResultado").path("pesoReferenciaKg").decimalValue()).isEqualByComparingTo("77.03");
+		var r=requisitar("GET","/pacientes/"+p.fichaId()+"/dietas/referencia-avaliacao",a.token(),null);assertThat(r.statusCode()).as(r.body()).isEqualTo(200);
+		var ref=json(r);
+		assertThat(ref.path("avaliacaoId").asString()).isEqualTo(av.path("id").asString());
+		assertThat(ref.path("pesoKg").decimalValue()).isEqualByComparingTo("120");assertThat(ref.path("pesoReferenciaKg").decimalValue()).isEqualByComparingTo("77.03");
+		var metas=ref.path("metas");assertThat(metas.path("vetKcal").decimalValue()).isEqualByComparingTo(av.path("energiaResultado").path("vetKcal").decimalValue());
+		assertThat(metas.path("carboidratoPct").decimalValue().add(metas.path("proteinaPct").decimalValue()).add(metas.path("lipidioPct").decimalValue())).isEqualByComparingTo("100");
+		assertThat(ref.path("gestante").asBoolean()).isFalse();assertThat(ref.path("lactante").asBoolean()).isFalse();
+		// isolamento: outra nutri não vê a ficha (404)
+		var outra=cadastrarNutri();
+		assertThat(requisitar("GET","/pacientes/"+p.fichaId()+"/dietas/referencia-avaliacao",outra.token(),null).statusCode()).isEqualTo(404);
+	}
 	@Test void semEscolhaAAvaliacaoNaoTemEnergia() throws Exception {
 		var a=cadastrarNutri();var p=paciente(a,"MASCULINO",LocalDate.now().minusYears(29));
 		var av=criar(a,p,corpo(Map.of()));

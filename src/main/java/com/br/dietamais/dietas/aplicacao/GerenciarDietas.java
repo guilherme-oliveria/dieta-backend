@@ -19,10 +19,10 @@ import tools.jackson.databind.json.JsonMapper;
 @Service
 public class GerenciarDietas {
 	static final int MAX_REFEICOES=20,MAX_ITENS=60;
-	private final ConsultaPorcoes porcoes;private final MontadorDieta montador;private final DietaStore dietas;private final ConsultarAlimentosParaDieta alimentos;private final ConsultarFichaParaLista fichas;private final UsuarioAtual usuario;
+	private final ConsultaPorcoes porcoes;private final ConsultaAvaliacaoParaDieta avaliacoes;private final MontadorDieta montador;private final DietaStore dietas;private final ConsultarAlimentosParaDieta alimentos;private final ConsultarFichaParaLista fichas;private final UsuarioAtual usuario;
 	private final GuardaEscritaNutri guarda;private final AuditoriaClinica auditoria;private final GeradorIds ids;private final Clock relogio;private final JsonMapper mapper;
-	public GerenciarDietas(ConsultaPorcoes porcoes,MontadorDieta montador,DietaStore dietas,ConsultarAlimentosParaDieta alimentos,ConsultarFichaParaLista fichas,UsuarioAtual usuario,GuardaEscritaNutri guarda,AuditoriaClinica auditoria,GeradorIds ids,Clock relogio,JsonMapper mapper){
-		this.porcoes=porcoes;this.montador=montador;this.dietas=dietas;this.alimentos=alimentos;this.fichas=fichas;this.usuario=usuario;this.guarda=guarda;this.auditoria=auditoria;this.ids=ids;this.relogio=relogio;this.mapper=mapper;
+	public GerenciarDietas(ConsultaPorcoes porcoes,ConsultaAvaliacaoParaDieta avaliacoes,MontadorDieta montador,DietaStore dietas,ConsultarAlimentosParaDieta alimentos,ConsultarFichaParaLista fichas,UsuarioAtual usuario,GuardaEscritaNutri guarda,AuditoriaClinica auditoria,GeradorIds ids,Clock relogio,JsonMapper mapper){
+		this.porcoes=porcoes;this.avaliacoes=avaliacoes;this.montador=montador;this.dietas=dietas;this.alimentos=alimentos;this.fichas=fichas;this.usuario=usuario;this.guarda=guarda;this.auditoria=auditoria;this.ids=ids;this.relogio=relogio;this.mapper=mapper;
 	}
 	@Transactional(readOnly=true,isolation=Isolation.REPEATABLE_READ)
 	public DietasResposta listar(UUID paciente){
@@ -35,6 +35,14 @@ public class GerenciarDietas {
 	public DietaResposta consultar(UUID id){
 		var contexto=usuario.obter();var nutri=contexto.exigirNutricionista();var dieta=propria(id,nutri,false);
 		var resposta=montador.montar(List.of(dieta),nutri).get(0);auditoria.leitura(referencia(dieta,contexto));return resposta;
+	}
+	/** BE-49d: peso dos "por kg", metas e condição de gestante/lactante da avaliação mais recente; sem avaliação da nutri é 404 (RN-ISO). */
+	@Transactional(readOnly=true,isolation=Isolation.REPEATABLE_READ)
+	public ReferenciaAvaliacaoDietaResposta referenciaAvaliacao(UUID paciente){
+		var contexto=usuario.obter();var nutri=contexto.exigirNutricionista();var ficha=fichas.consultar(paciente,false);
+		var r=avaliacoes.maisRecente(nutri,ficha.pacienteId()).orElseThrow(()->new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null));
+		auditoria.leitura(new ReferenciaClinica("avaliacao",r.avaliacaoId(),nutri,ficha.pacienteId(),contexto.organizacaoId()));
+		return r;
 	}
 	@Transactional
 	public DietaResposta criar(UUID paciente,SalvarDietaRequisicao requisicao){

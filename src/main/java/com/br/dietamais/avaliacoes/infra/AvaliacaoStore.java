@@ -65,6 +65,10 @@ public class AvaliacaoStore {
 	public AvaliacaoResposta daNutri(UUID id,UUID nutri){
 		return jdbc.query("select * from avaliacao where id=? and nutricionista_id=? and excluido_em is null",this::mapear,id,nutri).stream().findFirst().orElse(null);
 	}
+	/** Avaliação mais recente do paciente para esta nutri (a dieta usa o peso e as metas dela, BE-49d). */
+	public AvaliacaoResposta maisRecenteDoPaciente(UUID paciente,UUID nutri){
+		return jdbc.query("select * from avaliacao where paciente_id=? and nutricionista_id=? and excluido_em is null order by data_hora desc,id desc limit 1",this::mapear,paciente,nutri).stream().findFirst().orElse(null);
+	}
 	public List<AvaliacaoResposta> porVinculo(UUID vinculo,UUID nutri){
 		return jdbc.query("select * from avaliacao where vinculo_id=? and nutricionista_id=? and excluido_em is null order by data_hora desc,id desc",this::mapear,vinculo,nutri);
 	}

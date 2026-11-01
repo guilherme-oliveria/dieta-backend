@@ -23,7 +23,7 @@ class CalculoEnergiaAvaliacao {
 	}
 
 	EnergiaResultado semDados(SalvarAvaliacaoRequisicao r,String motivo){
-		return new EnergiaResultado(metodo(r.energia()),null,null,null,null,null,null,null,null,null,Map.of("energia",motivo));
+		return new EnergiaResultado(metodo(r.energia()),null,null,null,null,null,null,null,null,null,Map.of("energia",motivo),null);
 	}
 
 	EnergiaResultado calcular(SalvarAvaliacaoRequisicao r,String sexo,int idade,ResultadosAvaliacao resultados){
@@ -60,19 +60,21 @@ class CalculoEnergiaAvaliacao {
 				}
 			}
 		}
+		// RN-CAL-05: os "por kg" usam o peso ajustado quando o adulto tem IMC de 30 ou mais.
+		var pesoRef=CalculadoraEnergia.pesoParaKg(peso,estatura,idade);
 		BigDecimal vet=null,kcalKg=null;MetaMacro carbo=null,ptn=null,lip=null;LipidiosDislipidemico dislip=null;BigDecimal colesterol=null;
 		if(get==null)motivos.put("vet","FALTA_GET");
 		else{
 			vet=CalculadoraEnergia.vet(get,c==null?null:c.objetivo(),c==null?null:c.objetivoKgPorMes());
-			kcalKg=CalculadoraEnergia.kcalPorKg(vet,peso);
-			carbo=CalculadoraEnergia.carboidrato(e==null||e.carboidrato()==null?ProtocoloCarboidrato.FAIXA_DRI:e.carboidrato(),vet,peso,gestante,lactante);
-			ptn=CalculadoraEnergia.proteina(e==null||e.proteina()==null?ProtocoloProteina.FAIXA_DRI:e.proteina(),vet,peso,sexo,idade,gestante,lactante);
+			kcalKg=CalculadoraEnergia.kcalPorKg(vet,pesoRef);
+			carbo=CalculadoraEnergia.carboidrato(e==null||e.carboidrato()==null?ProtocoloCarboidrato.FAIXA_DRI:e.carboidrato(),vet,pesoRef,gestante,lactante);
+			ptn=CalculadoraEnergia.proteina(e==null||e.proteina()==null?ProtocoloProteina.FAIXA_DRI:e.proteina(),vet,pesoRef,sexo,idade,gestante,lactante);
 			lip=CalculadoraEnergia.lipidio(e==null||e.lipidio()==null?ProtocoloLipidio.MINIMO_20:e.lipidio(),vet);
 			if(e!=null&&Boolean.TRUE.equals(e.dislipidemico())){
 				dislip=CalculadoraEnergia.lipidiosDislipidemico(vet);colesterol=CalculadoraEnergia.colesterolMaximoMg(e.colesterolTotal());
 			}
 		}
-		return new EnergiaResultado(metodo,geb,get,vet,kcalKg,carbo,ptn,lip,dislip,colesterol,motivos.isEmpty()?null:motivos);
+		return new EnergiaResultado(metodo,geb,get,vet,kcalKg,carbo,ptn,lip,dislip,colesterol,motivos.isEmpty()?null:motivos,pesoRef);
 	}
 
 	private CalculadoraGetPorMet.Resultado met(RotinaMet rotina,String sexo,BigDecimal peso,BigDecimal magra){

@@ -23,7 +23,7 @@ class GerenciarDietasVinculoTest {
 	final Dieta dieta=new Dieta(id,antigo,paciente,"Fictício",null,StatusDieta.RASCUNHO,1L,agora,agora);
 	final SalvarDietaRequisicao entrada=new SalvarDietaRequisicao(null,"Fictício",null,List.of());
 	final com.br.dietamais.referencias.api.ConsultaPorcoes porcoes=mock(com.br.dietamais.referencias.api.ConsultaPorcoes.class);
-	final GerenciarDietas caso=new GerenciarDietas(porcoes,montador,dietas,alimentos,fichas,usuario,guarda,auditoria,mock(GeradorIds.class),Clock.fixed(agora,ZoneOffset.UTC),JsonMapper.builder().build());
+	final GerenciarDietas caso=new GerenciarDietas(porcoes,mock(com.br.dietamais.dietas.api.ConsultaAvaliacaoParaDieta.class),montador,dietas,alimentos,fichas,usuario,guarda,auditoria,mock(GeradorIds.class),Clock.fixed(agora,ZoneOffset.UTC),JsonMapper.builder().build());
 	@BeforeEach void configurar(){
 		when(porcoes.porcoes()).thenReturn(new com.br.dietamais.referencias.api.PorcoesGrupos("fonte",java.util.Map.of(),List.of()));
 		when(usuario.obter()).thenReturn(new ContextoUsuario(new UsuarioResposta(UUID.randomUUID(),"Fictício","ficticio@example.invalid",true,List.of(Perfil.NUTRICIONISTA),Perfil.NUTRICIONISTA,nutri,null,"UTC"),UUID.randomUUID()));
