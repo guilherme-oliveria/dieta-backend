@@ -134,4 +134,15 @@ class AvaliacaoAmpliadaApiTest extends TesteComPaciente {
 		assertThat(requisitar("GET","/referencias/oms?indicador=IMC_IDADE&sexo=feminino&idadeMeses=216",a.token(),null).statusCode()).isEqualTo(404);
 		assertThat(requisitar("GET","/referencias/oms?indicador=X&sexo=feminino&idadeMeses=1",a.token(),null).statusCode()).isEqualTo(400);
 	}
+	@Test void listaEClassificaExames() throws Exception {
+		var a=cadastrarNutri();
+		var cat=json(requisitar("GET","/referencias/exames?faixaEtaria=ADULTO",a.token(),null));
+		assertThat(cat.path("itens").size()).isEqualTo(132);assertThat(cat.path("itens").get(0).path("nome").asString()).isEqualTo("Ácido úrico");
+		var r=json(requisitar("GET","/referencias/exames/acido-urico/classificar?faixaEtaria=ADULTO&valor=2.4&sexo=feminino",a.token(),null));
+		assertThat(r.path("rotulo").asString()).isEqualTo("limite inferior");
+		var sem=json(requisitar("GET","/referencias/exames/acido-urico/classificar?faixaEtaria=ADULTO&valor=5",a.token(),null));
+		assertThat(sem.path("rotulo").isNull()).isTrue();assertThat(sem.path("motivo").asString()).isEqualTo("FALTA_SEXO");
+		assertThat(requisitar("GET","/referencias/exames/nao-existe/classificar?faixaEtaria=ADULTO&valor=1",a.token(),null).statusCode()).isEqualTo(404);
+		assertThat(requisitar("GET","/referencias/exames?faixaEtaria=IDOSO",a.token(),null).statusCode()).isEqualTo(400);
+	}
 }

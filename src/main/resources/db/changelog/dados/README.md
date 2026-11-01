@@ -14,3 +14,8 @@ Colunas: tabela 1 (centesimal, minerais e vitaminas) e, da tabela 2, os ácidos 
 ## referencia-oms.csv (BE-54a)
 
 Curvas da OMS (2006/2007) copiadas das abas **P.I.**, **E.I.** e **I.M.C.** da planilha "0 a 9 anos" (120 meses, de 0 a 119, por sexo) e da aba **I.M.C.** da planilha "10 a 17 anos" (uma linha por ano, de 10 a 17, que vale até o fim daquele ano). Cada linha traz os percentis 0,1, 3, 10, 15, 50, 85, 97 e 99 e os escores Z de -3 a +3. Os valores das curvas da OMS são públicos; a transcrição é a da planilha. Inconsistência conhecida da planilha (G-16): de 5 a 10 anos as colunas 0,1° e 3° de peso e estatura variam em degraus anuais e em 53 linhas o 3° percentil passa do 10°; foi mantido como está e coberto por teste (`OmsCsvTest`).
+
+## referencia-exame.csv e referencia-exame-regra.csv (BE-56a)
+
+Catálogo da aba **av. bioquimica** das três planilhas (0 a 9, 10 a 17 e 18 anos acima): 395 exames (131, 132 e 132) e 2.223 degraus, na ordem das fórmulas dos IF aninhados (o primeiro que serve vale). Os degraus foram extraídos das fórmulas por script e conferidos contra elas com um interpretador independente (mais de 160 mil combinações de valor, sexo, fase e idade, zero diferenças). Rótulos como na planilha (normal, alto, limite superior...). Exames qualitativos comparam o texto (ausente, não reagente...) e o resto cai em "alterado".
+Inconsistência da planilha de 10 a 17 anos (G-16): a referência ao sexo (e à data de nascimento em alguns exames) virou `#REF!` em 30 fórmulas, então no Excel esses exames dão erro; tratamos `#REF!="feminino"` como o sexo e `#REF!<=12` como idade em anos. Na planilha de 0 a 9 a idade vem de `cadastro!$I$3` (idade de hoje); aqui vale a idade na data do exame.

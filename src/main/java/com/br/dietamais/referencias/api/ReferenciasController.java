@@ -17,12 +17,13 @@ import org.springframework.web.bind.annotation.*;
 @SecurityRequirement(name="bearerAuth")
 @RotaNutri(exclusiva=false)
 public class ReferenciasController {
-	private final ConsultaAtividadesMet atividades;private final ConsultaDri dri;private final ConsultaTaco taco;private final ConsultaOms oms;
-	public ReferenciasController(ConsultaAtividadesMet atividades,ConsultaDri dri,ConsultaTaco taco,ConsultaOms oms){this.atividades=atividades;this.dri=dri;this.taco=taco;this.oms=oms;}
+	private final ConsultaAtividadesMet atividades;private final ConsultaDri dri;private final ConsultaTaco taco;private final ConsultaOms oms;private final ConsultaExames exames;
+	public ReferenciasController(ConsultaAtividadesMet atividades,ConsultaDri dri,ConsultaTaco taco,ConsultaOms oms,ConsultaExames exames){this.atividades=atividades;this.dri=dri;this.taco=taco;this.oms=oms;this.exames=exames;}
 
 	public record AtividadesMetResposta(List<AtividadeMet> itens){}
 	public record TacoResposta(String fonte,List<String> categorias,List<AlimentoTaco> itens){}
 	public record CurvaOmsResposta(String fonte,List<String> percentisRotulos,List<String> escoresZRotulos,CurvaOms curva){}
+	public record ExamesResposta(String faixaEtaria,List<ExameCatalogo> itens){}
 	public record MetasDriResposta(String sexo,int idadeMeses,boolean gestante,boolean lactante,List<ValorDri> itens){}
 
 	@GetMapping("/atividades-met")
@@ -66,5 +67,24 @@ public class ReferenciasController {
 		if(!CurvaOms.INDICADORES.contains(indicador)||!sexo.equals("masculino")&&!sexo.equals("feminino")||idadeMeses<0||idadeMeses>1440)throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,null);
 		var c=oms.curva(indicador,sexo,idadeMeses).orElseThrow(()->new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null));
 		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(new CurvaOmsResposta("OMS 2006/2007 (planilhas da Nut. Luciana)",CurvaOms.PERCENTIS,CurvaOms.ESCORES_Z,c));
+	}
+
+	@GetMapping("/exames")
+	@Operation(operationId="listarExames",summary="Listar o catálogo de exames de uma faixa etária",description="Exames da aba av. bioquimica da planilha, por faixa etária (CRIANCA 0 a 9, ADOLESCENTE 10 a 17, ADULTO 18 ou mais), agrupados por `secao`. `condicoes` lista as fases que a nutri escolhe quando a referência depende delas (ciclo, menopausa, IMC...). BE-56a.")
+	@ApiResponse(responseCode="200",description="Catálogo",content=@Content(mediaType="application/json",schema=@Schema(implementation=ExamesResposta.class)))
+	public ResponseEntity<ExamesResposta> listarExames(@RequestParam String faixaEtaria){
+		if(!exames.faixasEtarias().contains(faixaEtaria))throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,null);
+		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(new ExamesResposta(faixaEtaria,exames.catalogo(faixaEtaria)));
+	}
+
+	@GetMapping("/exames/{codigo}/classificar")
+	@Operation(operationId="classificarExame",summary="Classificar o resultado de um exame",description="Devolve o rótulo da planilha (normal, alto, limite superior...) ou, sem rótulo, o `motivo`: FALTA_SEXO, FALTA_CONDICAO, FALTA_IDADE ou FORA_DAS_FAIXAS. Exame numérico usa `valor`; qualitativo usa `texto` (ausente, não reagente...). `idadeAnos` é a idade na data do exame. BE-56a.")
+	@ApiResponse(responseCode="200",description="Classificação",content=@Content(mediaType="application/json",schema=@Schema(implementation=ClassificacaoExame.class)))
+	@ApiResponse(responseCode="404",description="Exame inexistente na faixa",content=@Content(mediaType="application/problem+json"))
+	public ResponseEntity<ClassificacaoExame> classificarExame(@PathVariable String codigo,@RequestParam String faixaEtaria,@RequestParam(required=false) java.math.BigDecimal valor,@RequestParam(required=false) String texto,
+			@RequestParam(required=false) String sexo,@RequestParam(required=false) Double idadeAnos,@RequestParam(required=false) String condicao){
+		if(sexo!=null&&!sexo.equals("masculino")&&!sexo.equals("feminino")||idadeAnos!=null&&(idadeAnos<0||idadeAnos>130)||valor==null&&texto==null||valor!=null&&texto!=null)throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,null);
+		var r=exames.classificar(faixaEtaria,codigo,valor,texto,sexo,idadeAnos,condicao).orElseThrow(()->new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null));
+		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(r);
 	}
 }

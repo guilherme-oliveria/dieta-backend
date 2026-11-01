@@ -54,4 +54,18 @@ class ChangelogReferenciasTest {
 			});
 		}
 	}
+
+	@Test void changesetDosExamesCarregaCatalogoERegrasSemExecutarNoBanco() throws Exception {
+		try(var recursos=new ClassLoaderResourceAccessor()){
+			liquibase.Scope.child(java.util.Map.of(liquibase.Scope.Attr.resourceAccessor.name(),recursos),()->{
+				var log=new YamlChangeLogParser().parse("db/changelog/changes/038-referencia-exame.yaml",new ChangeLogParameters(),recursos);
+				assertThat(log.getChangeSets()).hasSize(1);
+				var banco=new liquibase.database.core.PostgresDatabase(){@Override public boolean supportsBatchUpdates(){return true;}};
+				banco.setConnection(new liquibase.database.OfflineConnection("offline:postgresql?version=18",recursos));
+				var tamanhos=new java.util.ArrayList<Integer>();
+				for(var change:log.getChangeSets().getFirst().getChanges())if(change instanceof liquibase.change.core.LoadDataChange carga)tamanhos.add(carga.generateStatements(banco).length);
+				assertThat(tamanhos).containsExactly(395,2223);
+			});
+		}
+	}
 }
