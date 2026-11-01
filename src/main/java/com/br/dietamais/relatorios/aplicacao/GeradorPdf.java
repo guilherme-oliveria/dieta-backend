@@ -2,6 +2,7 @@ package com.br.dietamais.relatorios.aplicacao;
 
 import com.br.dietamais.avaliacoes.api.*;
 import com.br.dietamais.dietas.api.*;
+import com.br.dietamais.referencias.api.PorcoesGrupos;
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
@@ -25,21 +26,42 @@ public class GeradorPdf {
 		cabecalho(h,c,"Plano alimentar");
 		h.append("<h2>").append(esc(d.titulo())).append("</h2>");
 		h.append("<p class=\"meta\">Publicada em ").append(DATA.format(d.publicadoEm().atZone(FUSO))).append("</p>");
+		if(d.metas()!=null){
+			var m=d.metas();
+			h.append("<p class=\"meta\">Meta: ").append(num(m.vetKcal(),0)).append(" kcal | carboidratos ").append(num(m.carboidratoPct(),0)).append("% | proteínas ")
+				.append(num(m.proteinaPct(),0)).append("% | lipídios ").append(num(m.lipidioPct(),0)).append("%</p>");
+		}
+		var porNome=new HashMap<UUID,String>();d.refeicoes().forEach(r->porNome.put(r.id(),r.nome()));
 		for(var r:d.refeicoes().stream().sorted(Comparator.comparingInt(RefeicaoResposta::ordem)).toList()){
-			h.append("<div class=\"bloco\"><h3>").append(HORA.format(r.horario())).append(" - ").append(esc(r.nome())).append("</h3>");
-			h.append("<table><thead><tr><th>Alimento</th><th class=\"n\">Porções</th><th>Medida caseira</th><th class=\"n\">Gramas</th><th class=\"n\">kcal</th></tr></thead><tbody>");
+			h.append("<div class=\"bloco\"><h3>").append(HORA.format(r.horario())).append(" - ").append(esc(r.nome()));
+			if(r.alternativa())h.append(" (alternativa").append(porNome.containsKey(r.alternativaDe())?" a "+esc(porNome.get(r.alternativaDe())):"").append(")");
+			h.append("</h3>");
+			h.append("<table><thead><tr><th>Alimento</th><th class=\"n\">Porções</th><th>Medida caseira</th><th class=\"n\">Gramas</th><th class=\"n\">kcal</th><th>Substituições</th></tr></thead><tbody>");
 			for(var i:r.itens()){
 				h.append("<tr><td>").append(esc(i.textoLivre()!=null?i.textoLivre():i.nomeAlimento()));
 				if(i.observacao()!=null&&!i.observacao().isBlank())h.append("<div class=\"obs\">").append(esc(i.observacao())).append("</div>");
 				h.append("</td><td class=\"n\">").append(i.porcoes()==null?"":num(i.porcoes(),2)).append("</td><td>").append(esc(i.ehAVontade()?"à vontade":i.medidaCaseira())).append("</td><td class=\"n\">")
-					.append(i.gramas()==null?"":num(i.gramas(),0)).append("</td><td class=\"n\">").append(i.ehAVontade()?"":num(i.totais().kcal(),0)).append("</td></tr>");
+					.append(i.gramas()==null?"":num(i.gramas(),0)).append("</td><td class=\"n\">").append(i.ehAVontade()?"":num(i.totais().kcal(),0)).append("</td><td class=\"obs\">")
+					.append(substituicao(i)).append("</td></tr>");
 			}
 			h.append("</tbody></table><p class=\"total\">").append(totais(r.totais())).append("</p></div>");
 		}
-		h.append("<div class=\"bloco\"><h3>Total do dia</h3><p class=\"total\">").append(totais(d.totais())).append("</p></div>");
-		if(d.rodape()!=null&&!d.rodape().isBlank())h.append("<div class=\"bloco\"><p class=\"texto\">").append(esc(d.rodape())).append("</p></div>");
+		h.append("<div class=\"bloco\"><h3>Total do dia</h3><p class=\"total\">").append(totais(d.totais())).append("</p>");
+		if(d.totais().saldoMetas()!=null){
+			var s=d.totais().saldoMetas();
+			h.append("<p class=\"total\">Saldo da meta: ").append(num(s.kcal(),0)).append(" kcal | carboidratos ").append(num(s.carboidrato(),1)).append(" g | proteínas ")
+				.append(num(s.proteina(),1)).append(" g | gorduras ").append(num(s.lipidio(),1)).append(" g</p>");
+		}
+		h.append("</div>");
 		if(d.orientacao()!=null&&!d.orientacao().isBlank())h.append("<div class=\"bloco\"><h3>Orientações</h3><p class=\"texto\">").append(esc(d.orientacao())).append("</p></div>");
+		if(d.rodape()!=null&&!d.rodape().isBlank())h.append("<div class=\"bloco\"><p class=\"texto\">").append(esc(d.rodape())).append("</p></div>");
+		if(d.porcoes()!=null&&!d.porcoes().isEmpty())h.append("<p class=\"obs\">Valores por porção do grupo: ").append(esc(PorcoesGrupos.FONTE)).append("</p>");
 		return pdf(h.toString());
+	}
+	/** RN-DIE-12: a troca é por porção do mesmo grupo (a lista de alimentos do grupo vai no PDF da lista de substituição). */
+	static String substituicao(ItemRefeicaoResposta i){
+		if(i.ehAVontade()||i.textoLivre()!=null||i.grupoNome()==null||i.porcoes()==null)return "";
+		return "1 porção do grupo "+esc(i.grupoNome());
 	}
 
 	public byte[] avaliacao(Cabecalho c,AvaliacaoResposta a){
