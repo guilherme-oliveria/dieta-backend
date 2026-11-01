@@ -154,4 +154,17 @@ class AvaliacaoAmpliadaApiTest extends TesteComPaciente {
 		assertThat(requisitar("GET","/referencias/frisancho?indicador=AGB&sexo=feminino&idadeAnos=10",a.token(),null).statusCode()).isEqualTo(404);
 		assertThat(requisitar("GET","/referencias/frisancho?indicador=XX&sexo=feminino&idadeAnos=5",a.token(),null).statusCode()).isEqualTo(400);
 	}
+
+	@Test void consultaPorcoesPorGrupoComFonte() throws Exception {
+		var a=cadastrarNutri();
+		var r=json(requisitar("GET","/referencias/porcoes",a.token(),null));
+		assertThat(r.path("fonte").asString()).contains("Dieta sem restri").contains("TACO");
+		assertThat(r.path("grupos")).hasSize(15);
+		assertThat(r.path("unidades").path("energia").asString()).isEqualTo("kcal");
+		JsonNode pao=null;for(var g:r.path("grupos"))if(g.path("nome").asString().equals("P\u00e3o"))pao=g;
+		assertThat(pao).isNotNull();assertThat(pao.path("opcoes")).hasSize(2);
+		var o1=pao.path("opcoes").get(0);
+		assertThat(o1.path("kcal").decimalValue()).isEqualByComparingTo("70.19");
+		assertThat(o1.path("nutrientes").path("gli").decimalValue()).isEqualByComparingTo("13.2060");
+	}
 }
