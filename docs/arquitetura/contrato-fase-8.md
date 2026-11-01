@@ -17,7 +17,9 @@ Tudo aqui é **aditivo**: campos novos são opcionais, o contrato da fase 3 (die
 | Snapshot e sync com os campos novos | BE-C8 | BE-49c |
 | Marcadores de restrição nos alimentos | BE-C8 | BE-51 (pronto) |
 | PDF da dieta e das listas de substituição | — | BE-50 |
-| Modelos de dieta por condição | BE-C8 | BE-51 a BE-53 |
+| Modelos de dieta: CRUD, duplicar, salvar dieta como modelo, aplicar com escala (sync `modelosDieta`) | BE-C8 | BE-52a (pronto) |
+| Restrição do modelo na dieta publicada e no snapshot (RN-MOD-03) | BE-C8 | BE-52b |
+| Modelos iniciais do sistema (seed) | BE-C8 | BE-53 |
 
 ## Porções por grupo (pronto, BE-47b)
 
@@ -81,9 +83,14 @@ Já estão em [integracao.md](integracao.md) (BE-49a).
 
 ## Modelos de dieta (BE-51 a BE-53)
 
-Um modelo é uma dieta (refeições, porções por grupo, alternativas, "à vontade", rodapé, orientação) mais `restricoes`. Os modelos do sistema são somente leitura; a nutri trabalha com cópias dela, isoladas por `nutricionista_id` (RN-MOD-01). Aplicar a um paciente cria um rascunho (RN-MOD-02) com as porções escaladas para o VET dele (arredondando para 0,5). Endpoints previstos, detalhados no BE-51:
+Um modelo é uma dieta (refeições, porções por grupo, alternativas, "à vontade", rodapé, orientação) mais `restricoes`. Os modelos do sistema são somente leitura; a nutri trabalha com cópias dela, isoladas por `nutricionista_id` (RN-MOD-01). Aplicar a um paciente cria um rascunho (RN-MOD-02) com as porções escaladas para o VET dele (arredondando para 0,5). Endpoints (BE-52a):
 
-- `GET /eu/nutri/modelos-dieta` (sistema e dela), `POST` (criar, copiar ou salvar uma dieta como modelo), `PUT/DELETE /eu/nutri/modelos-dieta/{id}` (só as dela), `POST /pacientes/{id}/dietas/de-modelo/{modeloId}` (cria o rascunho).
+- `GET /eu/nutri/modelos-dieta` → `{ itens: [ModeloDietaResposta] }` (os do sistema primeiro, depois os dela); `GET /eu/nutri/modelos-dieta/{id}` (sistema ou dela; de outra nutri = 404).
+- `POST /eu/nutri/modelos-dieta` cria (corpo `SalvarModeloDietaRequisicao`: `titulo`, `descricao`, `condicao`, `orientacao`, `refeicoes`, `porcoes`, `metas`, `rodape`, `restricoes` e `kcalReferencia`, todos validados como numa dieta). `POST /eu/nutri/modelos-dieta/{id}/duplicar` copia um modelo do sistema ou dela. `POST /eu/nutri/modelos-dieta/de-dieta/{dietaId}` salva uma dieta dela como modelo (`titulo`, `descricao`, `condicao`, `restricoes`; a energia total da dieta vira `kcalReferencia`).
+- `PUT /eu/nutri/modelos-dieta/{id}` e `DELETE` com `If-Match`, só nos dela: do sistema = `403 ACESSO_NEGADO` (RN-MOD-01); de outra nutri = `404`; versão velha = `409 CONFLITO_VERSAO` com o atual. Todas devolvem `ETag`.
+- `POST /pacientes/{id}/dietas/de-modelo/{modeloId}` (corpo opcional `{ id?, vetKcal? }`) cria o **rascunho** (RN-MOD-02) e devolve `{ dieta, fatorEscala, avisos }`. Com `vetKcal`, as porções (de grupo e de alimento, menos "à vontade") são multiplicadas por `vetKcal / kcalReferencia` (sem ela, `metas.vetKcal`), arredondadas para 0,5 e nunca abaixo de 0,5, e `metas.vetKcal` da dieta vira o alvo. Fator fora de 0,25 a 4 = `400 FORMATO_INVALIDO`. `avisos` traz `{ codigo, mensagem }`: `ITEM_REMOVIDO_RESTRICAO` (alimento com marcador que o modelo evita, RN-MOD-03), `ITEM_INDISPONIVEL` (alimento que não está mais ativo na lista dela) e `SEM_ESCALA` (modelo sem energia de referência).
+- Sync: os modelos **dela** entram em `GET /sync` na coleção `modelosDieta` (exclusão = tombstone); os do sistema não, vêm só do `GET` (o app guarda quando online). Até 200 modelos por nutri.
+- `restricoes` guarda marcadores de alimento (`CONTEM_LACTOSE`, `CONTEM_GLUTEN`, `ALTO_SODIO`, `ACUCAR_ADICIONADO`, `ALTO_POTASSIO`). Nesta etapa elas só tiram alimentos ao aplicar; passar a restrição para a dieta publicada e filtrar a lista do snapshot é a BE-52b.
 
 ## Regras de negócio
 

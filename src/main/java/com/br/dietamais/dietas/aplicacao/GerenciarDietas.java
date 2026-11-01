@@ -72,12 +72,12 @@ public class GerenciarDietas {
 		dietas.limparConteudo(id);gravar(id,requisicao,conteudo);dietas.atualizar(id,nutri,requisicao.titulo().strip(),texto(requisicao.orientacao()),conteudo.extras(),relogio.instant());
 		var dieta=propria(id,nutri,false);var resposta=montador.montar(List.of(dieta),nutri).get(0);auditoria.escrita(referencia(dieta,contexto));return resposta;
 	}
-	private record Conteudo(DietaStore.Extras extras) {}
+	record Conteudo(DietaStore.Extras extras) {}
 	/**
 	 * RN-ALI-01/03: itens por alimento só de alimentos ativos da própria lista; a existência em outra nutri é indistinguível de inexistente.
 	 * RN-DIE-10: cada item traz exatamente uma origem e item por grupo exige a porção escolhida. RN-DIE-11: alternativa aponta para uma refeição principal desta dieta.
 	 */
-	private Conteudo validar(SalvarDietaRequisicao r,UUID nutri){
+	Conteudo validar(SalvarDietaRequisicao r,UUID nutri){
 		if(r.refeicoes().size()>MAX_REFEICOES)throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-DIE-01");
 		var catalogo=new HashMap<UUID,Map<Integer,PorcoesGrupos.Opcao>>();
 		porcoes.porcoes().grupos().forEach(g->{var o=new HashMap<Integer,PorcoesGrupos.Opcao>();g.opcoes().forEach(x->o.put(x.opcao(),x));catalogo.put(g.grupoId(),o);});
