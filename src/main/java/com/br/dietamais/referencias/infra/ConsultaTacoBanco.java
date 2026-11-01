@@ -38,8 +38,8 @@ class ConsultaTacoBanco implements ConsultaTaco {
 	static String normalizar(String s){return Normalizer.normalize(s,Normalizer.Form.NFD).replaceAll("\\p{M}","").toLowerCase(Locale.ROOT);}
 
 	@Override public List<AlimentoTaco> buscar(String trecho,String categoria,int limite){
-		var t=trecho==null?"":normalizar(trecho.trim());
-		return linhas().stream().filter(l->(categoria==null||categoria.equals(l.alimento().categoria()))&&l.nomeNormalizado().contains(t)).limit(limite).map(Linha::alimento).toList();
+		var palavras=trecho==null||trecho.isBlank()?new String[0]:normalizar(trecho.trim()).split("[\\s,]+");
+		return linhas().stream().filter(l->(categoria==null||categoria.equals(l.alimento().categoria()))&&Arrays.stream(palavras).allMatch(l.nomeNormalizado()::contains)).limit(limite).map(Linha::alimento).toList();
 	}
 	@Override public Optional<AlimentoTaco> porNumero(int numero){return linhas().stream().map(Linha::alimento).filter(a->a.numero()==numero).findFirst();}
 	@Override public List<String> categorias(){return linhas().stream().map(l->l.alimento().categoria()).distinct().toList();}

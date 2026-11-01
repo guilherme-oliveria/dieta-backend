@@ -41,7 +41,7 @@ public class ReferenciasController {
 	}
 
 	@GetMapping("/taco")
-	@Operation(operationId="buscarAlimentosTaco",summary="Buscar alimentos na TACO",description="Composição por 100 g de parte comestível (TACO, NEPA-UNICAMP, 4ª edição, 2011). `busca` é um trecho do nome (sem acento); `categoria` é exata; até `limite` itens (padrão 50, máximo 200). Nutriente ausente em `nutrientes` = não analisado; `tracos` lista os que a fonte marca como traço. A fonte deve ser citada na tela e no PDF. BE-47a.")
+	@Operation(operationId="buscarAlimentosTaco",summary="Buscar alimentos na TACO",description="Composição por 100 g de parte comestível (TACO, NEPA-UNICAMP, 4ª edição, 2011). `busca` são palavras do nome (todas devem aparecer, sem acento nem maiúsculas); `categoria` é exata; até `limite` itens (padrão 50, máximo 200). Nutriente ausente em `nutrientes` = não analisado; `tracos` lista os que a fonte marca como traço. A fonte deve ser citada na tela e no PDF. BE-47a.")
 	@ApiResponse(responseCode="200",description="Alimentos",content=@Content(mediaType="application/json",schema=@Schema(implementation=TacoResposta.class)))
 	public ResponseEntity<TacoResposta> buscarAlimentosTaco(@RequestParam(required=false) String busca,@RequestParam(required=false) String categoria,@RequestParam(defaultValue="50") int limite){
 		if(limite<1||limite>200||(busca!=null&&busca.length()>100))throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,null);
