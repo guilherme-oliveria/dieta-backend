@@ -90,10 +90,10 @@ public class GerenciarDietas {
 				unico(item.id(),idsInformados);
 				boolean temTexto=item.textoLivre()!=null&&!item.textoLivre().isBlank();
 				int origens=(item.alimentoId()!=null?1:0)+(item.grupoId()!=null?1:0);
-				if(origens>1||(origens==0&&!(item.aVontade()&&temTexto))||(origens==1&&temTexto)||(item.aVontade()&&item.porcoes()!=null)||(!item.aVontade()&&origens==1&&item.porcoes()==null))
+				if(origens>1||(origens==0&&!(Boolean.TRUE.equals(item.aVontade())&&temTexto))||(origens==1&&temTexto)||(Boolean.TRUE.equals(item.aVontade())&&item.porcoes()!=null)||(!Boolean.TRUE.equals(item.aVontade())&&origens==1&&item.porcoes()==null))
 					throw new ExcecaoNegocio(CodigoErro.ITEM_INVALIDO,"RN-DIE-10");
 				if(item.alimentoId()!=null)usados.add(item.alimentoId());
-				if(item.grupoId()!=null&&(!catalogo.containsKey(item.grupoId())||(!item.aVontade()&&!escolhidas.contains(item.grupoId()))))throw new ExcecaoNegocio(CodigoErro.PORCAO_INVALIDA,"RN-DIE-10");
+				if(item.grupoId()!=null&&(!catalogo.containsKey(item.grupoId())||(!Boolean.TRUE.equals(item.aVontade())&&!escolhidas.contains(item.grupoId()))))throw new ExcecaoNegocio(CodigoErro.PORCAO_INVALIDA,"RN-DIE-10");
 				var p=item.porcoes();if(p!=null&&(p.stripTrailingZeros().scale()>4||p.compareTo(new BigDecimal("1000000"))>=0))throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-DIE-05");
 			}
 		}
@@ -112,7 +112,7 @@ public class GerenciarDietas {
 			int ordem=0;
 			for(var item:refeicao.itens()){
 				UUID iid=item.id()==null?ids.novo():item.id();
-				if(!dietas.inserirItem(new Item(iid,rid,item.alimentoId(),item.grupoId(),item.porcoes(),item.aVontade(),texto(item.textoLivre()),texto(item.observacao()),ordem++)))throw new ExcecaoNegocio(CodigoErro.CONFLITO_VERSAO,"RN-SYN-02");
+				if(!dietas.inserirItem(new Item(iid,rid,item.alimentoId(),item.grupoId(),item.porcoes(),Boolean.TRUE.equals(item.aVontade()),texto(item.textoLivre()),texto(item.observacao()),ordem++)))throw new ExcecaoNegocio(CodigoErro.CONFLITO_VERSAO,"RN-SYN-02");
 			}
 		}
 	}

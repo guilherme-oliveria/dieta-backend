@@ -31,8 +31,8 @@ public class GeradorPdf {
 			for(var i:r.itens()){
 				h.append("<tr><td>").append(esc(i.textoLivre()!=null?i.textoLivre():i.nomeAlimento()));
 				if(i.observacao()!=null&&!i.observacao().isBlank())h.append("<div class=\"obs\">").append(esc(i.observacao())).append("</div>");
-				h.append("</td><td class=\"n\">").append(i.porcoes()==null?"":num(i.porcoes(),2)).append("</td><td>").append(esc(i.aVontade()?"à vontade":i.medidaCaseira())).append("</td><td class=\"n\">")
-					.append(i.gramas()==null?"":num(i.gramas(),0)).append("</td><td class=\"n\">").append(i.aVontade()?"":num(i.totais().kcal(),0)).append("</td></tr>");
+				h.append("</td><td class=\"n\">").append(i.porcoes()==null?"":num(i.porcoes(),2)).append("</td><td>").append(esc(i.ehAVontade()?"à vontade":i.medidaCaseira())).append("</td><td class=\"n\">")
+					.append(i.gramas()==null?"":num(i.gramas(),0)).append("</td><td class=\"n\">").append(i.ehAVontade()?"":num(i.totais().kcal(),0)).append("</td></tr>");
 			}
 			h.append("</tbody></table><p class=\"total\">").append(totais(r.totais())).append("</p></div>");
 		}

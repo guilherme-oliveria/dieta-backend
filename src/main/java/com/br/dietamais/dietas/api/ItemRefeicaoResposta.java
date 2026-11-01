@@ -29,10 +29,13 @@ public record ItemRefeicaoResposta(
 	/** Opção da porção do grupo usada (só no item por grupo). */
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@Schema(nullable=true,requiredMode=Schema.RequiredMode.NOT_REQUIRED) Integer opcao,
-	@Schema(requiredMode=Schema.RequiredMode.NOT_REQUIRED) boolean aVontade,
+	/** Presente (true) só no item à vontade. */
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@Schema(nullable=true,requiredMode=Schema.RequiredMode.NOT_REQUIRED) Boolean aVontade,
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@Schema(nullable=true,requiredMode=Schema.RequiredMode.NOT_REQUIRED) String textoLivre) {
+	public boolean ehAVontade(){return Boolean.TRUE.equals(aVontade);}
 	public ItemRefeicaoResposta(UUID id,UUID alimentoId,UUID grupoId,String nomeAlimento,BigDecimal porcoes,String medidaCaseira,BigDecimal gramas,String observacao,TotaisNutricionaisResposta totais,String grupoNome){
-		this(id,alimentoId,grupoId,nomeAlimento,porcoes,medidaCaseira,gramas,observacao,totais,grupoNome,null,false,null);
+		this(id,alimentoId,grupoId,nomeAlimento,porcoes,medidaCaseira,gramas,observacao,totais,grupoNome,null,null,null);
 	}
 }

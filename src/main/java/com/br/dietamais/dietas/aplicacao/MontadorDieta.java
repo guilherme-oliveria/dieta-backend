@@ -37,7 +37,7 @@ public class MontadorDieta {
 					var par=item(item,base,grupos,opcaoPorGrupo);is.add(par.item());exatos.add(par.exato());
 				}
 				var exata=CalculadoraTotais.somarExato(exatos);exatas.put(refeicao.id(),exata);
-				rs.add(new RefeicaoResposta(refeicao.id(),refeicao.nome(),refeicao.horario(),refeicao.ordem(),is,exata.totais(),refeicao.tipo(),refeicao.alternativaDe(),null));
+				rs.add(new RefeicaoResposta(refeicao.id(),refeicao.nome(),refeicao.horario(),refeicao.ordem(),is,exata.totais(),"ALTERNATIVA".equals(refeicao.tipo())?refeicao.tipo():null,refeicao.alternativaDe(),null));
 			}
 			// RN-DIE-11: a alternativa mostra a diferença para a principal e fica fora do total do dia.
 			var totaisPorRefeicao=rs.stream().collect(Collectors.toMap(RefeicaoResposta::id,RefeicaoResposta::totais));
@@ -59,19 +59,19 @@ public class MontadorDieta {
 		var zero=CalculadoraTotais.ZERO;
 		if(item.alimentoId()!=null){
 			var a=base.get(item.alimentoId());
-			if(item.aVontade())return new ItemMontado(new ItemRefeicaoResposta(item.id(),a.id(),a.grupoId(),a.nome(),null,a.medidaCaseira(),null,item.observacao(),zero,a.grupoNome(),null,true,null),CalculadoraTotais.Parcela.ZERO);
+			if(item.aVontade())return new ItemMontado(new ItemRefeicaoResposta(item.id(),a.id(),a.grupoId(),a.nome(),null,a.medidaCaseira(),null,item.observacao(),zero,a.grupoNome(),null,Boolean.TRUE,null),CalculadoraTotais.Parcela.ZERO);
 			var totais=CalculadoraTotais.item(a,item.porcoes());
 			return new ItemMontado(new ItemRefeicaoResposta(item.id(),a.id(),a.grupoId(),a.nome(),item.porcoes(),a.medidaCaseira(),CalculadoraTotais.gramas(a,item.porcoes()),item.observacao(),totais,a.grupoNome()),CalculadoraTotais.exata(totais));
 		}
 		if(item.grupoId()!=null){
 			var g=grupos.get(item.grupoId());var nome=g==null?null:g.nome();
-			if(item.aVontade())return new ItemMontado(new ItemRefeicaoResposta(item.id(),null,item.grupoId(),nome,null,null,null,item.observacao(),zero,nome,null,true,null),CalculadoraTotais.Parcela.ZERO);
+			if(item.aVontade())return new ItemMontado(new ItemRefeicaoResposta(item.id(),null,item.grupoId(),nome,null,null,null,item.observacao(),zero,nome,null,Boolean.TRUE,null),CalculadoraTotais.Parcela.ZERO);
 			var opcao=g==null?null:g.opcoes().stream().filter(o->Objects.equals(o.opcao(),opcaoPorGrupo.get(item.grupoId()))).findFirst().orElse(null);
-			if(opcao==null)return new ItemMontado(new ItemRefeicaoResposta(item.id(),null,item.grupoId(),nome,item.porcoes(),null,null,item.observacao(),zero,nome,null,false,null),CalculadoraTotais.Parcela.ZERO);
+			if(opcao==null)return new ItemMontado(new ItemRefeicaoResposta(item.id(),null,item.grupoId(),nome,item.porcoes(),null,null,item.observacao(),zero,nome,null,null,null),CalculadoraTotais.Parcela.ZERO);
 			var parcela=CalculadoraTotais.porGrupo(opcao,item.porcoes());
 			BigDecimal gramas="g".equals(opcao.unidade())?opcao.quantidade().multiply(item.porcoes()).setScale(2,java.math.RoundingMode.HALF_UP):null;
-			return new ItemMontado(new ItemRefeicaoResposta(item.id(),null,item.grupoId(),nome,item.porcoes(),opcao.medidaCaseira(),gramas,item.observacao(),parcela.totais(),nome,opcao.opcao(),false,null),parcela);
+			return new ItemMontado(new ItemRefeicaoResposta(item.id(),null,item.grupoId(),nome,item.porcoes(),opcao.medidaCaseira(),gramas,item.observacao(),parcela.totais(),nome,opcao.opcao(),null,null),parcela);
 		}
-		return new ItemMontado(new ItemRefeicaoResposta(item.id(),null,null,item.textoLivre(),null,null,null,item.observacao(),zero,null,null,true,item.textoLivre()),CalculadoraTotais.Parcela.ZERO);
+		return new ItemMontado(new ItemRefeicaoResposta(item.id(),null,null,item.textoLivre(),null,null,null,item.observacao(),zero,null,null,Boolean.TRUE,item.textoLivre()),CalculadoraTotais.Parcela.ZERO);
 	}
 }
