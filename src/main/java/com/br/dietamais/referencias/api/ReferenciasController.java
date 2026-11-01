@@ -17,11 +17,12 @@ import org.springframework.web.bind.annotation.*;
 @SecurityRequirement(name="bearerAuth")
 @RotaNutri(exclusiva=false)
 public class ReferenciasController {
-	private final ConsultaAtividadesMet atividades;private final ConsultaDri dri;private final ConsultaTaco taco;
-	public ReferenciasController(ConsultaAtividadesMet atividades,ConsultaDri dri,ConsultaTaco taco){this.atividades=atividades;this.dri=dri;this.taco=taco;}
+	private final ConsultaAtividadesMet atividades;private final ConsultaDri dri;private final ConsultaTaco taco;private final ConsultaOms oms;
+	public ReferenciasController(ConsultaAtividadesMet atividades,ConsultaDri dri,ConsultaTaco taco,ConsultaOms oms){this.atividades=atividades;this.dri=dri;this.taco=taco;this.oms=oms;}
 
 	public record AtividadesMetResposta(List<AtividadeMet> itens){}
 	public record TacoResposta(String fonte,List<String> categorias,List<AlimentoTaco> itens){}
+	public record CurvaOmsResposta(String fonte,List<String> percentisRotulos,List<String> escoresZRotulos,CurvaOms curva){}
 	public record MetasDriResposta(String sexo,int idadeMeses,boolean gestante,boolean lactante,List<ValorDri> itens){}
 
 	@GetMapping("/atividades-met")
@@ -55,5 +56,15 @@ public class ReferenciasController {
 	public ResponseEntity<AlimentoTaco> consultarAlimentoTaco(@PathVariable int numero){
 		var a=taco.porNumero(numero).orElseThrow(()->new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null));
 		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(a);
+	}
+
+	@GetMapping("/oms")
+	@Operation(operationId="consultarCurvaOms",summary="Consultar a curva de crescimento da OMS",description="Cortes de percentil (0,1 a 99) e de escore Z (-3 a +3) de peso, estatura ou IMC por idade, como nas abas P.I., E.I. e I.M.C. da planilha. `indicador`: PESO_IDADE, ESTATURA_IDADE ou IMC_IDADE; `sexo`: masculino ou feminino. Peso e estatura vão até 119 meses; o IMC também de 10 a 17 anos (linha do ano completo). Fora da faixa: 404. BE-54.")
+	@ApiResponse(responseCode="200",description="Curva",content=@Content(mediaType="application/json",schema=@Schema(implementation=CurvaOmsResposta.class)))
+	@ApiResponse(responseCode="404",description="Sem curva para a idade",content=@Content(mediaType="application/problem+json"))
+	public ResponseEntity<CurvaOmsResposta> consultarCurvaOms(@RequestParam String indicador,@RequestParam String sexo,@RequestParam int idadeMeses){
+		if(!CurvaOms.INDICADORES.contains(indicador)||!sexo.equals("masculino")&&!sexo.equals("feminino")||idadeMeses<0||idadeMeses>1440)throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,null);
+		var c=oms.curva(indicador,sexo,idadeMeses).orElseThrow(()->new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null));
+		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(new CurvaOmsResposta("OMS 2006/2007 (planilhas da Nut. Luciana)",CurvaOms.PERCENTIS,CurvaOms.ESCORES_Z,c));
 	}
 }

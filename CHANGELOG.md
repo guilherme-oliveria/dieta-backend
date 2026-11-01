@@ -16,6 +16,7 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/), versões [S
 - BE-43a/b GEB, GET (FAO 1985 e 2004, IOM, RDI e MET), VET e metas de macronutrientes, gravados na avaliação (`energia`, `energiaResultado`). BE-44 Tabela de MET. BE-45 Tabelas DRI. Endpoints `GET /referencias/atividades-met` e `/referencias/dri`.
 - BE-46 PDF da avaliação no layout da nutri, com 4 gráficos (peso × faixa teórica, perímetros, dobras e rosca da composição), energia e metas, referências e rodapé com o CRN.
 - BE-47a Tabela TACO (597 alimentos, 29 nutrientes por 100 g) com busca em `GET /api/v1/referencias/taco` e `/taco/{numero}`; fonte citada na resposta. Nutriente não analisado fica ausente (nunca zero); traço vira 0 e aparece em `tracos`.
+- BE-54a Curvas de crescimento da OMS (peso, estatura e IMC por idade; 736 linhas) em `GET /api/v1/referencias/oms`, copiadas das abas P.I., E.I. e I.M.C. da planilha. Nas faixas de 5 a 10 anos as colunas 0,1° e 3° andam em degraus anuais e em 53 linhas o 3° passa do 10° (inconsistência da planilha, entra na lista G-16); os valores foram mantidos como estão.
 - BE-57a Calculadoras da anamnese (pressão arterial, álcool, sal, óleo e duração do exercício) com vetores `contrato/calculos/anamnese.json`. A pressão com sistólica a partir de 140 e diastólica abaixo de 90 passa a ser hipertensão sistólica isolada (a macro da planilha só chegava a esse ramo com 180 ou mais).
 
 ## [1.2.0] — M8: avaliação de adulto completa
