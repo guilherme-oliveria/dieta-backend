@@ -67,6 +67,7 @@ public class GerenciarAvaliacoes {
 		if(foraDaJanela&&justificativa==null)throw new ExcecaoNegocio(CodigoErro.JUSTIFICATIVA_OBRIGATORIA,"RN-AVA-04");
 		// RN-CAL-03: sem protocolo na edição, vale o que a avaliação já usava, nunca o padrão atual da nutri
 		var anterior=propria(id,nutri);var guardado=anterior.protocolo();
+		if(r.infantil()==null&&anterior.infantil()!=null)r=new SalvarAvaliacaoRequisicao(r.id(),r.dataHora(),r.pesoKg(),r.estaturaM(),r.perimetros(),r.dobras(),r.composicao(),r.parecer(),r.compartilhada(),r.justificativa(),r.protocolo(),r.complementares(),r.compartilhamento(),r.energia(),r.exames(),anterior.infantil());
 		var dados=dados(r,agora,ficha,guardado!=null?guardado:protocolos.padrao(nutri),anterior.exames());
 		avaliacoes.atualizar(id,nutri,dados,agora);
 		if(foraDaJanela)avaliacoes.registrarJustificativa(id,nutri,atual.versao(),justificativa);
@@ -81,7 +82,8 @@ public class GerenciarAvaliacoes {
 	}
 
 	private Dados dados(SalvarAvaliacaoRequisicao r,java.time.Instant agora,FichaParaLista ficha,ProtocoloAvaliacao semProtocolo,List<ExameResultado> guardados){
-		LimitesAvaliacao.validar(r);
+		var meses=CalculoAvaliacaoInfantil.idadeMeses(ficha.dataNascimento(),r.dataHora());
+		LimitesAvaliacao.validar(r,meses!=null&&meses<216);
 		if(r.dataHora().isAfter(agora.plus(Duration.ofMinutes(5))))throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-AVA-01");
 		var imc=CalculadoraImc.imc(r.pesoKg(),r.estaturaM());
 		var calculado=calculo.calcular(r,ficha,r.protocolo()!=null?r.protocolo():semProtocolo,imc);
@@ -89,7 +91,7 @@ public class GerenciarAvaliacoes {
 			r.dobras()==null?DobrasAvaliacao.VAZIO:r.dobras(),r.composicao()==null?ComposicaoAvaliacao.VAZIO:r.composicao(),
 			r.parecer()==null||r.parecer().isBlank()?null:r.parecer().strip(),r.compartilhada()==null||r.compartilhada(),
 			calculado.faixaEtaria(),calculado.protocolo(),r.complementares(),calculado.resultados(),r.compartilhamento(),r.energia(),calculado.energia(),
-			classificarExames(r,guardados,calculado));
+			classificarExames(r,guardados,calculado),r.infantil(),calculado.infantil());
 	}
 	/**
 	 * RN-EXA-01: cada exame precisa existir no catálogo da faixa etária da ficha (criança, adolescente ou adulto), sem repetir; numérico leva valor, qualitativo leva texto,

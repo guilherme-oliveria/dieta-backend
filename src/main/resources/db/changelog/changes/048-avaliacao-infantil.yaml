@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 048-avaliacao-infantil
+      author: dietamais
+      changes:
+        - addColumn:
+            tableName: avaliacao
+            columns:
+              - column: { name: infantil, type: jsonb }
+              - column: { name: resultados_infantis, type: jsonb }
+        - modifyDataType:
+            tableName: avaliacao
+            columnName: estatura_m
+            newDataType: numeric(5,3)
+        - modifyDataType:
+            tableName: avaliacao
+            columnName: imc
+            newDataType: numeric(7,2)
+        - sql:
+            sql: |
+              ALTER TABLE avaliacao DROP CONSTRAINT ck_avaliacao_peso;
+              ALTER TABLE avaliacao DROP CONSTRAINT ck_avaliacao_estatura;
+              ALTER TABLE avaliacao DROP CONSTRAINT ck_avaliacao_perimetros;
+              ALTER TABLE avaliacao DROP CONSTRAINT ck_avaliacao_dobras;
+              ALTER TABLE avaliacao ADD CONSTRAINT ck_avaliacao_peso CHECK (peso_kg BETWEEN CASE WHEN faixa_etaria IN ('CRIANCA','ADOLESCENTE') THEN 0.1 ELSE 20 END AND 400);
+              ALTER TABLE avaliacao ADD CONSTRAINT ck_avaliacao_estatura CHECK (estatura_m BETWEEN CASE WHEN faixa_etaria IN ('CRIANCA','ADOLESCENTE') THEN 0.2 ELSE 0.5 END AND 2.5);
+              ALTER TABLE avaliacao ADD CONSTRAINT ck_avaliacao_perimetros CHECK (
+                (p_pescoco IS NULL OR p_pescoco BETWEEN CASE WHEN faixa_etaria IN ('CRIANCA','ADOLESCENTE') THEN 1 ELSE 10 END AND 250) AND
+                (p_torax IS NULL OR p_torax BETWEEN CASE WHEN faixa_etaria IN ('CRIANCA','ADOLESCENTE') THEN 1 ELSE 10 END AND 250) AND
+                (p_cintura IS NULL OR p_cintura BETWEEN CASE WHEN faixa_etaria IN ('CRIANCA','ADOLESCENTE') THEN 1 ELSE 10 END AND 250) AND
+                (p_abdomen IS NULL OR p_abdomen BETWEEN CASE WHEN faixa_etaria IN ('CRIANCA','ADOLESCENTE') THEN 1 ELSE 10 END AND 250) AND
+                (p_quadril IS NULL OR p_quadril BETWEEN CASE WHEN faixa_etaria IN ('CRIANCA','ADOLESCENTE') THEN 1 ELSE 10 END AND 250) AND
+                (p_braco IS NULL OR p_braco BETWEEN CASE WHEN faixa_etaria IN ('CRIANCA','ADOLESCENTE') THEN 1 ELSE 10 END AND 250) AND
+                (p_antebraco IS NULL OR p_antebraco BETWEEN CASE WHEN faixa_etaria IN ('CRIANCA','ADOLESCENTE') THEN 1 ELSE 10 END AND 250) AND
+                (p_coxa IS NULL OR p_coxa BETWEEN CASE WHEN faixa_etaria IN ('CRIANCA','ADOLESCENTE') THEN 1 ELSE 10 END AND 250) AND
+                (p_panturrilha IS NULL OR p_panturrilha BETWEEN CASE WHEN faixa_etaria IN ('CRIANCA','ADOLESCENTE') THEN 1 ELSE 10 END AND 250));
+              ALTER TABLE avaliacao ADD CONSTRAINT ck_avaliacao_dobras CHECK (
+                (d_triceps IS NULL OR d_triceps BETWEEN CASE WHEN faixa_etaria IN ('CRIANCA','ADOLESCENTE') THEN 0.1 ELSE 1 END AND 80) AND
+                (d_subescapular IS NULL OR d_subescapular BETWEEN CASE WHEN faixa_etaria IN ('CRIANCA','ADOLESCENTE') THEN 0.1 ELSE 1 END AND 80) AND
+                (d_peitoral IS NULL OR d_peitoral BETWEEN CASE WHEN faixa_etaria IN ('CRIANCA','ADOLESCENTE') THEN 0.1 ELSE 1 END AND 80) AND
+                (d_axilar_media IS NULL OR d_axilar_media BETWEEN CASE WHEN faixa_etaria IN ('CRIANCA','ADOLESCENTE') THEN 0.1 ELSE 1 END AND 80) AND
+                (d_suprailiaca IS NULL OR d_suprailiaca BETWEEN CASE WHEN faixa_etaria IN ('CRIANCA','ADOLESCENTE') THEN 0.1 ELSE 1 END AND 80) AND
+                (d_abdominal IS NULL OR d_abdominal BETWEEN CASE WHEN faixa_etaria IN ('CRIANCA','ADOLESCENTE') THEN 0.1 ELSE 1 END AND 80) AND
+                (d_coxa IS NULL OR d_coxa BETWEEN CASE WHEN faixa_etaria IN ('CRIANCA','ADOLESCENTE') THEN 0.1 ELSE 1 END AND 80));

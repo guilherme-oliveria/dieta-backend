@@ -30,7 +30,15 @@ public record AvaliacaoResposta(
 		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) @Valid CompartilhamentoAvaliacao compartilhamento,
 		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) @Valid EnergiaAvaliacao energia,
 		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) @Valid EnergiaResultado energiaResultado,
-		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) java.util.List<@Valid ExameResultado> exames) {
+		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) java.util.List<@Valid ExameResultado> exames,
+		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) @Valid DadosInfantisAvaliacao infantil,
+		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) @Valid ResultadosInfantisAvaliacao resultadosInfantis) {
+	/** Contrato anterior ao BE-55b. */
+	public AvaliacaoResposta(UUID id,UUID pacienteId,UUID vinculoId,Instant dataHora,BigDecimal pesoKg,BigDecimal estaturaM,BigDecimal imc,ClassificacaoImc classificacaoImc,PerimetrosAvaliacao perimetros,
+			DobrasAvaliacao dobras,ComposicaoAvaliacao composicao,String parecer,Boolean compartilhada,Long versao,Instant criadoEm,Instant atualizadoEm,FaixaEtaria faixaEtaria,ProtocoloAvaliacao protocolo,
+			MedidasComplementaresAvaliacao complementares,ResultadosAvaliacao resultados,CompartilhamentoAvaliacao compartilhamento,EnergiaAvaliacao energia,EnergiaResultado energiaResultado,java.util.List<ExameResultado> exames){
+		this(id,pacienteId,vinculoId,dataHora,pesoKg,estaturaM,imc,classificacaoImc,perimetros,dobras,composicao,parecer,compartilhada,versao,criadoEm,atualizadoEm,faixaEtaria,protocolo,complementares,resultados,compartilhamento,energia,energiaResultado,exames,null,null);
+	}
 	/** Contrato anterior ao BE-56b, sem exames. */
 	public AvaliacaoResposta(UUID id,UUID pacienteId,UUID vinculoId,Instant dataHora,BigDecimal pesoKg,BigDecimal estaturaM,BigDecimal imc,ClassificacaoImc classificacaoImc,PerimetrosAvaliacao perimetros,
 			DobrasAvaliacao dobras,ComposicaoAvaliacao composicao,String parecer,Boolean compartilhada,Long versao,Instant criadoEm,Instant atualizadoEm,FaixaEtaria faixaEtaria,ProtocoloAvaliacao protocolo,
