@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Orquestra os cálculos derivados da avaliação (RN-CAL-01): idade na data, faixa etária (RN-CAL-02), protocolo (RN-CAL-03)
- * e a calculadora do adulto. Sem sexo, nascimento ou faixa 18+, devolve só o que dá para saber, com o motivo (RN-CAL-04).
+ * e as calculadoras adequadas à faixa. Sem sexo ou nascimento, devolve só o que dá para saber, com o motivo (RN-CAL-04).
  */
 @Component
 public class CalculoAvaliacao {
@@ -21,11 +21,14 @@ public class CalculoAvaliacao {
 	static final ZoneId FUSO=ZoneId.of("America/Sao_Paulo");
 	public static final ProtocoloDobras DOBRAS_PADRAO=ProtocoloDobras.SETE;
 	public static final ProtocoloMassa MASSA_PADRAO=ProtocoloMassa.MAGRO;
-	private final CalculadoraAntropometriaAdulto adulto;private final ConsultaReferencias referencias;private final CalculoEnergiaAvaliacao energia;
+	private final CalculadoraAntropometriaAdulto adulto;private final ConsultaReferencias referencias;private final CalculoEnergiaAvaliacao energia;private final CalculoAvaliacaoInfantil infantil;
 	@org.springframework.beans.factory.annotation.Autowired
-	public CalculoAvaliacao(ConsultaReferencias referencias,ConsultaAtividadesMet atividades){this.referencias=referencias;this.adulto=new CalculadoraAntropometriaAdulto(referencias);this.energia=new CalculoEnergiaAvaliacao(atividades);}
+	public CalculoAvaliacao(ConsultaReferencias referencias,ConsultaAtividadesMet atividades,CalculoAvaliacaoInfantil infantil){this.referencias=referencias;this.adulto=new CalculadoraAntropometriaAdulto(referencias);this.energia=new CalculoEnergiaAvaliacao(atividades);this.infantil=infantil;}
+	/** Compatibilidade para consumidores que só fornecem as referências adultas. */
+	public CalculoAvaliacao(ConsultaReferencias referencias,ConsultaAtividadesMet atividades){this(referencias,atividades,new CalculoAvaliacaoInfantil(new CalculoCurvasInfantis((i,s,m)->Optional.empty()),new CalculoFrisanchoAvaliacao((i,s,a)->Optional.empty())));}
 
-	public record Calculado(FaixaEtaria faixaEtaria,ProtocoloAvaliacao protocolo,ResultadosAvaliacao resultados,EnergiaResultado energia,String sexo) {
+	public record Calculado(FaixaEtaria faixaEtaria,ProtocoloAvaliacao protocolo,ResultadosAvaliacao resultados,EnergiaResultado energia,String sexo,ResultadosInfantisAvaliacao infantil) {
+	public Calculado(FaixaEtaria faixaEtaria,ProtocoloAvaliacao protocolo,ResultadosAvaliacao resultados,EnergiaResultado energia,String sexo){this(faixaEtaria,protocolo,resultados,energia,sexo,null);}
 	public Calculado(FaixaEtaria faixaEtaria,ProtocoloAvaliacao protocolo,ResultadosAvaliacao resultados,EnergiaResultado energia){this(faixaEtaria,protocolo,resultados,energia,null);}
 }
 
@@ -36,10 +39,11 @@ public class CalculoAvaliacao {
 		var protocolo=new ProtocoloAvaliacao(protocoloPedido==null?DOBRAS_PADRAO:protocoloPedido.dobras(),protocoloPedido==null?MASSA_PADRAO:protocoloPedido.massa(),referencias.versaoVigente());
 		if(ficha.dataNascimento()==null)return semDados(r,protocolo,null,"FALTA_NASCIMENTO");
 		var dia=r.dataHora().atZone(FUSO).toLocalDate();
-		int idade=CalculadoraAntropometriaAdulto.idadeEmAnos(ChronoUnit.DAYS.between(ficha.dataNascimento(),dia));
+		if(dia.isBefore(ficha.dataNascimento()))return semDados(r,protocolo,null,"FALTA_NASCIMENTO");
+		int idade=Math.toIntExact(ChronoUnit.YEARS.between(ficha.dataNascimento(),dia));
 		var faixa=faixa(Math.max(idade,0));
 		if(idade<0)return semDados(r,protocolo,null,"FALTA_NASCIMENTO");
-		if(faixa==FaixaEtaria.CRIANCA||faixa==FaixaEtaria.ADOLESCENTE)return new Calculado(faixa,protocolo,new ResultadosAvaliacao(idade,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Map.of("resultados","FAIXA_ETARIA_NAO_SUPORTADA")),semEnergia(r,"FAIXA_ETARIA_NAO_SUPORTADA"),sexoTexto(ficha));
+		if(faixa==FaixaEtaria.CRIANCA||faixa==FaixaEtaria.ADOLESCENTE)return new Calculado(faixa,protocolo,new ResultadosAvaliacao(idade,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Map.of("classificacaoImc","USE_CURVA_IMC_IDADE")),semEnergia(r,"USE_ENERGIA_INFANTIL"),sexoTexto(ficha),infantil.calcular(r,ficha));
 		String sexo=sexoTexto(ficha);
 		if(sexo==null)return new Calculado(faixa,protocolo,new ResultadosAvaliacao(idade,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Map.of("resultados","FALTA_SEXO")),semEnergia(r,"FALTA_SEXO"),null);
 		var d=r.dobras()==null?DobrasAvaliacao.VAZIO:r.dobras();var p=r.perimetros()==null?PerimetrosAvaliacao.VAZIO:r.perimetros();

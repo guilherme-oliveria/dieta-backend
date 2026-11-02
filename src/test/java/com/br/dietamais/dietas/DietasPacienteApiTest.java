@@ -58,7 +58,8 @@ class DietasPacienteApiTest extends TesteComPaciente {
 		String fichaB=json(requisitar("GET","/pacientes?busca=",b.token(),null)).path("itens").get(0).path("id").asString();
 		var da=publicar(a.token(),criarDieta(a.token(),pa.fichaId(),dieta("A",refeicao("R",0,item(ali.get(0),"1")))));
 		var db=publicar(b.token(),criarDieta(b.token(),fichaB,dieta("B",refeicao("R",0,item(alib.get(0),"1")))));
-		var lista=json(requisitar("GET","/eu/dietas",pa.token(),null));assertThat(lista.path("itens")).hasSize(2);
+		var respostaLista=requisitar("GET","/eu/dietas",pa.token(),null);assertThat(respostaLista.statusCode()).as(respostaLista.body()).isEqualTo(200);
+		var lista=json(respostaLista);assertThat(lista.path("itens")).hasSize(2);
 		assertThat(lista.path("dietaEmUsoId").asString()).isEqualTo(db.path("dietaId").asString());
 		var escolha=requisitar("PUT","/eu/dieta-em-uso",pa.token(),Map.of("dietaId",da.path("dietaId").asString()),Map.of("If-Match","\"0\""));
 		assertThat(escolha.statusCode()).as(escolha.body()).isEqualTo(200);assertThat(json(escolha).path("versao").asLong()).isEqualTo(1);assertThat(escolha.headers().firstValue("ETag").orElseThrow()).isEqualTo("\"1\"");

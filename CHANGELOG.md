@@ -13,6 +13,7 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/), versões [S
 
 ## [1.4.0] — M10: crianças, exames e anamnese (em andamento)
 
+- BE-55b: avaliação infantil/adolescente com entradas opcionais e resultados calculados pelo servidor, snapshot dos cortes OMS/Frisancho, intervalos de percentil/Z sem interpolação e compartilhamento por seção em REST/sync. Changeset 048: persistência pediátrica e precisão da estatura. G-16 permanece pendente: o corte inconsistente de AMBc masculino de quatro anos é preservado, sem classificação, sem correção da referência.
 - BE-57b: códigos opcionais nas perguntas e resultados de PA, álcool, sal, óleo e duração calculados no servidor por REST/sync, congelados na conclusão. Changeset 047; modelo “Anamnese completa” preserva cópias antigas e inclui as oito bebidas, atividade semanal e os 20 grupos com sete frequências encontrados nas três planilhas fornecidas (a estimativa do plano era 30 grupos).
 
 ## [1.3.0] — M9: necessidades e protocolos (em andamento)

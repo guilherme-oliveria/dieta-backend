@@ -72,10 +72,12 @@ class CalculoEnergiaAvaliacaoTest {
 		var cheia=new RotinaMet(new BigDecimal("20"),new BigDecimal("8"),NivelAtividade.LEVE,List.of());
 		assertThatThrownBy(()->energia(req(null,null,null,new EnergiaAvaliacao(MetodoGet.MET,null,null,null,null,null,null,null,cheia)))).isInstanceOf(ExcecaoNegocio.class);
 	}
-	@Test void faixaNaoSuportadaOuFichaIncompletaDaMotivoDaEnergia(){
+	@Test void adolescenteOrientaUsarBlocoDeEnergiaInfantil(){
 		var jovem=new FichaParaLista(ID,ID,StatusVinculo.ATIVO,LocalDate.of(2012,1,1),Sexo.FEMININO);
-		var e=calculo.calcular(req(NivelAtividade.LEVE,null,null,null),jovem,null,BigDecimal.ONE).energia();
-		assertThat(e.getKcal()).isNull();assertThat(e.motivosNulos()).containsEntry("energia","FAIXA_ETARIA_NAO_SUPORTADA");
+		var resultado=calculo.calcular(req(NivelAtividade.LEVE,null,null,null),jovem,null,BigDecimal.ONE);
+		var e=resultado.energia();
+		assertThat(e.getKcal()).isNull();assertThat(e.motivosNulos()).containsEntry("energia","USE_ENERGIA_INFANTIL");
+		assertThat(resultado.infantil().energia().gebIomKcal()).isNotNull();
 	}
 	@Test void pacienteSoVeAEnergiaSeANutriCompartilhouNecessidades(){
 		var r=req(NivelAtividade.MODERADO,null,null,new EnergiaAvaliacao(MetodoGet.FAO_2004,null,null,null,null,null,null,null,null));
