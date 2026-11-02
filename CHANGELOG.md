@@ -11,6 +11,10 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/), versões [S
 - Texto do termo de consentimento do paciente (`CONSENTIMENTO_VERSAO` e `CONSENTIMENTO_TEXTO`) e política de privacidade.
 - Provedor de e-mail transacional, projeto Firebase (push) e conta do gateway de pagamento (Asaas): o código está pronto e desligado sem as credenciais.
 
+## [1.4.0] — M10: crianças, exames e anamnese (em andamento)
+
+- BE-57b: códigos opcionais nas perguntas e resultados de PA, álcool, sal, óleo e duração calculados no servidor por REST/sync, congelados na conclusão. Changeset 047; modelo “Anamnese completa” preserva cópias antigas e inclui as oito bebidas, atividade semanal e os 20 grupos com sete frequências encontrados nas três planilhas fornecidas (a estimativa do plano era 30 grupos).
+
 ## [1.3.0] — M9: necessidades e protocolos (em andamento)
 
 - BE-50b PDF da lista de substituição publicada em quatro versões (pequena, média, grande e contagem de carboidratos), com escala de gramas e medidas caseiras, valores provisórios por grupo e aviso de referências ausentes. Rotas `/dietas/{id}/pdf-lista` e `/eu/dietas/{id}/pdf-lista`, link assinado por 10 minutos, isolamento e auditoria existentes preservados.
