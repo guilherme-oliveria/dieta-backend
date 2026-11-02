@@ -28,7 +28,7 @@ public final class ValidadorResposta {
 			case HORARIO->v.isString()&&HORA.matcher(v.asString()).matches();
 			case LISTA_POR_REFEICAO->lista(v);
 		};
-		if(!ok)throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-ANA-02","Resposta inválida para o tipo da pergunta.",
+		if(!ok||!CodigosAnamnese.valorValido(p.codigo(),v))throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-ANA-02","Resposta inválida para o tipo da pergunta.",
 			List.of(new ErroCampoResposta(p.id().toString(),"FORMATO_INVALIDO","Resposta inválida para o tipo da pergunta.")),null);
 	}
 	private static boolean multipla(PerguntaQuestionario p,JsonNode v){

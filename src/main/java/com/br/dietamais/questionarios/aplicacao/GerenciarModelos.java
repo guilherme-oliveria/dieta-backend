@@ -49,10 +49,12 @@ public class GerenciarModelos {
 	}
 
 	private void garantirPadrao(UUID nutri){
-		if(store.temPadrao(nutri))return;
+		if(store.temAnamneseCompleta(nutri))return;
 		store.bloquear(nutri);
-		if(store.temPadrao(nutri))return;
-		store.inserirModelo(ids.novo(),nutri,ModeloPadrao.NOME,true,ModeloPadrao.blocos(ids::novo),relogio.instant());
+		if(store.temAnamneseCompleta(nutri))return;
+		var id=ids.novo();
+		store.inserirModelo(id,nutri,ModeloPadrao.NOME,!store.temPadrao(nutri),ModeloPadrao.blocos(ids::novo),relogio.instant());
+		store.identificarAnamneseCompleta(id);
 	}
 	private ModeloQuestionarioResposta propria(UUID id,UUID nutri){
 		var m=store.modelo(id,nutri);if(m==null)throw new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null);return m;
