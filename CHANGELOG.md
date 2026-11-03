@@ -2,7 +2,7 @@
 
 Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/), versões [SemVer](https://semver.org/lang/pt-BR/). Cada versão é um marco de `docs/arquitetura/plano-de-execucao.md` (seção 3).
 
-> **Estado em 29/10/2026:** ainda não existe tag nem `release/`. Todo o conteúdo abaixo já está na `develop`; os marcos foram sendo entregues em ondas e entraram juntos. Os números de versão abaixo agrupam o que cada marco entrega. A decisão de como cortar as `release/` está em "Para o Guilherme" no final.
+> **Candidata M8 preparada em 03/11/2026:** branch histórica `release/1.2.0`, com versão Gradle 1.2.0. Sem tag ou publicação; aprovação e merge para main são do Guilherme. Este corte não inclui as entregas posteriores de M9/M10. Consulte `docs/operacao/release-1.2.0.md`.
 
 ## [Não lançado] — pendente para fechar 1.0.0 e 1.1.0
 
