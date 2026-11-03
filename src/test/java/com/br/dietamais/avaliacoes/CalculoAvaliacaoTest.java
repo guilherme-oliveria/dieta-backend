@@ -12,7 +12,7 @@ import java.util.*;
 import org.junit.jupiter.api.Test;
 
 class CalculoAvaliacaoTest {
-	final CalculoAvaliacao calculo=new CalculoAvaliacao(TabelaFaixas.doCsv(getClass().getClassLoader().getResourceAsStream(TabelaFaixas.CSV_ADULTO)));
+	final CalculoAvaliacao calculo=new CalculoAvaliacao(TabelaFaixas.doCsv(getClass().getClassLoader().getResourceAsStream(TabelaFaixas.CSV_ADULTO)),com.br.dietamais.referencias.api.TabelaAtividadesMet.doCsv(getClass().getClassLoader().getResourceAsStream(com.br.dietamais.referencias.api.TabelaAtividadesMet.CSV)));
 	static final UUID ID=UUID.randomUUID();
 	SalvarAvaliacaoRequisicao requisicao(Instant quando,ComposicaoAvaliacao c){
 		return new SalvarAvaliacaoRequisicao(null,quando,new BigDecimal("102.5"),new BigDecimal("1.93"),new PerimetrosAvaliacao(null,null,new BigDecimal("100"),null,null,null,null,null,null),
@@ -26,6 +26,10 @@ class CalculoAvaliacaoTest {
 		assertThat(CalculoAvaliacao.faixa(17)).isEqualTo(FaixaEtaria.ADOLESCENTE);assertThat(CalculoAvaliacao.faixa(18)).isEqualTo(FaixaEtaria.ADULTO);
 		assertThat(CalculoAvaliacao.faixa(59)).isEqualTo(FaixaEtaria.ADULTO);assertThat(CalculoAvaliacao.faixa(60)).isEqualTo(FaixaEtaria.IDOSO);
 	}
+	@Test void aniversarioDeDezoitoAnosUsaFaixaAdultaNaPropriaData(){
+		var c=calculo.calcular(requisicao(quando,null),ficha(LocalDate.of(2008,10,31),Sexo.MASCULINO),null,new BigDecimal("27.52"));
+		assertThat(c.faixaEtaria()).isEqualTo(FaixaEtaria.ADULTO);assertThat(c.resultados().idadeAnos()).isEqualTo(18);assertThat(c.infantil()).isNull();
+	}
 	@Test void adultoUsaProtocoloPadraoEVersaoDoServidor(){
 		var c=calculo.calcular(requisicao(quando,null),ficha(LocalDate.of(1997,4,1),Sexo.MASCULINO),null,new BigDecimal("27.52"));
 		assertThat(c.faixaEtaria()).isEqualTo(FaixaEtaria.ADULTO);assertThat(c.protocolo()).isEqualTo(new ProtocoloAvaliacao(ProtocoloDobras.SETE,ProtocoloMassa.MAGRO,"adulto-1.0.0"));
@@ -35,11 +39,13 @@ class CalculoAvaliacaoTest {
 		var c=calculo.calcular(requisicao(quando,null),ficha(LocalDate.of(1997,4,1),Sexo.MASCULINO),new ProtocoloAvaliacao(ProtocoloDobras.TRES,ProtocoloMassa.MUSCULAR,"x"),BigDecimal.ONE);
 		assertThat(c.protocolo().versaoReferencia()).isEqualTo("adulto-1.0.0");assertThat(c.protocolo().dobras()).isEqualTo(ProtocoloDobras.TRES);
 	}
-	@Test void semDadosDaFichaFicaNuloComMotivoEAdolescenteAindaNaoCalcula(){
+	@Test void semDadosDaFichaFicaNuloComMotivoEAdolescenteUsaCalculoInfantil(){
 		assertThat(calculo.calcular(requisicao(quando,null),ficha(null,Sexo.MASCULINO),null,BigDecimal.ONE).resultados().motivosNulos()).containsEntry("resultados","FALTA_NASCIMENTO");
 		assertThat(calculo.calcular(requisicao(quando,null),ficha(LocalDate.of(1997,4,1),Sexo.NAO_INFORMADO),null,BigDecimal.ONE).resultados().motivosNulos()).containsEntry("resultados","FALTA_SEXO");
 		var jovem=calculo.calcular(requisicao(quando,null),ficha(LocalDate.of(2012,1,1),Sexo.FEMININO),null,BigDecimal.ONE);
-		assertThat(jovem.faixaEtaria()).isEqualTo(FaixaEtaria.ADOLESCENTE);assertThat(jovem.resultados().motivosNulos()).containsEntry("resultados","FAIXA_ETARIA_NAO_SUPORTADA");
+		assertThat(jovem.faixaEtaria()).isEqualTo(FaixaEtaria.ADOLESCENTE);
+		assertThat(jovem.infantil()).isNotNull();assertThat(jovem.infantil().idadeMeses()).isEqualTo(177);
+		assertThat(jovem.resultados().motivosNulos()).doesNotContainValue("FAIXA_ETARIA_NAO_SUPORTADA");
 	}
 	@Test void pacienteNaoVeSecaoNaoCompartilhada(){
 		var c=calculo.calcular(requisicao(quando,null),ficha(LocalDate.of(1997,4,1),Sexo.MASCULINO),null,new BigDecimal("27.52"));

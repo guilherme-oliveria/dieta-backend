@@ -32,7 +32,7 @@ public class RegistrarRotina {
 		var itensTrocados=new HashSet<UUID>();
 		for(var t:trocas){
 			var item=refeicao.itens().stream().filter(i->i.id().equals(t.itemId())).findFirst().orElseThrow(()->new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-SUB-01"));
-			if(!itensTrocados.add(t.itemId())||!item.grupoId().equals(lista.get(t.alimentoId())))throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-SUB-01");
+			if(!itensTrocados.add(t.itemId())||item.grupoId()==null||!item.grupoId().equals(lista.get(t.alimentoId())))throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-SUB-01");
 		}
 		var vinculo=s.snapshot().vinculoId();
 		if(rotina.vinculoAtivo(vinculo,paciente)==null)throw new ExcecaoNegocio(CodigoErro.ACESSO_NEGADO,"RN-VIN-05");

@@ -18,19 +18,19 @@ public class AvaliacaoStore {
 		+"d_triceps,d_subescapular,d_peitoral,d_axilar_media,d_suprailiaca,d_abdominal,d_coxa,"
 		+"percentual_gordura,peso_gordo_kg,peso_magro_kg,parecer,compartilhada,"
 		+"faixa_etaria,protocolo_dobras,protocolo_massa,versao_referencia,peso_usual_kg,peso_desejado_kg,punho_cm,diametro_punho_cm,diametro_joelho_cm,"
-		+"percentual_gordura_desejado,nivel_atividade,objetivo,objetivo_kg_por_mes,menstruada,resultados,compartilhamento";
+		+"percentual_gordura_desejado,nivel_atividade,objetivo,objetivo_kg_por_mes,menstruada,resultados,compartilhamento,energia,energia_resultado,exames,infantil,resultados_infantis";
 	private static final int N=COLUNAS.split(",").length;
 	private static final String SQL_INSERIR="insert into avaliacao(id,vinculo_id,nutricionista_id,paciente_id,"+COLUNAS+",criado_em,atualizado_em) values(?,?,?,?,"+marcadores()+"?,?) on conflict(id) do nothing";
 	private static final String SQL_ATUALIZAR="update avaliacao set "+atribuicoes()+",versao=versao+1,seq=nextval('seq_sync'),atualizado_em=? where id=? and nutricionista_id=? and excluido_em is null";
 	private final JdbcTemplate jdbc;private final JsonMapper mapper;
 	public AvaliacaoStore(JdbcTemplate jdbc,JsonMapper mapper){this.jdbc=jdbc;this.mapper=mapper;}
-	private static boolean json(String coluna){return coluna.equals("resultados")||coluna.equals("compartilhamento");}
+	private static boolean json(String coluna){return coluna.equals("resultados")||coluna.equals("compartilhamento")||coluna.equals("energia")||coluna.equals("energia_resultado")||coluna.equals("exames")||coluna.equals("infantil")||coluna.equals("resultados_infantis");}
 	private static String marcadores(){var b=new StringBuilder();for(var c:COLUNAS.split(","))b.append(json(c)?"?::jsonb,":"?,");return b.toString();}
 	private static String atribuicoes(){var l=new ArrayList<String>();for(var c:COLUNAS.split(","))l.add(c+(json(c)?"=?::jsonb":"=?"));return String.join(",",l);}
 
 	public record Dados(Instant dataHora,BigDecimal pesoKg,BigDecimal estaturaM,BigDecimal imc,ClassificacaoImc classificacao,PerimetrosAvaliacao perimetros,
 		DobrasAvaliacao dobras,ComposicaoAvaliacao composicao,String parecer,boolean compartilhada,
-		FaixaEtaria faixaEtaria,ProtocoloAvaliacao protocolo,MedidasComplementaresAvaliacao complementares,ResultadosAvaliacao resultados,CompartilhamentoAvaliacao compartilhamento) {}
+		FaixaEtaria faixaEtaria,ProtocoloAvaliacao protocolo,MedidasComplementaresAvaliacao complementares,ResultadosAvaliacao resultados,CompartilhamentoAvaliacao compartilhamento,EnergiaAvaliacao energia,EnergiaResultado energiaResultado,java.util.List<ExameResultado> exames,DadosInfantisAvaliacao infantil,ResultadosInfantisAvaliacao resultadosInfantis) {}
 	public record Ficha(UUID id,UUID vinculoId,UUID pacienteId,long versao,Instant criadoEm) {}
 
 	public void bloquear(UUID nutri){jdbc.queryForObject("select pg_advisory_xact_lock(hashtextextended(?,0))",Object.class,"avaliacoes:"+nutri);}
@@ -44,7 +44,10 @@ public class AvaliacaoStore {
 			d.faixaEtaria()==null?null:d.faixaEtaria().name(),pr==null?null:pr.dobras().name(),pr==null?null:pr.massa().name(),pr==null?null:pr.versaoReferencia(),
 			m.pesoUsualKg(),m.pesoDesejadoKg(),m.punhoCm(),m.diametroPunhoCm(),m.diametroJoelhoCm(),m.percentualGorduraDesejado(),
 			m.nivelAtividade()==null?null:m.nivelAtividade().name(),m.objetivo()==null?null:m.objetivo().name(),m.objetivoKgPorMes(),m.menstruada(),
-			d.resultados()==null?null:mapper.writeValueAsString(d.resultados()),d.compartilhamento()==null?null:mapper.writeValueAsString(d.compartilhamento())};
+			d.resultados()==null?null:mapper.writeValueAsString(d.resultados()),d.compartilhamento()==null?null:mapper.writeValueAsString(d.compartilhamento()),
+			d.energia()==null?null:mapper.writeValueAsString(d.energia()),d.energiaResultado()==null?null:mapper.writeValueAsString(d.energiaResultado()),
+			d.exames()==null||d.exames().isEmpty()?null:mapper.writeValueAsString(d.exames()),
+			d.infantil()==null?null:mapper.writeValueAsString(d.infantil()),d.resultadosInfantis()==null?null:mapper.writeValueAsString(d.resultadosInfantis())};
 	}
 	public boolean inserir(UUID id,UUID vinculo,UUID nutri,UUID paciente,Dados d,Instant agora){
 		var args=new ArrayList<Object>(List.of(id,vinculo,nutri,paciente));args.addAll(Arrays.asList(valores(d)));args.add(Timestamp.from(agora));args.add(Timestamp.from(agora));
@@ -63,6 +66,10 @@ public class AvaliacaoStore {
 	}
 	public AvaliacaoResposta daNutri(UUID id,UUID nutri){
 		return jdbc.query("select * from avaliacao where id=? and nutricionista_id=? and excluido_em is null",this::mapear,id,nutri).stream().findFirst().orElse(null);
+	}
+	/** Avaliação mais recente do paciente para esta nutri (a dieta usa o peso e as metas dela, BE-49d). */
+	public AvaliacaoResposta maisRecenteDoPaciente(UUID paciente,UUID nutri){
+		return jdbc.query("select * from avaliacao where paciente_id=? and nutricionista_id=? and excluido_em is null order by data_hora desc,id desc limit 1",this::mapear,paciente,nutri).stream().findFirst().orElse(null);
 	}
 	public List<AvaliacaoResposta> porVinculo(UUID vinculo,UUID nutri){
 		return jdbc.query("select * from avaliacao where vinculo_id=? and nutricionista_id=? and excluido_em is null order by data_hora desc,id desc",this::mapear,vinculo,nutri);
@@ -91,7 +98,12 @@ public class AvaliacaoStore {
 			rs.getString("parecer"),rs.getBoolean("compartilhada"),rs.getLong("versao"),rs.getTimestamp("criado_em").toInstant(),rs.getTimestamp("atualizado_em").toInstant(),
 			enumero(FaixaEtaria.class,rs.getString("faixa_etaria")),protocolo(rs),complementares(rs),
 			rs.getString("resultados")==null?null:mapper.readValue(rs.getString("resultados"),ResultadosAvaliacao.class),
-			rs.getString("compartilhamento")==null?null:mapper.readValue(rs.getString("compartilhamento"),CompartilhamentoAvaliacao.class));
+			rs.getString("compartilhamento")==null?null:mapper.readValue(rs.getString("compartilhamento"),CompartilhamentoAvaliacao.class),
+			rs.getString("energia")==null?null:mapper.readValue(rs.getString("energia"),EnergiaAvaliacao.class),
+			rs.getString("energia_resultado")==null?null:mapper.readValue(rs.getString("energia_resultado"),EnergiaResultado.class),
+			rs.getString("exames")==null?null:mapper.readValue(rs.getString("exames"),new tools.jackson.core.type.TypeReference<java.util.List<ExameResultado>>(){}),
+			rs.getString("infantil")==null?null:mapper.readValue(rs.getString("infantil"),DadosInfantisAvaliacao.class),
+			rs.getString("resultados_infantis")==null?null:mapper.readValue(rs.getString("resultados_infantis"),ResultadosInfantisAvaliacao.class));
 	}
 	private static <E extends Enum<E>> E enumero(Class<E> tipo,String valor){return valor==null?null:Enum.valueOf(tipo,valor);}
 	private static ProtocoloAvaliacao protocolo(ResultSet rs) throws SQLException {

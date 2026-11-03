@@ -76,4 +76,114 @@ class AvaliacaoAmpliadaApiTest extends TesteComPaciente {
 		var r=requisitar("POST","/pacientes/"+p.fichaId()+"/avaliacoes",a.token(),corpo(Map.of("complementares",Map.of("punhoCm",2))));
 		assertThat(r.statusCode()).isEqualTo(422);assertThat(json(r).path("codigo").asString()).isEqualTo("VALOR_FORA_DO_INTERVALO");
 	}
+	@Test void energiaEscolhidaVaiParaOCalculoEFicaGravada() throws Exception {
+		var a=cadastrarNutri();var p=paciente(a,"MASCULINO",LocalDate.now().minusYears(29).minusMonths(6));
+		var compl=Map.of("punhoCm",18,"nivelAtividade","MODERADO");
+		var av=criar(a,p,corpo(Map.of("complementares",compl,"energia",Map.of("metodo","FAO_2004","carboidrato","FAIXA_ESPORTIVA","dislipidemico",true,"colesterolTotal",230))));
+		var e=av.path("energiaResultado");
+		assertThat(e.path("metodo").asString()).isEqualTo("FAO_2004");assertThat(e.path("gebKcal").decimalValue()).isEqualByComparingTo("2235.54");
+		assertThat(e.path("getKcal").decimalValue()).isEqualByComparingTo("3934.55");assertThat(e.path("carboidrato").path("percentualMinimo").decimalValue()).isEqualByComparingTo("50");
+		assertThat(e.path("colesterolMaximoMg").decimalValue()).isEqualByComparingTo("200");assertThat(av.path("energia").path("carboidrato").asString()).isEqualTo("FAIXA_ESPORTIVA");
+		var lido=json(requisitar("GET","/avaliacoes/"+av.path("id").asString(),a.token(),null));
+		assertThat(lido.path("energiaResultado").path("vetKcal").decimalValue()).isEqualByComparingTo("3934.55");
+	}
+	/** BE-49d / RN-CAL-05: IMC de 30 ou mais usa o peso ajustado nos "por kg", e a dieta lê peso e metas da avaliação mais recente. */
+	@Test void pesoAjustadoEReferenciaParaADieta() throws Exception {
+		var a=cadastrarNutri();var p=paciente(a,"MASCULINO",LocalDate.now().minusYears(40).minusMonths(2));
+		var semAvaliacao=requisitar("GET","/pacientes/"+p.fichaId()+"/dietas/referencia-avaliacao",a.token(),null);
+		assertThat(semAvaliacao.statusCode()).isEqualTo(404);
+		var av=criar(a,p,corpo(Map.of("pesoKg",120,"estaturaM",1.70,"complementares",Map.of("punhoCm",18,"nivelAtividade","MODERADO"),
+			"energia",Map.of("metodo","FAO_2004","carboidrato","POR_KG","proteina","HIPERTROFIA"))));
+		assertThat(av.path("energiaResultado").path("pesoReferenciaKg").decimalValue()).isEqualByComparingTo("77.03");
+		var r=requisitar("GET","/pacientes/"+p.fichaId()+"/dietas/referencia-avaliacao",a.token(),null);assertThat(r.statusCode()).as(r.body()).isEqualTo(200);
+		var ref=json(r);
+		assertThat(ref.path("avaliacaoId").asString()).isEqualTo(av.path("id").asString());
+		assertThat(ref.path("pesoKg").decimalValue()).isEqualByComparingTo("120");assertThat(ref.path("pesoReferenciaKg").decimalValue()).isEqualByComparingTo("77.03");
+		var metas=ref.path("metas");assertThat(metas.path("vetKcal").decimalValue()).isEqualByComparingTo(av.path("energiaResultado").path("vetKcal").decimalValue());
+		assertThat(metas.path("carboidratoPct").decimalValue().add(metas.path("proteinaPct").decimalValue()).add(metas.path("lipidioPct").decimalValue())).isEqualByComparingTo("100");
+		assertThat(ref.path("gestante").asBoolean()).isFalse();assertThat(ref.path("lactante").asBoolean()).isFalse();
+		// isolamento: outra nutri não vê a ficha (404)
+		var outra=cadastrarNutri();
+		assertThat(requisitar("GET","/pacientes/"+p.fichaId()+"/dietas/referencia-avaliacao",outra.token(),null).statusCode()).isEqualTo(404);
+	}
+	@Test void semEscolhaAAvaliacaoNaoTemEnergia() throws Exception {
+		var a=cadastrarNutri();var p=paciente(a,"MASCULINO",LocalDate.now().minusYears(29));
+		var av=criar(a,p,corpo(Map.of()));
+		assertThat(av.has("energiaResultado")).isFalse();assertThat(av.has("energia")).isFalse();
+	}
+	@Test void pacienteSoVeAEnergiaSeNecessidadesForCompartilhada() throws Exception {
+		var a=cadastrarNutri();var p=paciente(a,"MASCULINO",LocalDate.now().minusYears(29));
+		criar(a,p,corpo(Map.of("complementares",Map.of("nivelAtividade","LEVE"),"energia",Map.of("metodo","FAO_2004"),"compartilhamento",Map.of("necessidades",false))));
+		var visto=json(requisitar("GET","/eu/avaliacoes",p.token(),null)).path("itens").get(0);
+		assertThat(visto.has("energiaResultado")).isFalse();assertThat(visto.has("energia")).isFalse();
+	}
+	@Test void rotinaMetComAtividadeDesconhecidaERejeitada() throws Exception {
+		var a=cadastrarNutri();var p=paciente(a,"MASCULINO",LocalDate.now().minusYears(29));
+		var rotina=Map.of("horasSono",8,"horasTrabalho",8,"intensidadeTrabalho","LEVE","atividades",List.of(Map.of("codigo","inexistente","minutos",60)));
+		var r=requisitar("POST","/pacientes/"+p.fichaId()+"/avaliacoes",a.token(),corpo(Map.of("energia",Map.of("metodo","MET","rotinaMet",rotina))));
+		assertThat(r.statusCode()).isEqualTo(400);assertThat(json(r).path("codigo").asString()).isEqualTo("FORMATO_INVALIDO");
+	}
+	@Test void listaAtividadesMetEMetasDriParaOApp() throws Exception {
+		var a=cadastrarNutri();
+		var mets=json(requisitar("GET","/referencias/atividades-met",a.token(),null)).path("itens");
+		assertThat(mets.size()).isGreaterThan(100);assertThat(mets.get(0).path("codigo").asString()).isEqualTo("alpinismo");
+		var dri=json(requisitar("GET","/referencias/dri?sexo=feminino&idadeMeses=360&lactante=true",a.token(),null));
+		assertThat(dri.path("lactante").asBoolean()).isTrue();assertThat(dri.path("itens").size()).isGreaterThan(20);
+		assertThat(requisitar("GET","/referencias/dri?sexo=outro&idadeMeses=360",a.token(),null).statusCode()).isEqualTo(400);
+	}
+	@Test void buscaAlimentosNaTacoComFonte() throws Exception {
+		var a=cadastrarNutri();
+		var r=json(requisitar("GET","/referencias/taco?busca=ARROZ%20integral&limite=5",a.token(),null));
+		assertThat(r.path("fonte").asString()).contains("TACO");assertThat(r.path("categorias").size()).isEqualTo(15);
+		assertThat(r.path("itens").size()).isEqualTo(2);assertThat(r.path("itens").get(0).path("nome").asString()).isEqualTo("Arroz, integral, cozido");
+		var arroz=json(requisitar("GET","/referencias/taco/1",a.token(),null));
+		assertThat(arroz.path("nutrientes").path("energia_kcal").decimalValue()).isEqualByComparingTo("124");
+		assertThat(arroz.path("nutrientes").has("colesterol_mg")).isFalse();
+		assertThat(arroz.path("tracos").toString()).contains("riboflavina_mg");
+		assertThat(requisitar("GET","/referencias/taco/9999",a.token(),null).statusCode()).isEqualTo(404);
+		assertThat(requisitar("GET","/referencias/taco?limite=0",a.token(),null).statusCode()).isEqualTo(400);
+	}
+	@Test void consultaCurvasDaOms() throws Exception {
+		var a=cadastrarNutri();
+		var pi=json(requisitar("GET","/referencias/oms?indicador=PESO_IDADE&sexo=feminino&idadeMeses=0",a.token(),null)).path("curva");
+		assertThat(pi.path("percentis").size()).isEqualTo(8);assertThat(pi.path("percentis").get(4).decimalValue()).isEqualByComparingTo("3.2");
+		var imc=json(requisitar("GET","/referencias/oms?indicador=IMC_IDADE&sexo=masculino&idadeMeses=150",a.token(),null)).path("curva");
+		assertThat(imc.path("idadeMeses").asInt()).isEqualTo(144);assertThat(imc.path("percentis").get(4).decimalValue()).isEqualByComparingTo("17.5");
+		assertThat(requisitar("GET","/referencias/oms?indicador=PESO_IDADE&sexo=feminino&idadeMeses=130",a.token(),null).statusCode()).isEqualTo(404);
+		assertThat(requisitar("GET","/referencias/oms?indicador=IMC_IDADE&sexo=feminino&idadeMeses=216",a.token(),null).statusCode()).isEqualTo(404);
+		assertThat(requisitar("GET","/referencias/oms?indicador=X&sexo=feminino&idadeMeses=1",a.token(),null).statusCode()).isEqualTo(400);
+	}
+	@Test void listaEClassificaExames() throws Exception {
+		var a=cadastrarNutri();
+		var cat=json(requisitar("GET","/referencias/exames?faixaEtaria=ADULTO",a.token(),null));
+		assertThat(cat.path("itens").size()).isEqualTo(132);assertThat(cat.path("itens").get(0).path("nome").asString()).isEqualTo("Ácido úrico");
+		var r=json(requisitar("GET","/referencias/exames/acido-urico/classificar?faixaEtaria=ADULTO&valor=2.4&sexo=feminino",a.token(),null));
+		assertThat(r.path("rotulo").asString()).isEqualTo("limite inferior");
+		var sem=json(requisitar("GET","/referencias/exames/acido-urico/classificar?faixaEtaria=ADULTO&valor=5",a.token(),null));
+		assertThat(sem.path("rotulo").isNull()).isTrue();assertThat(sem.path("motivo").asString()).isEqualTo("FALTA_SEXO");
+		assertThat(requisitar("GET","/referencias/exames/nao-existe/classificar?faixaEtaria=ADULTO&valor=1",a.token(),null).statusCode()).isEqualTo(404);
+		assertThat(requisitar("GET","/referencias/exames?faixaEtaria=IDOSO",a.token(),null).statusCode()).isEqualTo(400);
+	}
+	@Test void consultaPercentisDeFrisancho() throws Exception {
+		var a=cadastrarNutri();
+		var ambc=json(requisitar("GET","/referencias/frisancho?indicador=AMBC&sexo=feminino&idadeAnos=5",a.token(),null));
+		assertThat(ambc.path("p5").decimalValue()).isEqualByComparingTo("1238");assertThat(ambc.path("p90").decimalValue()).isEqualByComparingTo("2012");
+		var cb=json(requisitar("GET","/referencias/frisancho?indicador=CB&sexo=masculino&idadeAnos=9",a.token(),null));
+		assertThat(cb.path("p50").decimalValue()).isEqualByComparingTo("20");assertThat(cb.path("p5").isNull()).isTrue();
+		assertThat(requisitar("GET","/referencias/frisancho?indicador=AGB&sexo=feminino&idadeAnos=10",a.token(),null).statusCode()).isEqualTo(404);
+		assertThat(requisitar("GET","/referencias/frisancho?indicador=XX&sexo=feminino&idadeAnos=5",a.token(),null).statusCode()).isEqualTo(400);
+	}
+
+	@Test void consultaPorcoesPorGrupoComFonte() throws Exception {
+		var a=cadastrarNutri();
+		var r=json(requisitar("GET","/referencias/porcoes",a.token(),null));
+		assertThat(r.path("fonte").asString()).contains("Dieta sem restri").contains("TACO");
+		assertThat(r.path("grupos")).hasSize(15);
+		assertThat(r.path("unidades").path("energia").asString()).isEqualTo("kcal");
+		JsonNode pao=null;for(var g:r.path("grupos"))if(g.path("nome").asString().equals("P\u00e3o"))pao=g;
+		assertThat(pao).isNotNull();assertThat(pao.path("opcoes")).hasSize(2);
+		var o1=pao.path("opcoes").get(0);
+		assertThat(o1.path("kcal").decimalValue()).isEqualByComparingTo("70.19");
+		assertThat(o1.path("nutrientes").path("gli").decimalValue()).isEqualByComparingTo("13.2060");
+	}
 }

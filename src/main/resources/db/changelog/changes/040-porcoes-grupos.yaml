@@ -1,0 +1,77 @@
+databaseChangeLog:
+  - changeSet:
+      id: 040-porcoes-grupos
+      author: dietamais
+      changes:
+        - loadData:
+            tableName: grupo_alimento
+            file: db/changelog/dados/grupos-alimentos-fase8.csv
+            encoding: UTF-8
+            separator: ";"
+            usePreparedStatements: true
+            columns:
+              - column: { header: id, name: id, type: UUID }
+              - column: { header: nome, name: nome, type: STRING }
+              - column: { header: kcal_por_porcao, name: kcal_por_porcao, type: NUMERIC }
+              - column: { header: carboidratos_por_porcao, name: carboidratos_por_porcao, type: NUMERIC }
+              - column: { header: proteinas_por_porcao, name: proteinas_por_porcao, type: NUMERIC }
+              - column: { header: gorduras_por_porcao, name: gorduras_por_porcao, type: NUMERIC }
+        - sql:
+            comment: Nutricionistas que já existem recebem os 3 grupos novos (Vegetal cru ou cozido, Embutido e Bebida); as novas já recebem pela cópia do catálogo.
+            sql: >-
+              INSERT INTO grupo_alimento_nutri(nutricionista_id,grupo_id,nome,kcal_por_porcao,carboidratos_por_porcao,proteinas_por_porcao,gorduras_por_porcao,origem_macros,origem_base,estimativa)
+              SELECT n.id,g.id,g.nome,g.kcal_por_porcao,g.carboidratos_por_porcao,g.proteinas_por_porcao,g.gorduras_por_porcao,'CATALOGO','{}'::jsonb,NULL
+              FROM nutricionista n CROSS JOIN grupo_alimento g
+              WHERE g.id IN ('019a0000-0000-7000-8000-000000000013','019a0000-0000-7000-8000-000000000014','019a0000-0000-7000-8000-000000000015')
+              AND EXISTS (SELECT 1 FROM lista_alimentos_nutri l WHERE l.nutricionista_id=n.id)
+              ON CONFLICT (nutricionista_id,grupo_id) DO NOTHING;
+        - createTable:
+            tableName: grupo_porcao
+            remarks: Porções que a nutri escolhe por grupo na dieta, como na aba "Escolha as porções" da planilha "Dieta sem restrições" (BE-47b). kcal é a média dos alimentos do grupo na porção (valor provisório, ver visao-geral). Dado, não código.
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: grupo_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_grupo_porcao_grupo, references: grupo_alimento(id) } }
+              - column: { name: opcao, type: smallint, constraints: { nullable: false } }
+              - column: { name: kcal, type: 'numeric(8,2)', constraints: { nullable: false } }
+              - column: { name: quantidade, type: 'numeric(8,2)' }
+              - column: { name: unidade, type: varchar(2) }
+              - column: { name: medida_caseira, type: varchar(200) }
+              - column: { name: guia_alimentar, type: boolean, constraints: { nullable: false } }
+        - addUniqueConstraint: { tableName: grupo_porcao, columnNames: 'grupo_id, opcao', constraintName: uq_grupo_porcao }
+        - createTable:
+            tableName: grupo_porcao_nutriente
+            remarks: Perfil de uma porção do grupo (até 34 nutrientes, por porção). Nutriente que nenhum alimento do grupo informa fica ausente (nunca zero). Dado, não código.
+            columns:
+              - column: { name: porcao_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_grupo_porcao_nutriente, references: grupo_porcao(id) } }
+              - column: { name: nutriente, type: varchar(10), constraints: { nullable: false } }
+              - column: { name: valor, type: 'numeric(14,4)', constraints: { nullable: false } }
+        - addPrimaryKey: { tableName: grupo_porcao_nutriente, columnNames: 'porcao_id, nutriente', constraintName: pk_grupo_porcao_nutriente }
+        - sql:
+            sql: >-
+              ALTER TABLE grupo_porcao ADD CONSTRAINT ck_grupo_porcao_unidade CHECK (unidade IS NULL OR unidade IN ('g','ml'));
+              ALTER TABLE grupo_porcao ADD CONSTRAINT ck_grupo_porcao_kcal CHECK (kcal>=0);
+        - loadData:
+            tableName: grupo_porcao
+            file: db/changelog/dados/grupo-porcao.csv
+            encoding: UTF-8
+            separator: ";"
+            usePreparedStatements: true
+            columns:
+              - column: { header: id, name: id, type: UUID }
+              - column: { header: grupo_id, name: grupo_id, type: UUID }
+              - column: { header: opcao, name: opcao, type: NUMERIC }
+              - column: { header: kcal, name: kcal, type: NUMERIC }
+              - column: { header: quantidade, name: quantidade, type: NUMERIC }
+              - column: { header: unidade, name: unidade, type: STRING }
+              - column: { header: medida_caseira, name: medida_caseira, type: STRING }
+              - column: { header: guia_alimentar, name: guia_alimentar, type: BOOLEAN }
+        - loadData:
+            tableName: grupo_porcao_nutriente
+            file: db/changelog/dados/grupo-porcao-nutriente.csv
+            encoding: UTF-8
+            separator: ";"
+            usePreparedStatements: true
+            columns:
+              - column: { header: porcao_id, name: porcao_id, type: UUID }
+              - column: { header: nutriente, name: nutriente, type: STRING }
+              - column: { header: valor, name: valor, type: NUMERIC }

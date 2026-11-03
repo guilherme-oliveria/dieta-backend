@@ -18,10 +18,14 @@ class ListasBindingTest {
 	final Instant agora=Instant.parse("2026-10-27T12:00:00.123456789Z");
 	final DadosAlimento dados=new DadosAlimento(grupo,"Fictício","1 unidade",BigDecimal.TEN,true);
 	@Test void criacaoConverteInstantesNaFronteiraJdbc() throws Exception {
-		var f=fixture();assertThat(new ListasAlimentosStore(f.jdbc()).criar(id,nid,dados,agora)).isTrue();timestamp(f.statement(),7);timestamp(f.statement(),8);
+		var f=fixture();assertThat(new ListasAlimentosStore(f.jdbc()).criar(id,nid,dados,agora)).isTrue();timestamp(f.statement(),8);timestamp(f.statement(),9);
 	}
 	@Test void edicaoDeAlimentoConverteInstante() throws Exception {
 		var f=fixture();new ListasAlimentosStore(f.jdbc()).atualizar(id,nid,dados,agora);timestamp(f.statement(),6);
+	}
+	@Test void edicaoComMarcadoresGravaArrayEMantemOInstante() throws Exception {
+		var f=fixture();new ListasAlimentosStore(f.jdbc()).atualizar(id,nid,new DadosAlimento(grupo,"Fictício","1 unidade",BigDecimal.TEN,true,List.of(MarcadorAlimento.CONTEM_LACTOSE,MarcadorAlimento.ALTO_SODIO,MarcadorAlimento.CONTEM_LACTOSE)),agora);
+		verify(f.statement()).setString(6,"{CONTEM_LACTOSE,ALTO_SODIO}");timestamp(f.statement(),7);
 	}
 	@Test void diferencasUsamArraysTipadosETimestampSuportado() throws Exception {
 		var f=fixture();new ListasAlimentosStore(f.jdbc()).atualizarAjuste(id,nid,new DadosAjusteLista(List.of(grupo),List.of()),agora);

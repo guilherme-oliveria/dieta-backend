@@ -11,5 +11,12 @@ public record RefeicaoRequisicao(
 	@NotBlank @Size(max=150) String nome,
 	@NotNull LocalTime horario,
 	@PositiveOrZero int ordem,
-	@NotNull List<@NotNull @Valid ItemRefeicaoRequisicao> itens) {
+	@NotNull List<@NotNull @Valid ItemRefeicaoRequisicao> itens,
+	/** `PRINCIPAL` (padrão) ou `ALTERNATIVA` (RN-DIE-11). */
+	@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+	@Pattern(regexp="PRINCIPAL|ALTERNATIVA") String tipo,
+	/** Id (informado nesta mesma requisição) da refeição principal que esta alternativa substitui; só com `tipo=ALTERNATIVA`. */
+	@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+	UUID alternativaDe) {
+	public RefeicaoRequisicao(UUID id,String nome,LocalTime horario,int ordem,List<ItemRefeicaoRequisicao> itens){this(id,nome,horario,ordem,itens,null,null);}
 }

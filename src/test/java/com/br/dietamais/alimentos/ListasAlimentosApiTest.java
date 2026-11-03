@@ -45,6 +45,27 @@ class ListasAlimentosApiTest extends TesteIsolamento {
 		erro(requisitar("PATCH","/alimentos/"+id,a.token(),editar(alimento,true),Map.of("If-Match",tag(alimento))),409,"CONFLITO_VERSAO");
 		erro(requisitar("GET","/alimentos?pagina=-1",a.token(),null),400,"FORMATO_INVALIDO");
 	}
+	/** BE-51: marcadores de restrição sugeridos pelo catálogo, editáveis só na cópia da nutri e usados como filtro. */
+	@Test void marcadoresVemDoCatalogoSaoEditaveisSoNaCopiaPropriaEFiltram() throws Exception {
+		var a=cadastrarNutri();var b=cadastrarNutri();
+		var queijo=json(requisitar("GET","/alimentos?busca=Catupiry&tamanho=5",a.token(),null)).path("itens").get(0);
+		assertThat(queijo.path("marcadores").toString()).contains("CONTEM_LACTOSE");
+		var comLactose=json(requisitar("GET","/alimentos?busca=Catupiry&semMarcador=CONTEM_LACTOSE",a.token(),null));assertThat(comLactose.path("total").asLong()).isZero();
+		// criar sem marcadores = vazio; criar e editar com marcadores
+		String grupo=grupos(a.token()).get(0).path("id").asString();var corpo=new HashMap<>(novo(grupo,"Marcador ficticio"));corpo.put("marcadores",List.of("ALTO_SODIO","ALTO_SODIO","ACUCAR_ADICIONADO"));
+		var criado=json(requisitar("POST","/alimentos",a.token(),corpo));assertThat(criado.path("marcadores")).hasSize(2);
+		assertThat(json(requisitar("GET","/alimentos?busca=Marcador%20ficticio&semMarcador=ALTO_SODIO",a.token(),null)).path("total").asLong()).isZero();
+		assertThat(json(requisitar("GET","/alimentos?busca=Marcador%20ficticio&semMarcador=CONTEM_GLUTEN",a.token(),null)).path("total").asLong()).isEqualTo(1);
+		var editar=new HashMap<>(editar(criado,true));editar.put("marcadores",List.of());
+		var limpo=requisitar("PATCH","/alimentos/"+criado.path("id").asString(),a.token(),editar,Map.of("If-Match",tag(criado)));assertThat(limpo.statusCode()).isEqualTo(200);assertThat(json(limpo).path("marcadores")).isEmpty();
+		// sem o campo na edição, os marcadores ficam como estão
+		var depois=json(limpo);var manter=editar(depois,true);
+		var mantido=json(requisitar("PATCH","/alimentos/"+depois.path("id").asString(),a.token(),manter,Map.of("If-Match",tag(depois))));assertThat(mantido.path("marcadores")).isEmpty();
+		erro(requisitar("POST","/alimentos",a.token(),Map.of("grupoId",grupo,"nome","Invalido ficticio","medidaCaseira","1","gramasPorPorcao",1,"marcadores",List.of("NAO_EXISTE"))),400,"FORMATO_INVALIDO");
+		// a outra nutri tem a própria cópia, intacta
+		assertThat(json(requisitar("GET","/alimentos?busca=Catupiry",b.token(),null)).path("itens").get(0).path("marcadores").toString()).contains("CONTEM_LACTOSE");
+		assertThat(json(requisitar("GET","/alimentos?busca=Marcador%20ficticio",b.token(),null)).path("total").asLong()).isZero();
+	}
 	@Test void diferencasPorPacienteNaoAfetamOutroPacienteEHistoricoSoPermiteLeitura() throws Exception {
 		var a=cadastrarNutri();var b=cadastrarNutri();var p=criarPaciente(a.token());var outro=criarPaciente(a.token());String pid=p.path("id").asString();String outroId=outro.path("id").asString();
 		var antes=lista(a.token(),pid);String grupo=grupos(a.token()).get(0).path("id").asString();var novo=requisitar("POST","/alimentos",a.token(),novo(grupo,"Somente um paciente ficticio"));assertThat(novo.statusCode()).isEqualTo(201);String food=json(novo).path("id").asString();

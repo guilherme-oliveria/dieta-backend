@@ -1,0 +1,63 @@
+databaseChangeLog:
+  - changeSet:
+      id: 037-referencia-oms
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: referencia_oms
+            remarks: Curvas de crescimento da OMS (2006/2007) por sexo e idade em meses - peso, estatura e IMC por idade, com os cortes de percentil e de escore Z, como estão nas abas P.I., E.I. e I.M.C. das planilhas da Nut. Luciana (BE-54). Dado, não código.
+            columns:
+              - column: { name: indicador, type: varchar(20), constraints: { nullable: false } }
+              - column: { name: sexo, type: varchar(10), constraints: { nullable: false } }
+              - column: { name: idade_meses, type: int, constraints: { nullable: false } }
+              - column: { name: p0_1, type: 'numeric(8,2)', constraints: { nullable: false } }
+              - column: { name: p3, type: 'numeric(8,2)', constraints: { nullable: false } }
+              - column: { name: p10, type: 'numeric(8,2)', constraints: { nullable: false } }
+              - column: { name: p15, type: 'numeric(8,2)', constraints: { nullable: false } }
+              - column: { name: p50, type: 'numeric(8,2)', constraints: { nullable: false } }
+              - column: { name: p85, type: 'numeric(8,2)', constraints: { nullable: false } }
+              - column: { name: p97, type: 'numeric(8,2)', constraints: { nullable: false } }
+              - column: { name: p99, type: 'numeric(8,2)', constraints: { nullable: false } }
+              - column: { name: z_m3, type: 'numeric(8,2)', constraints: { nullable: false } }
+              - column: { name: z_m2, type: 'numeric(8,2)', constraints: { nullable: false } }
+              - column: { name: z_m1, type: 'numeric(8,2)', constraints: { nullable: false } }
+              - column: { name: z_0, type: 'numeric(8,2)', constraints: { nullable: false } }
+              - column: { name: z_p1, type: 'numeric(8,2)', constraints: { nullable: false } }
+              - column: { name: z_p2, type: 'numeric(8,2)', constraints: { nullable: false } }
+              - column: { name: z_p3, type: 'numeric(8,2)', constraints: { nullable: false } }
+              - column: { name: fonte, type: varchar(200), defaultValue: 'OMS 2006/2007 (planilhas da Nut. Luciana: abas P.I., E.I. e I.M.C.)', constraints: { nullable: false } }
+              - column: { name: versao_referencia, type: varchar(40), defaultValue: 'oms-1.0.0', constraints: { nullable: false } }
+        - addPrimaryKey:
+            tableName: referencia_oms
+            columnNames: indicador, sexo, idade_meses
+            constraintName: pk_referencia_oms
+        - sql:
+            sql: >-
+              ALTER TABLE referencia_oms ADD CONSTRAINT ck_referencia_oms_indicador CHECK (indicador IN ('PESO_IDADE','ESTATURA_IDADE','IMC_IDADE'));
+              ALTER TABLE referencia_oms ADD CONSTRAINT ck_referencia_oms_sexo CHECK (sexo IN ('masculino','feminino'));
+              ALTER TABLE referencia_oms ADD CONSTRAINT ck_referencia_oms_idade CHECK (idade_meses BETWEEN 0 AND 228);
+        - loadData:
+            tableName: referencia_oms
+            file: db/changelog/dados/referencia-oms.csv
+            encoding: UTF-8
+            separator: ";"
+            usePreparedStatements: true
+            columns:
+              - column: { header: indicador, name: indicador, type: STRING }
+              - column: { header: sexo, name: sexo, type: STRING }
+              - column: { header: idade_meses, name: idade_meses, type: NUMERIC }
+              - column: { header: p0_1, name: p0_1, type: NUMERIC }
+              - column: { header: p3, name: p3, type: NUMERIC }
+              - column: { header: p10, name: p10, type: NUMERIC }
+              - column: { header: p15, name: p15, type: NUMERIC }
+              - column: { header: p50, name: p50, type: NUMERIC }
+              - column: { header: p85, name: p85, type: NUMERIC }
+              - column: { header: p97, name: p97, type: NUMERIC }
+              - column: { header: p99, name: p99, type: NUMERIC }
+              - column: { header: z_m3, name: z_m3, type: NUMERIC }
+              - column: { header: z_m2, name: z_m2, type: NUMERIC }
+              - column: { header: z_m1, name: z_m1, type: NUMERIC }
+              - column: { header: z_0, name: z_0, type: NUMERIC }
+              - column: { header: z_p1, name: z_p1, type: NUMERIC }
+              - column: { header: z_p2, name: z_p2, type: NUMERIC }
+              - column: { header: z_p3, name: z_p3, type: NUMERIC }

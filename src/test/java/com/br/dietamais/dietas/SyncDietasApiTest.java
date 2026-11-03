@@ -20,7 +20,7 @@ class SyncDietasApiTest extends TesteComPaciente {
 	@Test void nutriRecebeSuaListaEDietasEPacienteRecebeSnapshotsSemVazar() throws Exception {
 		var a=cadastrarNutri();var b=cadastrarNutri();var p=pacienteVinculado(a);var ali=alimentos(a.token(),2);
 		var inicial=puxar(a.token(),null);
-		assertThat(ids(inicial,"grupos")).hasSize(12);assertThat(ids(inicial,"alimentos")).hasSize(482);assertThat(ids(inicial,"listas")).containsExactly(p.vinculoId());assertThat(ids(inicial,"dietas")).isEmpty();
+		assertThat(ids(inicial,"grupos")).hasSize(15);assertThat(ids(inicial,"alimentos")).hasSize(482);assertThat(ids(inicial,"listas")).containsExactly(p.vinculoId());assertThat(ids(inicial,"dietas")).isEmpty();
 		var dpb=puxar(b.token(),null);assertThat(ids(dpb,"listas")).isEmpty();assertThat(ids(dpb,"alimentos")).doesNotContainAnyElementsOf(ids(inicial,"alimentos"));assertThat(ids(dpb,"grupos")).isNotEmpty();
 		var d=criarDieta(a.token(),p.fichaId(),dieta("Sync",refeicao("R",0,item(ali.get(0),"1"))));
 		var depoisRascunho=puxar(a.token(),inicial.cursor());assertThat(ids(depoisRascunho,"dietas")).containsExactly(d.path("id").asString());assertThat(depoisRascunho.mudancas().get("dietas").get(0).path("dados").path("status").asString()).isEqualTo("RASCUNHO");

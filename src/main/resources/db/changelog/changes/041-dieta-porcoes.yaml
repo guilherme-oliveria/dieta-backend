@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: 041-dieta-porcoes
+      author: dietamais
+      changes:
+        - addColumn:
+            tableName: dieta
+            columns:
+              - column: { name: porcoes, type: jsonb, remarks: 'Porção escolhida por grupo, [{grupoId,opcao}] (RN-DIE-10)' }
+              - column: { name: metas, type: jsonb, remarks: 'Metas da dieta: vetKcal e percentuais de carboidrato, proteína e lipídio' }
+              - column: { name: peso_referencia_kg, type: 'numeric(7,2)' }
+              - column: { name: rodape, type: varchar(2000) }
+        - addColumn:
+            tableName: refeicao
+            columns:
+              - column: { name: tipo, type: varchar(12), defaultValue: PRINCIPAL, constraints: { nullable: false } }
+              - column: { name: alternativa_de, type: uuid, remarks: 'Refeição principal que esta alternativa substitui (RN-DIE-11)' }
+        - addColumn:
+            tableName: item_refeicao
+            columns:
+              - column: { name: grupo_id, type: uuid, constraints: { foreignKeyName: fk_item_grupo, references: grupo_alimento(id) } }
+              - column: { name: a_vontade, type: boolean, defaultValueBoolean: false, constraints: { nullable: false } }
+              - column: { name: texto_livre, type: varchar(200) }
+        - dropNotNullConstraint: { tableName: item_refeicao, columnName: alimento_id, columnDataType: uuid }
+        - dropNotNullConstraint: { tableName: item_refeicao, columnName: porcoes, columnDataType: 'numeric(10,4)' }
+        - sql:
+            sql: >-
+              ALTER TABLE refeicao ADD CONSTRAINT ck_refeicao_tipo CHECK (tipo IN ('PRINCIPAL','ALTERNATIVA'));
+              ALTER TABLE refeicao ADD CONSTRAINT ck_refeicao_alternativa CHECK ((tipo='ALTERNATIVA')=(alternativa_de IS NOT NULL));
+              ALTER TABLE item_refeicao DROP CONSTRAINT ck_item_porcoes;
+              ALTER TABLE item_refeicao ADD CONSTRAINT ck_item_porcoes CHECK (porcoes IS NULL OR porcoes>0);
+              ALTER TABLE item_refeicao ADD CONSTRAINT ck_item_origem CHECK (
+                (num_nonnulls(alimento_id,grupo_id)=1 AND (a_vontade OR porcoes IS NOT NULL))
+                OR (num_nonnulls(alimento_id,grupo_id)=0 AND a_vontade AND texto_livre IS NOT NULL));

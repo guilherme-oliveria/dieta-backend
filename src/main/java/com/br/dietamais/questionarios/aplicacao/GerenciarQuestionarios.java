@@ -4,6 +4,7 @@ import com.br.dietamais.comum.api.*;
 import com.br.dietamais.pacientes.api.*;
 import com.br.dietamais.questionarios.api.*;
 import com.br.dietamais.questionarios.dominio.ValidadorResposta;
+import com.br.dietamais.questionarios.dominio.DerivarAnamnese;
 import com.br.dietamais.questionarios.infra.QuestionarioStore;
 import java.time.Clock;
 import java.util.*;
@@ -67,6 +68,7 @@ public class GerenciarQuestionarios {
 		var atuais=new LinkedHashMap<>(store.respostasDe(id));atuais.putAll(gravar);apagar.forEach(atuais::remove);
 		if(tamanho(atuais)>MAX_BYTES_RESPOSTAS)throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-ANA-02");
 		store.mesclarRespostas(id,gravar,apagar,relogio.instant());
+		store.gravarDerivados(id,DerivarAnamnese.calcular(estado.blocos(),atuais));
 		return store.doPacienteUm(id,paciente);
 	}
 
@@ -78,6 +80,7 @@ public class GerenciarQuestionarios {
 			if(Boolean.TRUE.equals(p.obrigatoria())&&ValidadorResposta.visivel(p,respostas)&&!respostas.containsKey(p.id()))
 				faltando.add(new ErroCampoResposta(p.id().toString(),"OBRIGATORIO","Responda esta pergunta."));
 		if(!faltando.isEmpty())throw new ExcecaoNegocio(CodigoErro.OBRIGATORIO,"RN-ANA-03","Há perguntas obrigatórias sem resposta.",faltando,null);
+		store.gravarDerivados(id,DerivarAnamnese.calcular(estado.blocos(),respostas));
 		store.marcarRespondido(id,relogio.instant());
 		eventos.publishEvent(new QuestionarioRespondido(id,estado.nutricionistaId(),paciente));
 		return store.doPacienteUm(id,paciente);

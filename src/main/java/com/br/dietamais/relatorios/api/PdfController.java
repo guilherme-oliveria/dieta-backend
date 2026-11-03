@@ -25,6 +25,19 @@ public class PdfController {
 	private final ServicoPdf pdf;
 	public PdfController(ServicoPdf pdf){this.pdf=pdf;}
 
+	@GetMapping("/dietas/{id}/pdf-lista")
+	@RotaNutri
+	@Operation(operationId="pdfListaSubstituicao",summary="PDF da lista de substituição publicada",description="BE-50b; RN-DIE-03. Quatro versões; MEDIA é o padrão. Link de 10 min, sem cache. Grupo sem referência é omitido com aviso no PDF. Carboidratos usa a porção média e valores provisórios por grupo.")
+	@ApiResponse(responseCode="200",description="Link temporário",content=@Content(mediaType="application/json",schema=@Schema(implementation=PdfResposta.class)))
+	@ApiResponse(responseCode="400",description="Tamanho desconhecido: FORMATO_INVALIDO")
+	public ResponseEntity<PdfResposta> pdfLista(@PathVariable UUID id,@RequestParam(defaultValue="MEDIA") TamanhoListaPdf tamanho){return resposta(pdf.listaDaNutri(id,tamanho));}
+
+	@GetMapping("/eu/dietas/{id}/pdf-lista")
+	@Operation(operationId="pdfMinhaListaSubstituicao",summary="PDF da lista de uma dieta que recebi",description="BE-50b; RN-DIE-03. Lista do snapshot recebido, inclusive vínculo encerrado. Link de 10 min; MEDIA é o padrão, CARBOIDRATOS usa a porção média.")
+	@ApiResponse(responseCode="200",description="Link temporário",content=@Content(mediaType="application/json",schema=@Schema(implementation=PdfResposta.class)))
+	@ApiResponse(responseCode="400",description="Tamanho desconhecido: FORMATO_INVALIDO")
+	public ResponseEntity<PdfResposta> pdfMinhaLista(@PathVariable UUID id,@RequestParam(defaultValue="MEDIA") TamanhoListaPdf tamanho){return resposta(pdf.listaDoPaciente(id,tamanho));}
+
 	@GetMapping("/dietas/{id}/pdf")
 	@RotaNutri
 	@Operation(operationId="pdfDieta",summary="PDF da dieta publicada",description="Link temporário (10 min) para o PDF do snapshot publicado, com nome, CRN e logo da nutri. 404 se a dieta nunca foi publicada. BE-28.")

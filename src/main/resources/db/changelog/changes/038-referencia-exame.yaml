@@ -1,0 +1,80 @@
+databaseChangeLog:
+  - changeSet:
+      id: 038-referencia-exame
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: referencia_exame
+            remarks: Catálogo de exames da avaliação bioquímica por faixa etária (aba av. bioquimica das três planilhas da Nut. Luciana), BE-56a. Dado, não código.
+            columns:
+              - column: { name: faixa_etaria, type: varchar(12), constraints: { nullable: false } }
+              - column: { name: codigo, type: varchar(80), constraints: { nullable: false } }
+              - column: { name: secao, type: varchar(80), constraints: { nullable: false } }
+              - column: { name: nome, type: varchar(120), constraints: { nullable: false } }
+              - column: { name: unidade, type: varchar(30) }
+              - column: { name: ordem, type: int, constraints: { nullable: false } }
+              - column: { name: qualitativo, type: boolean, constraints: { nullable: false } }
+              - column: { name: condicoes, type: varchar(200) }
+        - addPrimaryKey: { tableName: referencia_exame, columnNames: 'faixa_etaria, codigo', constraintName: pk_referencia_exame }
+        - createTable:
+            tableName: referencia_exame_regra
+            remarks: Degraus de classificação de cada exame, na ordem da planilha (o primeiro que serve vale). Rótulos como na planilha (normal, alto, limite superior...). BE-56a.
+            columns:
+              - column: { name: faixa_etaria, type: varchar(12), constraints: { nullable: false } }
+              - column: { name: exame_codigo, type: varchar(80), constraints: { nullable: false } }
+              - column: { name: ordem, type: int, constraints: { nullable: false } }
+              - column: { name: sexo, type: varchar(10) }
+              - column: { name: condicao, type: varchar(40) }
+              - column: { name: idade_min, type: 'numeric(6,2)' }
+              - column: { name: idade_min_incl, type: boolean, defaultValueBoolean: false, constraints: { nullable: false } }
+              - column: { name: idade_max, type: 'numeric(6,2)' }
+              - column: { name: idade_max_incl, type: boolean, defaultValueBoolean: false, constraints: { nullable: false } }
+              - column: { name: valor_min, type: 'numeric(14,4)' }
+              - column: { name: valor_min_incl, type: boolean, defaultValueBoolean: false, constraints: { nullable: false } }
+              - column: { name: valor_max, type: 'numeric(14,4)' }
+              - column: { name: valor_max_incl, type: boolean, defaultValueBoolean: false, constraints: { nullable: false } }
+              - column: { name: texto_igual, type: varchar(40) }
+              - column: { name: rotulo, type: varchar(40), constraints: { nullable: false } }
+        - addPrimaryKey: { tableName: referencia_exame_regra, columnNames: 'faixa_etaria, exame_codigo, ordem', constraintName: pk_referencia_exame_regra }
+        - addForeignKeyConstraint: { baseTableName: referencia_exame_regra, baseColumnNames: 'faixa_etaria, exame_codigo', referencedTableName: referencia_exame, referencedColumnNames: 'faixa_etaria, codigo', constraintName: fk_exame_regra_exame }
+        - sql:
+            sql: >-
+              ALTER TABLE referencia_exame ADD CONSTRAINT ck_referencia_exame_faixa CHECK (faixa_etaria IN ('CRIANCA','ADOLESCENTE','ADULTO'));
+              ALTER TABLE referencia_exame_regra ADD CONSTRAINT ck_exame_regra_sexo CHECK (sexo IS NULL OR sexo IN ('masculino','feminino'));
+        - loadData:
+            tableName: referencia_exame
+            file: db/changelog/dados/referencia-exame.csv
+            encoding: UTF-8
+            separator: ";"
+            usePreparedStatements: true
+            columns:
+              - column: { header: faixa_etaria, name: faixa_etaria, type: STRING }
+              - column: { header: codigo, name: codigo, type: STRING }
+              - column: { header: secao, name: secao, type: STRING }
+              - column: { header: nome, name: nome, type: STRING }
+              - column: { header: unidade, name: unidade, type: STRING }
+              - column: { header: ordem, name: ordem, type: NUMERIC }
+              - column: { header: qualitativo, name: qualitativo, type: BOOLEAN }
+              - column: { header: condicoes, name: condicoes, type: STRING }
+        - loadData:
+            tableName: referencia_exame_regra
+            file: db/changelog/dados/referencia-exame-regra.csv
+            encoding: UTF-8
+            separator: ";"
+            usePreparedStatements: true
+            columns:
+              - column: { header: faixa_etaria, name: faixa_etaria, type: STRING }
+              - column: { header: exame_codigo, name: exame_codigo, type: STRING }
+              - column: { header: ordem, name: ordem, type: NUMERIC }
+              - column: { header: sexo, name: sexo, type: STRING }
+              - column: { header: condicao, name: condicao, type: STRING }
+              - column: { header: idade_min, name: idade_min, type: NUMERIC }
+              - column: { header: idade_min_incl, name: idade_min_incl, type: BOOLEAN }
+              - column: { header: idade_max, name: idade_max, type: NUMERIC }
+              - column: { header: idade_max_incl, name: idade_max_incl, type: BOOLEAN }
+              - column: { header: valor_min, name: valor_min, type: NUMERIC }
+              - column: { header: valor_min_incl, name: valor_min_incl, type: BOOLEAN }
+              - column: { header: valor_max, name: valor_max, type: NUMERIC }
+              - column: { header: valor_max_incl, name: valor_max_incl, type: BOOLEAN }
+              - column: { header: texto_igual, name: texto_igual, type: STRING }
+              - column: { header: rotulo, name: rotulo, type: STRING }

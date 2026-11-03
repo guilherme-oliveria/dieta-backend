@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: 033-referencia-met
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: referencia_met
+            remarks: Equivalentes metabólicos (MET) das atividades físicas da aba MET da planilha da Nut. Luciana (BE-44). Dado, não código.
+            columns:
+              - column: { name: ordem, type: int, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: codigo, type: varchar(80), constraints: { nullable: false, unique: true, uniqueConstraintName: uk_referencia_met_codigo } }
+              - column: { name: nome, type: varchar(120), constraints: { nullable: false } }
+              - column: { name: met, type: 'numeric(5,2)', constraints: { nullable: false } }
+              - column: { name: fonte, type: varchar(200), constraints: { nullable: false } }
+              - column: { name: versao_referencia, type: varchar(40), constraints: { nullable: false } }
+        - sql:
+            sql: ALTER TABLE referencia_met ADD CONSTRAINT ck_referencia_met_valor CHECK (met > 0 AND met <= 30);
+        - loadData:
+            tableName: referencia_met
+            file: db/changelog/dados/referencia-met.csv
+            encoding: UTF-8
+            separator: ";"
+            usePreparedStatements: true
+            columns:
+              - column: { header: ordem, name: ordem, type: NUMERIC }
+              - column: { header: codigo, name: codigo, type: STRING }
+              - column: { header: nome, name: nome, type: STRING }
+              - column: { header: met, name: met, type: NUMERIC }
+              - column: { header: fonte, name: fonte, type: STRING }
+              - column: { header: versao_referencia, name: versao_referencia, type: STRING }

@@ -47,8 +47,8 @@ public class AlimentoController {
 	@GetMapping("/alimentos")
 	@Operation(operationId="listarAlimentos",summary="Listar alimentos da nutri",description="RN-ALI-01; implementação BE-10. Operação própria implementada na BE-10.")
 	@ApiResponse(responseCode="200",description="Resposta prevista após implementação",content=@Content(mediaType="application/json",schema=@Schema(implementation=PaginaAlimentosResposta.class)))
-	public ResponseEntity<PaginaAlimentosResposta> listarAlimentos(@RequestParam(defaultValue="0") @jakarta.validation.constraints.Min(0) int pagina, @RequestParam(defaultValue="20") @jakarta.validation.constraints.Min(1) @jakarta.validation.constraints.Max(100) int tamanho, @RequestParam(required=false) UUID grupoId, @RequestParam(required=false) @jakarta.validation.constraints.Size(max=150) String busca, @RequestParam(defaultValue="true") boolean ativo) {
-		return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(alimentos.listar(pagina,tamanho,grupoId,busca,ativo));
+	public ResponseEntity<PaginaAlimentosResposta> listarAlimentos(@RequestParam(defaultValue="0") @jakarta.validation.constraints.Min(0) int pagina, @RequestParam(defaultValue="20") @jakarta.validation.constraints.Min(1) @jakarta.validation.constraints.Max(100) int tamanho, @RequestParam(required=false) UUID grupoId, @RequestParam(required=false) @jakarta.validation.constraints.Size(max=150) String busca, @RequestParam(defaultValue="true") boolean ativo, @RequestParam(required=false) java.util.List<MarcadorAlimento> semMarcador) {
+		return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(alimentos.listar(pagina,tamanho,grupoId,busca,ativo,semMarcador==null?java.util.List.of():semMarcador));
 	}
 
 	@PostMapping("/alimentos")
