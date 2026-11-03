@@ -1,0 +1,4 @@
+# Falso positivo revisado: SQL parametrizado, sem credencial literal.
+# CalendarioStore.gravar: token_hash=excluded.token_hash na clausula ON CONFLICT.
+# Excecao restrita ao achado historico; nao ignora arquivo, regra ou futuras ocorrencias.
+48a77ffec3ee505f476b30ef6dbf9158f54d85ce:src/main/java/com/br/dietamais/agenda/infra/CalendarioStore.java:generic-api-key:17
