@@ -6,6 +6,7 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/), versões [S
 
 ## [Não lançado] — pendente para fechar 1.0.0 e 1.1.0
 
+- Integra na develop as atualizações já mescladas na main pelos PRs #76–#80, #84 e #85: checkout 7, setup-java 6, setup-gradle 6, dependency-review 5, Gitleaks Action 3 e Spring Modulith core/test 2.1.2. Preserva as funcionalidades M9/M10 e os gates de segurança; os PRs fechados #81–#83 (PDFBox 3) não entram.
 - BE-32b Implantação real na VPS (domínio, DNS, `.env.prod`, backup externo, primeiro `ADMIN`). Depende do Guilherme; o ensaio local está em `docs/operacao/ensaio-producao.md`.
 - **Termos de uso** (`docs/legal/terms-of-use.md` está como 1.0.0 RASCUNHO): enquanto não forem aprovados e publicados o cadastro continua bloqueado (BE-36).
 - Texto do termo de consentimento do paciente (`CONSENTIMENTO_VERSAO` e `CONSENTIMENTO_TEXTO`) e política de privacidade.
