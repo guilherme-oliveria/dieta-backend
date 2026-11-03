@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: 027-exportacao-dados
+      author: dietamais
+      comment: Pedidos de exportação de dados do paciente (BE-29, RN-LGPD-02). O arquivo fica no armazenamento por 24 h; aqui só o estado e o hash do token do link
+      changes:
+        - createTable:
+            tableName: exportacao_dados
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: usuario_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_exportacao_usuario, references: usuario(id) } }
+              - column: { name: status, type: varchar(20), constraints: { nullable: false } }
+              - column: { name: hash_token, type: varchar(64) }
+              - column: { name: chave, type: varchar(200) }
+              - column: { name: tentativas, type: int, defaultValueNumeric: 0, constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: pronta_em, type: timestamptz }
+              - column: { name: expira_em, type: timestamptz }
+        - createIndex:
+            tableName: exportacao_dados
+            indexName: ix_exportacao_usuario_criado
+            columns:
+              - column: { name: usuario_id }
+              - column: { name: criado_em }
+        - createIndex:
+            tableName: exportacao_dados
+            indexName: uk_exportacao_hash_token
+            unique: true
+            columns:
+              - column: { name: hash_token }

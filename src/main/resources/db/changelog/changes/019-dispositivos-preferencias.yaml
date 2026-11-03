@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: 019-dispositivo-preferencia-notificacao
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: dispositivo
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: usuario_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_dispositivo_usuario, references: usuario(id) } }
+              - column: { name: token, type: text, constraints: { nullable: false, unique: true, uniqueConstraintName: uk_dispositivo_token } }
+              - column: { name: plataforma, type: varchar(10), constraints: { nullable: false } }
+              - column: { name: nome_aparelho, type: varchar(150) }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: atualizado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+        - createIndex:
+            tableName: dispositivo
+            indexName: ix_dispositivo_usuario
+            columns:
+              - column: { name: usuario_id }
+        - createTable:
+            tableName: preferencia_notificacao
+            columns:
+              - column: { name: usuario_id, type: uuid, constraints: { primaryKey: true, nullable: false, foreignKeyName: fk_preferencia_usuario, references: usuario(id) } }
+              - column: { name: tipos_desligados, type: jsonb, defaultValue: '[]', constraints: { nullable: false } }
+              - column: { name: silencio_ativo, type: boolean, defaultValueBoolean: true, constraints: { nullable: false } }
+              - column: { name: silencio_inicio, type: time, defaultValue: '22:00', constraints: { nullable: false } }
+              - column: { name: silencio_fim, type: time, defaultValue: '07:00', constraints: { nullable: false } }
+              - column: { name: versao, type: bigint, defaultValueNumeric: 0, constraints: { nullable: false } }
+              - column: { name: atualizado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }

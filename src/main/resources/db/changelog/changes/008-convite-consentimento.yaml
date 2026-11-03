@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: 008-convite-consentimento
+      author: dietamais
+      changes:
+        - addColumn:
+            tableName: vinculo
+            columns:
+              - column: { name: paciente_origem_id, type: uuid }
+        - createTable:
+            tableName: convite
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: vinculo_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_convite_vinculo, references: vinculo(id) } }
+              - column: { name: hash_codigo, type: varchar(64), constraints: { nullable: false, unique: true } }
+              - column: { name: destinatario_email, type: varchar(255) }
+              - column: { name: criado_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: expira_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: usado_em, type: timestamptz }
+              - column: { name: invalidado_em, type: timestamptz }
+        - createIndex:
+            tableName: convite
+            indexName: ix_convite_vinculo
+            columns:
+              - column: { name: vinculo_id }
+        - createTable:
+            tableName: consentimento
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: vinculo_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_consentimento_vinculo, references: vinculo(id) } }
+              - column: { name: usuario_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_consentimento_usuario, references: usuario(id) } }
+              - column: { name: versao_termo, type: varchar(40), constraints: { nullable: false } }
+              - column: { name: hash_termo, type: varchar(64), constraints: { nullable: false } }
+              - column: { name: origem_ip, type: inet, constraints: { nullable: false } }
+              - column: { name: aceito_em, type: timestamptz, constraints: { nullable: false } }
+        - dropUniqueConstraint:
+            tableName: vinculo
+            constraintName: uk_vinculo_nutricionista_paciente
+        - dropUniqueConstraint:
+            tableName: ficha_paciente
+            constraintName: uk_ficha_nutricionista_paciente
+        - sql:
+            sql: CREATE UNIQUE INDEX uk_vinculo_aberto_nutri_paciente ON vinculo(nutricionista_id,paciente_id) WHERE status IN ('CONVIDADO','ATIVO')

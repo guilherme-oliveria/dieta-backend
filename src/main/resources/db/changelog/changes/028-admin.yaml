@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: 028-log-admin
+      author: dietamais
+      comment: Registro de tudo que o admin da plataforma altera (BE-30). Só inserção; sem dado clínico (RN-LGPD-05)
+      changes:
+        - createTable:
+            tableName: log_admin
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: admin_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_log_admin_usuario, references: usuario(id) } }
+              - column: { name: acao, type: varchar(60), constraints: { nullable: false } }
+              - column: { name: alvo_tipo, type: varchar(40), constraints: { nullable: false } }
+              - column: { name: alvo_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: antes, type: jsonb }
+              - column: { name: depois, type: jsonb }
+              - column: { name: motivo, type: varchar(500), constraints: { nullable: false } }
+              - column: { name: ocorrido_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: origem_ip, type: inet }
+              - column: { name: trace_id, type: varchar(64) }
+        - createIndex:
+            tableName: log_admin
+            indexName: ix_log_admin_alvo
+            columns:
+              - column: { name: alvo_tipo }
+              - column: { name: alvo_id }
+              - column: { name: ocorrido_em }
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION proteger_log_admin() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN RAISE EXCEPTION 'log_admin é somente inserção'; END;
+              $$;
+              CREATE TRIGGER log_admin_imutavel BEFORE UPDATE OR DELETE ON log_admin FOR EACH ROW EXECUTE FUNCTION proteger_log_admin();
+            rollback: DROP TRIGGER log_admin_imutavel ON log_admin; DROP FUNCTION proteger_log_admin();

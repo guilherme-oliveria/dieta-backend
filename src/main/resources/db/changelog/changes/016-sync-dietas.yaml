@@ -1,0 +1,124 @@
+databaseChangeLog:
+  - changeSet:
+      id: 016-sync-dietas
+      author: dietamais
+      changes:
+        - sql:
+            sql: >-
+              ALTER TABLE diario_sync DROP CONSTRAINT ck_diario_sync_colecao;
+              ALTER TABLE diario_sync ADD CONSTRAINT ck_diario_sync_colecao CHECK (colecao IN
+              ('PACIENTES','VINCULOS','NUTRIS','GRUPOS','ALIMENTOS','LISTAS','DIETAS','SNAPSHOTS','DIETA_EM_USO'));
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION grupo_diario_sync() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                PERFORM registrar_mudanca_sync('NUTRICIONISTA',NEW.nutricionista_id,'GRUPOS',NEW.grupo_id,NEW.nutricionista_id,NULL);
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION alimento_diario_sync() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                PERFORM registrar_mudanca_sync('NUTRICIONISTA',NEW.nutricionista_id,'ALIMENTOS',NEW.id,NEW.nutricionista_id,NULL);
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION lista_diario_sync() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                PERFORM registrar_mudanca_sync('NUTRICIONISTA',NEW.nutricionista_id,'LISTAS',NEW.vinculo_id,NEW.nutricionista_id,(SELECT paciente_id FROM vinculo WHERE id=NEW.vinculo_id));
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION dieta_diario_sync() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                PERFORM registrar_mudanca_sync('NUTRICIONISTA',NEW.nutricionista_id,'DIETAS',NEW.id,NEW.nutricionista_id,NEW.paciente_id);
+                IF TG_OP='INSERT' OR NEW.status IS DISTINCT FROM OLD.status THEN
+                  PERFORM registrar_mudanca_sync('PACIENTE',NEW.paciente_id,'DIETA_EM_USO',NEW.paciente_id,NEW.nutricionista_id,NEW.paciente_id);
+                END IF;
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION snapshot_diario_sync() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                PERFORM registrar_mudanca_sync('PACIENTE',NEW.paciente_id,'SNAPSHOTS',NEW.id,NEW.nutricionista_id,NEW.paciente_id);
+                PERFORM registrar_mudanca_sync('PACIENTE',NEW.paciente_id,'DIETA_EM_USO',NEW.paciente_id,NEW.nutricionista_id,NEW.paciente_id);
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION em_uso_diario_sync() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                PERFORM registrar_mudanca_sync('PACIENTE',NEW.paciente_id,'DIETA_EM_USO',NEW.paciente_id,NULL,NEW.paciente_id);
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION vinculo_propagar_paciente() RETURNS trigger LANGUAGE plpgsql AS $$
+              DECLARE s record;
+              BEGIN
+                IF NEW.paciente_id IS DISTINCT FROM OLD.paciente_id THEN
+                  UPDATE dieta SET paciente_id=NEW.paciente_id WHERE vinculo_id=NEW.id;
+                  UPDATE dieta_snapshot SET paciente_id=NEW.paciente_id WHERE vinculo_id=NEW.id;
+                END IF;
+                IF NEW.status IN ('ATIVO','ENCERRADO') AND NEW.excluido_em IS NULL THEN
+                  FOR s IN SELECT id FROM dieta_snapshot WHERE vinculo_id=NEW.id LOOP
+                    PERFORM registrar_mudanca_sync('PACIENTE',NEW.paciente_id,'SNAPSHOTS',s.id,NEW.nutricionista_id,NEW.paciente_id);
+                  END LOOP;
+                  PERFORM registrar_mudanca_sync('PACIENTE',NEW.paciente_id,'DIETA_EM_USO',NEW.paciente_id,NEW.nutricionista_id,NEW.paciente_id);
+                END IF;
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            sql: >-
+              CREATE TRIGGER grupo_diario_sync AFTER INSERT OR UPDATE ON grupo_alimento_nutri FOR EACH ROW EXECUTE FUNCTION grupo_diario_sync();
+              CREATE TRIGGER alimento_diario_sync AFTER INSERT OR UPDATE ON alimento_nutri FOR EACH ROW EXECUTE FUNCTION alimento_diario_sync();
+              CREATE TRIGGER lista_diario_sync AFTER INSERT OR UPDATE ON ajuste_lista_paciente FOR EACH ROW EXECUTE FUNCTION lista_diario_sync();
+              CREATE TRIGGER dieta_diario_sync AFTER INSERT OR UPDATE ON dieta FOR EACH ROW EXECUTE FUNCTION dieta_diario_sync();
+              CREATE TRIGGER snapshot_diario_sync AFTER INSERT ON dieta_snapshot FOR EACH ROW EXECUTE FUNCTION snapshot_diario_sync();
+              CREATE TRIGGER em_uso_diario_sync AFTER INSERT OR UPDATE ON dieta_em_uso FOR EACH ROW EXECUTE FUNCTION em_uso_diario_sync();
+              CREATE TRIGGER vinculo_propagar_paciente AFTER UPDATE OF paciente_id,status ON vinculo FOR EACH ROW
+              WHEN (OLD.paciente_id IS DISTINCT FROM NEW.paciente_id OR OLD.status IS DISTINCT FROM NEW.status) EXECUTE FUNCTION vinculo_propagar_paciente();
+        - sql:
+            splitStatements: false
+            sql: |
+              DO $$
+              DECLARE r record;
+              BEGIN
+                LOCK TABLE vinculo,grupo_alimento_nutri,alimento_nutri,ajuste_lista_paciente,dieta,dieta_snapshot,dieta_em_uso IN SHARE ROW EXCLUSIVE MODE;
+                FOR r IN SELECT nutricionista_id,grupo_id FROM grupo_alimento_nutri LOOP
+                  PERFORM registrar_mudanca_sync('NUTRICIONISTA',r.nutricionista_id,'GRUPOS',r.grupo_id,r.nutricionista_id,NULL);
+                END LOOP;
+                FOR r IN SELECT nutricionista_id,id FROM alimento_nutri LOOP
+                  PERFORM registrar_mudanca_sync('NUTRICIONISTA',r.nutricionista_id,'ALIMENTOS',r.id,r.nutricionista_id,NULL);
+                END LOOP;
+                FOR r IN SELECT a.nutricionista_id,a.vinculo_id,v.paciente_id FROM ajuste_lista_paciente a JOIN vinculo v ON v.id=a.vinculo_id LOOP
+                  PERFORM registrar_mudanca_sync('NUTRICIONISTA',r.nutricionista_id,'LISTAS',r.vinculo_id,r.nutricionista_id,r.paciente_id);
+                END LOOP;
+                FOR r IN SELECT id,nutricionista_id,paciente_id FROM dieta LOOP
+                  PERFORM registrar_mudanca_sync('NUTRICIONISTA',r.nutricionista_id,'DIETAS',r.id,r.nutricionista_id,r.paciente_id);
+                END LOOP;
+                FOR r IN SELECT s.id,s.nutricionista_id,s.paciente_id FROM dieta_snapshot s JOIN vinculo v ON v.id=s.vinculo_id WHERE v.status IN ('ATIVO','ENCERRADO') LOOP
+                  PERFORM registrar_mudanca_sync('PACIENTE',r.paciente_id,'SNAPSHOTS',r.id,r.nutricionista_id,r.paciente_id);
+                END LOOP;
+                FOR r IN SELECT DISTINCT s.paciente_id FROM dieta_snapshot s LOOP
+                  PERFORM registrar_mudanca_sync('PACIENTE',r.paciente_id,'DIETA_EM_USO',r.paciente_id,NULL,r.paciente_id);
+                END LOOP;
+              END;
+              $$;

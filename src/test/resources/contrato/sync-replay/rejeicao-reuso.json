@@ -1,0 +1,9 @@
+{
+  "resultados": [
+    {
+      "idMutacao": "019a0000-0000-7000-8000-000000000001",
+      "status": "REJEITADA",
+      "codigo": "CHAVE_IDEMPOTENCIA_REUTILIZADA"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+.git
+.gradle
+build
+*.md
+!README.md
+docs/*
+!docs/legal
+.env*

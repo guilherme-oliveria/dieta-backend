@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-refresh-token
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: refresh_token
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true } }
+              - column: { name: usuario_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_refresh_token_usuario, references: usuario(id) } }
+              - column: { name: familia_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: dispositivo_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: plataforma, type: varchar(20), constraints: { nullable: false } }
+              - column: { name: nome_aparelho, type: varchar(150), constraints: { nullable: false } }
+              - column: { name: perfil, type: varchar(20), constraints: { nullable: false } }
+              - column: { name: hash_token, type: varchar(64), constraints: { nullable: false, unique: true, uniqueConstraintName: uk_refresh_token_hash } }
+              - column: { name: criado_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: expira_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: consumido_em, type: timestamptz }
+              - column: { name: revogado_em, type: timestamptz }
+        - createIndex:
+            tableName: refresh_token
+            indexName: ix_refresh_token_usuario_dispositivo
+            columns:
+              - column: { name: usuario_id }
+              - column: { name: dispositivo_id }
+        - createIndex:
+            tableName: refresh_token
+            indexName: ix_refresh_token_familia
+            columns:
+              - column: { name: familia_id }
+        - createIndex:
+            tableName: refresh_token
+            indexName: ix_refresh_token_expira
+            columns:
+              - column: { name: expira_em }
+  - changeSet:
+      id: 004-bloqueio-login
+      author: dietamais
+      comment: RN-CON-03 também registra tentativas para identificadores inexistentes, sem e-mail em texto
+      changes:
+        - createTable:
+            tableName: bloqueio_login
+            columns:
+              - column: { name: identificador_hash, type: varchar(64), constraints: { primaryKey: true } }
+              - column: { name: falhas, type: jsonb, constraints: { nullable: false } }
+              - column: { name: bloqueado_ate, type: timestamptz }
+              - column: { name: atualizado_em, type: timestamptz, constraints: { nullable: false } }
+        - createIndex:
+            tableName: bloqueio_login
+            indexName: ix_bloqueio_login_atualizado
+            columns:
+              - column: { name: atualizado_em }

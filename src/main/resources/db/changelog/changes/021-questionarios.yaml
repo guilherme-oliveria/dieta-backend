@@ -1,0 +1,154 @@
+databaseChangeLog:
+  - changeSet:
+      id: 021-questionarios
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: modelo_questionario
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: nutricionista_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_modelo_questionario_nutri, references: nutricionista(id) } }
+              - column: { name: nome, type: varchar(120), constraints: { nullable: false } }
+              - column: { name: padrao, type: boolean, defaultValueBoolean: false, constraints: { nullable: false } }
+              - column: { name: versao, type: bigint, defaultValueNumeric: 1, constraints: { nullable: false } }
+              - column: { name: seq, type: bigint, defaultValueComputed: "nextval('seq_sync')", constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: atualizado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: excluido_em, type: timestamptz }
+        - createIndex:
+            tableName: modelo_questionario
+            indexName: ix_modelo_questionario_nutri
+            columns:
+              - column: { name: nutricionista_id }
+        - sql:
+            sql: >-
+              CREATE UNIQUE INDEX ux_modelo_padrao_nutri ON modelo_questionario(nutricionista_id) WHERE padrao AND excluido_em IS NULL;
+        - createTable:
+            tableName: pergunta
+            columns:
+              - column: { name: modelo_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_pergunta_modelo, references: modelo_questionario(id), deleteCascade: true } }
+              - column: { name: id, type: uuid, constraints: { nullable: false } }
+              - column: { name: bloco_ordem, type: int, constraints: { nullable: false } }
+              - column: { name: bloco_titulo, type: varchar(120), constraints: { nullable: false } }
+              - column: { name: ordem, type: int, constraints: { nullable: false } }
+              - column: { name: texto, type: varchar(500), constraints: { nullable: false } }
+              - column: { name: tipo, type: varchar(30), constraints: { nullable: false } }
+              - column: { name: opcoes, type: jsonb }
+              - column: { name: obrigatoria, type: boolean, defaultValueBoolean: false, constraints: { nullable: false } }
+              - column: { name: condicao, type: jsonb }
+        - addPrimaryKey:
+            tableName: pergunta
+            columnNames: modelo_id,id
+            constraintName: pk_pergunta
+        - createTable:
+            tableName: questionario
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: vinculo_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: nutricionista_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: paciente_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: modelo_id, type: uuid }
+              - column: { name: nome, type: varchar(120), constraints: { nullable: false } }
+              - column: { name: blocos, type: jsonb, constraints: { nullable: false } }
+              - column: { name: status, type: varchar(12), defaultValue: PENDENTE, constraints: { nullable: false } }
+              - column: { name: enviado_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: respondido_em, type: timestamptz }
+              - column: { name: versao, type: bigint, defaultValueNumeric: 1, constraints: { nullable: false } }
+              - column: { name: seq, type: bigint, defaultValueComputed: "nextval('seq_sync')", constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: atualizado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: excluido_em, type: timestamptz }
+        - addForeignKeyConstraint:
+            baseTableName: questionario
+            baseColumnNames: vinculo_id,nutricionista_id
+            referencedTableName: vinculo
+            referencedColumnNames: id,nutricionista_id
+            constraintName: fk_questionario_vinculo_proprio
+            onDelete: CASCADE
+        - createIndex:
+            tableName: questionario
+            indexName: ix_questionario_vinculo
+            columns:
+              - column: { name: vinculo_id }
+        - createIndex:
+            tableName: questionario
+            indexName: ix_questionario_paciente
+            columns:
+              - column: { name: paciente_id }
+        - createTable:
+            tableName: resposta
+            columns:
+              - column: { name: questionario_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_resposta_questionario, references: questionario(id), deleteCascade: true } }
+              - column: { name: pergunta_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: valor, type: jsonb, constraints: { nullable: false } }
+              - column: { name: atualizado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+        - addPrimaryKey:
+            tableName: resposta
+            columnNames: questionario_id,pergunta_id
+            constraintName: pk_resposta
+        - sql:
+            sql: >-
+              ALTER TABLE questionario ADD CONSTRAINT ck_questionario_status CHECK (status IN ('PENDENTE','RESPONDIDO'));
+              ALTER TABLE questionario ADD CONSTRAINT ck_questionario_respondido CHECK ((status='RESPONDIDO')=(respondido_em IS NOT NULL));
+              ALTER TABLE pergunta ADD CONSTRAINT ck_pergunta_tipo CHECK (tipo IN ('TEXTO','NUMERO','ESCOLHA_UNICA','MULTIPLA_ESCOLHA','ESCALA_1_5','HORARIO','LISTA_POR_REFEICAO'));
+              ALTER TABLE diario_sync DROP CONSTRAINT ck_diario_sync_colecao;
+              ALTER TABLE diario_sync ADD CONSTRAINT ck_diario_sync_colecao CHECK (colecao IN
+              ('PACIENTES','VINCULOS','NUTRIS','GRUPOS','ALIMENTOS','LISTAS','DIETAS','SNAPSHOTS','DIETA_EM_USO','CHECKINS','AGUA','PESOS','AVALIACOES','MODELOS','QUESTIONARIOS'));
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION modelo_questionario_diario_sync() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                PERFORM registrar_mudanca_sync('NUTRICIONISTA',NEW.nutricionista_id,'MODELOS',NEW.id,NEW.nutricionista_id,NULL);
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            sql: >-
+              CREATE TRIGGER modelo_questionario_diario_sync AFTER INSERT OR UPDATE ON modelo_questionario FOR EACH ROW EXECUTE FUNCTION modelo_questionario_diario_sync();
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION questionario_diario_sync() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                PERFORM registrar_mudanca_sync('NUTRICIONISTA',NEW.nutricionista_id,'QUESTIONARIOS',NEW.id,NEW.nutricionista_id,NEW.paciente_id);
+                PERFORM registrar_mudanca_sync('PACIENTE',NEW.paciente_id,'QUESTIONARIOS',NEW.id,NEW.nutricionista_id,NEW.paciente_id);
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            sql: >-
+              CREATE TRIGGER questionario_diario_sync AFTER INSERT OR UPDATE ON questionario FOR EACH ROW EXECUTE FUNCTION questionario_diario_sync();
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION proteger_questionario() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                IF NEW.blocos IS DISTINCT FROM OLD.blocos OR NEW.vinculo_id<>OLD.vinculo_id OR NEW.paciente_id<>OLD.paciente_id THEN
+                  RAISE EXCEPTION 'Perguntas do questionário enviado são imutáveis (RN-ANA-04)';
+                END IF;
+                IF OLD.status='RESPONDIDO' AND (NEW.status<>'RESPONDIDO' OR NEW.respondido_em IS DISTINCT FROM OLD.respondido_em) THEN
+                  RAISE EXCEPTION 'Questionário respondido é imutável (RN-ANA-03)';
+                END IF;
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            sql: >-
+              CREATE TRIGGER questionario_imutavel BEFORE UPDATE ON questionario FOR EACH ROW EXECUTE FUNCTION proteger_questionario();
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION proteger_resposta() RETURNS trigger LANGUAGE plpgsql AS $$
+              DECLARE s varchar(12);
+              BEGIN
+                SELECT status INTO s FROM questionario WHERE id=COALESCE(NEW.questionario_id,OLD.questionario_id);
+                IF s='RESPONDIDO' THEN
+                  RAISE EXCEPTION 'Respostas de questionário respondido são imutáveis (RN-ANA-03)';
+                END IF;
+                RETURN COALESCE(NEW,OLD);
+              END;
+              $$;
+        - sql:
+            sql: >-
+              CREATE TRIGGER resposta_imutavel BEFORE INSERT OR UPDATE OR DELETE ON resposta FOR EACH ROW EXECUTE FUNCTION proteger_resposta();

@@ -1,0 +1,62 @@
+databaseChangeLog:
+  - changeSet:
+      id: 022-consultas
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: consulta
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: vinculo_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: nutricionista_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: paciente_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: inicio, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: duracao_min, type: int, constraints: { nullable: false } }
+              - column: { name: tipo, type: varchar(10), constraints: { nullable: false } }
+              - column: { name: lugar, type: varchar(200) }
+              - column: { name: status, type: varchar(10), defaultValue: AGENDADA, constraints: { nullable: false } }
+              - column: { name: versao, type: bigint, defaultValueNumeric: 1, constraints: { nullable: false } }
+              - column: { name: seq, type: bigint, defaultValueComputed: "nextval('seq_sync')", constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: atualizado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: excluido_em, type: timestamptz }
+        - addForeignKeyConstraint:
+            baseTableName: consulta
+            baseColumnNames: vinculo_id,nutricionista_id
+            referencedTableName: vinculo
+            referencedColumnNames: id,nutricionista_id
+            constraintName: fk_consulta_vinculo_proprio
+            onDelete: CASCADE
+        - createIndex:
+            tableName: consulta
+            indexName: ix_consulta_nutri_inicio
+            columns:
+              - column: { name: nutricionista_id }
+              - column: { name: inicio }
+        - createIndex:
+            tableName: consulta
+            indexName: ix_consulta_paciente_inicio
+            columns:
+              - column: { name: paciente_id }
+              - column: { name: inicio }
+        - sql:
+            sql: >-
+              ALTER TABLE consulta ADD CONSTRAINT ck_consulta_tipo CHECK (tipo IN ('PRIMEIRA','RETORNO','ONLINE'));
+              ALTER TABLE consulta ADD CONSTRAINT ck_consulta_status CHECK (status IN ('AGENDADA','CANCELADA'));
+              ALTER TABLE consulta ADD CONSTRAINT ck_consulta_duracao CHECK (duracao_min BETWEEN 5 AND 480);
+              ALTER TABLE diario_sync DROP CONSTRAINT ck_diario_sync_colecao;
+              ALTER TABLE diario_sync ADD CONSTRAINT ck_diario_sync_colecao CHECK (colecao IN
+              ('PACIENTES','VINCULOS','NUTRIS','GRUPOS','ALIMENTOS','LISTAS','DIETAS','SNAPSHOTS','DIETA_EM_USO','CHECKINS','AGUA','PESOS','AVALIACOES','MODELOS','QUESTIONARIOS','CONSULTAS'));
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION consulta_diario_sync() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                PERFORM registrar_mudanca_sync('NUTRICIONISTA',NEW.nutricionista_id,'CONSULTAS',NEW.id,NEW.nutricionista_id,NEW.paciente_id);
+                PERFORM registrar_mudanca_sync('PACIENTE',NEW.paciente_id,'CONSULTAS',NEW.id,NEW.nutricionista_id,NEW.paciente_id);
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            sql: >-
+              CREATE TRIGGER consulta_diario_sync AFTER INSERT OR UPDATE ON consulta FOR EACH ROW EXECUTE FUNCTION consulta_diario_sync();

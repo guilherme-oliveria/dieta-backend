@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 031-avaliacao-ampliada
+      author: dietamais
+      changes:
+        - addColumn:
+            tableName: avaliacao
+            columns:
+              - column: { name: faixa_etaria, type: varchar(20) }
+              - column: { name: protocolo_dobras, type: varchar(10) }
+              - column: { name: protocolo_massa, type: varchar(10) }
+              - column: { name: versao_referencia, type: varchar(40) }
+              - column: { name: peso_usual_kg, type: 'numeric(5,2)' }
+              - column: { name: peso_desejado_kg, type: 'numeric(5,2)' }
+              - column: { name: punho_cm, type: 'numeric(5,2)' }
+              - column: { name: diametro_punho_cm, type: 'numeric(5,2)' }
+              - column: { name: diametro_joelho_cm, type: 'numeric(5,2)' }
+              - column: { name: percentual_gordura_desejado, type: 'numeric(5,2)' }
+              - column: { name: nivel_atividade, type: varchar(20) }
+              - column: { name: objetivo, type: varchar(20) }
+              - column: { name: objetivo_kg_por_mes, type: 'numeric(5,2)' }
+              - column: { name: menstruada, type: boolean }
+              - column: { name: resultados, type: jsonb }
+              - column: { name: compartilhamento, type: jsonb }

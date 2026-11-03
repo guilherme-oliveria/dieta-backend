@@ -1,0 +1,15 @@
+{
+  "id": "019b0000-0000-7000-8000-000000000001",
+  "dataHora": "2026-10-31T12:00:00Z",
+  "pesoKg": 102.5,
+  "estaturaM": 1.93,
+  "perimetros": { "cintura": 100 },
+  "dobras": { "triceps": 20, "subescapular": 30, "peitoral": 25, "axilarMedia": 28, "suprailiaca": 32, "abdominal": 40, "coxa": 24 },
+  "composicao": null,
+  "parecer": null,
+  "compartilhada": true,
+  "justificativa": null,
+  "protocolo": { "dobras": "SETE", "massa": "MAGRO", "versaoReferencia": null },
+  "complementares": { "punhoCm": 18, "percentualGorduraDesejado": 18 },
+  "compartilhamento": { "exames": false }
+}

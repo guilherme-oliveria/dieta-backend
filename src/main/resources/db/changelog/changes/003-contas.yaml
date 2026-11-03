@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-usuario-confirmacao-fuso-termos
+      author: dietamais
+      changes:
+        - addColumn:
+            tableName: usuario
+            columns:
+              - column: { name: email_confirmado_em, type: timestamptz }
+              - column: { name: fuso, type: varchar(80), defaultValue: America/Sao_Paulo, constraints: { nullable: false } }
+              - column: { name: termos_aceitos_em, type: timestamptz }
+              - column: { name: versao_termos, type: varchar(40) }
+        - sql:
+            sql: CREATE UNIQUE INDEX uk_usuario_email_normalizado ON usuario (lower(btrim(email)))
+
+  - changeSet:
+      id: 003-plano-duracao-teste
+      author: dietamais
+      changes:
+        - addColumn:
+            tableName: plano
+            columns:
+              - column: { name: duracao_dias, type: int }
+        - update:
+            tableName: plano
+            columns:
+              - column: { name: duracao_dias, valueNumeric: 30 }
+            where: codigo = 'TESTE'
+        - sql:
+            sql: ALTER TABLE plano ADD CONSTRAINT ck_plano_duracao_positiva CHECK (duracao_dias IS NULL OR duracao_dias > 0)
+        - sql:
+            sql: ALTER TABLE plano ADD CONSTRAINT ck_plano_teste_com_duracao CHECK (codigo <> 'TESTE' OR duracao_dias IS NOT NULL)
+
+  - changeSet:
+      id: 003-crn-verificado
+      author: dietamais
+      changes:
+        - addColumn:
+            tableName: nutricionista
+            columns:
+              - column: { name: crn_verificado, type: boolean, defaultValueBoolean: false, constraints: { nullable: false } }

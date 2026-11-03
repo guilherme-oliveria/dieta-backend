@@ -1,0 +1,13 @@
+# BE-36 — termos de uso e guarda de cadastro
+
+Pedido do Guilherme: fonte interna `docs/legal/terms-of-use.md`, versão inicial 1.0.0, RASCUNHO aguardando aprovação; rota pública `/legal/terms-of-use`; aceite explícito com versão, instante e userId. Cadastro real só após aprovação **e** publicação. Consentimento clínico da BE-07 permanece separado.
+
+Base: develop após BE-07. Uma branch/PR BE-36; QA independente, sem ações em main/.github. Integração indisponível por Docker/Actions deve ser relatada; exceção de quota não dispensa corrigir falhas reais.
+
+1. **Fonte e política.** Embalar a fonte Markdown pelo processResources, sem duplicá-la em src/main. Metadados restritos: versão/status/aprovadoEm/publicadoEm. Modelo imutável em contas.dominio valida elegibilidade com Clock; conteúdo de produção permanece RASCUNHO, sem aprovação inventada. Testar rascunho, só aprovado, datas futuras, publicado e versão/aceite divergentes.
+2. **API pública.** Porta TermosUso e resposta em comum.api; fornecedor de Markdown em contas.infra; serviço/endpoint em contas.aplicacao/api. GET `/legal/terms-of-use` retorna conteúdo e metadados, com cadastroHabilitado derivado. PermitAll somente GET. Teste HTTP sem banco da rota e bloqueio real de cadastro.
+3. **Guarda e registro.** CadastrarNutri e ServicoContasPaciente chamam a mesma porta antes de hash/escrita. DTO de cadastro paciente ganha campos opcionais aceitouTermos/versaoTermos, exigidos para criação real, distintos de aceitouTermo/versaoTermo clínicos. Persistência usa usuario.id, versao_termos e termos_aceitos_em existentes, na mesma transação; não fabrica aceite antigo.
+4. **Idempotência.** Filtro comum antes do cache verifica apenas rotas que criam conta, limitando/repetindo o corpo. Aceite de convite com cadastro nulo e login/refresh/recuperação continuam normais. Testar que rascunho não alcança cadeia, que corpo é preservado e que a publicação não é contornada por replay.
+5. **Testes/contrato.** Fonte publicada fictícia fica somente em src/test; configuração de integração legada usa versão fictícia compatível com fixtures, sem publicar documento real. Preservar 49 JSONs e manifesto. Testar validação direta dos dois serviços e persistência de versão/Clock no cadastro paciente. Atualizar docs e plano de ação; build local/QA conforme evidências disponíveis.
+
+Revisão focada: aprovação sem publicação; publicação futura; versão errada/false/null; aceite clínico sem aceite de uso; idempotência; migração/registro de usuários antigos; fonte de produção nunca publicada pelos testes. Não há endpoint ou flag de ambiente que aprove o documento.

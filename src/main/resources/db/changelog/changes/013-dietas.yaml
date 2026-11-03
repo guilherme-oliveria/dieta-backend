@@ -1,0 +1,69 @@
+databaseChangeLog:
+  - changeSet:
+      id: 013-dietas
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: dieta
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: vinculo_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: nutricionista_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: paciente_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: titulo, type: varchar(150), constraints: { nullable: false } }
+              - column: { name: orientacao, type: text }
+              - column: { name: status, type: varchar(20), defaultValue: RASCUNHO, constraints: { nullable: false } }
+              - column: { name: versao, type: bigint, defaultValueNumeric: 1, constraints: { nullable: false } }
+              - column: { name: seq, type: bigint, defaultValueComputed: "nextval('seq_sync')", constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: atualizado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: excluido_em, type: timestamptz }
+        - addForeignKeyConstraint:
+            baseTableName: dieta
+            baseColumnNames: vinculo_id,nutricionista_id
+            referencedTableName: vinculo
+            referencedColumnNames: id,nutricionista_id
+            constraintName: fk_dieta_vinculo_proprio
+            onDelete: CASCADE
+        - createIndex:
+            tableName: dieta
+            indexName: ix_dieta_vinculo
+            columns:
+              - column: { name: vinculo_id }
+        - createIndex:
+            tableName: dieta
+            indexName: ix_dieta_nutri_seq
+            columns:
+              - column: { name: nutricionista_id }
+              - column: { name: seq }
+        - createTable:
+            tableName: refeicao
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: dieta_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_refeicao_dieta, references: dieta(id), deleteCascade: true } }
+              - column: { name: nome, type: varchar(150), constraints: { nullable: false } }
+              - column: { name: horario, type: time, constraints: { nullable: false } }
+              - column: { name: ordem, type: int, constraints: { nullable: false } }
+        - createIndex:
+            tableName: refeicao
+            indexName: ix_refeicao_dieta
+            columns:
+              - column: { name: dieta_id }
+        - createTable:
+            tableName: item_refeicao
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: refeicao_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_item_refeicao, references: refeicao(id), deleteCascade: true } }
+              - column: { name: alimento_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_item_alimento, references: alimento_nutri(id) } }
+              - column: { name: porcoes, type: 'numeric(10,4)', constraints: { nullable: false } }
+              - column: { name: observacao, type: varchar(2000) }
+              - column: { name: ordem, type: int, constraints: { nullable: false } }
+        - createIndex:
+            tableName: item_refeicao
+            indexName: ix_item_refeicao
+            columns:
+              - column: { name: refeicao_id }
+        - sql:
+            sql: >-
+              ALTER TABLE dieta ADD CONSTRAINT ck_dieta_status CHECK (status IN ('RASCUNHO','PUBLICADA','SUBSTITUIDA','ARQUIVADA'));
+              ALTER TABLE item_refeicao ADD CONSTRAINT ck_item_porcoes CHECK (porcoes>0);

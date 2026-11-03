@@ -1,3 +1,6 @@
+import java.security.SecureRandom
+import java.util.Base64
+
 plugins {
 	java
 	id("org.springframework.boot") version "4.1.2"
@@ -5,7 +8,7 @@ plugins {
 }
 
 group = "com.br"
-version = "0.0.1-SNAPSHOT"
+version = "1.2.0"
 
 java {
 	toolchain {
@@ -20,8 +23,18 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webmvc")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
+	implementation("org.springframework.boot:spring-boot-starter-mail")
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+	implementation("org.springframework.modulith:spring-modulith-starter-core:2.1.1")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.2.0")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.springframework.boot:spring-boot-starter-security-oauth2-resource-server")
+	implementation("org.bouncycastle:bcprov-jdk18on:1.86")
+	implementation("com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10")
+	implementation("org.apache.pdfbox:pdfbox:2.0.35")
+	implementation("org.apache.pdfbox:fontbox:2.0.35")
+	implementation("org.apache.pdfbox:xmpbox:2.0.35")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-liquibase")
 	implementation("org.liquibase:liquibase-core")
@@ -29,6 +42,7 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.springframework.modulith:spring-modulith-starter-test:2.1.1")
 	testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
 	testImplementation("org.springframework.boot:spring-boot-testcontainers")
 	testImplementation("org.springframework.security:spring-security-test")
@@ -39,4 +53,17 @@ dependencies {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks.processResources {
+	from("docs/legal") { into("legal") }
+}
+
+// Só para rodar na máquina do dev: chaves aleatórias a cada execução quando não vierem do ambiente (nada de segredo no Git).
+tasks.named<org.springframework.boot.gradle.tasks.run.BootRun>("bootRun") {
+	listOf("IDEMPOTENCIA_CHAVE", "NOTIFICACOES_CHAVE").forEach { nome ->
+		if (System.getenv(nome).isNullOrBlank()) {
+			environment(nome, Base64.getEncoder().encodeToString(ByteArray(32).also { SecureRandom().nextBytes(it) }))
+		}
+	}
 }

@@ -1,0 +1,215 @@
+databaseChangeLog:
+  - changeSet:
+      id: 012-listas-alimentos
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: lista_alimentos_nutri
+            columns:
+              - column: { name: nutricionista_id, type: uuid, constraints: { primaryKey: true, nullable: false, foreignKeyName: fk_lista_nutri_dona, references: nutricionista(id), deleteCascade: true } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+        - createSequence:
+            sequenceName: seq_versao_lista
+            startValue: 1
+        - createTable:
+            tableName: grupo_alimento_nutri
+            columns:
+              - column: { name: nutricionista_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_grupo_nutri_nutri, references: nutricionista(id), deleteCascade: true } }
+              - column: { name: grupo_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_grupo_nutri_base, references: grupo_alimento(id) } }
+              - column: { name: nome, type: varchar(150), constraints: { nullable: false } }
+              - column: { name: kcal_por_porcao, type: 'numeric(12,4)', constraints: { nullable: false } }
+              - column: { name: carboidratos_por_porcao, type: 'numeric(12,4)', constraints: { nullable: false } }
+              - column: { name: proteinas_por_porcao, type: 'numeric(12,4)', constraints: { nullable: false } }
+              - column: { name: gorduras_por_porcao, type: 'numeric(12,4)', constraints: { nullable: false } }
+              - column: { name: origem_macros, type: varchar(30), constraints: { nullable: false } }
+              - column: { name: origem_base, type: jsonb, constraints: { nullable: false } }
+              - column: { name: estimativa, type: boolean }
+              - column: { name: ajustado_por, type: uuid, constraints: { foreignKeyName: fk_grupo_ajustado_usuario, references: usuario(id) } }
+              - column: { name: ajustado_em, type: timestamptz }
+              - column: { name: versao, type: bigint, defaultValueNumeric: 0, constraints: { nullable: false } }
+              - column: { name: seq, type: bigint, defaultValueComputed: "nextval('seq_sync')", constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: atualizado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: excluido_em, type: timestamptz }
+        - addPrimaryKey:
+            tableName: grupo_alimento_nutri
+            columnNames: nutricionista_id,grupo_id
+            constraintName: pk_grupo_alimento_nutri
+        - createTable:
+            tableName: historico_macros_grupo
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: nutricionista_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: grupo_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: usuario_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: ocorrido_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: versao_anterior, type: bigint, constraints: { nullable: false } }
+              - column: { name: versao_nova, type: bigint, constraints: { nullable: false } }
+              - column: { name: carboidratos_antes, type: 'numeric(12,4)', constraints: { nullable: false } }
+              - column: { name: proteinas_antes, type: 'numeric(12,4)', constraints: { nullable: false } }
+              - column: { name: gorduras_antes, type: 'numeric(12,4)', constraints: { nullable: false } }
+              - column: { name: carboidratos_depois, type: 'numeric(12,4)', constraints: { nullable: false } }
+              - column: { name: proteinas_depois, type: 'numeric(12,4)', constraints: { nullable: false } }
+              - column: { name: gorduras_depois, type: 'numeric(12,4)', constraints: { nullable: false } }
+        - addForeignKeyConstraint:
+            baseTableName: historico_macros_grupo
+            baseColumnNames: nutricionista_id,grupo_id
+            referencedTableName: grupo_alimento_nutri
+            referencedColumnNames: nutricionista_id,grupo_id
+            constraintName: fk_historico_grupo_proprio
+            onDelete: CASCADE
+        - createTable:
+            tableName: alimento_nutri
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: nutricionista_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_alimento_nutri_nutri, references: nutricionista(id), deleteCascade: true } }
+              - column: { name: catalogo_id, type: uuid, constraints: { foreignKeyName: fk_alimento_nutri_base, references: alimento(id) } }
+              - column: { name: grupo_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: nome, type: varchar(150), constraints: { nullable: false } }
+              - column: { name: medida_caseira, type: varchar(150), constraints: { nullable: false } }
+              - column: { name: gramas_por_porcao, type: 'numeric(12,4)', constraints: { nullable: false } }
+              - column: { name: ativo, type: boolean, defaultValueBoolean: true, constraints: { nullable: false } }
+              - column: { name: versao, type: bigint, defaultValueNumeric: 0, constraints: { nullable: false } }
+              - column: { name: seq, type: bigint, defaultValueComputed: "nextval('seq_sync')", constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: atualizado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: excluido_em, type: timestamptz }
+        - addForeignKeyConstraint:
+            baseTableName: alimento_nutri
+            baseColumnNames: nutricionista_id,grupo_id
+            referencedTableName: grupo_alimento_nutri
+            referencedColumnNames: nutricionista_id,grupo_id
+            constraintName: fk_alimento_grupo_proprio
+            onDelete: CASCADE
+        - addUniqueConstraint:
+            tableName: alimento_nutri
+            columnNames: nutricionista_id,catalogo_id
+            constraintName: uk_alimento_nutri_catalogo
+        - createIndex:
+            tableName: alimento_nutri
+            indexName: ix_alimento_nutri_nome
+            columns:
+              - column: { name: nutricionista_id }
+              - column: { name: nome }
+        - addUniqueConstraint:
+            tableName: vinculo
+            columnNames: id,nutricionista_id
+            constraintName: uk_vinculo_id_nutri
+        - createTable:
+            tableName: ajuste_lista_paciente
+            columns:
+              - column: { name: vinculo_id, type: uuid, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: nutricionista_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_ajuste_lista_nutri, references: nutricionista(id), deleteCascade: true } }
+              - column: { name: base_ids, type: 'uuid[]', defaultValueComputed: "'{}'::uuid[]", constraints: { nullable: false } }
+              - column: { name: adicionados, type: 'uuid[]', defaultValueComputed: "'{}'::uuid[]", constraints: { nullable: false } }
+              - column: { name: removidos, type: 'uuid[]', defaultValueComputed: "'{}'::uuid[]", constraints: { nullable: false } }
+              - column: { name: versao, type: bigint, defaultValueComputed: "nextval('seq_versao_lista')", constraints: { nullable: false } }
+              - column: { name: seq, type: bigint, defaultValueComputed: "nextval('seq_sync')", constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: atualizado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: excluido_em, type: timestamptz }
+        - addForeignKeyConstraint:
+            baseTableName: ajuste_lista_paciente
+            baseColumnNames: vinculo_id,nutricionista_id
+            referencedTableName: vinculo
+            referencedColumnNames: id,nutricionista_id
+            constraintName: fk_ajuste_vinculo_proprio
+            onDelete: CASCADE
+        - createIndex:
+            tableName: ajuste_lista_paciente
+            indexName: ix_ajuste_lista_nutri
+            columns:
+              - column: { name: nutricionista_id }
+        - sql:
+            sql: >-
+              ALTER TABLE grupo_alimento_nutri ADD CONSTRAINT ck_grupo_nutri_macros CHECK
+              (kcal_por_porcao>=0 AND carboidratos_por_porcao>=0 AND proteinas_por_porcao>=0 AND gorduras_por_porcao>=0);
+              ALTER TABLE grupo_alimento_nutri ADD CONSTRAINT ck_grupo_nutri_origem CHECK
+              (origem_macros IN ('CATALOGO_ESTIMADO','CATALOGO','AJUSTE_NUTRI'));
+              ALTER TABLE alimento_nutri ADD CONSTRAINT ck_alimento_nutri_gramas CHECK (gramas_por_porcao>0);
+              ALTER TABLE ajuste_lista_paciente ADD CONSTRAINT ck_ajuste_sem_intersecao CHECK (NOT (adicionados && removidos));
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION copiar_catalogo_nutri(p_nutri uuid) RETURNS void LANGUAGE plpgsql AS $$
+              BEGIN
+                INSERT INTO lista_alimentos_nutri(nutricionista_id) VALUES(p_nutri) ON CONFLICT DO NOTHING;
+                IF NOT FOUND THEN RETURN; END IF;
+                LOCK TABLE grupo_alimento,alimento,fonte_macros_grupo IN SHARE MODE;
+                INSERT INTO grupo_alimento_nutri(nutricionista_id,grupo_id,nome,kcal_por_porcao,carboidratos_por_porcao,proteinas_por_porcao,gorduras_por_porcao,origem_macros,origem_base,estimativa)
+                SELECT p_nutri,g.id,g.nome,g.kcal_por_porcao,g.carboidratos_por_porcao,g.proteinas_por_porcao,g.gorduras_por_porcao,
+                  CASE WHEN f.estimativa IS TRUE THEN 'CATALOGO_ESTIMADO' ELSE 'CATALOGO' END,coalesce(to_jsonb(f),'{}'::jsonb),f.estimativa
+                FROM grupo_alimento g LEFT JOIN fonte_macros_grupo f ON f.grupo_id=g.id WHERE g.excluido_em IS NULL
+                ON CONFLICT(nutricionista_id,grupo_id) DO NOTHING;
+                INSERT INTO alimento_nutri(nutricionista_id,catalogo_id,grupo_id,nome,medida_caseira,gramas_por_porcao,ativo)
+                SELECT p_nutri,a.id,a.grupo_id,a.nome,a.medida_caseira,a.gramas_por_porcao,a.ativo FROM alimento a
+                JOIN grupo_alimento_nutri g ON g.nutricionista_id=p_nutri AND g.grupo_id=a.grupo_id
+                WHERE a.excluido_em IS NULL ON CONFLICT(nutricionista_id,catalogo_id) DO NOTHING;
+              END;
+              $$;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION iniciar_lista_nutri() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN PERFORM copiar_catalogo_nutri(NEW.id); RETURN NEW; END;
+              $$;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION iniciar_lista_paciente() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                INSERT INTO ajuste_lista_paciente(vinculo_id,nutricionista_id,base_ids)
+                SELECT NEW.id,NEW.nutricionista_id,coalesce(array_agg(id ORDER BY id),'{}'::uuid[])
+                FROM alimento_nutri WHERE nutricionista_id=NEW.nutricionista_id AND ativo AND excluido_em IS NULL;
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION revisar_listas_da_nutri() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                UPDATE ajuste_lista_paciente SET versao=nextval('seq_versao_lista'),seq=nextval('seq_sync'),atualizado_em=NEW.atualizado_em
+                WHERE nutricionista_id=NEW.nutricionista_id;
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION registrar_ajuste_macros_nutri() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                IF NEW.origem_macros='AJUSTE_NUTRI' AND NEW.ajustado_por IS NOT NULL AND NEW.ajustado_em IS NOT NULL THEN
+                  INSERT INTO historico_macros_grupo(nutricionista_id,grupo_id,usuario_id,ocorrido_em,versao_anterior,versao_nova,
+                    carboidratos_antes,proteinas_antes,gorduras_antes,carboidratos_depois,proteinas_depois,gorduras_depois)
+                  VALUES(NEW.nutricionista_id,NEW.grupo_id,NEW.ajustado_por,NEW.ajustado_em,OLD.versao,NEW.versao,
+                    OLD.carboidratos_por_porcao,OLD.proteinas_por_porcao,OLD.gorduras_por_porcao,
+                    NEW.carboidratos_por_porcao,NEW.proteinas_por_porcao,NEW.gorduras_por_porcao);
+                END IF;
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            splitStatements: false
+            sql: |
+              DO $$
+              DECLARE n record;
+              BEGIN
+                LOCK TABLE nutricionista,vinculo IN SHARE ROW EXCLUSIVE MODE;
+                FOR n IN SELECT id FROM nutricionista LOOP PERFORM copiar_catalogo_nutri(n.id); END LOOP;
+                INSERT INTO ajuste_lista_paciente(vinculo_id,nutricionista_id,base_ids)
+                SELECT v.id,v.nutricionista_id,coalesce(array_agg(a.id ORDER BY a.id) FILTER(WHERE a.id IS NOT NULL),'{}'::uuid[])
+                FROM vinculo v LEFT JOIN alimento_nutri a ON a.nutricionista_id=v.nutricionista_id AND a.ativo AND a.excluido_em IS NULL
+                GROUP BY v.id,v.nutricionista_id;
+              END;
+              $$;
+        - sql:
+            sql: >-
+              CREATE TRIGGER nutri_copiar_catalogo AFTER INSERT ON nutricionista FOR EACH ROW EXECUTE FUNCTION iniciar_lista_nutri();
+              CREATE TRIGGER vinculo_iniciar_lista AFTER INSERT ON vinculo FOR EACH ROW EXECUTE FUNCTION iniciar_lista_paciente();
+              CREATE TRIGGER alimento_revisar_listas AFTER INSERT OR UPDATE OF nome,grupo_id,medida_caseira,gramas_por_porcao,ativo,excluido_em
+              ON alimento_nutri FOR EACH ROW EXECUTE FUNCTION revisar_listas_da_nutri();
+              CREATE TRIGGER grupo_revisar_listas AFTER UPDATE OF carboidratos_por_porcao,proteinas_por_porcao,gorduras_por_porcao
+              ON grupo_alimento_nutri FOR EACH ROW EXECUTE FUNCTION revisar_listas_da_nutri();
+              CREATE TRIGGER grupo_registrar_ajuste AFTER UPDATE OF carboidratos_por_porcao,proteinas_por_porcao,gorduras_por_porcao
+              ON grupo_alimento_nutri FOR EACH ROW EXECUTE FUNCTION registrar_ajuste_macros_nutri();

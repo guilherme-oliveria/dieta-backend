@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 023-avisos
+      author: dietamais
+      comment: Aviso = histórico do usuário (BE-34) e fila de push (BE-24); texto sempre genérico (RN-NOT-02)
+      changes:
+        - createTable:
+            tableName: aviso
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: usuario_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_aviso_usuario, references: usuario(id), deleteCascade: true } }
+              - column: { name: tipo, type: varchar(30), constraints: { nullable: false } }
+              - column: { name: titulo, type: varchar(80), constraints: { nullable: false } }
+              - column: { name: corpo, type: varchar(200), constraints: { nullable: false } }
+              - column: { name: rota, type: varchar(100) }
+              - column: { name: chave_dedup, type: varchar(120) }
+              - column: { name: lido_em, type: timestamptz }
+              - column: { name: push_status, type: varchar(20), defaultValue: PENDENTE, constraints: { nullable: false } }
+              - column: { name: push_tentativas, type: int, defaultValueNumeric: 0, constraints: { nullable: false } }
+              - column: { name: push_proxima_em, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: push_enviado_em, type: timestamptz }
+              - column: { name: versao, type: bigint, defaultValueNumeric: 1, constraints: { nullable: false } }
+              - column: { name: seq, type: bigint, defaultValueComputed: "nextval('seq_sync')", constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: atualizado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: excluido_em, type: timestamptz }
+        - sql:
+            sql: >-
+              ALTER TABLE aviso ADD CONSTRAINT ck_aviso_push_status CHECK (push_status IN ('PENDENTE','ENVIADO','DESLIGADO','SEM_DISPOSITIVO','EXPIRADO','FALHA'));
+              CREATE UNIQUE INDEX uk_aviso_dedup ON aviso(usuario_id,chave_dedup) WHERE chave_dedup IS NOT NULL;
+              CREATE INDEX ix_aviso_push_pendente ON aviso(push_proxima_em) WHERE push_status='PENDENTE';
+              CREATE INDEX ix_aviso_usuario_criado ON aviso(usuario_id,criado_em DESC) WHERE excluido_em IS NULL;

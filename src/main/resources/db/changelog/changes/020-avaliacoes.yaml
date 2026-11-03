@@ -1,0 +1,107 @@
+databaseChangeLog:
+  - changeSet:
+      id: 020-avaliacoes
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: avaliacao
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: vinculo_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: nutricionista_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: paciente_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: data_hora, type: timestamptz, constraints: { nullable: false } }
+              - column: { name: peso_kg, type: 'numeric(5,2)', constraints: { nullable: false } }
+              - column: { name: estatura_m, type: 'numeric(4,2)', constraints: { nullable: false } }
+              - column: { name: imc, type: 'numeric(5,2)', constraints: { nullable: false } }
+              - column: { name: classificacao_imc, type: varchar(20), constraints: { nullable: false } }
+              - column: { name: p_pescoco, type: 'numeric(5,2)' }
+              - column: { name: p_torax, type: 'numeric(5,2)' }
+              - column: { name: p_cintura, type: 'numeric(5,2)' }
+              - column: { name: p_abdomen, type: 'numeric(5,2)' }
+              - column: { name: p_quadril, type: 'numeric(5,2)' }
+              - column: { name: p_braco, type: 'numeric(5,2)' }
+              - column: { name: p_antebraco, type: 'numeric(5,2)' }
+              - column: { name: p_coxa, type: 'numeric(5,2)' }
+              - column: { name: p_panturrilha, type: 'numeric(5,2)' }
+              - column: { name: d_triceps, type: 'numeric(5,2)' }
+              - column: { name: d_subescapular, type: 'numeric(5,2)' }
+              - column: { name: d_peitoral, type: 'numeric(5,2)' }
+              - column: { name: d_axilar_media, type: 'numeric(5,2)' }
+              - column: { name: d_suprailiaca, type: 'numeric(5,2)' }
+              - column: { name: d_abdominal, type: 'numeric(5,2)' }
+              - column: { name: d_coxa, type: 'numeric(5,2)' }
+              - column: { name: percentual_gordura, type: 'numeric(5,2)' }
+              - column: { name: peso_gordo_kg, type: 'numeric(5,2)' }
+              - column: { name: peso_magro_kg, type: 'numeric(5,2)' }
+              - column: { name: parecer, type: text }
+              - column: { name: compartilhada, type: boolean, defaultValueBoolean: true, constraints: { nullable: false } }
+              - column: { name: versao, type: bigint, defaultValueNumeric: 1, constraints: { nullable: false } }
+              - column: { name: seq, type: bigint, defaultValueComputed: "nextval('seq_sync')", constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: atualizado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: excluido_em, type: timestamptz }
+        - addForeignKeyConstraint:
+            baseTableName: avaliacao
+            baseColumnNames: vinculo_id,nutricionista_id
+            referencedTableName: vinculo
+            referencedColumnNames: id,nutricionista_id
+            constraintName: fk_avaliacao_vinculo_proprio
+            onDelete: CASCADE
+        - createIndex:
+            tableName: avaliacao
+            indexName: ix_avaliacao_vinculo_data
+            columns:
+              - column: { name: vinculo_id }
+              - column: { name: data_hora }
+        - createIndex:
+            tableName: avaliacao
+            indexName: ix_avaliacao_paciente
+            columns:
+              - column: { name: paciente_id }
+        - createTable:
+            tableName: avaliacao_justificativa
+            columns:
+              - column: { name: id, type: uuid, defaultValueComputed: uuidv7(), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: avaliacao_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_avaliacao_justificativa, references: avaliacao(id), deleteCascade: true } }
+              - column: { name: nutricionista_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: versao_anterior, type: bigint, constraints: { nullable: false } }
+              - column: { name: justificativa, type: varchar(1000), constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+        - sql:
+            sql: >-
+              ALTER TABLE avaliacao ADD CONSTRAINT ck_avaliacao_peso CHECK (peso_kg BETWEEN 20 AND 400);
+              ALTER TABLE avaliacao ADD CONSTRAINT ck_avaliacao_estatura CHECK (estatura_m BETWEEN 0.5 AND 2.5);
+              ALTER TABLE avaliacao ADD CONSTRAINT ck_avaliacao_perimetros CHECK (
+              (p_pescoco IS NULL OR p_pescoco BETWEEN 10 AND 250) AND (p_torax IS NULL OR p_torax BETWEEN 10 AND 250) AND
+              (p_cintura IS NULL OR p_cintura BETWEEN 10 AND 250) AND (p_abdomen IS NULL OR p_abdomen BETWEEN 10 AND 250) AND
+              (p_quadril IS NULL OR p_quadril BETWEEN 10 AND 250) AND (p_braco IS NULL OR p_braco BETWEEN 10 AND 250) AND
+              (p_antebraco IS NULL OR p_antebraco BETWEEN 10 AND 250) AND (p_coxa IS NULL OR p_coxa BETWEEN 10 AND 250) AND
+              (p_panturrilha IS NULL OR p_panturrilha BETWEEN 10 AND 250));
+              ALTER TABLE avaliacao ADD CONSTRAINT ck_avaliacao_dobras CHECK (
+              (d_triceps IS NULL OR d_triceps BETWEEN 1 AND 80) AND (d_subescapular IS NULL OR d_subescapular BETWEEN 1 AND 80) AND
+              (d_peitoral IS NULL OR d_peitoral BETWEEN 1 AND 80) AND (d_axilar_media IS NULL OR d_axilar_media BETWEEN 1 AND 80) AND
+              (d_suprailiaca IS NULL OR d_suprailiaca BETWEEN 1 AND 80) AND (d_abdominal IS NULL OR d_abdominal BETWEEN 1 AND 80) AND
+              (d_coxa IS NULL OR d_coxa BETWEEN 1 AND 80));
+              ALTER TABLE avaliacao ADD CONSTRAINT ck_avaliacao_composicao CHECK (
+              (percentual_gordura IS NULL OR percentual_gordura BETWEEN 0 AND 100) AND
+              (peso_gordo_kg IS NULL OR peso_gordo_kg BETWEEN 0 AND 400) AND (peso_magro_kg IS NULL OR peso_magro_kg BETWEEN 0 AND 400));
+              ALTER TABLE diario_sync DROP CONSTRAINT ck_diario_sync_colecao;
+              ALTER TABLE diario_sync ADD CONSTRAINT ck_diario_sync_colecao CHECK (colecao IN
+              ('PACIENTES','VINCULOS','NUTRIS','GRUPOS','ALIMENTOS','LISTAS','DIETAS','SNAPSHOTS','DIETA_EM_USO','CHECKINS','AGUA','PESOS','AVALIACOES'));
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION avaliacao_diario_sync() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                PERFORM registrar_mudanca_sync('NUTRICIONISTA',NEW.nutricionista_id,'AVALIACOES',NEW.id,NEW.nutricionista_id,NEW.paciente_id);
+                -- o paciente recebe as compartilhadas; ao deixar de compartilhar (ou excluir) o registro vira tombstone para ele
+                IF NEW.compartilhada OR (TG_OP='UPDATE' AND OLD.compartilhada) THEN
+                  PERFORM registrar_mudanca_sync('PACIENTE',NEW.paciente_id,'AVALIACOES',NEW.id,NEW.nutricionista_id,NEW.paciente_id);
+                END IF;
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            sql: >-
+              CREATE TRIGGER avaliacao_diario_sync AFTER INSERT OR UPDATE ON avaliacao FOR EACH ROW EXECUTE FUNCTION avaliacao_diario_sync();

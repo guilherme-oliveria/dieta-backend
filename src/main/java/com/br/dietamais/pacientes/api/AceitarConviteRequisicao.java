@@ -1,0 +1,16 @@
+package com.br.dietamais.pacientes.api;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import com.br.dietamais.comum.api.DispositivoRequisicao;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public record AceitarConviteRequisicao(
+		@NotNull @AssertTrue Boolean aceitouTermo,
+		@NotBlank @jakarta.validation.constraints.Size(max=40) String versaoTermo,
+		@Schema(nullable = true) @Valid CadastroPacienteRequisicao cadastro,
+		@Valid @NotNull DispositivoRequisicao dispositivo) {
+}

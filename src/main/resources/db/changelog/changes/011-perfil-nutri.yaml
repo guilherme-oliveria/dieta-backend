@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: 011-perfil-nutri
+      author: dietamais
+      changes:
+        - addColumn:
+            tableName: nutricionista
+            columns:
+              - column: { name: nome_exibicao, type: varchar(150) }
+              - column: { name: orientacao_padrao, type: varchar(10000) }
+              - column: { name: versao, type: bigint, defaultValueNumeric: 0, constraints: { nullable: false } }
+              - column: { name: atualizado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+        - modifyDataType:
+            tableName: nutricionista
+            columnName: telefone
+            newDataType: varchar(30)
+        - sql:
+            sql: >-
+              ALTER TABLE nutricionista ADD CONSTRAINT ck_perfil_nutri_nome CHECK (nome_exibicao IS NULL OR length(btrim(nome_exibicao))>0);
+              DROP TRIGGER nutri_diario_sync ON nutricionista;
+              CREATE TRIGGER nutri_diario_sync AFTER INSERT OR UPDATE OF crn,usuario_id,organizacao_id,nome_exibicao OR DELETE ON nutricionista
+              FOR EACH ROW EXECUTE FUNCTION nutri_diario_sync();

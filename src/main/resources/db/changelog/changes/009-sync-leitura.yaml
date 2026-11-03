@@ -1,0 +1,169 @@
+databaseChangeLog:
+  - changeSet:
+      id: 009-diario-sync
+      author: dietamais
+      changes:
+        - addColumn:
+            tableName: vinculo
+            columns:
+              - column: { name: seq, type: bigint, defaultValueComputed: "nextval('seq_sync')", constraints: { nullable: false } }
+              - column: { name: excluido_em, type: timestamptz }
+        - createTable:
+            tableName: estado_sync
+            columns:
+              - column: { name: id, type: int, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: ultimo_seq, type: bigint, constraints: { nullable: false } }
+        - insert:
+            tableName: estado_sync
+            columns:
+              - column: { name: id, valueNumeric: 1 }
+              - column: { name: ultimo_seq, valueNumeric: 0 }
+        - createTable:
+            tableName: diario_sync
+            columns:
+              - column: { name: seq, type: bigint, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: perfil, type: varchar(20), constraints: { nullable: false } }
+              - column: { name: destinatario_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: colecao, type: varchar(20), constraints: { nullable: false } }
+              - column: { name: registro_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: nutricionista_id, type: uuid }
+              - column: { name: paciente_id, type: uuid }
+        - createIndex:
+            tableName: diario_sync
+            indexName: ix_diario_sync_destinatario_colecao_seq
+            columns:
+              - column: { name: perfil }
+              - column: { name: destinatario_id }
+              - column: { name: colecao }
+              - column: { name: seq }
+        - sql:
+            sql: >-
+              ALTER TABLE diario_sync ADD CONSTRAINT ck_diario_sync_perfil CHECK (perfil IN ('NUTRICIONISTA','PACIENTE'));
+              ALTER TABLE diario_sync ADD CONSTRAINT ck_diario_sync_colecao CHECK (colecao IN ('PACIENTES','VINCULOS','NUTRIS'));
+              ALTER TABLE estado_sync ADD CONSTRAINT ck_estado_sync_unico CHECK (id=1);
+              DROP INDEX uk_vinculo_aberto_nutri_paciente;
+              CREATE UNIQUE INDEX uk_vinculo_aberto_nutri_paciente ON vinculo(nutricionista_id,paciente_id) WHERE status IN ('CONVIDADO','ATIVO') AND excluido_em IS NULL;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION registrar_mudanca_sync(p_perfil text,p_destinatario uuid,p_colecao text,p_registro uuid,p_nutri uuid,p_paciente uuid)
+              RETURNS void LANGUAGE plpgsql AS $$
+              DECLARE revisao bigint;
+              BEGIN
+                IF p_destinatario IS NULL THEN RETURN; END IF;
+                PERFORM 1 FROM estado_sync WHERE id=1 FOR UPDATE;
+                revisao := nextval('seq_sync');
+                INSERT INTO diario_sync(seq,perfil,destinatario_id,colecao,registro_id,nutricionista_id,paciente_id)
+                  VALUES(revisao,p_perfil,p_destinatario,p_colecao,p_registro,p_nutri,p_paciente);
+                UPDATE estado_sync SET ultimo_seq=revisao WHERE id=1;
+              END;
+              $$;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION publicar_nutri_sync(p_nutri uuid) RETURNS void LANGUAGE plpgsql AS $$
+              DECLARE paciente_destino uuid;
+              BEGIN
+                PERFORM registrar_mudanca_sync('NUTRICIONISTA',p_nutri,'NUTRIS',p_nutri,p_nutri,NULL);
+                FOR paciente_destino IN SELECT DISTINCT paciente_id FROM vinculo
+                  WHERE nutricionista_id=p_nutri AND status IN ('ATIVO','ENCERRADO') AND excluido_em IS NULL
+                LOOP
+                  PERFORM registrar_mudanca_sync('PACIENTE',paciente_destino,'NUTRIS',p_nutri,p_nutri,paciente_destino);
+                END LOOP;
+              END;
+              $$;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION ficha_diario_sync() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                IF TG_OP<>'INSERT' THEN
+                  PERFORM registrar_mudanca_sync('NUTRICIONISTA',OLD.nutricionista_id,'PACIENTES',OLD.paciente_id,OLD.nutricionista_id,OLD.paciente_id);
+                END IF;
+                IF TG_OP<>'DELETE' THEN
+                  PERFORM registrar_mudanca_sync('NUTRICIONISTA',NEW.nutricionista_id,'PACIENTES',NEW.paciente_id,NEW.nutricionista_id,NEW.paciente_id);
+                  RETURN NEW;
+                END IF;
+                RETURN OLD;
+              END;
+              $$;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION vinculo_diario_sync() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                IF TG_OP<>'INSERT' THEN
+                  PERFORM registrar_mudanca_sync('NUTRICIONISTA',OLD.nutricionista_id,'VINCULOS',OLD.id,OLD.nutricionista_id,OLD.paciente_id);
+                  PERFORM registrar_mudanca_sync('NUTRICIONISTA',OLD.nutricionista_id,'PACIENTES',OLD.paciente_id,OLD.nutricionista_id,OLD.paciente_id);
+                  IF OLD.status IN ('ATIVO','ENCERRADO') AND OLD.excluido_em IS NULL THEN
+                    PERFORM registrar_mudanca_sync('PACIENTE',OLD.paciente_id,'VINCULOS',OLD.id,OLD.nutricionista_id,OLD.paciente_id);
+                    PERFORM registrar_mudanca_sync('PACIENTE',OLD.paciente_id,'NUTRIS',OLD.nutricionista_id,OLD.nutricionista_id,OLD.paciente_id);
+                  END IF;
+                END IF;
+                IF TG_OP<>'DELETE' THEN
+                  PERFORM registrar_mudanca_sync('NUTRICIONISTA',NEW.nutricionista_id,'VINCULOS',NEW.id,NEW.nutricionista_id,NEW.paciente_id);
+                  PERFORM registrar_mudanca_sync('NUTRICIONISTA',NEW.nutricionista_id,'PACIENTES',NEW.paciente_id,NEW.nutricionista_id,NEW.paciente_id);
+                  IF NEW.status IN ('ATIVO','ENCERRADO') AND NEW.excluido_em IS NULL THEN
+                    PERFORM registrar_mudanca_sync('PACIENTE',NEW.paciente_id,'VINCULOS',NEW.id,NEW.nutricionista_id,NEW.paciente_id);
+                    PERFORM registrar_mudanca_sync('PACIENTE',NEW.paciente_id,'NUTRIS',NEW.nutricionista_id,NEW.nutricionista_id,NEW.paciente_id);
+                  END IF;
+                  RETURN NEW;
+                END IF;
+                RETURN OLD;
+              END;
+              $$;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION atualizar_seq_vinculo() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN NEW.seq := nextval('seq_sync'); RETURN NEW; END;
+              $$;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION nutri_diario_sync() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                IF TG_OP='DELETE' THEN PERFORM publicar_nutri_sync(OLD.id); RETURN OLD; END IF;
+                PERFORM publicar_nutri_sync(NEW.id); RETURN NEW;
+              END;
+              $$;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION nome_nutri_diario_sync() RETURNS trigger LANGUAGE plpgsql AS $$
+              DECLARE identidade uuid;
+              BEGIN
+                IF NEW.nome IS NOT DISTINCT FROM OLD.nome THEN RETURN NEW; END IF;
+                FOR identidade IN SELECT id FROM nutricionista WHERE usuario_id=NEW.id
+                LOOP PERFORM publicar_nutri_sync(identidade); END LOOP;
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            sql: >-
+              CREATE TRIGGER ficha_diario_sync AFTER INSERT OR UPDATE OR DELETE ON ficha_paciente FOR EACH ROW EXECUTE FUNCTION ficha_diario_sync();
+              CREATE TRIGGER vinculo_atualizar_seq BEFORE UPDATE ON vinculo FOR EACH ROW EXECUTE FUNCTION atualizar_seq_vinculo();
+              CREATE TRIGGER vinculo_diario_sync AFTER INSERT OR UPDATE OR DELETE ON vinculo FOR EACH ROW EXECUTE FUNCTION vinculo_diario_sync();
+              CREATE TRIGGER nutri_diario_sync AFTER INSERT OR UPDATE OF crn,usuario_id,organizacao_id OR DELETE ON nutricionista FOR EACH ROW EXECUTE FUNCTION nutri_diario_sync();
+              CREATE TRIGGER nome_nutri_diario_sync AFTER UPDATE OF nome ON usuario FOR EACH ROW EXECUTE FUNCTION nome_nutri_diario_sync();
+        - sql:
+            splitStatements: false
+            sql: |
+              DO $$
+              DECLARE f record; v record; n record;
+              BEGIN
+                FOR n IN SELECT id FROM nutricionista LOOP PERFORM publicar_nutri_sync(n.id); END LOOP;
+                FOR f IN SELECT * FROM ficha_paciente LOOP
+                  PERFORM registrar_mudanca_sync('NUTRICIONISTA',f.nutricionista_id,'PACIENTES',f.paciente_id,f.nutricionista_id,f.paciente_id);
+                END LOOP;
+                FOR v IN SELECT * FROM vinculo LOOP
+                  PERFORM registrar_mudanca_sync('NUTRICIONISTA',v.nutricionista_id,'VINCULOS',v.id,v.nutricionista_id,v.paciente_id);
+                  IF v.paciente_origem_id IS NOT NULL AND v.paciente_origem_id<>v.paciente_id THEN
+                    PERFORM registrar_mudanca_sync('NUTRICIONISTA',v.nutricionista_id,'PACIENTES',v.paciente_origem_id,v.nutricionista_id,v.paciente_origem_id);
+                  END IF;
+                  IF v.status IN ('ATIVO','ENCERRADO') AND v.excluido_em IS NULL THEN
+                    PERFORM registrar_mudanca_sync('PACIENTE',v.paciente_id,'VINCULOS',v.id,v.nutricionista_id,v.paciente_id);
+                  END IF;
+                END LOOP;
+              END;
+              $$;

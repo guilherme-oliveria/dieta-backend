@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: 026-logo-nutri
+      author: dietamais
+      comment: Logo da nutri nos PDFs (BE-28). O arquivo fica no armazenamento; aqui só a chave
+      changes:
+        - addColumn:
+            tableName: nutricionista
+            columns:
+              - column: { name: logo_chave, type: varchar(200) }
