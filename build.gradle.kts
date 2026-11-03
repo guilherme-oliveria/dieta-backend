@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.br"
-version = "0.0.1-SNAPSHOT"
+version = "1.2.0"
 
 java {
 	toolchain {
