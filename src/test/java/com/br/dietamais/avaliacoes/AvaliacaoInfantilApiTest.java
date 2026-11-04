@@ -30,6 +30,18 @@ class AvaliacaoInfantilApiTest extends TesteComPaciente {
 		var lido=json(requisitar("GET","/avaliacoes/"+a.path("id").asString(),n.token(),null));
 		assertThat(lido.path("resultadosInfantis")).isEqualTo(r);
 	}
+	@Test void previaCalculaIgualAGravacaoSemGravarENaoVazaParaOutraNutri() throws Exception {
+		var n=cadastrarNutri();var p=paciente(n,1);var outra=cadastrarNutri();
+		var corpo=corpo(Map.of("infantil",Map.of("pesoNascerGramas",2500,"modoCurva","ESCORE_Z")));
+		var previa=requisitar("POST","/pacientes/"+p.fichaId()+"/avaliacoes/previa",n.token(),corpo);
+		assertThat(previa.statusCode()).as(previa.body()).isEqualTo(200);
+		var v=json(previa);
+		assertThat(jdbc.queryForObject("select count(*) from avaliacao where vinculo_id=?::uuid",Long.class,p.vinculoId())).isZero();
+		var gravada=criar(n,p,corpo);
+		assertThat(v.path("resultadosInfantis")).isEqualTo(gravada.path("resultadosInfantis"));
+		assertThat(v.path("imc").decimalValue()).isEqualByComparingTo(gravada.path("imc").decimalValue());
+		assertThat(requisitar("POST","/pacientes/"+p.fichaId()+"/avaliacoes/previa",outra.token(),corpo).statusCode()).isEqualTo(404);
+	}
 	@Test void edicaoLegadaPreservaEntradasInfantisERecalculaResultados() throws Exception {
 		var n=cadastrarNutri();var p=paciente(n,1);var a=criar(n,p,corpo(Map.of("infantil",Map.of("pesoNascerGramas",3200))));
 		var alterado=corpo(Map.of("pesoKg",4));
