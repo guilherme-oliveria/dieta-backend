@@ -50,6 +50,15 @@ public class GerenciarAvaliacoes {
 		var criada=propria(id,nutri);auditoria.escrita(referencia(criada,contexto));return criada;
 	}
 
+	/** BE-55c: calcula sem gravar. Mesma validação e mesmas calculadoras da gravação; não cria avaliação, não audita escrita e não consome idempotência. */
+	@Transactional(readOnly=true,isolation=Isolation.REPEATABLE_READ)
+	public PreviaAvaliacao previa(UUID paciente,SalvarAvaliacaoRequisicao r){
+		var nutri=usuario.obter().exigirNutricionista();
+		var ficha=fichas.consultar(paciente,false);
+		var dados=dados(r,relogio.instant(),ficha,protocolos.padrao(nutri),null);
+		return new PreviaAvaliacao(dados.imc(),dados.classificacao(),dados.faixaEtaria(),dados.resultados(),dados.energiaResultado(),dados.resultadosInfantis());
+	}
+
 	@Transactional
 	public AvaliacaoResposta atualizar(UUID id,String ifMatch,SalvarAvaliacaoRequisicao r){
 		var contexto=usuario.obter();var nutri=contexto.exigirNutricionista();guarda.validar();avaliacoes.bloquear(nutri);
