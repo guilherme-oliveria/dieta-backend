@@ -98,6 +98,7 @@ class DietaPorcoesApiTest extends TesteIsolamento {
 		JsonNode calcio=null;for(var l:adequacao)if(l.path("nutriente").asString().equals("calcio"))calcio=l;
 		assertThat(calcio).isNotNull();assertThat(calcio.path("total").decimalValue()).isEqualByComparingTo(micros.path("ca").decimalValue());
 		assertThat(calcio.path("meta").decimalValue()).isPositive();
+		assertThat(calcio.path("nome").asString()).isNotBlank();assertThat(calcio.path("unidade").asString()).isNotBlank(); // BE-67
 		assertThat(calcio.path("percentual").decimalValue()).isEqualByComparingTo(calcio.path("total").decimalValue().multiply(new BigDecimal("100")).divide(calcio.path("meta").decimalValue(),2,java.math.RoundingMode.HALF_UP));
 		// um alimento que a nutri criou não tem composição: não informa micronutrientes, a soma fica parcial e o código entra em incompleto
 		var ali=json(requisitar("GET","/alimentos?tamanho=1",a.token(),null)).path("itens").get(0);

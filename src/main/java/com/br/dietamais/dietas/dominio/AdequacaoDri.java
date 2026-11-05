@@ -46,18 +46,19 @@ public final class AdequacaoDri {
 		var porCodigo=new HashMap<String,ValorDri>();metas.forEach(m->porCodigo.put(m.nutriente(),m));
 		var lista=new ArrayList<AdequacaoNutrienteResposta>();
 		var proteina=porCodigo.get("proteina");
-		if(proteina!=null)lista.add(linha("proteina",dia.proteinas(),proteina.valor()));
+		if(proteina!=null)lista.add(linha("proteina",dia.proteinas(),proteina));
 		var micros=dia.micronutrientes();
 		if(micros!=null)for(var e:DRI.entrySet()){
 			var total=micros.get(e.getKey());var meta=porCodigo.get(e.getValue().dri());
-			if(total!=null&&meta!=null)lista.add(linha(e.getValue().dri(),total.multiply(e.getValue().fator()),meta.valor()));
+			if(total!=null&&meta!=null)lista.add(linha(e.getValue().dri(),total.multiply(e.getValue().fator()),meta));
 		}
 		return lista;
 	}
-	private static AdequacaoNutrienteResposta linha(String nutriente,BigDecimal total,BigDecimal meta){
+	private static AdequacaoNutrienteResposta linha(String nutriente,BigDecimal total,ValorDri referencia){
+		var meta=referencia.valor();
 		var t=total.setScale(total.scale()>2?4:2,RoundingMode.HALF_UP);
 		var pct=meta.signum()==0?BigDecimal.ZERO:total.multiply(CEM).divide(meta,2,RoundingMode.HALF_UP);
 		var classe=pct.compareTo(LIMITE_ABAIXO)<0?"ABAIXO":pct.compareTo(LIMITE_ACIMA)>0?"ACIMA":"ADEQUADO";
-		return new AdequacaoNutrienteResposta(nutriente,t,meta,pct,classe);
+		return new AdequacaoNutrienteResposta(nutriente,t,meta,pct,classe,referencia.nome(),referencia.unidade());
 	}
 }

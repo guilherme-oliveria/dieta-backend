@@ -105,3 +105,7 @@ Um modelo é uma dieta (refeições, porções por grupo, alternativas, "à vont
 ## Regras de negócio
 
 RN-DIE-10 a RN-DIE-13 e RN-CAL-07 (ver [regras-de-negocio.md](regras-de-negocio.md)). Fonte dos valores por porção: ver `visao-geral.md` (suposição sobre as médias da planilha) e `src/main/resources/db/changelog/dados/README.md`.
+
+### BE-67: nome e unidade na adequação
+
+Cada linha de `totais.adequacao` traz `nome` (rótulo do nutriente) e `unidade` (a da meta DRI, por exemplo `mg/dia`, `g/dia`, `l/dia`; `total` já está na mesma unidade). Ambos opcionais; clientes antigos ignoram.
