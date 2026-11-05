@@ -43,15 +43,15 @@ class ProdutosNutriApiTest extends TesteIsolamento {
 	@Test void validaNutrientesEIdUuidV7() throws Exception {
 		var a=cadastrarNutri();
 		var semMacro=produto("Sem proteína");((Map<String,Object>)semMacro.get("nutrientes")).remove("proteina_g");
-		erro(requisitar("POST","/produtos",a.token(),semMacro),422,"OBRIGATORIO");
+		erro(requisitar("POST","/produtos",a.token(),semMacro),400,"OBRIGATORIO");
 		var chaveInvalida=produto("Chave estranha");((Map<String,Object>)chaveInvalida.get("nutrientes")).put("nutriente_inventado","1");
-		erro(requisitar("POST","/produtos",a.token(),chaveInvalida),422,"FORMATO_INVALIDO");
+		erro(requisitar("POST","/produtos",a.token(),chaveInvalida),400,"FORMATO_INVALIDO");
 		var negativo=produto("Negativo");((Map<String,Object>)negativo.get("nutrientes")).put("sodio_mg","-1");
-		erro(requisitar("POST","/produtos",a.token(),negativo),422,"FORMATO_INVALIDO");
+		erro(requisitar("POST","/produtos",a.token(),negativo),400,"FORMATO_INVALIDO");
 		var semNome=produto(" ");
 		assertThat(requisitar("POST","/produtos",a.token(),semNome).statusCode()).isBetween(400,422);
 		var v4=produto("Id v4");v4.put("id",UUID.randomUUID().toString());
-		erro(requisitar("POST","/produtos",a.token(),v4),422,"FORMATO_INVALIDO");
+		erro(requisitar("POST","/produtos",a.token(),v4),400,"FORMATO_INVALIDO");
 		var comId=produto("Com id do app");String id=id();comId.put("id",id);
 		assertThat(json(requisitar("POST","/produtos",a.token(),comId)).path("id").asString()).isEqualTo(id);
 		assertThat(json(requisitar("GET","/produtos",a.token(),null)).path("total").asLong()).isEqualTo(1);
