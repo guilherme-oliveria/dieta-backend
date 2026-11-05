@@ -8,13 +8,14 @@ import java.time.Instant;
 import java.util.*;
 import org.springframework.jdbc.core.*;
 import org.springframework.stereotype.Repository;
+import tools.jackson.databind.json.JsonMapper;
 
 @Repository
 public class FichaPacienteStore {
 	private static final String PROJECAO="select f.*,v.status from ficha_paciente f join vinculo v on v.id=f.vinculo_id";
 	private static final String VISIBILIDADE=" f.nutricionista_id=? and v.nutricionista_id=? and f.paciente_id=v.paciente_id and f.excluido_em is null and v.excluido_em is null";
-	private final JdbcTemplate jdbc;
-	public FichaPacienteStore(JdbcTemplate jdbc){this.jdbc=jdbc;}
+	private final JdbcTemplate jdbc;private final JsonMapper mapper;
+	public FichaPacienteStore(JdbcTemplate jdbc,JsonMapper mapper){this.jdbc=jdbc;this.mapper=mapper;}
 	public void bloquearEscrita(UUID nutri) {
 		jdbc.queryForObject("select pg_advisory_xact_lock(hashtextextended(?,0))",Object.class,nutri.toString());
 	}
@@ -33,15 +34,15 @@ public class FichaPacienteStore {
 		if(inseridos==0)throw new ExcecaoNegocio(CodigoErro.VINCULO_JA_EXISTE,"RN-VIN-07");
 		jdbc.update("insert into vinculo(id,nutricionista_id,paciente_id,status,criado_em,atualizado_em) values(?,?,?,'CONVIDADO',?,?)",vinculo,nutri,paciente,Timestamp.from(agora),Timestamp.from(agora));
 		jdbc.update("""
-			insert into ficha_paciente(id,vinculo_id,nutricionista_id,paciente_id,nome,email,data_nascimento,sexo,telefone,estatura_referencia,objetivo,observacoes,criado_em,atualizado_em)
-			values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-			""",vinculo,vinculo,nutri,paciente,d.nome(),d.email(),d.dataNascimento(),sexo(d),d.telefone(),d.estaturaReferencia(),d.objetivo(),d.observacoes(),Timestamp.from(agora),Timestamp.from(agora));
+			insert into ficha_paciente(id,vinculo_id,nutricionista_id,paciente_id,nome,email,data_nascimento,sexo,telefone,estatura_referencia,objetivo,observacoes,cadastro_ampliado,criado_em,atualizado_em)
+			values(?,?,?,?,?,?,?,?,?,?,?,?,?::jsonb,?,?)
+			""",vinculo,vinculo,nutri,paciente,d.nome(),d.email(),d.dataNascimento(),sexo(d),d.telefone(),d.estaturaReferencia(),d.objetivo(),d.observacoes(),cadastro(d),Timestamp.from(agora),Timestamp.from(agora));
 	}
 	public void atualizar(UUID vinculo,UUID nutri,DadosFicha d,Instant agora) {
 		jdbc.update("""
-			update ficha_paciente set nome=?,email=?,data_nascimento=?,sexo=?,telefone=?,estatura_referencia=?,objetivo=?,observacoes=?,
+			update ficha_paciente set nome=?,email=?,data_nascimento=?,sexo=?,telefone=?,estatura_referencia=?,objetivo=?,observacoes=?,cadastro_ampliado=coalesce(?::jsonb,cadastro_ampliado),
 			versao=versao+1,seq=nextval('seq_sync'),atualizado_em=? where vinculo_id=? and nutricionista_id=? and excluido_em is null
-			""",d.nome(),d.email(),d.dataNascimento(),sexo(d),d.telefone(),d.estaturaReferencia(),d.objetivo(),d.observacoes(),Timestamp.from(agora),vinculo,nutri);
+			""",d.nome(),d.email(),d.dataNascimento(),sexo(d),d.telefone(),d.estaturaReferencia(),d.objetivo(),d.observacoes(),cadastro(d),Timestamp.from(agora),vinculo,nutri);
 	}
 	/** RN-LGPD-04: exclusão lógica; o registro continua no banco para a retenção legal. */
 	public void excluir(UUID vinculo,UUID nutri,Instant agora) {
@@ -62,7 +63,12 @@ public class FichaPacienteStore {
 		var sexo=rs.getString("sexo");var nascimento=rs.getDate("data_nascimento");
 		return new PacienteResposta(rs.getObject("paciente_id",UUID.class),rs.getObject("vinculo_id",UUID.class),rs.getString("nome"),rs.getString("email"),
 			nascimento==null?null:nascimento.toLocalDate(),sexo==null?null:Sexo.valueOf(sexo),rs.getString("telefone"),rs.getBigDecimal("estatura_referencia"),
-			rs.getString("objetivo"),rs.getString("observacoes"),StatusVinculo.valueOf(rs.getString("status")),rs.getLong("versao"),rs.getTimestamp("criado_em").toInstant(),rs.getTimestamp("atualizado_em").toInstant(),null);
+			rs.getString("objetivo"),rs.getString("observacoes"),StatusVinculo.valueOf(rs.getString("status")),rs.getLong("versao"),rs.getTimestamp("criado_em").toInstant(),rs.getTimestamp("atualizado_em").toInstant(),null,lerCadastro(rs.getString("cadastro_ampliado")));
+	}
+	/** Cadastro ampliado como JSON; ausente fica nulo (na edição mantém o que já existe), objeto vazio grava {} e limpa. */
+	private String cadastro(DadosFicha d){return d.cadastro()==null?null:mapper.writeValueAsString(d.cadastro());}
+	private CadastroAmpliado lerCadastro(String json){
+		if(json==null)return null;var c=mapper.readValue(json,CadastroAmpliado.class);return c.vazio()?null:c;
 	}
 	private String sexo(DadosFicha dados){return dados.sexo()==null?null:dados.sexo().name();}
 }

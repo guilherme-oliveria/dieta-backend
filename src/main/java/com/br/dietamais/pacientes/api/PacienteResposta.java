@@ -26,8 +26,14 @@ public record PacienteResposta(
 		@NotNull @PositiveOrZero Long versao,
 		@NotNull Instant criadoEm,
 		@NotNull Instant atualizadoEm,
-		@Schema(nullable = true) BigDecimal adesao7d) {
+		@Schema(nullable = true) BigDecimal adesao7d,
+		/** Cadastro ampliado (BE-64); ausente quando a nutri não preencheu nada. */
+		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+		@Schema(nullable = true,requiredMode = Schema.RequiredMode.NOT_REQUIRED) CadastroAmpliado cadastroAmpliado) {
+	public PacienteResposta(UUID id,UUID vinculoId,String nome,String email,LocalDate dataNascimento,Sexo sexo,String telefone,BigDecimal estaturaReferencia,String objetivo,String observacoes,StatusVinculo status,Long versao,Instant criadoEm,Instant atualizadoEm,BigDecimal adesao7d){
+		this(id,vinculoId,nome,email,dataNascimento,sexo,telefone,estaturaReferencia,objetivo,observacoes,status,versao,criadoEm,atualizadoEm,adesao7d,null);
+	}
 	public PacienteResposta comAdesao7d(BigDecimal valor) {
-		return new PacienteResposta(id,vinculoId,nome,email,dataNascimento,sexo,telefone,estaturaReferencia,objetivo,observacoes,status,versao,criadoEm,atualizadoEm,valor);
+		return new PacienteResposta(id,vinculoId,nome,email,dataNascimento,sexo,telefone,estaturaReferencia,objetivo,observacoes,status,versao,criadoEm,atualizadoEm,valor,cadastroAmpliado);
 	}
 }
