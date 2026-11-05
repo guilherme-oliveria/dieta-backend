@@ -17,11 +17,12 @@ import org.springframework.web.bind.annotation.*;
 @SecurityRequirement(name="bearerAuth")
 @RotaNutri(exclusiva=false)
 public class ReferenciasController {
-	private final ConsultaAtividadesMet atividades;private final ConsultaDri dri;private final ConsultaTaco taco;private final ConsultaOms oms;private final ConsultaExames exames;private final ConsultaFrisancho frisancho;private final ConsultaPorcoes porcoes;
-	public ReferenciasController(ConsultaAtividadesMet atividades,ConsultaDri dri,ConsultaTaco taco,ConsultaOms oms,ConsultaExames exames,ConsultaFrisancho frisancho,ConsultaPorcoes porcoes){this.atividades=atividades;this.dri=dri;this.taco=taco;this.oms=oms;this.exames=exames;this.frisancho=frisancho;this.porcoes=porcoes;}
+	private final ConsultaAtividadesMet atividades;private final ConsultaDri dri;private final ConsultaTaco taco;private final ConsultaOms oms;private final ConsultaExames exames;private final ConsultaFrisancho frisancho;private final ConsultaPorcoes porcoes;private final ConsultaProdutos produtos;
+	public ReferenciasController(ConsultaAtividadesMet atividades,ConsultaDri dri,ConsultaTaco taco,ConsultaOms oms,ConsultaExames exames,ConsultaFrisancho frisancho,ConsultaPorcoes porcoes,ConsultaProdutos produtos){this.atividades=atividades;this.dri=dri;this.taco=taco;this.oms=oms;this.exames=exames;this.frisancho=frisancho;this.porcoes=porcoes;this.produtos=produtos;}
 
 	public record AtividadesMetResposta(List<AtividadeMet> itens){}
 	public record TacoResposta(String fonte,List<String> categorias,List<AlimentoTaco> itens){}
+	public record ProdutosResposta(String fonte,List<String> classificacoes,List<String> apresentacoes,List<ProdutoReferencia> itens){}
 	public record CurvaOmsResposta(String fonte,List<String> percentisRotulos,List<String> escoresZRotulos,CurvaOms curva){}
 	public record ExamesResposta(String faixaEtaria,List<ExameCatalogo> itens){}
 	public record MetasDriResposta(String sexo,int idadeMeses,boolean gestante,boolean lactante,List<ValorDri> itens){}
@@ -57,6 +58,23 @@ public class ReferenciasController {
 	public ResponseEntity<AlimentoTaco> consultarAlimentoTaco(@PathVariable int numero){
 		var a=taco.porNumero(numero).orElseThrow(()->new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null));
 		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(a);
+	}
+
+	@GetMapping("/produtos")
+	@Operation(operationId="buscarProdutosReferencia",summary="Buscar produtos e suplementos do catálogo base",description="400 produtos da aba Produtos da planilha da nutri, com nutrientes por 100 g (ou 100 mL). `busca` são palavras do nome ou da marca (todas devem aparecer, sem acento nem maiúsculas); `classificacao` e `apresentacao` são exatas (as listas vêm na resposta); até `limite` itens (padrão 50, máximo 200). Nutriente ausente em `nutrientes` = a planilha não informa. A fonte deve ser citada na tela e no PDF. BE-48a.")
+	@ApiResponse(responseCode="200",description="Produtos",content=@Content(mediaType="application/json",schema=@Schema(implementation=ProdutosResposta.class)))
+	public ResponseEntity<ProdutosResposta> buscarProdutosReferencia(@RequestParam(required=false) String busca,@RequestParam(required=false) String classificacao,@RequestParam(required=false) String apresentacao,@RequestParam(defaultValue="50") int limite){
+		if(limite<1||limite>200||(busca!=null&&busca.length()>100))throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,null);
+		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(new ProdutosResposta(ProdutoReferencia.FONTE,produtos.classificacoes(),produtos.apresentacoes(),produtos.buscar(busca,classificacao,apresentacao,limite)));
+	}
+
+	@GetMapping("/produtos/{numero}")
+	@Operation(operationId="consultarProdutoReferencia",summary="Consultar um produto do catálogo base pelo número",description="Número do produto no catálogo (1 a 400, ordem da planilha). BE-48a.")
+	@ApiResponse(responseCode="200",description="Produto",content=@Content(mediaType="application/json",schema=@Schema(implementation=ProdutoReferencia.class)))
+	@ApiResponse(responseCode="404",description="Número inexistente",content=@Content(mediaType="application/problem+json"))
+	public ResponseEntity<ProdutoReferencia> consultarProdutoReferencia(@PathVariable int numero){
+		var p=produtos.porNumero(numero).orElseThrow(()->new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null));
+		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(p);
 	}
 
 	@GetMapping("/oms")
