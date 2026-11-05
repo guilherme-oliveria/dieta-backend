@@ -133,6 +133,7 @@ Origem: plano das planilhas da nutri (`plano-melhorias-planilhas.md`). Substitue
 
 - **RN-AGE-01** A nutri agenda consultas (data, hora, duração, tipo: primeira, retorno, online) para pacientes vinculados.
 - **RN-AGE-02** Lembrete de consulta: push + e-mail 24 h antes, para paciente e nutri.
+- **RN-FIN-01** Financeiro da consulta (G-20): a nutri lança, por consulta, o **comparecimento** (pendente, compareceu, faltou), o **valor** e a **forma de pagamento** (dinheiro, Pix, cartão, convênio, outro) e se está **pago**. Marcar como pago exige valor, forma e comparecimento diferente de pendente. É dado só da nutri: fica em tabela própria, **fora do sync e nunca chega ao paciente**; só online. Consulta cancelada não recebe lançamento (422 `CONSULTA_CANCELADA`) e vínculo encerrado só lê. O resumo do período (`GET /eu/nutri/financeiro`) soma o recebido e o a receber (compareceu e ainda não pago) das consultas não canceladas, por forma de pagamento. O tipo de atendimento já é o tipo da consulta (RN-AGE-01).
 
 ## Notificações (RN-NOT)
 
