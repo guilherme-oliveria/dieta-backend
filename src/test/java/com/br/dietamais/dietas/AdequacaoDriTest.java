@@ -38,6 +38,9 @@ class AdequacaoDriTest {
 		assertThat(r.get(1).classe()).isEqualTo("ADEQUADO");assertThat(r.get(1).percentual()).isEqualByComparingTo("100.00");
 		assertThat(r.get(2).percentual()).isEqualByComparingTo("375.00");assertThat(r.get(2).classe()).isEqualTo("ACIMA");
 		assertThat(r.get(3).total()).isEqualByComparingTo("2.5");assertThat(r.get(3).percentual()).isEqualByComparingTo("67.57");
+		// BE-67: cada linha traz o nome e a unidade da meta, na mesma unidade do total
+		assertThat(r).extracting("nome").containsExactly("Proteína","Cálcio","Ferro","Água");
+		assertThat(r).extracting("unidade").containsExactly("g/dia","mg/dia","mg/dia","l/dia");
 	}
 	@Test void limitesDe90E110SaoAdequados(){
 		var dia=new TotaisNutricionaisResposta(n("1"),n("1"),n("45.00"),n("1")).comMicronutrientes(Map.of("ca",n("1100.00")),List.of());
