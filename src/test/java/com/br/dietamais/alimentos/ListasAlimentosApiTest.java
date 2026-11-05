@@ -82,6 +82,31 @@ class ListasAlimentosApiTest extends TesteIsolamento {
 		erro(requisitar("PUT","/pacientes/"+pid+"/lista-substituicao",a.token(),Map.of("adicionados",List.of(),"removidos",List.of()),Map.of("If-Match",tag(historico))),403,"ACESSO_NEGADO");
 		assertThat(jdbc.queryForObject("select count(*) from log_acesso where usuario_id=? and registro_id=? and entidade='lista_substituicao' and acao='ESCRITA'",Integer.class,a.usuario(),UUID.fromString(p.path("vinculoId").asString()))).isEqualTo(1);
 	}
+	/** G-19, RN-ALI-06: copiar a lista de outro paciente da mesma nutri. */
+	@Test void copiaAListaDeOutroPacienteDaMesmaNutri() throws Exception {
+		var a=cadastrarNutri();var b=cadastrarNutri();var origem=criarPaciente(a.token());var destino=criarPaciente(a.token());var estranho=criarPaciente(b.token());
+		String o=origem.path("id").asString();String d=destino.path("id").asString();
+		String grupo=grupos(a.token()).get(0).path("id").asString();String extra=json(requisitar("POST","/alimentos",a.token(),novo(grupo,"Copiado ficticio"))).path("id").asString();
+		var la=lista(a.token(),o);String tirado=la.path("alimentos").get(0).path("id").asString();
+		assertThat(requisitar("PUT","/pacientes/"+o+"/lista-substituicao",a.token(),Map.of("adicionados",List.of(extra),"removidos",List.of(tirado)),Map.of("If-Match",tag(la))).statusCode()).isEqualTo(200);
+		var antes=lista(a.token(),d);assertThat(contem(antes,tirado)).isTrue();assertThat(contem(antes,extra)).isFalse();
+		// versão velha: 409
+		erro(requisitar("POST","/pacientes/"+d+"/lista-substituicao/copiar-de/"+o,a.token(),null,Map.of("If-Match","\"0\"")),409,"CONFLITO_VERSAO");
+		var feito=requisitar("POST","/pacientes/"+d+"/lista-substituicao/copiar-de/"+o,a.token(),null,Map.of("If-Match",tag(antes)));assertThat(feito.statusCode()).as(feito.body()).isEqualTo(200);
+		var depois=json(feito);assertThat(contem(depois,tirado)).isFalse();assertThat(contem(depois,extra)).isTrue();
+		assertThat(depois.path("alimentos").size()).isEqualTo(lista(a.token(),o).path("alimentos").size());
+		assertThat(feito.headers().firstValue("ETag").orElseThrow()).isEqualTo(tag(depois));
+		// o paciente de origem não muda; copiar para si mesmo não pode; paciente de outra nutri é 404 nas duas pontas
+		assertThat(contem(lista(a.token(),o),extra)).isTrue();
+		erro(requisitar("POST","/pacientes/"+d+"/lista-substituicao/copiar-de/"+d,a.token(),null,Map.of("If-Match",tag(depois))),400,"FORMATO_INVALIDO");
+		erro(requisitar("POST","/pacientes/"+d+"/lista-substituicao/copiar-de/"+estranho.path("id").asString(),a.token(),null,Map.of("If-Match",tag(depois))),404,"RECURSO_NAO_ENCONTRADO");
+		erro(requisitar("POST","/pacientes/"+d+"/lista-substituicao/copiar-de/"+o,b.token(),null,Map.of("If-Match",tag(depois))),404,"RECURSO_NAO_ENCONTRADO");
+		// alimento desativado na origem não é copiado
+		var alimento=json(requisitar("GET","/alimentos?busca=Copiado%20ficticio",a.token(),null)).path("itens").get(0);
+		var edicao=new HashMap<String,Object>(editar(alimento,false));assertThat(requisitar("PATCH","/alimentos/"+extra,a.token(),edicao,Map.of("If-Match",tag(alimento))).statusCode()).isEqualTo(200);
+		var outro=criarPaciente(a.token());String t=outro.path("id").asString();var lt=lista(a.token(),t);
+		var copia=json(requisitar("POST","/pacientes/"+t+"/lista-substituicao/copiar-de/"+o,a.token(),null,Map.of("If-Match",tag(lt))));assertThat(contem(copia,extra)).isFalse();assertThat(contem(copia,tirado)).isFalse();
+	}
 	@Test void pacienteGlobalCompartilhadoMantemListasPorVinculo() throws Exception {
 		var a=cadastrarNutri();var b=cadastrarNutri();var pa=criarPaciente(a.token());var pb=criarPaciente(b.token());UUID pid=UUID.fromString(pa.path("id").asString());UUID vb=UUID.fromString(pb.path("vinculoId").asString());
 		jdbc.update("update vinculo set paciente_id=? where id=?",pid,vb);jdbc.update("update ficha_paciente set paciente_id=? where vinculo_id=?",pid,vb);
