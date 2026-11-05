@@ -143,6 +143,20 @@ class AvaliacaoAmpliadaApiTest extends TesteComPaciente {
 		assertThat(requisitar("GET","/referencias/taco/9999",a.token(),null).statusCode()).isEqualTo(404);
 		assertThat(requisitar("GET","/referencias/taco?limite=0",a.token(),null).statusCode()).isEqualTo(400);
 	}
+	@Test void buscaProdutosDoCatalogoBaseComFonte() throws Exception {
+		var a=cadastrarNutri();
+		var r=json(requisitar("GET","/referencias/produtos?busca=PURE%20whey&limite=5",a.token(),null));
+		assertThat(r.path("fonte").asString()).contains("Dieta sem restri");assertThat(r.path("classificacoes").size()).isEqualTo(13);
+		assertThat(r.path("itens").size()).isGreaterThanOrEqualTo(1);assertThat(r.path("itens").get(0).path("nome").asString()).isEqualTo("100% Pure Whey Protein");
+		var p=json(requisitar("GET","/referencias/produtos/1",a.token(),null));
+		assertThat(p.path("marca").asString()).isEqualTo("Probi\u00f3tica");assertThat(p.path("medidaGramas").decimalValue()).isEqualByComparingTo("15.5");
+		assertThat(p.path("nutrientes").path("energia_kcal").decimalValue()).isEqualByComparingTo("374.19");assertThat(p.path("nutrientes").has("colesterol_mg")).isFalse();
+		assertThat(p.path("diluicao").path("solvente").asString()).isEqualTo("\u00e1gua");
+		var porMarca=json(requisitar("GET","/referencias/produtos?busca=probiotica&apresentacao=p%C3%B3&limite=200",a.token(),null));
+		assertThat(porMarca.path("itens").size()).isGreaterThanOrEqualTo(1);
+		assertThat(requisitar("GET","/referencias/produtos/9999",a.token(),null).statusCode()).isEqualTo(404);
+		assertThat(requisitar("GET","/referencias/produtos?limite=201",a.token(),null).statusCode()).isEqualTo(400);
+	}
 	@Test void consultaCurvasDaOms() throws Exception {
 		var a=cadastrarNutri();
 		var pi=json(requisitar("GET","/referencias/oms?indicador=PESO_IDADE&sexo=feminino&idadeMeses=0",a.token(),null)).path("curva");
