@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 053-ficha-cadastro-ampliado
+      author: dietamais
+      changes:
+        - addColumn:
+            tableName: ficha_paciente
+            columns:
+              - column: { name: cadastro_ampliado, type: jsonb, remarks: 'Cadastro ampliado da aba Cadastro da planilha (BE-64): escolaridade, estado civil, profissão, endereço, convênio, indicação e motivo da consulta' }

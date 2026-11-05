@@ -15,4 +15,17 @@ class FichaRequisicaoTest {
 			assertThat(validador.validate(new AtualizarPacienteRequisicao("Fictício",null,null,null,null,new BigDecimal("1.725"),null,null))).isEmpty();
 		}
 	}
+	@Test void normalizaEValidaOCadastroAmpliado() {
+		try(var fabrica=Validation.buildDefaultValidatorFactory()) {
+			var validador=fabrica.getValidator();
+			var ok=new CadastroAmpliado("  Superior  ",null,"",new CadastroAmpliado.Endereco(null,null,null,null,null,"sp","01001-000"),null,null,null);
+			assertThat(ok.escolaridade()).isEqualTo("Superior");assertThat(ok.profissao()).isNull();
+			assertThat(ok.endereco().uf()).isEqualTo("SP");assertThat(ok.endereco().cep()).isEqualTo("01001000");
+			assertThat(validador.validate(new AtualizarPacienteRequisicao("Fictício",null,null,null,null,null,null,null,ok))).isEmpty();
+			assertThat(new CadastroAmpliado(" ",null,null,new CadastroAmpliado.Endereco(" ",null,null,null,null,null,null),null,null,null).vazio()).isTrue();
+			var ruim=new CadastroAmpliado(null,null,null,new CadastroAmpliado.Endereco(null,null,null,null,null,"SPP","123"),null,null,"x".repeat(2001));
+			assertThat(validador.validate(new AtualizarPacienteRequisicao("Fictício",null,null,null,null,null,null,null,ruim))).extracting(e->e.getPropertyPath().toString())
+				.contains("cadastroAmpliado.motivoConsulta","cadastroAmpliado.endereco.uf","cadastroAmpliado.endereco.cep");
+		}
+	}
 }
