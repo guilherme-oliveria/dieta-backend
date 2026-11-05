@@ -170,11 +170,13 @@ class AvaliacaoAmpliadaApiTest extends TesteComPaciente {
 	@Test void listaEClassificaExames() throws Exception {
 		var a=cadastrarNutri();
 		var cat=json(requisitar("GET","/referencias/exames?faixaEtaria=ADULTO",a.token(),null));
-		assertThat(cat.path("itens").size()).isEqualTo(132);assertThat(cat.path("itens").get(0).path("nome").asString()).isEqualTo("Ácido úrico");
+		assertThat(cat.path("itens").size()).isEqualTo(133);assertThat(cat.path("itens").get(0).path("nome").asString()).isEqualTo("Ácido úrico");
 		var r=json(requisitar("GET","/referencias/exames/acido-urico/classificar?faixaEtaria=ADULTO&valor=2.4&sexo=feminino",a.token(),null));
 		assertThat(r.path("rotulo").asString()).isEqualTo("limite inferior");
 		var sem=json(requisitar("GET","/referencias/exames/acido-urico/classificar?faixaEtaria=ADULTO&valor=5",a.token(),null));
 		assertThat(sem.path("rotulo").isNull()).isTrue();assertThat(sem.path("motivo").asString()).isEqualTo("FALTA_SEXO");
+		var parasito=json(requisitar("GET","/referencias/exames/parasitologico-de-fezes/classificar?faixaEtaria=ADULTO&texto=Giardia",a.token(),null));
+		assertThat(parasito.path("rotulo").asString()).isEqualTo("informado");
 		assertThat(requisitar("GET","/referencias/exames/nao-existe/classificar?faixaEtaria=ADULTO&valor=1",a.token(),null).statusCode()).isEqualTo(404);
 		assertThat(requisitar("GET","/referencias/exames?faixaEtaria=IDOSO",a.token(),null).statusCode()).isEqualTo(400);
 	}
