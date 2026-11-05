@@ -80,5 +80,12 @@ public class AlimentoController {
 		var resposta=listas.atualizar(id,ifMatch,requisicao);return entidade(resposta,resposta.versao(),200);
 	}
 
+	@PostMapping("/pacientes/{id}/lista-substituicao/copiar-de/{origemId}")
+	@Operation(operationId="copiarListaSubstituicao",summary="Copiar a lista de outro paciente",description="G-19, RN-ALI-06: a lista efetiva do paciente de origem (da mesma nutri) vira a lista deste, como diferenças sobre a lista-base; alimentos desativados ficam de fora; `If-Match` da lista de destino.")
+	@ApiResponse(responseCode="200",description="Lista de destino atualizada",content=@Content(mediaType="application/json",schema=@Schema(implementation=ListaSubstituicaoResposta.class)),headers=@Header(name="ETag",description="Versão forte da entidade para If-Match",schema=@Schema(type="string")))
+	public ResponseEntity<ListaSubstituicaoResposta> copiarListaSubstituicao(@PathVariable UUID id, @PathVariable UUID origemId, @RequestHeader("If-Match") String ifMatch) {
+		var resposta=listas.copiarDe(id,origemId,ifMatch);return entidade(resposta,resposta.versao(),200);
+	}
+
 	private <T> ResponseEntity<T> entidade(T resposta,long versao,int status){return ResponseEntity.status(status).eTag(Long.toString(versao)).cacheControl(org.springframework.http.CacheControl.noStore()).body(resposta);}
 }
