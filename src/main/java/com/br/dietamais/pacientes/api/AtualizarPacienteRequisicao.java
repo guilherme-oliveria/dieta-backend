@@ -19,6 +19,6 @@ public record AtualizarPacienteRequisicao(
 		@Schema(nullable = true) @jakarta.validation.constraints.Size(max=2000) String objetivo,
 		@Schema(nullable = true) @jakarta.validation.constraints.Size(max=10000) String observacoes,
 		/** Ausente mantém o cadastro ampliado como está (cliente antigo não apaga); presente substitui, e objeto vazio limpa. */
-		@Schema(nullable = true) @jakarta.validation.Valid CadastroAmpliado cadastroAmpliado) {
+		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) @Schema(nullable = true) @jakarta.validation.Valid CadastroAmpliado cadastroAmpliado) {
 	public AtualizarPacienteRequisicao(String nome,String email,LocalDate dataNascimento,Sexo sexo,String telefone,BigDecimal estaturaReferencia,String objetivo,String observacoes){this(nome,email,dataNascimento,sexo,telefone,estaturaReferencia,objetivo,observacoes,null);}
 }

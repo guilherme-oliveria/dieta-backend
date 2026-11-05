@@ -20,6 +20,6 @@ public record CriarPacienteRequisicao(
 		@Schema(nullable = true) @DecimalMin("0.5") @DecimalMax("2.5") @jakarta.validation.constraints.Digits(integer=1,fraction=3) BigDecimal estaturaReferencia,
 		@Schema(nullable = true) @jakarta.validation.constraints.Size(max=2000) String objetivo,
 		@Schema(nullable = true) @jakarta.validation.constraints.Size(max=10000) String observacoes,
-		@Schema(nullable = true) @jakarta.validation.Valid CadastroAmpliado cadastroAmpliado) {
+		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) @Schema(nullable = true) @jakarta.validation.Valid CadastroAmpliado cadastroAmpliado) {
 	public CriarPacienteRequisicao(UUID id,String nome,String email,LocalDate dataNascimento,Sexo sexo,String telefone,BigDecimal estaturaReferencia,String objetivo,String observacoes){this(id,nome,email,dataNascimento,sexo,telefone,estaturaReferencia,objetivo,observacoes,null);}
 }
