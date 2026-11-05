@@ -64,6 +64,7 @@ public class MontadorDieta {
 		return respostas;
 	}
 	private List<PorcaoGrupo> lerPorcoes(String json){return json==null?null:mapper.readValue(json,new TypeReference<List<PorcaoGrupo>>(){});}
+	private static final BigDecimal CEM=new BigDecimal(100);
 	private record ItemMontado(ItemRefeicaoResposta item,CalculadoraTotais.Parcela exato,AdequacaoDri.Contribuicao contribuicao) {}
 	private record Perfil(String sexo,int meses,boolean gestante,boolean lactante,BigDecimal pesoReferenciaKg) {}
 	/** Sexo e idade da ficha para as metas DRI; sem eles (ou sem ficha) não há adequação. Gestação, lactação e o peso dos "por kg" (RN-CAL-05) vêm da avaliação mais recente, quando há. */
@@ -89,7 +90,11 @@ public class MontadorDieta {
 			var a=base.get(item.alimentoId());
 			if(item.aVontade())return new ItemMontado(new ItemRefeicaoResposta(item.id(),a.id(),a.grupoId(),a.nome(),null,a.medidaCaseira(),null,item.observacao(),zero,a.grupoNome(),null,Boolean.TRUE,null),CalculadoraTotais.Parcela.ZERO,null);
 			var totais=CalculadoraTotais.item(a,item.porcoes());
-			return new ItemMontado(new ItemRefeicaoResposta(item.id(),a.id(),a.grupoId(),a.nome(),item.porcoes(),a.medidaCaseira(),CalculadoraTotais.gramas(a,item.porcoes()),item.observacao(),totais,a.grupoNome()),CalculadoraTotais.exata(totais),new AdequacaoDri.Contribuicao(Map.of()));
+			// BE-47c: micronutrientes = nutrientes por 100 g do catálogo × gramas do item; alimento sem composição (criado pela nutri) não informa nenhum.
+			var gramas=a.gramasPorPorcao().multiply(item.porcoes());var valores=new LinkedHashMap<String,BigDecimal>();
+			a.composicao().forEach((cod,v)->{if(!AdequacaoDri.MACROS.contains(cod))valores.put(cod,v.multiply(gramas).divide(CEM,10,java.math.RoundingMode.HALF_UP));});
+			var contribuicao=new AdequacaoDri.Contribuicao(valores);var soma=AdequacaoDri.somar(List.of(contribuicao));
+			return new ItemMontado(new ItemRefeicaoResposta(item.id(),a.id(),a.grupoId(),a.nome(),item.porcoes(),a.medidaCaseira(),CalculadoraTotais.gramas(a,item.porcoes()),item.observacao(),totais.comMicronutrientes(soma.micronutrientes(),null),a.grupoNome()),CalculadoraTotais.exata(totais),contribuicao);
 		}
 		if(item.grupoId()!=null){
 			var g=grupos.get(item.grupoId());var nome=g==null?null:g.nome();

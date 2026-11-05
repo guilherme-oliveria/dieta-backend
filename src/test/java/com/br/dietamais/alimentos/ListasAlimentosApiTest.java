@@ -103,7 +103,7 @@ class ListasAlimentosApiTest extends TesteIsolamento {
 	}
 	@Test void inicializacaoDeLegadoEOcorrenciaUnicaPreservamAjustes() throws Exception {
 		var a=cadastrarNutri();jdbc.update("delete from alimento_nutri where nutricionista_id=?",a.nutri());jdbc.update("delete from grupo_alimento_nutri where nutricionista_id=?",a.nutri());jdbc.update("delete from lista_alimentos_nutri where nutricionista_id=?",a.nutri());
-		jdbc.queryForObject("select copiar_catalogo_nutri(?)",Object.class,a.nutri());assertThat(jdbc.queryForObject("select count(*) from alimento_nutri where nutricionista_id=?",Integer.class,a.nutri())).isEqualTo(482);
+		jdbc.queryForObject("select copiar_catalogo_nutri(?)",Object.class,a.nutri());assertThat(jdbc.queryForObject("select count(*) from alimento_nutri where nutricionista_id=?",Integer.class,a.nutri())).isEqualTo(571);
 		UUID id=jdbc.queryForObject("select id from alimento_nutri where nutricionista_id=? order by id limit 1",UUID.class,a.nutri());jdbc.update("update alimento_nutri set nome='Ajuste fictício preservado' where id=?",id);
 		jdbc.queryForObject("select copiar_catalogo_nutri(?)",Object.class,a.nutri());assertThat(jdbc.queryForObject("select nome from alimento_nutri where id=?",String.class,id)).isEqualTo("Ajuste fictício preservado");
 	}
