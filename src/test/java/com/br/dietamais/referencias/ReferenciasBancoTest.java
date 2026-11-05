@@ -26,4 +26,16 @@ class ReferenciasBancoTest {
 			assertThat(banco.classificar((String)caso[0],(String)caso[1],(Integer)caso[2],v)).isEqualTo(csv.classificar((String)caso[0],(String)caso[1],(Integer)caso[2],v)).isPresent();
 		}
 	}
+
+	/** BE-63: o catálogo do banco (038 + 054) cobre os exames das 3 planilhas, na ordem delas e sem repetir posição. */
+	@Test void catalogoDeExamesDoBancoCobreAsPlanilhas(){
+		for(var caso:new Object[][]{{"CRIANCA",132},{"ADOLESCENTE",133},{"ADULTO",133}}){
+			assertThat(jdbc.queryForObject("select count(*) from referencia_exame where faixa_etaria=?",Integer.class,caso[0])).as((String)caso[0]).isEqualTo(caso[1]);
+			assertThat(jdbc.queryForObject("select count(distinct ordem) from referencia_exame where faixa_etaria=?",Integer.class,caso[0])).as("ordens únicas "+caso[0]).isEqualTo(caso[1]);
+			assertThat(jdbc.queryForObject("select secao||'|'||ordem from referencia_exame where faixa_etaria=? and codigo='parasitologico-de-fezes'",String.class,caso[0])).isEqualTo("Fezes|95");
+			assertThat(jdbc.queryForObject("select count(*) from referencia_exame e where faixa_etaria=? and not exists (select 1 from referencia_exame_regra r where r.faixa_etaria=e.faixa_etaria and r.exame_codigo=e.codigo)",Integer.class,caso[0])).as("exame sem regra "+caso[0]).isZero();
+		}
+		// o que vinha depois de Fezes desceu uma posição (Hormônios começa em 96)
+		assertThat(jdbc.queryForObject("select ordem from referencia_exame where faixa_etaria='ADULTO' and codigo='acth'",Integer.class)).isEqualTo(96);
+	}
 }
