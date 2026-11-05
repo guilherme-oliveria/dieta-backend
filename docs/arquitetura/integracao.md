@@ -97,7 +97,7 @@ Visão geral para planejar; detalhe e schema no OpenAPI.
 | assinaturas | `GET /assinatura`, `POST /assinatura/checkout` (link do gateway), `POST /webhooks/pagamento` (público, validado) | nutri / gateway |
 | pacientes | `GET/POST /pacientes`, `GET/PATCH /pacientes/{id}`, `POST /pacientes/{id}/convite`, `POST /pacientes/{id}/encerrar-vinculo` | nutri |
 | alimentos | `GET /grupos-alimentos`, `GET/POST/PATCH /alimentos` (lista da nutri), `GET/POST/PATCH /produtos` (produtos da nutri, `If-Match`; `ativo=false` desativa), `GET/PUT /pacientes/{id}/lista-substituicao` | nutri |
-| dietas | `GET/POST /pacientes/{id}/dietas`, `GET/PUT /dietas/{id}`, `POST /dietas/{id}/publicar`, `POST /dietas/{id}/duplicar`, `GET /eu/dietas`, `PUT /eu/dieta-em-uso` | nutri / paciente |
+| dietas | `GET/POST /pacientes/{id}/dietas`, `GET/PUT /dietas/{id}`, `POST /dietas/{id}/publicar`, `POST /dietas/{id}/duplicar` (item da refeição por `alimentoId`, `grupoId` ou `produtoId` + `gramas`, BE-48c), `GET /eu/dietas`, `PUT /eu/dieta-em-uso` | nutri / paciente |
 | rotina | `POST /eu/checkins`, `POST /eu/agua`, `POST /eu/pesos`, `GET /eu/rotina?de=&ate=` (BE-38: registros do período, até 366 dias, no formato do `/sync`; usado pela web), `GET /pacientes/{id}/adesao` | paciente / nutri |
 | avaliacoes | `GET/POST /pacientes/{id}/avaliacoes`, `PUT /avaliacoes/{id}`, `GET /eu/avaliacoes`, `GET /eu/evolucao` | nutri / paciente |
 | dietas | `GET/POST /eu/nutri/modelos-dieta`, `GET/PUT/DELETE /eu/nutri/modelos-dieta/{id}`, `POST /eu/nutri/modelos-dieta/{id}/duplicar`, `POST /eu/nutri/modelos-dieta/de-dieta/{dietaId}`, `POST /pacientes/{id}/dietas/de-modelo/{modeloId}` (modelos de dieta, BE-52; detalhes em [contrato-fase-8.md](contrato-fase-8.md)) | nutri |

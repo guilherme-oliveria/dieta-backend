@@ -20,10 +20,10 @@ import tools.jackson.databind.json.JsonMapper;
 @Service
 public class GerenciarModelosDieta {
 	static final int MAX_MODELOS=200;
-	private final ModeloDietaStore store;private final GerenciarDietas dietas;private final ConsultarAlimentosParaDieta alimentos;private final UsuarioAtual usuario;private final GuardaEscritaNutri guarda;
+	private final ModeloDietaStore store;private final GerenciarDietas dietas;private final ConsultarAlimentosParaDieta alimentos;private final ConsultarProdutosParaDieta produtos;private final UsuarioAtual usuario;private final GuardaEscritaNutri guarda;
 	private final GeradorIds ids;private final Clock relogio;private final JsonMapper mapper;
-	public GerenciarModelosDieta(ModeloDietaStore store,GerenciarDietas dietas,ConsultarAlimentosParaDieta alimentos,UsuarioAtual usuario,GuardaEscritaNutri guarda,GeradorIds ids,Clock relogio,JsonMapper mapper){
-		this.store=store;this.dietas=dietas;this.alimentos=alimentos;this.usuario=usuario;this.guarda=guarda;this.ids=ids;this.relogio=relogio;this.mapper=mapper;
+	public GerenciarModelosDieta(ModeloDietaStore store,GerenciarDietas dietas,ConsultarAlimentosParaDieta alimentos,ConsultarProdutosParaDieta produtos,UsuarioAtual usuario,GuardaEscritaNutri guarda,GeradorIds ids,Clock relogio,JsonMapper mapper){
+		this.store=store;this.dietas=dietas;this.alimentos=alimentos;this.produtos=produtos;this.usuario=usuario;this.guarda=guarda;this.ids=ids;this.relogio=relogio;this.mapper=mapper;
 	}
 	@Transactional(readOnly=true)
 	public ModelosDietaResposta listar(){
@@ -69,7 +69,7 @@ public class GerenciarModelosDieta {
 	public ModeloDietaResposta salvarComoModelo(UUID dietaId,SalvarComoModeloRequisicao r){
 		var d=dietas.consultar(dietaId);
 		var refeicoes=d.refeicoes().stream().map(x->new RefeicaoRequisicao(x.id(),x.nome(),x.horario(),x.ordem(),x.itens().stream().map(i->new ItemRefeicaoRequisicao(null,i.alimentoId(),i.grupoId(),i.porcoes(),
-			i.ehAVontade()?Boolean.TRUE:null,i.alimentoId()==null&&i.grupoId()==null?i.textoLivre():null,i.observacao())).toList(),x.alternativa()?"ALTERNATIVA":null,x.alternativaDe())).toList();
+			i.ehAVontade()?Boolean.TRUE:null,i.alimentoId()==null&&i.grupoId()==null&&i.produtoId()==null?i.textoLivre():null,i.observacao(),i.produtoId(),i.produtoId()==null?null:i.gramas())).toList(),x.alternativa()?"ALTERNATIVA":null,x.alternativaDe())).toList();
 		var kcal=d.totais().kcal();
 		var nutri=usuario.obter().exigirNutricionista();guarda.validar();store.bloquear(nutri);
 		return inserir(nutri,new SalvarModeloDietaRequisicao(r.id(),r.titulo(),r.descricao(),r.condicao(),d.orientacao(),refeicoes,d.porcoes(),d.metas(),d.rodape(),r.restricoes(),kcal.signum()>0?kcal:null));
@@ -94,6 +94,9 @@ public class GerenciarModelosDieta {
 		var usados=new HashSet<UUID>();
 		modelo.refeicoes().forEach(x->x.itens().forEach(i->{if(i.alimentoId()!=null)usados.add(i.alimentoId());}));
 		var base_alimentos=alimentos.consultar(nutri,usados);
+		var usadosProdutos=new HashSet<UUID>();
+		modelo.refeicoes().forEach(x->x.itens().forEach(i->{if(i.produtoId()!=null)usadosProdutos.add(i.produtoId());}));
+		var base_produtos=produtos.consultar(nutri,usadosProdutos);
 		var restricoes=EnumSet.noneOf(MarcadorAlimento.class);restricoes.addAll(modelo.restricoes());
 		var novos=new HashMap<UUID,UUID>();for(var x:modelo.refeicoes())if(x.id()!=null)novos.put(x.id(),ids.novo());
 		var refeicoes=new ArrayList<RefeicaoRequisicao>();
@@ -104,6 +107,13 @@ public class GerenciarModelosDieta {
 					var a=base_alimentos.get(i.alimentoId());
 					if(a==null||!a.ativo()){avisos.add(new AvisoModelo("ITEM_INDISPONIVEL","Um alimento do modelo não está na sua lista e foi removido de "+x.nome()+"."));continue;}
 					if(a.marcadores().stream().anyMatch(restricoes::contains)){avisos.add(new AvisoModelo("ITEM_REMOVIDO_RESTRICAO",a.nome()+" foi removido de "+x.nome()+" por causa da restrição do modelo."));continue;}
+				}
+				if(i.produtoId()!=null){
+					var pr=base_produtos.get(i.produtoId());
+					if(pr==null||!pr.ativo()){avisos.add(new AvisoModelo("ITEM_INDISPONIVEL","Um produto do modelo não está na sua lista e foi removido de "+x.nome()+"."));continue;}
+					// RN-MOD-02: gramas do produto escalam pelo mesmo fator, em gramas inteiras e nunca abaixo de 1 g.
+					var gramas=i.gramas().multiply(fator).setScale(0,java.math.RoundingMode.HALF_UP).max(BigDecimal.ONE);
+					itens.add(new ItemRefeicaoRequisicao(null,null,null,null,null,null,i.observacao(),i.produtoId(),gramas));continue;
 				}
 				var porcoes=Boolean.TRUE.equals(i.aVontade())?i.porcoes():EscalaPorcoes.escalar(i.porcoes(),fator);
 				itens.add(new ItemRefeicaoRequisicao(null,i.alimentoId(),i.grupoId(),porcoes,i.aVontade(),i.textoLivre(),i.observacao()));

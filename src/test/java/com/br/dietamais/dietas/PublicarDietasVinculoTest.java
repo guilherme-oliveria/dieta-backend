@@ -25,7 +25,7 @@ class PublicarDietasVinculoTest {
 	final Instant agora=Instant.parse("2026-10-28T08:00:00Z");
 	final Dieta origem=new Dieta(id,antigo,paciente,"Fictício",null,StatusDieta.RASCUNHO,1L,agora,agora);
 	final Dieta copia=new Dieta(gerado,antigo,paciente,"Fictício (cópia)",null,StatusDieta.RASCUNHO,1L,agora,agora);
-	final PublicarDietas caso=new PublicarDietas(montador,dietas,alimentos,listas,nutricionistas,fichas,usuario,guarda,auditoria,ids,Clock.fixed(agora,ZoneOffset.UTC),JsonMapper.builder().build(),eventos);
+	final PublicarDietas caso=new PublicarDietas(montador,dietas,alimentos,mock(com.br.dietamais.alimentos.api.ConsultarProdutosParaDieta.class),listas,nutricionistas,fichas,usuario,guarda,auditoria,ids,Clock.fixed(agora,ZoneOffset.UTC),JsonMapper.builder().build(),eventos);
 	@BeforeEach void configurar(){
 		when(usuario.obter()).thenReturn(new ContextoUsuario(new UsuarioResposta(UUID.randomUUID(),"Fictício","ficticio@example.invalid",true,List.of(Perfil.NUTRICIONISTA),Perfil.NUTRICIONISTA,nutri,null,"UTC"),UUID.randomUUID()));
 		when(dietas.dieta(id,nutri,true)).thenReturn(origem);when(dietas.dieta(id,nutri,false)).thenReturn(origem);when(dietas.dieta(gerado,nutri,false)).thenReturn(copia);when(ids.novo()).thenReturn(gerado);

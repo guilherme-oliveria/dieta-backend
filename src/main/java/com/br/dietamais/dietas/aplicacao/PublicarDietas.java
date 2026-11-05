@@ -16,12 +16,12 @@ import tools.jackson.databind.json.JsonMapper;
 
 @Service
 public class PublicarDietas {
-	private final MontadorDieta montador;private final DietaStore dietas;private final ConsultarAlimentosParaDieta alimentos;private final ListaSubstituicaoEfetiva listas;
+	private final MontadorDieta montador;private final DietaStore dietas;private final ConsultarAlimentosParaDieta alimentos;private final ConsultarProdutosParaDieta produtos;private final ListaSubstituicaoEfetiva listas;
 	private final ConsultaNutricionistas nutricionistas;private final ConsultarFichaParaLista fichas;private final UsuarioAtual usuario;private final GuardaEscritaNutri guarda;
 	private final AuditoriaClinica auditoria;private final GeradorIds ids;private final Clock relogio;private final JsonMapper mapper;private final ApplicationEventPublisher eventos;
-	public PublicarDietas(MontadorDieta montador,DietaStore dietas,ConsultarAlimentosParaDieta alimentos,ListaSubstituicaoEfetiva listas,ConsultaNutricionistas nutricionistas,ConsultarFichaParaLista fichas,
+	public PublicarDietas(MontadorDieta montador,DietaStore dietas,ConsultarAlimentosParaDieta alimentos,ConsultarProdutosParaDieta produtos,ListaSubstituicaoEfetiva listas,ConsultaNutricionistas nutricionistas,ConsultarFichaParaLista fichas,
 		UsuarioAtual usuario,GuardaEscritaNutri guarda,AuditoriaClinica auditoria,GeradorIds ids,Clock relogio,JsonMapper mapper,ApplicationEventPublisher eventos){
-		this.montador=montador;this.dietas=dietas;this.alimentos=alimentos;this.listas=listas;this.nutricionistas=nutricionistas;this.fichas=fichas;this.usuario=usuario;this.guarda=guarda;
+		this.montador=montador;this.dietas=dietas;this.alimentos=alimentos;this.produtos=produtos;this.listas=listas;this.nutricionistas=nutricionistas;this.fichas=fichas;this.usuario=usuario;this.guarda=guarda;
 		this.auditoria=auditoria;this.ids=ids;this.relogio=relogio;this.mapper=mapper;this.eventos=eventos;
 	}
 	/** RN-DIE-02/03/06/09: congela dieta, lista de substituição e orientação; a publicada anterior do vínculo vira SUBSTITUIDA. */
@@ -41,6 +41,8 @@ public class PublicarDietas {
 		if(refeicoes.isEmpty())throw new ExcecaoNegocio(CodigoErro.DIETA_VAZIA,"RN-DIE-06");
 		var usados=new HashSet<UUID>();refeicoes.forEach(r->r.itens().forEach(i->{if(i.alimentoId()!=null)usados.add(i.alimentoId());}));
 		for(var a:alimentos.consultar(nutri,usados).values())if(!a.ativo())throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-ALI-03");
+		var produtosUsados=new HashSet<UUID>();refeicoes.forEach(r->r.itens().forEach(i->{if(i.produtoId()!=null)produtosUsados.add(i.produtoId());}));
+		for(var pr:produtos.consultar(nutri,produtosUsados).values())if(!pr.ativo())throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-ALI-05");
 		var agora=relogio.instant();var resumo=nutricionistas.porIds(Set.of(nutri)).get(nutri);
 		if(resumo==null)throw new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null);
 		String orientacao=atual.orientacao()!=null?atual.orientacao():nutricionistas.orientacaoPadrao(nutri).orElse(null);
@@ -68,7 +70,7 @@ public class PublicarDietas {
 		var novosIds=new HashMap<UUID,UUID>();for(var r:refeicoes)novosIds.put(r.id(),ids.novo());
 		for(var r:refeicoes){
 			UUID rid=novosIds.get(r.id());dietas.inserirRefeicao(new Refeicao(rid,novo,r.nome(),r.horario(),r.ordem(),r.tipo(),r.alternativaDe()==null?null:novosIds.get(r.alternativaDe())));
-			for(var i:itens)if(i.refeicaoId().equals(r.id()))dietas.inserirItem(new Item(ids.novo(),rid,i.alimentoId(),i.grupoId(),i.porcoes(),i.aVontade(),i.textoLivre(),i.observacao(),i.ordem()));
+			for(var i:itens)if(i.refeicaoId().equals(r.id()))dietas.inserirItem(new Item(ids.novo(),rid,i.alimentoId(),i.grupoId(),i.porcoes(),i.aVontade(),i.textoLivre(),i.observacao(),i.ordem(),i.produtoId(),i.gramas()));
 		}
 		var copia=propria(novo,nutri,false);var resposta=montador.montar(List.of(copia),nutri).get(0);auditoria.escrita(referencia(copia,contexto));return resposta;
 	}

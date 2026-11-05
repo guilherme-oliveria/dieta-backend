@@ -1,6 +1,7 @@
 package com.br.dietamais.dietas.dominio;
 
 import com.br.dietamais.alimentos.api.AlimentoParaDieta;
+import com.br.dietamais.alimentos.api.ProdutoParaDieta;
 import com.br.dietamais.dietas.api.*;
 import com.br.dietamais.referencias.api.PorcoesGrupos;
 import java.math.BigDecimal;
@@ -26,6 +27,12 @@ public final class CalculadoraTotais {
 	public static TotaisNutricionaisResposta item(AlimentoParaDieta alimento,BigDecimal porcoes){
 		return new TotaisNutricionaisResposta(escala(alimento.kcalPorPorcao().multiply(porcoes)),escala(alimento.carboidratosPorPorcao().multiply(porcoes)),
 			escala(alimento.proteinasPorPorcao().multiply(porcoes)),escala(alimento.gordurasPorPorcao().multiply(porcoes)));
+	}
+	/** Item por produto (BE-48c): nutrientes por 100 g × gramas, arredondado a 2 casas como o item por alimento (RN-DIE-05). Os 4 macros são obrigatórios no produto. */
+	public static TotaisNutricionaisResposta produto(ProdutoParaDieta produto,BigDecimal gramas){
+		var c=produto.composicao();var f=gramas.divide(CEM,10,RoundingMode.HALF_UP);
+		return new TotaisNutricionaisResposta(escala(c.getOrDefault("energia",BigDecimal.ZERO).multiply(f)),escala(c.getOrDefault("gli",BigDecimal.ZERO).multiply(f)),
+			escala(c.getOrDefault("pro",BigDecimal.ZERO).multiply(f)),escala(c.getOrDefault("lip",BigDecimal.ZERO).multiply(f)));
 	}
 	/** Item por grupo: porções × perfil da opção escolhida, sem arredondar (RN-CAL-07). Nutriente que o perfil não informa conta como zero nos 4 macros (os vetores cobrem todos). */
 	public static Parcela porGrupo(PorcoesGrupos.Opcao opcao,BigDecimal porcoes){
