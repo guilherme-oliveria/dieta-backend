@@ -33,9 +33,15 @@ public record ItemRefeicaoResposta(
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@Schema(nullable=true,requiredMode=Schema.RequiredMode.NOT_REQUIRED) Boolean aVontade,
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@Schema(nullable=true,requiredMode=Schema.RequiredMode.NOT_REQUIRED) String textoLivre) {
+	@Schema(nullable=true,requiredMode=Schema.RequiredMode.NOT_REQUIRED) String textoLivre,
+	/** Presente só no item por produto da nutri (BE-48c); `gramas` é a quantidade e `porcoes` fica nulo. */
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@Schema(nullable=true,requiredMode=Schema.RequiredMode.NOT_REQUIRED) UUID produtoId) {
+	public ItemRefeicaoResposta(UUID id,UUID alimentoId,UUID grupoId,String nomeAlimento,BigDecimal porcoes,String medidaCaseira,BigDecimal gramas,String observacao,TotaisNutricionaisResposta totais,String grupoNome,Integer opcao,Boolean aVontade,String textoLivre){
+		this(id,alimentoId,grupoId,nomeAlimento,porcoes,medidaCaseira,gramas,observacao,totais,grupoNome,opcao,aVontade,textoLivre,null);
+	}
 	public boolean ehAVontade(){return Boolean.TRUE.equals(aVontade);}
 	public ItemRefeicaoResposta(UUID id,UUID alimentoId,UUID grupoId,String nomeAlimento,BigDecimal porcoes,String medidaCaseira,BigDecimal gramas,String observacao,TotaisNutricionaisResposta totais,String grupoNome){
-		this(id,alimentoId,grupoId,nomeAlimento,porcoes,medidaCaseira,gramas,observacao,totais,grupoNome,null,null,null);
+		this(id,alimentoId,grupoId,nomeAlimento,porcoes,medidaCaseira,gramas,observacao,totais,grupoNome,null,null,null,null);
 	}
 }

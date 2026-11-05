@@ -19,10 +19,10 @@ import tools.jackson.databind.json.JsonMapper;
 @Service
 public class GerenciarDietas {
 	static final int MAX_REFEICOES=20,MAX_ITENS=60;
-	private final ConsultaPorcoes porcoes;private final ConsultaAvaliacaoParaDieta avaliacoes;private final MontadorDieta montador;private final DietaStore dietas;private final ConsultarAlimentosParaDieta alimentos;private final ConsultarFichaParaLista fichas;private final UsuarioAtual usuario;
+	private final ConsultaPorcoes porcoes;private final ConsultaAvaliacaoParaDieta avaliacoes;private final MontadorDieta montador;private final DietaStore dietas;private final ConsultarAlimentosParaDieta alimentos;private final ConsultarProdutosParaDieta produtos;private final ConsultarFichaParaLista fichas;private final UsuarioAtual usuario;
 	private final GuardaEscritaNutri guarda;private final AuditoriaClinica auditoria;private final GeradorIds ids;private final Clock relogio;private final JsonMapper mapper;
-	public GerenciarDietas(ConsultaPorcoes porcoes,ConsultaAvaliacaoParaDieta avaliacoes,MontadorDieta montador,DietaStore dietas,ConsultarAlimentosParaDieta alimentos,ConsultarFichaParaLista fichas,UsuarioAtual usuario,GuardaEscritaNutri guarda,AuditoriaClinica auditoria,GeradorIds ids,Clock relogio,JsonMapper mapper){
-		this.porcoes=porcoes;this.avaliacoes=avaliacoes;this.montador=montador;this.dietas=dietas;this.alimentos=alimentos;this.fichas=fichas;this.usuario=usuario;this.guarda=guarda;this.auditoria=auditoria;this.ids=ids;this.relogio=relogio;this.mapper=mapper;
+	public GerenciarDietas(ConsultaPorcoes porcoes,ConsultaAvaliacaoParaDieta avaliacoes,MontadorDieta montador,DietaStore dietas,ConsultarAlimentosParaDieta alimentos,ConsultarProdutosParaDieta produtos,ConsultarFichaParaLista fichas,UsuarioAtual usuario,GuardaEscritaNutri guarda,AuditoriaClinica auditoria,GeradorIds ids,Clock relogio,JsonMapper mapper){
+		this.porcoes=porcoes;this.avaliacoes=avaliacoes;this.montador=montador;this.dietas=dietas;this.alimentos=alimentos;this.produtos=produtos;this.fichas=fichas;this.usuario=usuario;this.guarda=guarda;this.auditoria=auditoria;this.ids=ids;this.relogio=relogio;this.mapper=mapper;
 	}
 	@Transactional(readOnly=true,isolation=Isolation.REPEATABLE_READ)
 	public DietasResposta listar(UUID paciente){
@@ -88,7 +88,7 @@ public class GerenciarDietas {
 		}
 		var principais=new HashSet<UUID>();
 		for(var refeicao:r.refeicoes())if(!"ALTERNATIVA".equals(refeicao.tipo())&&refeicao.id()!=null)principais.add(refeicao.id());
-		var usados=new HashSet<UUID>();var idsInformados=new HashSet<UUID>();
+		var usados=new HashSet<UUID>();var produtosUsados=new HashSet<UUID>();var idsInformados=new HashSet<UUID>();
 		for(var refeicao:r.refeicoes()){
 			if(refeicao.itens().size()>MAX_ITENS)throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-DIE-01");
 			unico(refeicao.id(),idsInformados);
@@ -97,17 +97,24 @@ public class GerenciarDietas {
 			for(var item:refeicao.itens()){
 				unico(item.id(),idsInformados);
 				boolean temTexto=item.textoLivre()!=null&&!item.textoLivre().isBlank();
-				int origens=(item.alimentoId()!=null?1:0)+(item.grupoId()!=null?1:0);
-				if(origens>1||(origens==0&&!(Boolean.TRUE.equals(item.aVontade())&&temTexto))||(origens==1&&temTexto)||(Boolean.TRUE.equals(item.aVontade())&&item.porcoes()!=null)||(!Boolean.TRUE.equals(item.aVontade())&&origens==1&&item.porcoes()==null))
+				int origens=(item.alimentoId()!=null?1:0)+(item.grupoId()!=null?1:0)+(item.produtoId()!=null?1:0);
+				boolean porProduto=item.produtoId()!=null;
+				if(origens>1||(origens==0&&!(Boolean.TRUE.equals(item.aVontade())&&temTexto))||(origens==1&&temTexto)||(Boolean.TRUE.equals(item.aVontade())&&item.porcoes()!=null)||(!Boolean.TRUE.equals(item.aVontade())&&origens==1&&!porProduto&&item.porcoes()==null)
+					||(porProduto&&(item.gramas()==null||item.porcoes()!=null||Boolean.TRUE.equals(item.aVontade())))||(!porProduto&&item.gramas()!=null))
 					throw new ExcecaoNegocio(CodigoErro.ITEM_INVALIDO,"RN-DIE-10");
 				if(item.alimentoId()!=null)usados.add(item.alimentoId());
+				if(porProduto)produtosUsados.add(item.produtoId());
 				if(item.grupoId()!=null&&(!catalogo.containsKey(item.grupoId())||(!Boolean.TRUE.equals(item.aVontade())&&!escolhidas.contains(item.grupoId()))))throw new ExcecaoNegocio(CodigoErro.PORCAO_INVALIDA,"RN-DIE-10");
+				var gr=item.gramas();if(gr!=null&&(gr.stripTrailingZeros().scale()>2||gr.compareTo(new BigDecimal("1000000"))>=0))throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-DIE-05");
 				var p=item.porcoes();if(p!=null&&(p.stripTrailingZeros().scale()>4||p.compareTo(new BigDecimal("1000000"))>=0))throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-DIE-05");
 			}
 		}
 		var encontrados=alimentos.consultar(nutri,usados);
 		if(!encontrados.keySet().containsAll(usados))throw new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null);
 		for(var a:encontrados.values())if(!a.ativo())throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-ALI-03");
+		var encontradosProdutos=produtos.consultar(nutri,produtosUsados);
+		if(!encontradosProdutos.keySet().containsAll(produtosUsados))throw new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null);
+		for(var p:encontradosProdutos.values())if(!p.ativo())throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-ALI-05");
 		var extras=new DietaStore.Extras(r.porcoes()==null||r.porcoes().isEmpty()?null:mapper.writeValueAsString(r.porcoes()),r.metas()==null?null:mapper.writeValueAsString(r.metas()),null,texto(r.rodape()),
 			r.restricoes()==null?null:r.restricoes().stream().distinct().sorted().map(Enum::name).toList());
 		return new Conteudo(extras);
@@ -121,7 +128,7 @@ public class GerenciarDietas {
 			int ordem=0;
 			for(var item:refeicao.itens()){
 				UUID iid=item.id()==null?ids.novo():item.id();
-				if(!dietas.inserirItem(new Item(iid,rid,item.alimentoId(),item.grupoId(),item.porcoes(),Boolean.TRUE.equals(item.aVontade()),texto(item.textoLivre()),texto(item.observacao()),ordem++)))throw new ExcecaoNegocio(CodigoErro.CONFLITO_VERSAO,"RN-SYN-02");
+				if(!dietas.inserirItem(new Item(iid,rid,item.alimentoId(),item.grupoId(),item.porcoes(),Boolean.TRUE.equals(item.aVontade()),texto(item.textoLivre()),texto(item.observacao()),ordem++,item.produtoId(),item.gramas()==null?null:item.gramas().setScale(2,java.math.RoundingMode.HALF_UP))))throw new ExcecaoNegocio(CodigoErro.CONFLITO_VERSAO,"RN-SYN-02");
 			}
 		}
 	}

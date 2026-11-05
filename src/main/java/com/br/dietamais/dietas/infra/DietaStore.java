@@ -43,7 +43,7 @@ public class DietaStore {
 	public List<Item> itens(Collection<UUID> refeicoes){
 		if(refeicoes.isEmpty())return List.of();
 		return jdbc.query("select * from item_refeicao where refeicao_id=any(?) order by ordem,id",(rs,n)->new Item(rs.getObject("id",UUID.class),rs.getObject("refeicao_id",UUID.class),
-			rs.getObject("alimento_id",UUID.class),rs.getObject("grupo_id",UUID.class),rs.getBigDecimal("porcoes"),rs.getBoolean("a_vontade"),rs.getString("texto_livre"),rs.getString("observacao"),rs.getInt("ordem")),(Object)refeicoes.toArray(new UUID[0]));
+			rs.getObject("alimento_id",UUID.class),rs.getObject("grupo_id",UUID.class),rs.getBigDecimal("porcoes"),rs.getBoolean("a_vontade"),rs.getString("texto_livre"),rs.getString("observacao"),rs.getInt("ordem"),rs.getObject("produto_id",UUID.class),rs.getBigDecimal("gramas")),(Object)refeicoes.toArray(new UUID[0]));
 	}
 	public void substituirPublicada(UUID vinculo,UUID exceto,Instant agora){
 		jdbc.update("update dieta set status='SUBSTITUIDA',versao=versao+1,seq=nextval('seq_sync'),atualizado_em=? where vinculo_id=? and id<>? and status='PUBLICADA' and excluido_em is null",Timestamp.from(agora),vinculo,exceto);
@@ -85,7 +85,7 @@ public class DietaStore {
 		return jdbc.update("insert into refeicao(id,dieta_id,nome,horario,ordem,tipo,alternativa_de) values(?,?,?,?,?,?,?) on conflict(id) do nothing",r.id(),r.dietaId(),r.nome(),Time.valueOf(r.horario()),r.ordem(),r.tipo(),r.alternativaDe())==1;
 	}
 	public boolean inserirItem(Item i){
-		return jdbc.update("insert into item_refeicao(id,refeicao_id,alimento_id,grupo_id,porcoes,a_vontade,texto_livre,observacao,ordem) values(?,?,?,?,?,?,?,?,?) on conflict(id) do nothing",i.id(),i.refeicaoId(),i.alimentoId(),i.grupoId(),i.porcoes(),i.aVontade(),i.textoLivre(),i.observacao(),i.ordem())==1;
+		return jdbc.update("insert into item_refeicao(id,refeicao_id,alimento_id,grupo_id,porcoes,a_vontade,texto_livre,observacao,ordem,produto_id,gramas) values(?,?,?,?,?,?,?,?,?,?,?) on conflict(id) do nothing",i.id(),i.refeicaoId(),i.alimentoId(),i.grupoId(),i.porcoes(),i.aVontade(),i.textoLivre(),i.observacao(),i.ordem(),i.produtoId(),i.gramas())==1;
 	}
 	private Dieta mapear(ResultSet rs,int linha) throws SQLException {
 		return new Dieta(rs.getObject("id",UUID.class),rs.getObject("vinculo_id",UUID.class),rs.getObject("paciente_id",UUID.class),rs.getString("titulo"),rs.getString("orientacao"),

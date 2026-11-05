@@ -20,12 +20,13 @@ import tools.jackson.databind.json.JsonMapper;
 /** Monta a resposta da dieta com os dados atuais da lista da nutri e os totais calculados (RN-DIE-05, RN-CAL-07). */
 @Component
 public class MontadorDieta {
-	private final DietaStore dietas;private final ConsultarAlimentosParaDieta alimentos;private final ConsultaPorcoes porcoes;private final ConsultaDri dri;private final ConsultarFichaParaLista fichas;private final ConsultaAvaliacaoParaDieta avaliacoes;private final Clock relogio;private final JsonMapper mapper;
-	public MontadorDieta(DietaStore dietas,ConsultarAlimentosParaDieta alimentos,ConsultaPorcoes porcoes,ConsultaDri dri,ConsultarFichaParaLista fichas,ConsultaAvaliacaoParaDieta avaliacoes,Clock relogio,JsonMapper mapper){this.dietas=dietas;this.alimentos=alimentos;this.porcoes=porcoes;this.dri=dri;this.fichas=fichas;this.avaliacoes=avaliacoes;this.relogio=relogio;this.mapper=mapper;}
+	private final DietaStore dietas;private final ConsultarAlimentosParaDieta alimentos;private final ConsultarProdutosParaDieta produtos;private final ConsultaPorcoes porcoes;private final ConsultaDri dri;private final ConsultarFichaParaLista fichas;private final ConsultaAvaliacaoParaDieta avaliacoes;private final Clock relogio;private final JsonMapper mapper;
+	public MontadorDieta(DietaStore dietas,ConsultarAlimentosParaDieta alimentos,ConsultarProdutosParaDieta produtos,ConsultaPorcoes porcoes,ConsultaDri dri,ConsultarFichaParaLista fichas,ConsultaAvaliacaoParaDieta avaliacoes,Clock relogio,JsonMapper mapper){this.dietas=dietas;this.alimentos=alimentos;this.produtos=produtos;this.porcoes=porcoes;this.dri=dri;this.fichas=fichas;this.avaliacoes=avaliacoes;this.relogio=relogio;this.mapper=mapper;}
 	public List<DietaResposta> montar(List<Dieta> lista,UUID nutri){
 		var refeicoes=dietas.refeicoes(lista.stream().map(Dieta::id).toList());
 		var itens=dietas.itens(refeicoes.stream().map(Refeicao::id).toList());
 		var base=alimentos.consultar(nutri,itens.stream().map(Item::alimentoId).filter(Objects::nonNull).collect(Collectors.toSet()));
+		var baseProdutos=produtos.consultar(nutri,itens.stream().map(Item::produtoId).filter(Objects::nonNull).collect(Collectors.toSet()));
 		var grupos=new HashMap<UUID,PorcoesGrupos.Grupo>();
 		if(itens.stream().anyMatch(i->i.grupoId()!=null))porcoes.porcoes().grupos().forEach(g->grupos.put(g.grupoId(),g));
 		var itensPorRefeicao=itens.stream().collect(Collectors.groupingBy(Item::refeicaoId));
@@ -38,7 +39,7 @@ public class MontadorDieta {
 			for(var refeicao:refeicoesPorDieta.getOrDefault(dieta.id(),List.of())){
 				var is=new ArrayList<ItemRefeicaoResposta>();var exatos=new ArrayList<CalculadoraTotais.Parcela>();var contribs=new ArrayList<AdequacaoDri.Contribuicao>();
 				for(var item:itensPorRefeicao.getOrDefault(refeicao.id(),List.of())){
-					var par=item(item,base,grupos,opcaoPorGrupo);is.add(par.item());exatos.add(par.exato());if(par.contribuicao()!=null)contribs.add(par.contribuicao());
+					var par=item(item,base,baseProdutos,grupos,opcaoPorGrupo);is.add(par.item());exatos.add(par.exato());if(par.contribuicao()!=null)contribs.add(par.contribuicao());
 				}
 				var exata=CalculadoraTotais.somarExato(exatos);exatas.put(refeicao.id(),exata);contribuicoes.put(refeicao.id(),contribs);var micros=AdequacaoDri.somar(contribs);
 				rs.add(new RefeicaoResposta(refeicao.id(),refeicao.nome(),refeicao.horario(),refeicao.ordem(),is,exata.totais().comMicronutrientes(micros.micronutrientes(),micros.incompleto()),"ALTERNATIVA".equals(refeicao.tipo())?refeicao.tipo():null,refeicao.alternativaDe(),null));
@@ -84,7 +85,7 @@ public class MontadorDieta {
 		}catch(com.br.dietamais.comum.api.ExcecaoNegocio e){p=null;}
 		cache.put(paciente,p);return p;
 	}
-	private ItemMontado item(Item item,Map<UUID,AlimentoParaDieta> base,Map<UUID,PorcoesGrupos.Grupo> grupos,Map<UUID,Integer> opcaoPorGrupo){
+	private ItemMontado item(Item item,Map<UUID,AlimentoParaDieta> base,Map<UUID,ProdutoParaDieta> baseProdutos,Map<UUID,PorcoesGrupos.Grupo> grupos,Map<UUID,Integer> opcaoPorGrupo){
 		var zero=CalculadoraTotais.ZERO;
 		if(item.alimentoId()!=null){
 			var a=base.get(item.alimentoId());
@@ -95,6 +96,14 @@ public class MontadorDieta {
 			a.composicao().forEach((cod,v)->{if(!AdequacaoDri.MACROS.contains(cod))valores.put(cod,v.multiply(gramas).divide(CEM,10,java.math.RoundingMode.HALF_UP));});
 			var contribuicao=new AdequacaoDri.Contribuicao(valores);var soma=AdequacaoDri.somar(List.of(contribuicao));
 			return new ItemMontado(new ItemRefeicaoResposta(item.id(),a.id(),a.grupoId(),a.nome(),item.porcoes(),a.medidaCaseira(),CalculadoraTotais.gramas(a,item.porcoes()),item.observacao(),totais.comMicronutrientes(soma.micronutrientes(),null),a.grupoNome()),CalculadoraTotais.exata(totais),contribuicao);
+		}
+		if(item.produtoId()!=null){
+			// BE-48c: produto da nutri, nutrientes por 100 g × gramas; nutriente que o produto não informa deixa o item incompleto.
+			var p=baseProdutos.get(item.produtoId());var gramas=item.gramas().setScale(2,java.math.RoundingMode.HALF_UP);
+			var totais=CalculadoraTotais.produto(p,gramas);var valores=new LinkedHashMap<String,BigDecimal>();
+			p.composicao().forEach((cod,v)->{if(!AdequacaoDri.MACROS.contains(cod))valores.put(cod,v.multiply(gramas).divide(CEM,10,java.math.RoundingMode.HALF_UP));});
+			var contribuicao=new AdequacaoDri.Contribuicao(valores);var soma=AdequacaoDri.somar(List.of(contribuicao));
+			return new ItemMontado(new ItemRefeicaoResposta(item.id(),null,null,p.nome(),null,p.medidaCaseira(),gramas,item.observacao(),totais.comMicronutrientes(soma.micronutrientes(),null),null,null,null,null,p.id()),CalculadoraTotais.exata(totais),contribuicao);
 		}
 		if(item.grupoId()!=null){
 			var g=grupos.get(item.grupoId());var nome=g==null?null:g.nome();
