@@ -57,6 +57,7 @@ Um usuário pode ter os perfis `NUTRICIONISTA` e `PACIENTE` na mesma conta (deci
 - **RN-ALI-02** Grupos do catálogo inicial e kcal por porção: Pão 150, Carne ou ovo 200, Arroz 80, Fruta 70, Leite 55, Feijão 45 e os demais conforme o PDF. Um alimento pertence a um grupo e define quanto equivale a **1 porção** (medida caseira + gramas).
 - **RN-ALI-03** Alimento usado em dieta publicada não é apagado: é desativado (some das novas dietas, continua nas antigas).
 - **RN-ALI-04** Mudança no catálogo base não altera listas de nutris que já existem; o admin pode oferecer "atualizações do catálogo" que a nutri aceita (P2).
+- **RN-ALI-05** Produtos e suplementos: o catálogo base (400 produtos da planilha da nutri, só leitura) é separado dos produtos da nutri. Cada nutri cadastra, edita e desativa os dela (nunca apaga, como o alimento); outra nutri não os vê (404). Os nutrientes são por 100 g (ou 100 mL) e trazem pelo menos energia, carboidrato, proteína e lipídeos; chaves iguais às do catálogo base e da TACO. Escrita exige assinatura ativa e vale também pelo `/sync`.
 
 ## Plano alimentar / dieta (RN-DIE)
 
