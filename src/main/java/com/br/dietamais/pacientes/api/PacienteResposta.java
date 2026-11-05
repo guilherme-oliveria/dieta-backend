@@ -29,11 +29,23 @@ public record PacienteResposta(
 		@Schema(nullable = true) BigDecimal adesao7d,
 		/** Cadastro ampliado (BE-64); ausente quando a nutri não preencheu nada. */
 		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-		@Schema(nullable = true,requiredMode = Schema.RequiredMode.NOT_REQUIRED) CadastroAmpliado cadastroAmpliado) {
+		@Schema(nullable = true,requiredMode = Schema.RequiredMode.NOT_REQUIRED) CadastroAmpliado cadastroAmpliado,
+		/** Início da próxima consulta agendada (BE-66); só na lista da nutri. */
+		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+		@Schema(nullable = true,requiredMode = Schema.RequiredMode.NOT_REQUIRED) Instant proximaConsulta,
+		/** Avaliação mais recente (BE-66); só na lista da nutri. */
+		@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+		@Schema(nullable = true,requiredMode = Schema.RequiredMode.NOT_REQUIRED) UltimaAvaliacaoResumo ultimaAvaliacao) {
+	public PacienteResposta(UUID id,UUID vinculoId,String nome,String email,LocalDate dataNascimento,Sexo sexo,String telefone,BigDecimal estaturaReferencia,String objetivo,String observacoes,StatusVinculo status,Long versao,Instant criadoEm,Instant atualizadoEm,BigDecimal adesao7d,CadastroAmpliado cadastroAmpliado){
+		this(id,vinculoId,nome,email,dataNascimento,sexo,telefone,estaturaReferencia,objetivo,observacoes,status,versao,criadoEm,atualizadoEm,adesao7d,cadastroAmpliado,null,null);
+	}
 	public PacienteResposta(UUID id,UUID vinculoId,String nome,String email,LocalDate dataNascimento,Sexo sexo,String telefone,BigDecimal estaturaReferencia,String objetivo,String observacoes,StatusVinculo status,Long versao,Instant criadoEm,Instant atualizadoEm,BigDecimal adesao7d){
 		this(id,vinculoId,nome,email,dataNascimento,sexo,telefone,estaturaReferencia,objetivo,observacoes,status,versao,criadoEm,atualizadoEm,adesao7d,null);
 	}
 	public PacienteResposta comAdesao7d(BigDecimal valor) {
-		return new PacienteResposta(id,vinculoId,nome,email,dataNascimento,sexo,telefone,estaturaReferencia,objetivo,observacoes,status,versao,criadoEm,atualizadoEm,valor,cadastroAmpliado);
+		return new PacienteResposta(id,vinculoId,nome,email,dataNascimento,sexo,telefone,estaturaReferencia,objetivo,observacoes,status,versao,criadoEm,atualizadoEm,valor,cadastroAmpliado,proximaConsulta,ultimaAvaliacao);
+	}
+	public PacienteResposta comResumo(Instant proxima,UltimaAvaliacaoResumo ultima) {
+		return new PacienteResposta(id,vinculoId,nome,email,dataNascimento,sexo,telefone,estaturaReferencia,objetivo,observacoes,status,versao,criadoEm,atualizadoEm,adesao7d,cadastroAmpliado,proxima,ultima);
 	}
 }

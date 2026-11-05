@@ -118,4 +118,13 @@ public class AvaliacaoStore {
 		return m.pesoUsualKg()==null&&m.pesoDesejadoKg()==null&&m.punhoCm()==null&&m.diametroPunhoCm()==null&&m.diametroJoelhoCm()==null&&m.percentualGorduraDesejado()==null
 			&&m.nivelAtividade()==null&&m.objetivo()==null&&m.objetivoKgPorMes()==null&&m.menstruada()==null?null:m;
 	}
+	/** Avaliação mais recente por vínculo (BE-66), da nutri dona; vínculo sem avaliação fica fora do mapa. */
+	public java.util.Map<UUID,com.br.dietamais.pacientes.api.UltimaAvaliacaoResumo> ultimas(java.util.Collection<UUID> vinculos,UUID nutri){
+		var r=new java.util.HashMap<UUID,com.br.dietamais.pacientes.api.UltimaAvaliacaoResumo>();
+		if(vinculos.isEmpty())return r;
+		var args=new java.util.ArrayList<Object>(java.util.List.of(nutri));args.addAll(vinculos);
+		jdbc.query("select distinct on (vinculo_id) vinculo_id,id,data_hora,peso_kg,imc,classificacao_imc from avaliacao where nutricionista_id=? and excluido_em is null and vinculo_id in ("+String.join(",",java.util.Collections.nCopies(vinculos.size(),"?"))+") order by vinculo_id,data_hora desc,id desc",
+			(rs)->{r.put(rs.getObject("vinculo_id",UUID.class),new com.br.dietamais.pacientes.api.UltimaAvaliacaoResumo(rs.getObject("id",UUID.class),rs.getTimestamp("data_hora").toInstant(),rs.getBigDecimal("peso_kg"),rs.getBigDecimal("imc"),rs.getString("classificacao_imc")));},args.toArray());
+		return r;
+	}
 }
