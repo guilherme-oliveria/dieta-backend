@@ -34,7 +34,7 @@ public class GerenciarFinanceiro {
 		var c=propria(consulta,nutri,true);
 		var ficha=fichas.consultar(c.pacienteId(),true);
 		if(ficha.status()==StatusVinculo.ENCERRADO)throw new ExcecaoNegocio(CodigoErro.ACESSO_NEGADO,"RN-VIN-05");
-		if(c.status()==StatusConsulta.CANCELADA)throw new ExcecaoNegocio(CodigoErro.CONSULTA_CANCELADA,"RN-FIN-01");
+		if(c.status()==StatusConsulta.CANCELADA)throw new ExcecaoNegocio(CodigoErro.CONSULTA_CANCELADA,"RN-AGE-01");
 		var existente=financeiro.da(consulta,nutri,true);long versaoAtual=existente==null?0:existente.versao();
 		if(versao(ifMatch)!=versaoAtual){
 			auditoria.leitura(referencia(c,contexto));
