@@ -99,12 +99,22 @@ class DietaPorcoesApiTest extends TesteIsolamento {
 		assertThat(calcio).isNotNull();assertThat(calcio.path("total").decimalValue()).isEqualByComparingTo(micros.path("ca").decimalValue());
 		assertThat(calcio.path("meta").decimalValue()).isPositive();
 		assertThat(calcio.path("percentual").decimalValue()).isEqualByComparingTo(calcio.path("total").decimalValue().multiply(new BigDecimal("100")).divide(calcio.path("meta").decimalValue(),2,java.math.RoundingMode.HALF_UP));
-		// um item por alimento não informa micronutrientes: a soma fica parcial e o código entra em incompleto
+		// um alimento que a nutri criou não tem composição: não informa micronutrientes, a soma fica parcial e o código entra em incompleto
 		var ali=json(requisitar("GET","/alimentos?tamanho=1",a.token(),null)).path("itens").get(0);
-		var misto=dieta("Misto",refeicao("R","PRINCIPAL",novoId(),null,porGrupo(1,"1"),itemSolto(ali.path("id").asString(),null,"1",false,null)));misto.put("porcoes",List.of(escolha(1,1)));
+		var proprio=json(requisitar("POST","/alimentos",a.token(),Map.of("grupoId",ali.path("grupoId").asString(),"nome","Alimento só da nutri","medidaCaseira","1 porção","gramasPorPorcao",50)));
+		assertThat(proprio.path("id").asString()).isNotBlank();
+		var misto=dieta("Misto",refeicao("R","PRINCIPAL",novoId(),null,porGrupo(1,"1"),itemSolto(proprio.path("id").asString(),null,"1",false,null)));misto.put("porcoes",List.of(escolha(1,1)));
 		var m=json(requisitar("POST","/pacientes/"+pid+"/dietas",a.token(),misto));
 		var incompleto=new ArrayList<String>();m.path("totais").path("incompleto").forEach(x->incompleto.add(x.asString()));
 		assertThat(incompleto).contains("ca");
+		// BE-47c: alimento do catálogo traz os nutrientes por 100 g × gramas do item (Azeite de oliva: 0,18 mg de cálcio por 100 g)
+		var azeite=json(requisitar("GET","/alimentos?busca=Azeite%20de%20oliva",a.token(),null)).path("itens").get(0);
+		var comComposicao=dieta("Com composição",refeicao("R","PRINCIPAL",novoId(),null,itemSolto(azeite.path("id").asString(),null,"2",false,null)));
+		var c=json(requisitar("POST","/pacientes/"+pid+"/dietas",a.token(),comComposicao));
+		var itemAzeite=c.path("refeicoes").get(0).path("itens").get(0);
+		var gramas=itemAzeite.path("gramas").decimalValue();
+		assertThat(itemAzeite.path("totais").path("micronutrientes").path("ca").decimalValue()).isCloseTo(new BigDecimal("0.18").multiply(gramas).divide(new BigDecimal("100")),within(new BigDecimal("0.01")));
+		assertThat(c.path("totais").path("micronutrientes").path("ca").isNumber()).isTrue();
 		// sem sexo e nascimento na ficha não há adequação
 		String semPerfil=paciente(a.token());var corpo2=dieta("Sem perfil",refeicao("Desjejum","PRINCIPAL",novoId(),null,porGrupo(1,"2")));corpo2.put("porcoes",List.of(escolha(1,1)));
 		var d2=json(requisitar("POST","/pacientes/"+semPerfil+"/dietas",a.token(),corpo2));
