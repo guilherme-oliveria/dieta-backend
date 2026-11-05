@@ -28,6 +28,15 @@ public class ConsultaStore {
 	public ConsultaResposta daNutri(UUID id,UUID nutri,boolean bloquear){
 		return jdbc.query(SQL_SELECT+"where id=? and nutricionista_id=? and excluido_em is null"+(bloquear?" for update":""),this::mapear,id,nutri).stream().findFirst().orElse(null);
 	}
+	/** Início da próxima consulta AGENDADA de cada vínculo (a partir de {@code agora}); vínculo sem consulta futura fica fora. */
+	public Map<UUID,Instant> proximas(Collection<UUID> vinculos,UUID nutri,Instant agora){
+		var r=new HashMap<UUID,Instant>();
+		if(vinculos.isEmpty())return r;
+		var args=new ArrayList<Object>(List.of(nutri,Timestamp.from(agora)));args.addAll(vinculos);
+		jdbc.query("select vinculo_id,min(inicio) as proxima from consulta where nutricionista_id=? and status='AGENDADA' and excluido_em is null and inicio>=? and vinculo_id in ("+String.join(",",Collections.nCopies(vinculos.size(),"?"))+") group by vinculo_id",
+			(rs)->{r.put(rs.getObject("vinculo_id",UUID.class),rs.getTimestamp("proxima").toInstant());},args.toArray());
+		return r;
+	}
 	/** Agenda da nutri na janela [de, ate), opcionalmente de um paciente; mais cedo primeiro. */
 	public List<ConsultaResposta> daNutri(UUID nutri,UUID paciente,Instant de,Instant ate){
 		var sql=SQL_SELECT+"where nutricionista_id=? and excluido_em is null and inicio>=? and inicio<?"+(paciente==null?"":" and paciente_id=?")+" order by inicio,id limit 500";

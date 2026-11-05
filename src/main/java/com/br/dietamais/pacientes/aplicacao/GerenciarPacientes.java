@@ -23,10 +23,12 @@ public class GerenciarPacientes {
 	private final JsonMapper mapper;
 	private final ConviteStore convites;
 	private final AdesaoDosPacientes adesao;
+	private final AgendaDosPacientes agenda;
+	private final UltimaAvaliacaoDosPacientes avaliacoes;
 	public GerenciarPacientes(FichaPacienteStore fichas,UsuarioAtual usuario,GuardaEscritaNutri guarda,ReservaVagaPaciente vagas,
-			AuditoriaClinica auditoria,GeradorIds ids,Clock relogio,JsonMapper mapper,ConviteStore convites,AdesaoDosPacientes adesao) {
+			AuditoriaClinica auditoria,GeradorIds ids,Clock relogio,JsonMapper mapper,ConviteStore convites,AdesaoDosPacientes adesao,AgendaDosPacientes agenda,UltimaAvaliacaoDosPacientes avaliacoes) {
 		this.fichas=fichas;this.usuario=usuario;this.guarda=guarda;this.vagas=vagas;this.auditoria=auditoria;this.ids=ids;this.relogio=relogio;this.mapper=mapper;
-		this.convites=convites;this.adesao=adesao;
+		this.convites=convites;this.adesao=adesao;this.agenda=agenda;this.avaliacoes=avaliacoes;
 	}
 	@Transactional
 	public PacienteResposta criar(CriarPacienteRequisicao requisicao) {
@@ -93,8 +95,11 @@ public class GerenciarPacientes {
 	// RN-ROT-02: a nutri do vínculo vê a adesão dos últimos 7 dias
 	private List<PacienteResposta> comAdesao(List<PacienteResposta> itens,ContextoUsuario contexto) {
 		if(itens.isEmpty())return itens;
-		var valores=adesao.adesao7d(itens.stream().map(PacienteResposta::vinculoId).toList(),ZoneId.of(contexto.usuario().fuso()));
-		return itens.stream().map(i->i.comAdesao7d(valores.get(i.vinculoId()))).toList();
+		var vinculos=itens.stream().map(PacienteResposta::vinculoId).toList();var nutri=contexto.exigirNutricionista();
+		var valores=adesao.adesao7d(vinculos,ZoneId.of(contexto.usuario().fuso()));
+		// BE-66: próxima consulta e última avaliação, só da própria nutri (consultas por vínculo e nutri)
+		var proximas=agenda.proximaConsulta(vinculos,nutri,relogio.instant());var ultimas=avaliacoes.ultima(vinculos,nutri);
+		return itens.stream().map(i->i.comAdesao7d(valores.get(i.vinculoId())).comResumo(proximas.get(i.vinculoId()),ultimas.get(i.vinculoId()))).toList();
 	}
 	private PacienteResposta visivel(UUID paciente,UUID nutri,boolean bloquear) {
 		var ficha=fichas.consultar(paciente,nutri,bloquear);

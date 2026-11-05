@@ -128,3 +128,7 @@ Nutri vê fichas/vínculos próprios e seu resumo público. Paciente vê seus v�
 `ProblemaResposta` modela `type`, `title`, `status`, `detail`, `codigo`, `regra`, `campos`, `traceId`, `atual`. `campos` é sempre lista; `regra`, `traceId` e `atual` podem ser nulos. O cliente decide por `codigo`. `atual` só se aplica ao conflito de versão. Erros técnicos sem regra específica usam `regra: null`; token inválido recebe RN de acordo com confirmação/recuperação, e nenhuma RN inventada para refresh. A conversão de exceções e de validação para esse formato entra em BE-01.
 
 `CodigoErro` preserva os códigos definidos em `integracao.md` e associa os códigos de negócio às RNs pertinentes. A lista das novas entradas da fase está na seção Erros de `integracao.md`.
+
+### BE-66: resumo na lista
+
+`GET /pacientes` traz, para cada paciente, `proximaConsulta` (início da próxima consulta `AGENDADA` a partir de agora) e `ultimaAvaliacao` (`id`, `dataHora`, `pesoKg`, `imc`, `classificacaoImc`). Ambos são opcionais (ausentes quando não há consulta futura ou avaliação), vêm só da própria nutri, e não aparecem em `GET /pacientes/{id}` nem no `/sync`.
