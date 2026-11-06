@@ -9,6 +9,8 @@ databaseChangeLog:
       changes:
         - sql:
             sql: >-
+              ALTER TABLE produto_nutri DROP CONSTRAINT produto_nutri_nutricionista_id_fkey;
+              ALTER TABLE produto_nutri ADD CONSTRAINT produto_nutri_nutricionista_id_fkey FOREIGN KEY (nutricionista_id) REFERENCES nutricionista(id) ON DELETE CASCADE;
               ALTER TABLE produto_nutri ADD COLUMN catalogo_numero int REFERENCES referencia_produto(numero);
               ALTER TABLE produto_nutri ADD CONSTRAINT ux_produto_nutri_catalogo UNIQUE (nutricionista_id, catalogo_numero);
         - sql:
