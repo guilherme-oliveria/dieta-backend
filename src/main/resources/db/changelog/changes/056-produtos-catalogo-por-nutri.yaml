@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: 056-produtos-catalogo-por-nutri
+      author: dietamais
+      comment: >-
+        BE-48d: cada nutri passa a ter os 400 produtos do catálogo base (referencia_produto) como produtos dela, como já é com os alimentos. Antes a lista
+        Produtos do app vinha vazia (RN-ALI-05: produto_nutri só tinha o que a nutri cadastrava) e o catálogo ficava inalcançável pelo app. A cópia é editável e
+        desativável; o catálogo base continua intacto e só de leitura. As 400 cópias não entram no sync ao nascer (a lista de produtos é online, MOB-70, e 400 linhas por nutri estourariam a primeira página); editar a cópia a registra normalmente. `catalogo_numero` liga a cópia à origem e impede cópia dupla.
+      changes:
+        - sql:
+            sql: >-
+              ALTER TABLE produto_nutri ADD COLUMN catalogo_numero int REFERENCES referencia_produto(numero);
+              ALTER TABLE produto_nutri ADD CONSTRAINT ux_produto_nutri_catalogo UNIQUE (nutricionista_id, catalogo_numero);
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION copiar_produtos_catalogo_nutri(p_nutri uuid) RETURNS void LANGUAGE plpgsql AS $$
+              BEGIN
+                INSERT INTO produto_nutri(nutricionista_id,catalogo_numero,nome,marca,classificacao,apresentacao,embalagem,sabores,medida_caseira,medida_g,observacao,nutrientes)
+                SELECT p_nutri,r.numero,r.nome,r.marca,r.classificacao,r.apresentacao,r.embalagem,r.sabores,r.medida_caseira,r.medida_g,r.observacao,
+                  coalesce((SELECT jsonb_object_agg(n.nutriente,n.valor) FROM referencia_produto_nutriente n WHERE n.produto=r.numero),'{}'::jsonb)
+                FROM referencia_produto r
+                ON CONFLICT (nutricionista_id,catalogo_numero) DO NOTHING;
+              END;
+              $$;
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION iniciar_produtos_nutri() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN PERFORM copiar_produtos_catalogo_nutri(NEW.id); RETURN NEW; END;
+              $$;
+        - sql:
+            sql: >-
+              CREATE TRIGGER nutri_copiar_produtos AFTER INSERT ON nutricionista FOR EACH ROW EXECUTE FUNCTION iniciar_produtos_nutri();
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE OR REPLACE FUNCTION produto_nutri_diario_sync() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                IF TG_OP='INSERT' AND NEW.catalogo_numero IS NOT NULL THEN RETURN NEW; END IF;
+                PERFORM registrar_mudanca_sync('NUTRICIONISTA',NEW.nutricionista_id,'PRODUTOS',NEW.id,NEW.nutricionista_id,NULL);
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            sql: SELECT copiar_produtos_catalogo_nutri(id) FROM nutricionista
