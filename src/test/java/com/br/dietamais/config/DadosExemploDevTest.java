@@ -23,6 +23,12 @@ class DadosExemploDevTest extends TesteComPaciente {
 		var kcal=dietas.path("itens").get(0).path("totais").path("kcal").decimalValue();
 		assertThat(kcal).isBetween(new java.math.BigDecimal("2500"),new java.math.BigDecimal("2520"));
 		assertThat(dietas.path("itens").get(0).path("refeicoes")).hasSize(6);
+		// histórico de 6 meses: 26 semanais + a avaliação de agora, e o gráfico de Evolução da paciente lê as 27 (idempotente na segunda carga)
+		var series=json(requisitar("GET","/eu/evolucao",token,null)).path("series");
+		for(var medida:java.util.List.of("PESO","IMC","PERIMETRO_CINTURA","PERIMETRO_QUADRIL")){
+			var serie=java.util.stream.StreamSupport.stream(series.spliterator(),false).filter(x->medida.equals(x.path("medida").asString())).findFirst().orElseThrow();
+			assertThat(serie.path("pontos")).as(medida).hasSize(27);
+		}
 	}
 	String entrarComo(String email) throws Exception {
 		var corpo=new java.util.HashMap<String,Object>();corpo.put("email",email);corpo.put("senha",DadosExemploDev.SENHA_TESTE);
