@@ -25,7 +25,8 @@ public class RegistrarRotina {
 		if(!s.vinculoAtivo())throw new ExcecaoNegocio(CodigoErro.ACESSO_NEGADO,"RN-VIN-05");
 		var refeicao=s.snapshot().refeicoes().stream().filter(x->x.id().equals(r.refeicaoId())).findFirst().orElseThrow(()->new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null));
 		var hoje=LocalDate.now(relogio.withZone(ZoneId.of(contexto.usuario().fuso())));
-		if(r.data().isAfter(hoje)||r.data().isBefore(hoje.minusDays(DIAS_RETROATIVOS))||r.registradoEm().isAfter(relogio.instant().plusSeconds(300)))throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-ROT-01");
+		// RN-ROT-01: o aparelho pode estar em fuso à frente do perfil; aceita até 1 dia à frente, nunca mais
+		if(r.data().isAfter(hoje.plusDays(1))||r.data().isBefore(hoje.minusDays(DIAS_RETROATIVOS))||r.registradoEm().isAfter(relogio.instant().plusSeconds(300)))throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-ROT-01");
 		var trocas=r.trocas()==null?List.<TrocaCheckin>of():r.trocas();
 		if((r.status()==StatusCheckin.TROCADO)==trocas.isEmpty())throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-SUB-03");
 		var lista=new HashMap<UUID,UUID>();s.snapshot().listaSubstituicao().alimentos().forEach(a->lista.put(a.id(),a.grupoId()));
