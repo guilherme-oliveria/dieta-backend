@@ -45,8 +45,11 @@ public class DadosExemploDev implements ApplicationRunner {
 	public DadosExemploDev(Environment ambiente, JdbcTemplate jdbc, JsonMapper mapper, PasswordEncoder encoder) { this.ambiente = ambiente; this.jdbc = jdbc; this.mapper = mapper; this.encoder = encoder; }
 
 	@Override public void run(ApplicationArguments args) throws Exception {
-		if (jdbc.queryForObject("select count(*) from usuario where email=?", Integer.class, EMAIL_NUTRI) > 0) { LOG.info("Dados de exemplo já existem; nada a fazer."); return; }
 		base = "http://localhost:" + ambiente.getProperty("local.server.port", "8080") + "/api/v1";
+		if (jdbc.queryForObject("select count(*) from usuario where email=?", Integer.class, EMAIL_NUTRI) > 0) {
+			completarHistoricoDaMaria();
+			LOG.info("Dados de exemplo já existem; nada a fazer."); return;
+		}
 		chamar("POST", "/auth/cadastro-nutri", null, Map.of("nome", "Dra. Luciana Exemplo", "email", EMAIL_NUTRI, "senha", SENHA, "crn", "CRN-1 00000", "aceitouTermos", true, "versaoTermos", "2026-10"), 201);
 		jdbc.update("update usuario set email_confirmado_em=now() where email=?", EMAIL_NUTRI);
 		String token = entrar(EMAIL_NUTRI);
@@ -61,9 +64,52 @@ public class DadosExemploDev implements ApplicationRunner {
 		avaliacao.put("dataHora", java.time.Instant.now().minusSeconds(3600).toString()); avaliacao.put("pesoKg", new BigDecimal("68.4")); avaliacao.put("estaturaM", new BigDecimal("1.65"));
 		avaliacao.put("perimetros", Map.of("cintura", new BigDecimal("78"), "quadril", new BigDecimal("98"))); avaliacao.put("parecer", "Avaliação fictícia de exemplo.");
 		chamar("POST", "/pacientes/" + maria + "/avaliacoes", token, avaliacao, 201);
+		lancarHistorico(token, maria);
 		jdbc.update("update usuario set senha_hash=? where email like '%@exemplo.dev'", encoder.encode(SENHA_TESTE));
 		LOG.info("Dados de exemplo criados. Nutri: {} / paciente: maria@exemplo.dev (mesma senha): {}", EMAIL_NUTRI, SENHA_TESTE);
 	}
+
+	/**
+	 * Bases já criadas antes do histórico existir: entra como a nutri de exemplo (senha final) e completa a Maria. Se a senha já foi trocada
+	 * ou a Maria não existe, ignora, porque é só conveniência de desenvolvimento.
+	 */
+	private void completarHistoricoDaMaria() {
+		try {
+			var ids = jdbc.queryForList("select f.paciente_id from ficha_paciente f where f.email=? and f.excluido_em is null", UUID.class, "maria@exemplo.dev");
+			if (ids.isEmpty()) return;
+			var maria = ids.get(0).toString();
+			String token = entrar(EMAIL_NUTRI, SENHA_TESTE);
+			lancarHistorico(token, maria);
+		} catch (Exception e) { LOG.warn("Histórico de exemplo da Maria não foi completado: {}", e.getMessage()); }
+	}
+
+	/**
+	 * Histórico de 6 meses da Maria para o gráfico de Evolução: 1 avaliação por semana (26 semanas, a mais recente de 7 dias atrás; a de agora já existe).
+	 * Peso de 76 a 68,4 kg, cintura de 88 a 78 cm e quadril de 104 a 98 cm, com oscilação determinística e estatura fixa de 1,65 m (o IMC o servidor calcula).
+	 * Idempotente: só lança se a Maria tiver menos de 10 avaliações.
+	 */
+	private void lancarHistorico(String token, String paciente) throws Exception {
+		var existentes = chamar("GET", "/pacientes/" + paciente + "/avaliacoes", token, null, 200).path("itens");
+		if (existentes.size() >= 10) return;
+		var agora = java.time.Instant.now();
+		int semanas = 26;
+		for (int i = 0; i < semanas; i++) {
+			int atras = semanas - i; // 26 semanas atrás ... 1 semana atrás
+			double progresso = i / (double) semanas;
+			double oscilacao = Math.sin(i * 1.7) * 0.45 + Math.cos(i * 0.9) * 0.25;
+			var perimetros = new HashMap<String, Object>();
+			perimetros.put("cintura", arredondar(88 - 10 * progresso + oscilacao * 0.8));
+			perimetros.put("quadril", arredondar(104 - 6 * progresso + oscilacao * 0.5));
+			var corpo = new HashMap<String, Object>();
+			corpo.put("dataHora", agora.minus(java.time.Duration.ofDays(7L * atras)).toString());
+			corpo.put("pesoKg", arredondar(76 - 7.6 * progresso + oscilacao));
+			corpo.put("estaturaM", new BigDecimal("1.65"));
+			corpo.put("perimetros", perimetros);
+			corpo.put("parecer", "Avaliação semanal fictícia de exemplo.");
+			chamar("POST", "/pacientes/" + paciente + "/avaliacoes", token, corpo, 201);
+		}
+	}
+	private static BigDecimal arredondar(double v) { return BigDecimal.valueOf(v).setScale(1, java.math.RoundingMode.HALF_UP); }
 
 	/** Dieta fictícia de cerca de 2510 kcal em 6 refeições, montada com o catálogo da nutri. */
 	private Map<String, Object> dieta(String token) throws Exception {
@@ -100,8 +146,9 @@ public class DadosExemploDev implements ApplicationRunner {
 		corpo.put("cadastro", Map.of("nome", nome, "email", email, "senha", SENHA, "aceitouTermos", true, "versaoTermos", "2026-10"));
 		chamar("POST", "/convites/" + codigo + "/aceitar", null, corpo, 200);
 	}
-	private String entrar(String email) throws Exception {
-		var corpo = Map.of("email", email, "senha", SENHA, "dispositivo", Map.of("id", UUID.randomUUID(), "plataforma", "DESKTOP", "nomeAparelho", "Carga de exemplo"));
+	private String entrar(String email) throws Exception { return entrar(email, SENHA); }
+	private String entrar(String email, String senha) throws Exception {
+		var corpo = Map.of("email", email, "senha", senha, "dispositivo", Map.of("id", UUID.randomUUID(), "plataforma", "DESKTOP", "nomeAparelho", "Carga de exemplo"));
 		return chamar("POST", "/auth/login", null, corpo, 200).path("accessToken").asString();
 	}
 	private JsonNode chamar(String metodo, String caminho, String token, Object corpo, int esperado) throws Exception { return chamar(metodo, caminho, token, corpo, Map.of(), esperado); }
