@@ -1,3 +1,5 @@
+> **Este repositório está sendo substituído pelo monorepo [dieta-plus](https://github.com/guilherme-oliveria/dieta-plus)** (pastas `backend/` e `mobile/`, histórico preservado). Novas tarefas e PRs vão para lá; este repositório será arquivado depois.
+
 # Dieta+ — backend
 
 API do Dieta+ em Java 25 e Spring Boot 4.1, com Postgres 18 e schema versionado pelo Liquibase.
