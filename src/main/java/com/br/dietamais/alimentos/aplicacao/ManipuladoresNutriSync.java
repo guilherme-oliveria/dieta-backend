@@ -13,6 +13,9 @@ class ManipuladoresNutriSync {
 	@Bean ManipuladorMutacao alimentosSync(GerenciarAlimentos s,JsonMapper m,Validator v,UsuarioAtual u){
 		return ManipuladorEscritaNutri.de("alimentos",m,v,u,CriarAlimentoRequisicao.class,ManipuladorEscritaNutri.Paciente.NENHUM,(f,r)->s.criar(r).versao(),AtualizarAlimentoRequisicao.class,(id,im,r)->s.atualizar(id,im,r).versao());
 	}
+	@Bean ManipuladorMutacao produtosSync(GerenciarProdutos s,JsonMapper m,Validator v,UsuarioAtual u){
+		return ManipuladorEscritaNutri.de("produtos",m,v,u,CriarProdutoRequisicao.class,ManipuladorEscritaNutri.Paciente.NENHUM,(f,r)->s.criar(r).versao(),AtualizarProdutoRequisicao.class,(id,im,r)->s.atualizar(id,im,r).versao());
+	}
 	/** O id da mutação é o da ficha: a lista por paciente nasce com ela. */
 	@Bean ManipuladorMutacao listasSync(GerenciarListaPaciente s,JsonMapper m,Validator v,UsuarioAtual u){
 		return ManipuladorEscritaNutri.soAtualizacao("listas",m,v,u,AtualizarListaSubstituicaoRequisicao.class,(id,im,r)->s.atualizar(id,im,r).versao());

@@ -1,0 +1,87 @@
+databaseChangeLog:
+  - changeSet:
+      id: 036-referencia-taco
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: referencia_taco
+            remarks: Tabela Brasileira de Composição de Alimentos (TACO, NEPA-UNICAMP, 4ª edição revista e ampliada, 2011), por 100 g de parte comestível (BE-47a). Dado, não código. Valor nulo = não analisado (NA); traço (Tr) vira 0 e o nome do nutriente entra em `traco`.
+            columns:
+              - column: { name: numero, type: int, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: nome, type: varchar(150), constraints: { nullable: false } }
+              - column: { name: categoria, type: varchar(60), constraints: { nullable: false } }
+              - column: { name: umidade_g, type: 'numeric(12,4)' }
+              - column: { name: energia_kcal, type: 'numeric(12,4)' }
+              - column: { name: energia_kj, type: 'numeric(12,4)' }
+              - column: { name: proteina_g, type: 'numeric(12,4)' }
+              - column: { name: lipideos_g, type: 'numeric(12,4)' }
+              - column: { name: colesterol_mg, type: 'numeric(12,4)' }
+              - column: { name: carboidrato_g, type: 'numeric(12,4)' }
+              - column: { name: fibra_g, type: 'numeric(12,4)' }
+              - column: { name: cinzas_g, type: 'numeric(12,4)' }
+              - column: { name: calcio_mg, type: 'numeric(12,4)' }
+              - column: { name: magnesio_mg, type: 'numeric(12,4)' }
+              - column: { name: manganes_mg, type: 'numeric(12,4)' }
+              - column: { name: fosforo_mg, type: 'numeric(12,4)' }
+              - column: { name: ferro_mg, type: 'numeric(12,4)' }
+              - column: { name: sodio_mg, type: 'numeric(12,4)' }
+              - column: { name: potassio_mg, type: 'numeric(12,4)' }
+              - column: { name: cobre_mg, type: 'numeric(12,4)' }
+              - column: { name: zinco_mg, type: 'numeric(12,4)' }
+              - column: { name: retinol_ug, type: 'numeric(12,4)' }
+              - column: { name: re_ug, type: 'numeric(12,4)' }
+              - column: { name: rae_ug, type: 'numeric(12,4)' }
+              - column: { name: tiamina_mg, type: 'numeric(12,4)' }
+              - column: { name: riboflavina_mg, type: 'numeric(12,4)' }
+              - column: { name: piridoxina_mg, type: 'numeric(12,4)' }
+              - column: { name: niacina_mg, type: 'numeric(12,4)' }
+              - column: { name: vitamina_c_mg, type: 'numeric(12,4)' }
+              - column: { name: saturados_g, type: 'numeric(12,4)' }
+              - column: { name: monoinsaturados_g, type: 'numeric(12,4)' }
+              - column: { name: poliinsaturados_g, type: 'numeric(12,4)' }
+              - column: { name: traco, type: varchar(400) }
+        - createIndex:
+            tableName: referencia_taco
+            indexName: ix_referencia_taco_categoria
+            columns:
+              - column: { name: categoria }
+        - loadData:
+            tableName: referencia_taco
+            file: db/changelog/dados/referencia-taco.csv
+            encoding: UTF-8
+            separator: ";"
+            usePreparedStatements: true
+            columns:
+              - column: { header: numero, name: numero, type: NUMERIC }
+              - column: { header: nome, name: nome, type: STRING }
+              - column: { header: categoria, name: categoria, type: STRING }
+              - column: { header: umidade_g, name: umidade_g, type: NUMERIC }
+              - column: { header: energia_kcal, name: energia_kcal, type: NUMERIC }
+              - column: { header: energia_kj, name: energia_kj, type: NUMERIC }
+              - column: { header: proteina_g, name: proteina_g, type: NUMERIC }
+              - column: { header: lipideos_g, name: lipideos_g, type: NUMERIC }
+              - column: { header: colesterol_mg, name: colesterol_mg, type: NUMERIC }
+              - column: { header: carboidrato_g, name: carboidrato_g, type: NUMERIC }
+              - column: { header: fibra_g, name: fibra_g, type: NUMERIC }
+              - column: { header: cinzas_g, name: cinzas_g, type: NUMERIC }
+              - column: { header: calcio_mg, name: calcio_mg, type: NUMERIC }
+              - column: { header: magnesio_mg, name: magnesio_mg, type: NUMERIC }
+              - column: { header: manganes_mg, name: manganes_mg, type: NUMERIC }
+              - column: { header: fosforo_mg, name: fosforo_mg, type: NUMERIC }
+              - column: { header: ferro_mg, name: ferro_mg, type: NUMERIC }
+              - column: { header: sodio_mg, name: sodio_mg, type: NUMERIC }
+              - column: { header: potassio_mg, name: potassio_mg, type: NUMERIC }
+              - column: { header: cobre_mg, name: cobre_mg, type: NUMERIC }
+              - column: { header: zinco_mg, name: zinco_mg, type: NUMERIC }
+              - column: { header: retinol_ug, name: retinol_ug, type: NUMERIC }
+              - column: { header: re_ug, name: re_ug, type: NUMERIC }
+              - column: { header: rae_ug, name: rae_ug, type: NUMERIC }
+              - column: { header: tiamina_mg, name: tiamina_mg, type: NUMERIC }
+              - column: { header: riboflavina_mg, name: riboflavina_mg, type: NUMERIC }
+              - column: { header: piridoxina_mg, name: piridoxina_mg, type: NUMERIC }
+              - column: { header: niacina_mg, name: niacina_mg, type: NUMERIC }
+              - column: { header: vitamina_c_mg, name: vitamina_c_mg, type: NUMERIC }
+              - column: { header: saturados_g, name: saturados_g, type: NUMERIC }
+              - column: { header: monoinsaturados_g, name: monoinsaturados_g, type: NUMERIC }
+              - column: { header: poliinsaturados_g, name: poliinsaturados_g, type: NUMERIC }
+              - column: { header: traco, name: traco, type: STRING }

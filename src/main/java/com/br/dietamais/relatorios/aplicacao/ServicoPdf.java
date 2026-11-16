@@ -5,6 +5,9 @@ import com.br.dietamais.comum.api.*;
 import com.br.dietamais.dietas.api.*;
 import com.br.dietamais.pacientes.api.ConsultaCabecalhoRelatorio;
 import com.br.dietamais.relatorios.api.PdfResposta;
+import com.br.dietamais.relatorios.api.TamanhoListaPdf;
+import com.br.dietamais.alimentos.api.ConsultarAlimentosParaDieta;
+import com.br.dietamais.referencias.api.ConsultaPorcoes;
 import java.text.Normalizer;
 import java.time.Duration;
 import java.util.Set;
@@ -21,9 +24,25 @@ public class ServicoPdf {
 	private final ConsultaDietaParaPdf dietas;private final ConsultaAvaliacaoParaPdf avaliacoes;private final ConsultaCabecalhoRelatorio cabecalhos;
 	private final ConsultaNutricionistas nutricionistas;private final Armazenamento armazenamento;private final UsuarioAtual usuario;private final AuditoriaClinica auditoria;private final GeradorIds ids;
 	private final GeradorPdf gerador=new GeradorPdf();
+	private final ConsultarAlimentosParaDieta alimentos;
+	private final ConsultaPorcoes porcoes;
 	public ServicoPdf(ConsultaDietaParaPdf dietas,ConsultaAvaliacaoParaPdf avaliacoes,ConsultaCabecalhoRelatorio cabecalhos,ConsultaNutricionistas nutricionistas,
-			Armazenamento armazenamento,UsuarioAtual usuario,AuditoriaClinica auditoria,GeradorIds ids){
+			Armazenamento armazenamento,UsuarioAtual usuario,AuditoriaClinica auditoria,GeradorIds ids,ConsultarAlimentosParaDieta alimentos,ConsultaPorcoes porcoes){
 		this.dietas=dietas;this.avaliacoes=avaliacoes;this.cabecalhos=cabecalhos;this.nutricionistas=nutricionistas;this.armazenamento=armazenamento;this.usuario=usuario;this.auditoria=auditoria;this.ids=ids;
+		this.alimentos=alimentos;this.porcoes=porcoes;
+	}
+	public PdfResposta listaDaNutri(UUID dietaId,TamanhoListaPdf tamanho){
+		var contexto=usuario.obter();var nutri=contexto.exigirNutricionista();
+		var s=dietas.daNutri(dietaId);
+		auditoria.leitura(new ReferenciaClinica("dieta",s.dietaId(),nutri,s.pacienteId(),contexto.organizacaoId()));
+		return lista(s,tamanho);
+	}
+	public PdfResposta listaDoPaciente(UUID dietaId,TamanhoListaPdf tamanho){
+		return lista(dietas.doPaciente(dietaId),tamanho);
+	}
+	private PdfResposta lista(DietaSnapshotResposta s,TamanhoListaPdf tamanho){
+		var referencias=alimentos.consultar(s.nutricionista().id(),s.listaSubstituicao().alimentos().stream().map(a->a.id()).toList());
+		return entregar(gerador.lista(cabecalhoDieta(s),s,referencias,porcoes.porcoes(),tamanho),"lista-substituicao-"+tamanho.name().toLowerCase(java.util.Locale.ROOT)+".pdf");
 	}
 
 	public PdfResposta dietaDaNutri(UUID dietaId){

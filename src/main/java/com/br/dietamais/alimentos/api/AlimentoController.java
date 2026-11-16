@@ -47,8 +47,8 @@ public class AlimentoController {
 	@GetMapping("/alimentos")
 	@Operation(operationId="listarAlimentos",summary="Listar alimentos da nutri",description="RN-ALI-01; implementação BE-10. Operação própria implementada na BE-10.")
 	@ApiResponse(responseCode="200",description="Resposta prevista após implementação",content=@Content(mediaType="application/json",schema=@Schema(implementation=PaginaAlimentosResposta.class)))
-	public ResponseEntity<PaginaAlimentosResposta> listarAlimentos(@RequestParam(defaultValue="0") @jakarta.validation.constraints.Min(0) int pagina, @RequestParam(defaultValue="20") @jakarta.validation.constraints.Min(1) @jakarta.validation.constraints.Max(100) int tamanho, @RequestParam(required=false) UUID grupoId, @RequestParam(required=false) @jakarta.validation.constraints.Size(max=150) String busca, @RequestParam(defaultValue="true") boolean ativo) {
-		return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(alimentos.listar(pagina,tamanho,grupoId,busca,ativo));
+	public ResponseEntity<PaginaAlimentosResposta> listarAlimentos(@RequestParam(defaultValue="0") @jakarta.validation.constraints.Min(0) int pagina, @RequestParam(defaultValue="20") @jakarta.validation.constraints.Min(1) @jakarta.validation.constraints.Max(100) int tamanho, @RequestParam(required=false) UUID grupoId, @RequestParam(required=false) @jakarta.validation.constraints.Size(max=150) String busca, @RequestParam(defaultValue="true") boolean ativo, @RequestParam(required=false) java.util.List<MarcadorAlimento> semMarcador) {
+		return ResponseEntity.ok().cacheControl(org.springframework.http.CacheControl.noStore()).body(alimentos.listar(pagina,tamanho,grupoId,busca,ativo,semMarcador==null?java.util.List.of():semMarcador));
 	}
 
 	@PostMapping("/alimentos")
@@ -78,6 +78,13 @@ public class AlimentoController {
 	@ApiResponse(responseCode="200",description="Resposta prevista após implementação",content=@Content(mediaType="application/json",schema=@Schema(implementation=ListaSubstituicaoResposta.class)),headers=@Header(name="ETag",description="Versão forte da entidade para If-Match",schema=@Schema(type="string")))
 	public ResponseEntity<ListaSubstituicaoResposta> atualizarListaSubstituicao(@PathVariable UUID id, @RequestHeader("If-Match") String ifMatch, @Valid @RequestBody AtualizarListaSubstituicaoRequisicao requisicao) {
 		var resposta=listas.atualizar(id,ifMatch,requisicao);return entidade(resposta,resposta.versao(),200);
+	}
+
+	@PostMapping("/pacientes/{id}/lista-substituicao/copiar-de/{origemId}")
+	@Operation(operationId="copiarListaSubstituicao",summary="Copiar a lista de outro paciente",description="G-19, RN-ALI-06: a lista efetiva do paciente de origem (da mesma nutri) vira a lista deste, como diferenças sobre a lista-base; alimentos desativados ficam de fora; `If-Match` da lista de destino.")
+	@ApiResponse(responseCode="200",description="Lista de destino atualizada",content=@Content(mediaType="application/json",schema=@Schema(implementation=ListaSubstituicaoResposta.class)),headers=@Header(name="ETag",description="Versão forte da entidade para If-Match",schema=@Schema(type="string")))
+	public ResponseEntity<ListaSubstituicaoResposta> copiarListaSubstituicao(@PathVariable UUID id, @PathVariable UUID origemId, @RequestHeader("If-Match") String ifMatch) {
+		var resposta=listas.copiarDe(id,origemId,ifMatch);return entidade(resposta,resposta.versao(),200);
 	}
 
 	private <T> ResponseEntity<T> entidade(T resposta,long versao,int status){return ResponseEntity.status(status).eTag(Long.toString(versao)).cacheControl(org.springframework.http.CacheControl.noStore()).body(resposta);}

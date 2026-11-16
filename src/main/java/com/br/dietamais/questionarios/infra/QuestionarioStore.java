@@ -27,6 +27,10 @@ public class QuestionarioStore {
 	public boolean temPadrao(UUID nutri){
 		return Boolean.TRUE.equals(jdbc.queryForObject("select exists(select 1 from modelo_questionario where nutricionista_id=? and padrao and excluido_em is null)",Boolean.class,nutri));
 	}
+	public boolean temAnamneseCompleta(UUID nutri){
+		return Boolean.TRUE.equals(jdbc.queryForObject("select exists(select 1 from modelo_questionario where nutricionista_id=? and origem='ANAMNESE_COMPLETA' and excluido_em is null)",Boolean.class,nutri));
+	}
+	public void identificarAnamneseCompleta(UUID modelo){jdbc.update("update modelo_questionario set origem='ANAMNESE_COMPLETA' where id=?",modelo);}
 	public boolean inserirModelo(UUID id,UUID nutri,String nome,boolean padrao,List<BlocoQuestionario> blocos,Instant agora){
 		int n=jdbc.update("insert into modelo_questionario(id,nutricionista_id,nome,padrao,criado_em,atualizado_em) values(?,?,?,?,?,?) on conflict(id) do nothing",id,nutri,nome,padrao,Timestamp.from(agora),Timestamp.from(agora));
 		if(n==1)gravarPerguntas(id,blocos);
@@ -42,8 +46,8 @@ public class QuestionarioStore {
 			var bloco=blocos.get(b);
 			for(int i=0;i<bloco.perguntas().size();i++){
 				var p=bloco.perguntas().get(i);
-				jdbc.update("insert into pergunta(modelo_id,id,bloco_ordem,bloco_titulo,ordem,texto,tipo,opcoes,obrigatoria,condicao) values(?,?,?,?,?,?,?,?::jsonb,?,?::jsonb)",
-					modelo,p.id(),b,bloco.titulo(),i,p.texto(),p.tipo().name(),p.opcoes()==null?null:mapper.writeValueAsString(p.opcoes()),p.obrigatoria(),p.condicao()==null?null:mapper.writeValueAsString(p.condicao()));
+				jdbc.update("insert into pergunta(modelo_id,id,bloco_ordem,bloco_titulo,ordem,texto,tipo,opcoes,obrigatoria,condicao,codigo) values(?,?,?,?,?,?,?,?::jsonb,?,?::jsonb,?)",
+					modelo,p.id(),b,bloco.titulo(),i,p.texto(),p.tipo().name(),p.opcoes()==null?null:mapper.writeValueAsString(p.opcoes()),p.obrigatoria(),p.condicao()==null?null:mapper.writeValueAsString(p.condicao()),p.codigo());
 			}
 		}
 	}
@@ -62,7 +66,7 @@ public class QuestionarioStore {
 		if(cabs.isEmpty())return List.of();
 		var ids=cabs.stream().map(Cab::id).toArray(UUID[]::new);
 		var linhas=new LinkedHashMap<UUID,List<Linha>>();
-		jdbc.query("select modelo_id,id,bloco_ordem,bloco_titulo,texto,tipo,opcoes,obrigatoria,condicao from pergunta where modelo_id=any(?::uuid[]) order by modelo_id,bloco_ordem,ordem",
+		jdbc.query("select modelo_id,id,bloco_ordem,bloco_titulo,texto,tipo,opcoes,obrigatoria,condicao,codigo from pergunta where modelo_id=any(?::uuid[]) order by modelo_id,bloco_ordem,ordem",
 			(org.springframework.jdbc.core.RowCallbackHandler)rs->linhas.computeIfAbsent(rs.getObject(1,UUID.class),k->new ArrayList<>()).add(linha(rs)),(Object)ids);
 		return cabs.stream().map(c->new ModeloQuestionarioResposta(c.id(),c.nome(),c.padrao(),agrupar(linhas.getOrDefault(c.id(),List.of())),c.versao(),c.criado(),c.atualizado())).toList();
 	}
@@ -70,7 +74,7 @@ public class QuestionarioStore {
 	private Linha linha(ResultSet rs) throws SQLException {
 		var opcoes=rs.getString(7);var cond=rs.getString(9);
 		return new Linha(rs.getInt(3),rs.getString(4),new PerguntaQuestionario(rs.getObject(2,UUID.class),rs.getString(5),TipoPergunta.valueOf(rs.getString(6)),
-			opcoes==null?null:mapper.readValue(opcoes,new TypeReference<List<String>>(){}),rs.getBoolean(8),cond==null?null:mapper.readValue(cond,CondicaoPergunta.class)));
+			opcoes==null?null:mapper.readValue(opcoes,new TypeReference<List<String>>(){}),rs.getBoolean(8),cond==null?null:mapper.readValue(cond,CondicaoPergunta.class),rs.getString(10)));
 	}
 	private List<BlocoQuestionario> agrupar(List<Linha> linhas){
 		var porBloco=new LinkedHashMap<Integer,List<Linha>>();
@@ -107,6 +111,9 @@ public class QuestionarioStore {
 	public void marcarRespondido(UUID questionario,Instant agora){
 		jdbc.update("update questionario set status='RESPONDIDO',respondido_em=?,versao=versao+1,seq=nextval('seq_sync'),atualizado_em=? where id=?",Timestamp.from(agora),Timestamp.from(agora),questionario);
 	}
+	public void gravarDerivados(UUID questionario,AnamneseDerivada derivados){
+		jdbc.update("update questionario set derivados=?::jsonb where id=?",mapper.writeValueAsString(derivados),questionario);
+	}
 	public QuestionarioResposta daNutri(UUID id,UUID nutri){
 		var l=questionarios("q.id=? and q.nutricionista_id=?",id,nutri);return l.isEmpty()?null:l.get(0);
 	}
@@ -116,18 +123,18 @@ public class QuestionarioStore {
 		var l=questionarios("q.id=? and q.paciente_id=? and v.status in ('ATIVO','ENCERRADO')",id,paciente);return l.isEmpty()?null:l.get(0);
 	}
 	private List<QuestionarioResposta> questionarios(String filtro,Object... args){
-		var base=jdbc.query("select q.id,q.paciente_id,q.vinculo_id,q.modelo_id,q.nome,q.blocos,q.status,q.enviado_em,q.respondido_em,q.versao,q.criado_em,q.atualizado_em from questionario q join vinculo v on v.id=q.vinculo_id "
+		var base=jdbc.query("select q.id,q.paciente_id,q.vinculo_id,q.modelo_id,q.nome,q.blocos,q.status,q.enviado_em,q.respondido_em,q.versao,q.criado_em,q.atualizado_em,q.derivados from questionario q join vinculo v on v.id=q.vinculo_id "
 			+"where "+filtro+" and q.excluido_em is null and v.excluido_em is null order by q.enviado_em desc,q.id desc",this::mapear,args);
 		if(base.isEmpty())return base;
 		var ids=base.stream().map(QuestionarioResposta::id).toArray(UUID[]::new);
 		var respostas=new HashMap<UUID,Map<UUID,JsonNode>>();
 		jdbc.query("select questionario_id,pergunta_id,valor from resposta where questionario_id=any(?::uuid[]) order by questionario_id,pergunta_id",(org.springframework.jdbc.core.RowCallbackHandler)rs->
 			respostas.computeIfAbsent(rs.getObject(1,UUID.class),k->new LinkedHashMap<>()).put(rs.getObject(2,UUID.class),mapper.readTree(rs.getString(3))),(Object)ids);
-		return base.stream().map(q->new QuestionarioResposta(q.id(),q.pacienteId(),q.vinculoId(),q.modeloId(),q.nome(),q.blocos(),respostas.getOrDefault(q.id(),Map.of()),q.status(),q.enviadoEm(),q.respondidoEm(),q.versao(),q.criadoEm(),q.atualizadoEm())).collect(Collectors.toList());
+		return base.stream().map(q->new QuestionarioResposta(q.id(),q.pacienteId(),q.vinculoId(),q.modeloId(),q.nome(),q.blocos(),respostas.getOrDefault(q.id(),Map.of()),q.status(),q.enviadoEm(),q.respondidoEm(),q.versao(),q.criadoEm(),q.atualizadoEm(),q.derivados())).collect(Collectors.toList());
 	}
 	private QuestionarioResposta mapear(ResultSet rs,int n) throws SQLException {
 		var respondido=rs.getTimestamp(9);
 		return new QuestionarioResposta(rs.getObject(1,UUID.class),rs.getObject(2,UUID.class),rs.getObject(3,UUID.class),rs.getObject(4,UUID.class),rs.getString(5),mapper.readValue(rs.getString(6),BLOCOS),
-			Map.of(),StatusQuestionario.valueOf(rs.getString(7)),rs.getTimestamp(8).toInstant(),respondido==null?null:respondido.toInstant(),rs.getLong(10),rs.getTimestamp(11).toInstant(),rs.getTimestamp(12).toInstant());
+			Map.of(),StatusQuestionario.valueOf(rs.getString(7)),rs.getTimestamp(8).toInstant(),respondido==null?null:respondido.toInstant(),rs.getLong(10),rs.getTimestamp(11).toInstant(),rs.getTimestamp(12).toInstant(),rs.getString(13)==null?null:mapper.readValue(rs.getString(13),AnamneseDerivada.class));
 	}
 }

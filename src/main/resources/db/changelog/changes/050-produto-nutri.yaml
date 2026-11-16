@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: 050-produto-nutri
+      author: dietamais
+      comment: >-
+        BE-48b: produtos e suplementos próprios da nutri (RN-ALI-05). Cada nutri só enxerga os dela; desativar em vez de apagar (como o alimento).
+        Nutrientes por 100 g (ou 100 mL) em jsonb, com as mesmas chaves de referencia_produto_nutriente. Entram no sync (coleção PRODUTOS).
+      changes:
+        - sql:
+            sql: >-
+              CREATE TABLE produto_nutri (
+              id uuid PRIMARY KEY DEFAULT uuidv7(),
+              nutricionista_id uuid NOT NULL REFERENCES nutricionista(id),
+              nome varchar(150) NOT NULL,
+              marca varchar(80),
+              classificacao varchar(80),
+              apresentacao varchar(40),
+              embalagem varchar(200),
+              sabores varchar(400),
+              medida_caseira varchar(60),
+              medida_g numeric(12,4),
+              observacao varchar(1200),
+              nutrientes jsonb NOT NULL,
+              ativo boolean NOT NULL DEFAULT true,
+              versao bigint NOT NULL DEFAULT 1,
+              seq bigint NOT NULL DEFAULT nextval('seq_sync'),
+              criado_em timestamptz NOT NULL DEFAULT now(),
+              atualizado_em timestamptz NOT NULL DEFAULT now(),
+              excluido_em timestamptz,
+              CONSTRAINT ck_produto_nutri_medida CHECK (medida_g IS NULL OR medida_g>0));
+              CREATE INDEX ix_produto_nutri_nutri ON produto_nutri(nutricionista_id, ativo);
+              ALTER TABLE diario_sync DROP CONSTRAINT ck_diario_sync_colecao;
+              ALTER TABLE diario_sync ADD CONSTRAINT ck_diario_sync_colecao CHECK (colecao IN
+              ('PACIENTES','VINCULOS','NUTRIS','GRUPOS','ALIMENTOS','LISTAS','DIETAS','SNAPSHOTS','DIETA_EM_USO','CHECKINS','AGUA','PESOS','AVALIACOES','MODELOS','QUESTIONARIOS','CONSULTAS','AVISOS','PROTOCOLOS','MODELOS_DIETA','PRODUTOS'));
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION produto_nutri_diario_sync() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                PERFORM registrar_mudanca_sync('NUTRICIONISTA',NEW.nutricionista_id,'PRODUTOS',NEW.id,NEW.nutricionista_id,NULL);
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            sql: >-
+              CREATE TRIGGER produto_nutri_diario_sync AFTER INSERT OR UPDATE ON produto_nutri FOR EACH ROW EXECUTE FUNCTION produto_nutri_diario_sync();

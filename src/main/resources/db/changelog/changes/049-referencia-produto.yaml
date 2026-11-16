@@ -1,0 +1,67 @@
+databaseChangeLog:
+  - changeSet:
+      id: 049-referencia-produto
+      author: dietamais
+      changes:
+        - createTable:
+            tableName: referencia_produto
+            remarks: Catálogo base de produtos e suplementos (BE-48a), copiado da aba Produtos da planilha "Dieta sem restrições" da nutri Luciana (400 linhas, ordem da planilha). Dado, não código. Nutrientes por 100 g (ou 100 mL) em referencia_produto_nutriente; campo vazio = a planilha não informa.
+            columns:
+              - column: { name: numero, type: int, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: nome, type: varchar(150), constraints: { nullable: false } }
+              - column: { name: marca, type: varchar(80) }
+              - column: { name: classificacao, type: varchar(80) }
+              - column: { name: apresentacao, type: varchar(40) }
+              - column: { name: embalagem, type: varchar(200) }
+              - column: { name: sabores, type: varchar(400) }
+              - column: { name: medida_caseira, type: varchar(60) }
+              - column: { name: medida_g, type: 'numeric(12,4)' }
+              - column: { name: carboidratos_composicao, type: varchar(500) }
+              - column: { name: proteinas_composicao, type: varchar(500) }
+              - column: { name: lipideos_composicao, type: varchar(500) }
+              - column: { name: fibras_composicao, type: varchar(500) }
+              - column: { name: relacao_kcal_n, type: varchar(40) }
+              - column: { name: osmolaridade, type: varchar(40) }
+              - column: { name: osmolalidade, type: varchar(40) }
+              - column: { name: diluicao_medidas, type: 'numeric(12,4)' }
+              - column: { name: diluicao_medida, type: varchar(60) }
+              - column: { name: diluicao_gramas, type: varchar(40) }
+              - column: { name: solvente_total, type: varchar(40) }
+              - column: { name: solvente, type: varchar(120) }
+              - column: { name: observacao, type: varchar(1200) }
+        - createIndex:
+            tableName: referencia_produto
+            indexName: ix_referencia_produto_classificacao
+            columns:
+              - column: { name: classificacao }
+        - createTable:
+            tableName: referencia_produto_nutriente
+            remarks: Nutrientes por 100 g (ou 100 mL) de cada produto da planilha. Só entra o que a planilha informa (RN-CAL-04, sem dado não vira zero). Chaves iguais às da TACO quando o nutriente é o mesmo.
+            columns:
+              - column: { name: produto, type: int, constraints: { nullable: false, foreignKeyName: fk_produto_nutriente_produto, references: referencia_produto(numero) } }
+              - column: { name: nutriente, type: varchar(60), constraints: { nullable: false } }
+              - column: { name: valor, type: 'numeric(14,4)', constraints: { nullable: false } }
+        - addPrimaryKey:
+            tableName: referencia_produto_nutriente
+            columnNames: produto, nutriente
+            constraintName: pk_referencia_produto_nutriente
+        - loadData:
+            tableName: referencia_produto
+            file: db/changelog/dados/referencia-produto.csv
+            encoding: UTF-8
+            separator: ";"
+            usePreparedStatements: true
+            columns:
+              - column: { header: numero, name: numero, type: NUMERIC }
+              - column: { header: medida_g, name: medida_g, type: NUMERIC }
+              - column: { header: diluicao_medidas, name: diluicao_medidas, type: NUMERIC }
+        - loadData:
+            tableName: referencia_produto_nutriente
+            file: db/changelog/dados/referencia-produto-nutriente.csv
+            encoding: UTF-8
+            separator: ";"
+            usePreparedStatements: true
+            columns:
+              - column: { header: produto, name: produto, type: NUMERIC }
+              - column: { header: nutriente, name: nutriente, type: STRING }
+              - column: { header: valor, name: valor, type: NUMERIC }

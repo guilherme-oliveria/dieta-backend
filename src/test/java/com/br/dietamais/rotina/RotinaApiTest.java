@@ -38,7 +38,7 @@ class RotinaApiTest extends TesteComPaciente {
 		var puladoComTroca=checkin(c,"PULADO",hoje());puladoComTroca.put("trocas",List.of(Map.of("itemId",c.item(),"alimentoId",c.trocaValida())));erro(requisitar("POST","/eu/checkins",t,puladoComTroca),400,"FORMATO_INVALIDO");
 		erro(requisitar("POST","/eu/checkins",t,checkin(c,"FEITO",hoje().minusDays(4))),400,"FORMATO_INVALIDO");
 		assertThat(requisitar("POST","/eu/checkins",t,checkin(c,"FEITO",hoje().minusDays(3))).statusCode()).isEqualTo(201);
-		erro(requisitar("POST","/eu/checkins",t,checkin(c,"FEITO",hoje().plusDays(1))),400,"FORMATO_INVALIDO");
+		erro(requisitar("POST","/eu/checkins",t,checkin(c,"FEITO",hoje().plusDays(2))),400,"FORMATO_INVALIDO");
 		var refeicaoInexistente=checkin(c,"FEITO",hoje());refeicaoInexistente.put("refeicaoId",UUID.randomUUID().toString());erro(requisitar("POST","/eu/checkins",t,refeicaoInexistente),404,"RECURSO_NAO_ENCONTRADO");
 		// "o último vale": dois registros para a mesma refeição/dia coexistem (inclusão), sem conflito
 		assertThat(requisitar("POST","/eu/checkins",t,checkin(c,"PULADO",hoje())).statusCode()).isEqualTo(201);

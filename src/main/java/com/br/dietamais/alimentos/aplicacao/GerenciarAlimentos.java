@@ -19,16 +19,18 @@ public class GerenciarAlimentos {
 		this.listas=listas;this.grupos=grupos;this.usuario=usuario;this.guarda=guarda;this.ids=ids;this.relogio=relogio;this.mapper=mapper;
 	}
 	@Transactional(readOnly=true,isolation=Isolation.REPEATABLE_READ)
-	public PaginaAlimentosResposta listar(int pagina,int tamanho,UUID grupo,String busca,boolean ativo){
+	public PaginaAlimentosResposta listar(int pagina,int tamanho,UUID grupo,String busca,boolean ativo){return listar(pagina,tamanho,grupo,busca,ativo,List.of());}
+	@Transactional(readOnly=true,isolation=Isolation.REPEATABLE_READ)
+	public PaginaAlimentosResposta listar(int pagina,int tamanho,UUID grupo,String busca,boolean ativo,List<MarcadorAlimento> sem){
 		var nutri=usuario.obter().exigirNutricionista();
 		if(pagina<0||tamanho<1||tamanho>100||busca!=null&&busca.length()>150)throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,null);
 		if(grupo!=null)grupoProprio(grupo,nutri,false);
-		return listas.listar(nutri,pagina,tamanho,grupo,busca,ativo);
+		return listas.listar(nutri,pagina,tamanho,grupo,busca,ativo,sem);
 	}
 	@Transactional
 	public AlimentoResposta criar(CriarAlimentoRequisicao requisicao){
 		var nutri=usuario.obter().exigirNutricionista();guarda.validar();listas.bloquear(nutri);
-		var dados=new DadosAlimento(requisicao.grupoId(),requisicao.nome(),requisicao.medidaCaseira(),requisicao.gramasPorPorcao(),true);
+		var dados=new DadosAlimento(requisicao.grupoId(),requisicao.nome(),requisicao.medidaCaseira(),requisicao.gramasPorPorcao(),true,requisicao.marcadores());
 		grupoProprio(dados.grupoId(),nutri,false);UUID id=requisicao.id()==null?ids.novo():requisicao.id();
 		if(id.version()!=7)throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,null);
 		if(!listas.criar(id,nutri,dados,relogio.instant()))conflito(alimentoProprio(id,nutri,false));
@@ -39,7 +41,7 @@ public class GerenciarAlimentos {
 		var nutri=usuario.obter().exigirNutricionista();guarda.validar();listas.bloquear(nutri);
 		var atual=alimentoProprio(id,nutri,true);if(VersaoLista.ler(ifMatch)!=atual.versao())conflito(atual);
 		if(requisicao.ativo()==null)throw new ExcecaoNegocio(CodigoErro.OBRIGATORIO,null);
-		var dados=new DadosAlimento(requisicao.grupoId(),requisicao.nome(),requisicao.medidaCaseira(),requisicao.gramasPorPorcao(),requisicao.ativo());
+		var dados=new DadosAlimento(requisicao.grupoId(),requisicao.nome(),requisicao.medidaCaseira(),requisicao.gramasPorPorcao(),requisicao.ativo(),requisicao.marcadores());
 		grupoProprio(dados.grupoId(),nutri,false);listas.atualizar(id,nutri,dados,relogio.instant());return alimentoProprio(id,nutri,false);
 	}
 	@Transactional

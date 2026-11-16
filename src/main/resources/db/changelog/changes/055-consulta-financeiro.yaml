@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 055-consulta-financeiro
+      author: dietamais
+      comment: >-
+        BE-65 (G-20): comparecimento, valor e forma de pagamento da consulta. Tabela própria e fora do sync: dinheiro é só da nutri e nunca chega ao paciente
+        (a consulta, que o paciente lê, não ganha coluna).
+      changes:
+        - createTable:
+            tableName: consulta_financeiro
+            columns:
+              - column: { name: consulta_id, type: uuid, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: nutricionista_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: comparecimento, type: varchar(12), defaultValue: PENDENTE, constraints: { nullable: false } }
+              - column: { name: valor, type: 'numeric(10,2)' }
+              - column: { name: forma_pagamento, type: varchar(12) }
+              - column: { name: pago, type: boolean, defaultValueBoolean: false, constraints: { nullable: false } }
+              - column: { name: versao, type: bigint, defaultValueNumeric: 1, constraints: { nullable: false } }
+              - column: { name: criado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+              - column: { name: atualizado_em, type: timestamptz, defaultValueComputed: now(), constraints: { nullable: false } }
+        - addForeignKeyConstraint:
+            baseTableName: consulta_financeiro
+            baseColumnNames: consulta_id
+            referencedTableName: consulta
+            referencedColumnNames: id
+            constraintName: fk_consulta_financeiro_consulta
+            onDelete: CASCADE
+        - sql:
+            sql: >-
+              ALTER TABLE consulta_financeiro ADD CONSTRAINT ck_financeiro_comparecimento CHECK (comparecimento IN ('PENDENTE','COMPARECEU','FALTOU'));
+              ALTER TABLE consulta_financeiro ADD CONSTRAINT ck_financeiro_forma CHECK (forma_pagamento IS NULL OR forma_pagamento IN ('DINHEIRO','PIX','CARTAO','CONVENIO','OUTRO'));
+              ALTER TABLE consulta_financeiro ADD CONSTRAINT ck_financeiro_valor CHECK (valor IS NULL OR valor >= 0);
+              ALTER TABLE consulta_financeiro ADD CONSTRAINT ck_financeiro_pago CHECK (NOT pago OR (valor IS NOT NULL AND forma_pagamento IS NOT NULL));

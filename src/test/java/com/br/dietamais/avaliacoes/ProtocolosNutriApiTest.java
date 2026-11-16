@@ -43,7 +43,8 @@ class ProtocolosNutriApiTest extends TesteComPaciente {
 	@Test void cadaNutriTemOsSeusEPacienteNaoAcessa() throws Exception {
 		var a=cadastrarNutri();var b=cadastrarNutri();var p=pacienteVinculado(a);
 		requisitar("PUT","/eu/nutri/protocolos",a.token(),Map.of("dobras","TRES","massa","MUSCULAR"),se(0));
-		var deB=json(requisitar("GET","/eu/nutri/protocolos",b.token(),null));
+		var respostaB=requisitar("GET","/eu/nutri/protocolos",b.token(),null);assertThat(respostaB.statusCode()).as(respostaB.body()).isEqualTo(200);
+		var deB=json(respostaB);
 		assertThat(deB.path("dobras").asString()).isEqualTo("SETE");assertThat(deB.path("versao").asLong()).isZero();
 		assertThat(requisitar("GET","/eu/nutri/protocolos",p.token(),null).statusCode()).isEqualTo(403);
 		assertThat(requisitar("PUT","/eu/nutri/protocolos",p.token(),Map.of("dobras","TRES","massa","MAGRO"),se(0)).statusCode()).isEqualTo(403);

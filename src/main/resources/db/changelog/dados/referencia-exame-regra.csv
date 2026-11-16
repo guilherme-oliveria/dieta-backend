@@ -1,0 +1,2224 @@
+faixa_etaria;exame_codigo;ordem;sexo;condicao;idade_min;idade_min_incl;idade_max;idade_max_incl;valor_min;valor_min_incl;valor_max;valor_max_incl;texto_igual;rotulo
+CRIANCA;acido-urico;1;feminino;NULL;;false;;false;;false;2.4;false;NULL;baixo
+CRIANCA;acido-urico;2;feminino;NULL;;false;;false;2.4;true;2.4;true;NULL;limite inferior
+CRIANCA;acido-urico;3;feminino;NULL;;false;;false;2.4;false;6;false;NULL;normal
+CRIANCA;acido-urico;4;feminino;NULL;;false;;false;6;true;6;true;NULL;limite superior
+CRIANCA;acido-urico;5;feminino;NULL;;false;;false;6;false;;false;NULL;alto
+CRIANCA;acido-urico;6;masculino;NULL;;false;;false;;false;3.4;false;NULL;baixo
+CRIANCA;acido-urico;7;masculino;NULL;;false;;false;3.4;true;3.4;true;NULL;limite inferior
+CRIANCA;acido-urico;8;masculino;NULL;;false;;false;3.4;false;7;false;NULL;normal
+CRIANCA;acido-urico;9;masculino;NULL;;false;;false;7;true;7;true;NULL;limite superior
+CRIANCA;acido-urico;10;masculino;NULL;;false;;false;7;false;;false;NULL;alto
+CRIANCA;creatinina;1;NULL;NULL;;false;;false;;false;0.4;false;NULL;baixo
+CRIANCA;creatinina;2;NULL;NULL;;false;;false;0.4;true;0.4;true;NULL;limite inferior
+CRIANCA;creatinina;3;NULL;NULL;;false;;false;0.4;false;0.7;false;NULL;normal
+CRIANCA;creatinina;4;NULL;NULL;;false;;false;0.7;true;0.7;true;NULL;limite superior
+CRIANCA;creatinina;5;NULL;NULL;;false;;false;0.7;false;;false;NULL;alto
+CRIANCA;ferritina;1;feminino;NULL;;false;6;false;;false;6;false;NULL;baixo
+CRIANCA;ferritina;2;feminino;NULL;;false;6;false;6;true;6;true;NULL;limite inferior
+CRIANCA;ferritina;3;feminino;NULL;;false;6;false;6;false;60;false;NULL;normal
+CRIANCA;ferritina;4;feminino;NULL;;false;6;false;60;true;60;true;NULL;limite superior
+CRIANCA;ferritina;5;feminino;NULL;;false;6;false;60;false;;false;NULL;alto
+CRIANCA;ferritina;6;feminino;NULL;6;true;;false;;false;6;false;NULL;baixo
+CRIANCA;ferritina;7;feminino;NULL;6;true;;false;6;true;6;true;NULL;limite inferior
+CRIANCA;ferritina;8;feminino;NULL;6;true;;false;6;false;70;false;NULL;normal
+CRIANCA;ferritina;9;feminino;NULL;6;true;;false;70;true;70;true;NULL;limite superior
+CRIANCA;ferritina;10;feminino;NULL;6;true;;false;70;false;;false;NULL;alto
+CRIANCA;ferritina;11;masculino;NULL;;false;6;false;;false;6;false;NULL;baixo
+CRIANCA;ferritina;12;masculino;NULL;;false;6;false;6;true;6;true;NULL;limite inferior
+CRIANCA;ferritina;13;masculino;NULL;;false;6;false;6;false;60;false;NULL;normal
+CRIANCA;ferritina;14;masculino;NULL;;false;6;false;60;true;60;true;NULL;limite superior
+CRIANCA;ferritina;15;masculino;NULL;;false;6;false;60;false;;false;NULL;alto
+CRIANCA;ferritina;16;masculino;NULL;6;true;;false;;false;6;false;NULL;baixo
+CRIANCA;ferritina;17;masculino;NULL;6;true;;false;6;true;6;true;NULL;limite inferior
+CRIANCA;ferritina;18;masculino;NULL;6;true;;false;6;false;320;false;NULL;normal
+CRIANCA;ferritina;19;masculino;NULL;6;true;;false;320;true;320;true;NULL;limite superior
+CRIANCA;ferritina;20;masculino;NULL;6;true;;false;320;false;;false;NULL;alto
+CRIANCA;glicemia-de-jejum;1;NULL;NULL;;false;;false;;false;70;false;NULL;baixo
+CRIANCA;glicemia-de-jejum;2;NULL;NULL;;false;;false;70;true;70;true;NULL;limite inferior
+CRIANCA;glicemia-de-jejum;3;NULL;NULL;;false;;false;70;false;100;false;NULL;normal
+CRIANCA;glicemia-de-jejum;4;NULL;NULL;;false;;false;100;true;125;true;NULL;int. à glicose
+CRIANCA;glicemia-de-jejum;5;NULL;NULL;;false;;false;125;false;;false;NULL;diabetes
+CRIANCA;ureia;1;NULL;NULL;;false;;false;;false;10;false;NULL;baixo
+CRIANCA;ureia;2;NULL;NULL;;false;;false;10;true;10;true;NULL;limite inferior
+CRIANCA;ureia;3;NULL;NULL;;false;;false;10;false;50;false;NULL;normal
+CRIANCA;ureia;4;NULL;NULL;;false;;false;50;true;50;true;NULL;limite superior
+CRIANCA;ureia;5;NULL;NULL;;false;;false;50;false;;false;NULL;alto
+CRIANCA;capac-fixacao-do-ferro;1;NULL;NULL;;false;;false;;false;170;false;NULL;baixo
+CRIANCA;capac-fixacao-do-ferro;2;NULL;NULL;;false;;false;170;true;230;false;NULL;latente
+CRIANCA;capac-fixacao-do-ferro;3;NULL;NULL;;false;;false;230;true;370;true;NULL;total
+CRIANCA;capac-fixacao-do-ferro;4;NULL;NULL;;false;;false;370;false;;false;NULL;alto
+CRIANCA;creatina-fosfoquinase-ck-ou-cpk;1;feminino;NULL;;false;;false;;false;215;false;NULL;normal
+CRIANCA;creatina-fosfoquinase-ck-ou-cpk;2;feminino;NULL;;false;;false;215;true;215;true;NULL;limite superior
+CRIANCA;creatina-fosfoquinase-ck-ou-cpk;3;feminino;NULL;;false;;false;215;false;;false;NULL;alto
+CRIANCA;creatina-fosfoquinase-ck-ou-cpk;4;masculino;NULL;;false;;false;;false;232;false;NULL;normal
+CRIANCA;creatina-fosfoquinase-ck-ou-cpk;5;masculino;NULL;;false;;false;232;true;232;true;NULL;limite superior
+CRIANCA;creatina-fosfoquinase-ck-ou-cpk;6;masculino;NULL;;false;;false;232;false;;false;NULL;alto
+CRIANCA;glicemia-pos-prandial;1;NULL;NULL;;false;;false;;false;140;false;NULL;normal
+CRIANCA;glicemia-pos-prandial;2;NULL;NULL;;false;;false;140;true;200;false;NULL;int. à glicose
+CRIANCA;glicemia-pos-prandial;3;NULL;NULL;;false;;false;200;true;;false;NULL;diabetes
+CRIANCA;hemoglobina-glicada-hba1c;1;NULL;NULL;;false;6;false;;false;7.5;false;NULL;baixo
+CRIANCA;hemoglobina-glicada-hba1c;2;NULL;NULL;;false;6;false;7.5;true;7.5;true;NULL;limite inferior
+CRIANCA;hemoglobina-glicada-hba1c;3;NULL;NULL;;false;6;false;7.5;false;8.5;false;NULL;normal
+CRIANCA;hemoglobina-glicada-hba1c;4;NULL;NULL;;false;6;false;8.5;false;;false;NULL;limite superior
+CRIANCA;hemoglobina-glicada-hba1c;5;NULL;NULL;;false;6;false;8.5;false;;false;NULL;alto
+CRIANCA;hemoglobina-glicada-hba1c;6;NULL;NULL;6;true;;false;;false;8;false;NULL;normal
+CRIANCA;hemoglobina-glicada-hba1c;7;NULL;NULL;6;true;;false;8;true;8;true;NULL;limite
+CRIANCA;hemoglobina-glicada-hba1c;8;NULL;NULL;6;true;;false;8;false;;false;NULL;alto
+CRIANCA;homocisteina;1;NULL;NULL;;false;;false;;false;5.5;false;NULL;baixo
+CRIANCA;homocisteina;2;NULL;NULL;;false;;false;5.5;true;5.5;true;NULL;limite inferior
+CRIANCA;homocisteina;3;NULL;NULL;;false;;false;5.5;false;17;false;NULL;normal
+CRIANCA;homocisteina;4;NULL;NULL;;false;;false;17;true;17;true;NULL;limite superior
+CRIANCA;homocisteina;5;NULL;NULL;;false;;false;17;false;;false;NULL;alto
+CRIANCA;insulina;1;NULL;NULL;;false;;false;;false;3;false;NULL;baixo
+CRIANCA;insulina;2;NULL;NULL;;false;;false;3;true;3;true;NULL;limite inferior
+CRIANCA;insulina;3;NULL;NULL;;false;;false;3;false;25;false;NULL;normal
+CRIANCA;insulina;4;NULL;NULL;;false;;false;25;true;25;true;NULL;limite superior
+CRIANCA;insulina;5;NULL;NULL;;false;;false;25;false;;false;NULL;alto
+CRIANCA;saturacao-de-transferrina;1;NULL;NULL;;false;;false;;false;20;false;NULL;baixo
+CRIANCA;saturacao-de-transferrina;2;NULL;NULL;;false;;false;20;true;20;true;NULL;limite inferior
+CRIANCA;saturacao-de-transferrina;3;NULL;NULL;;false;;false;20;false;50;false;NULL;normal
+CRIANCA;saturacao-de-transferrina;4;NULL;NULL;;false;;false;50;true;50;true;NULL;limite superior
+CRIANCA;saturacao-de-transferrina;5;NULL;NULL;;false;;false;50;false;;false;NULL;alto
+CRIANCA;transferrina;1;NULL;NULL;;false;;false;;false;200;false;NULL;baixo
+CRIANCA;transferrina;2;NULL;NULL;;false;;false;200;true;200;true;NULL;limite inferior
+CRIANCA;transferrina;3;NULL;NULL;;false;;false;200;false;400;false;NULL;normal
+CRIANCA;transferrina;4;NULL;NULL;;false;;false;400;true;400;true;NULL;limite superior
+CRIANCA;transferrina;5;NULL;NULL;;false;;false;400;false;;false;NULL;alto
+CRIANCA;tgo;1;feminino;NULL;;false;;false;;false;32;false;NULL;normal
+CRIANCA;tgo;2;feminino;NULL;;false;;false;32;true;32;true;NULL;limite
+CRIANCA;tgo;3;feminino;NULL;;false;;false;32;false;;false;NULL;alto
+CRIANCA;tgo;4;masculino;NULL;;false;;false;;false;38;false;NULL;normal
+CRIANCA;tgo;5;masculino;NULL;;false;;false;38;true;38;true;NULL;limite
+CRIANCA;tgo;6;masculino;NULL;;false;;false;38;false;;false;NULL;alto
+CRIANCA;tgp;1;feminino;NULL;;false;;false;;false;31;false;NULL;normal
+CRIANCA;tgp;2;feminino;NULL;;false;;false;31;true;31;true;NULL;limite
+CRIANCA;tgp;3;feminino;NULL;;false;;false;31;false;;false;NULL;alto
+CRIANCA;tgp;4;masculino;NULL;;false;;false;;false;41;false;NULL;normal
+CRIANCA;tgp;5;masculino;NULL;;false;;false;41;true;41;true;NULL;limite
+CRIANCA;tgp;6;masculino;NULL;;false;;false;41;false;;false;NULL;alto
+CRIANCA;eritrocitos;1;feminino;NULL;;false;;false;;false;4;false;NULL;baixo
+CRIANCA;eritrocitos;2;feminino;NULL;;false;;false;4;true;4;true;NULL;limite inferior
+CRIANCA;eritrocitos;3;feminino;NULL;;false;;false;4;false;5.6;false;NULL;normal
+CRIANCA;eritrocitos;4;feminino;NULL;;false;;false;5.6;true;5.6;true;NULL;limite superior
+CRIANCA;eritrocitos;5;feminino;NULL;;false;;false;5.6;false;;false;NULL;alto
+CRIANCA;eritrocitos;6;masculino;NULL;;false;;false;;false;4.5;false;NULL;baixo
+CRIANCA;eritrocitos;7;masculino;NULL;;false;;false;4.5;true;4.5;true;NULL;limite inferior
+CRIANCA;eritrocitos;8;masculino;NULL;;false;;false;4.5;false;6.5;false;NULL;normal
+CRIANCA;eritrocitos;9;masculino;NULL;;false;;false;6.5;true;6.5;true;NULL;limite superior
+CRIANCA;eritrocitos;10;masculino;NULL;;false;;false;6.5;false;;false;NULL;alto
+CRIANCA;hematocrito;1;feminino;NULL;;false;;false;;false;35;false;NULL;baixo
+CRIANCA;hematocrito;2;feminino;NULL;;false;;false;35;true;35;true;NULL;limite inferior
+CRIANCA;hematocrito;3;feminino;NULL;;false;;false;35;false;47;false;NULL;normal
+CRIANCA;hematocrito;4;feminino;NULL;;false;;false;47;true;47;true;NULL;limite superior
+CRIANCA;hematocrito;5;feminino;NULL;;false;;false;47;false;;false;NULL;alto
+CRIANCA;hematocrito;6;masculino;NULL;;false;;false;;false;40;false;NULL;baixo
+CRIANCA;hematocrito;7;masculino;NULL;;false;;false;40;true;40;true;NULL;limite inferior
+CRIANCA;hematocrito;8;masculino;NULL;;false;;false;40;false;54;false;NULL;normal
+CRIANCA;hematocrito;9;masculino;NULL;;false;;false;54;true;54;true;NULL;limite superior
+CRIANCA;hematocrito;10;masculino;NULL;;false;;false;54;false;;false;NULL;alto
+CRIANCA;hemoglobina;1;feminino;NULL;;false;;false;;false;12;false;NULL;baixo
+CRIANCA;hemoglobina;2;feminino;NULL;;false;;false;12;true;12;true;NULL;limite inferior
+CRIANCA;hemoglobina;3;feminino;NULL;;false;;false;12;false;16.5;false;NULL;normal
+CRIANCA;hemoglobina;4;feminino;NULL;;false;;false;16.5;true;16.5;true;NULL;limite superior
+CRIANCA;hemoglobina;5;feminino;NULL;;false;;false;16.5;false;;false;NULL;alto
+CRIANCA;hemoglobina;6;masculino;NULL;;false;;false;;false;13.5;false;NULL;baixo
+CRIANCA;hemoglobina;7;masculino;NULL;;false;;false;13.5;true;13.5;true;NULL;limite inferior
+CRIANCA;hemoglobina;8;masculino;NULL;;false;;false;13.5;false;18;false;NULL;normal
+CRIANCA;hemoglobina;9;masculino;NULL;;false;;false;18;true;18;true;NULL;limite superior
+CRIANCA;hemoglobina;10;masculino;NULL;;false;;false;18;false;;false;NULL;alto
+CRIANCA;vcm;1;feminino;NULL;;false;;false;;false;81;false;NULL;baixo
+CRIANCA;vcm;2;feminino;NULL;;false;;false;81;true;81;true;NULL;limite inferior
+CRIANCA;vcm;3;feminino;NULL;;false;;false;81;false;101;false;NULL;normal
+CRIANCA;vcm;4;feminino;NULL;;false;;false;101;true;101;true;NULL;limite superior
+CRIANCA;vcm;5;feminino;NULL;;false;;false;101;false;;false;NULL;alto
+CRIANCA;vcm;6;masculino;NULL;;false;;false;;false;82;false;NULL;baixo
+CRIANCA;vcm;7;masculino;NULL;;false;;false;82;true;82;true;NULL;limite inferior
+CRIANCA;vcm;8;masculino;NULL;;false;;false;82;false;101;false;NULL;normal
+CRIANCA;vcm;9;masculino;NULL;;false;;false;101;true;101;true;NULL;limite superior
+CRIANCA;vcm;10;masculino;NULL;;false;;false;101;false;;false;NULL;alto
+CRIANCA;hcm;1;NULL;NULL;;false;;false;;false;27;false;NULL;baixo
+CRIANCA;hcm;2;NULL;NULL;;false;;false;27;true;27;true;NULL;limite inferior
+CRIANCA;hcm;3;NULL;NULL;;false;;false;27;false;34;false;NULL;normal
+CRIANCA;hcm;4;NULL;NULL;;false;;false;34;true;34;true;NULL;limite superior
+CRIANCA;hcm;5;NULL;NULL;;false;;false;34;false;;false;NULL;alto
+CRIANCA;rdw;1;feminino;NULL;;false;;false;;false;11.6;false;NULL;baixo
+CRIANCA;rdw;2;feminino;NULL;;false;;false;11.6;true;11.6;true;NULL;limite inferior
+CRIANCA;rdw;3;feminino;NULL;;false;;false;11.6;false;14.8;false;NULL;normal
+CRIANCA;rdw;4;feminino;NULL;;false;;false;14.8;true;14.8;true;NULL;limite superior
+CRIANCA;rdw;5;feminino;NULL;;false;;false;14.8;false;;false;NULL;alto
+CRIANCA;rdw;6;masculino;NULL;;false;;false;;false;11.6;false;NULL;baixo
+CRIANCA;rdw;7;masculino;NULL;;false;;false;11.6;true;11.6;true;NULL;limite inferior
+CRIANCA;rdw;8;masculino;NULL;;false;;false;11.6;false;14;false;NULL;normal
+CRIANCA;rdw;9;masculino;NULL;;false;;false;14;true;14;true;NULL;limite superior
+CRIANCA;rdw;10;masculino;NULL;;false;;false;14;false;;false;NULL;alto
+CRIANCA;chcm;1;NULL;NULL;;false;;false;;false;31.5;false;NULL;baixo
+CRIANCA;chcm;2;NULL;NULL;;false;;false;31.5;true;31.5;true;NULL;limite inferior
+CRIANCA;chcm;3;NULL;NULL;;false;;false;31.5;false;36;false;NULL;normal
+CRIANCA;chcm;4;NULL;NULL;;false;;false;36;true;36;true;NULL;limite superior
+CRIANCA;chcm;5;NULL;NULL;;false;;false;36;false;;false;NULL;alto
+CRIANCA;leucocitos-totais;1;NULL;NULL;;false;2;false;;false;8000;false;NULL;baixo
+CRIANCA;leucocitos-totais;2;NULL;NULL;;false;2;false;8000;true;8000;true;NULL;limite inferior
+CRIANCA;leucocitos-totais;3;NULL;NULL;;false;2;false;8000;false;12000;false;NULL;normal
+CRIANCA;leucocitos-totais;4;NULL;NULL;;false;2;false;12000;false;;false;NULL;limite superior
+CRIANCA;leucocitos-totais;5;NULL;NULL;;false;2;false;12000;false;;false;NULL;alto
+CRIANCA;leucocitos-totais;6;NULL;NULL;2;true;6;false;;false;5000;false;NULL;baixo
+CRIANCA;leucocitos-totais;7;NULL;NULL;2;true;6;false;5000;true;5000;true;NULL;limite inferior
+CRIANCA;leucocitos-totais;8;NULL;NULL;2;true;6;false;5000;false;10000;false;NULL;normal
+CRIANCA;leucocitos-totais;9;NULL;NULL;2;true;6;false;10000;false;;false;NULL;limite superior
+CRIANCA;leucocitos-totais;10;NULL;NULL;2;true;6;false;10000;false;;false;NULL;alto
+CRIANCA;leucocitos-totais;11;NULL;NULL;6;true;;false;;false;4600;false;NULL;baixo
+CRIANCA;leucocitos-totais;12;NULL;NULL;6;true;;false;4600;true;4600;true;NULL;limite inferior
+CRIANCA;leucocitos-totais;13;NULL;NULL;6;true;;false;4600;false;10200;false;NULL;normal
+CRIANCA;leucocitos-totais;14;NULL;NULL;6;true;;false;10200;false;;false;NULL;limite superior
+CRIANCA;leucocitos-totais;15;NULL;NULL;6;true;;false;10200;false;;false;NULL;alto
+CRIANCA;basofilos;1;NULL;NULL;;false;2;false;;false;0;false;NULL;baixo
+CRIANCA;basofilos;2;NULL;NULL;;false;2;false;0;true;0;true;NULL;limite inferior
+CRIANCA;basofilos;3;NULL;NULL;;false;2;false;0;false;360;false;NULL;normal
+CRIANCA;basofilos;4;NULL;NULL;;false;2;false;360;false;;false;NULL;limite superior
+CRIANCA;basofilos;5;NULL;NULL;;false;2;false;360;false;;false;NULL;alto
+CRIANCA;basofilos;6;NULL;NULL;2;true;6;false;;false;0;false;NULL;baixo
+CRIANCA;basofilos;7;NULL;NULL;2;true;6;false;0;true;0;true;NULL;limite inferior
+CRIANCA;basofilos;8;NULL;NULL;2;true;6;false;0;false;300;false;NULL;normal
+CRIANCA;basofilos;9;NULL;NULL;2;true;6;false;300;false;;false;NULL;limite superior
+CRIANCA;basofilos;10;NULL;NULL;2;true;6;false;300;false;;false;NULL;alto
+CRIANCA;basofilos;11;NULL;NULL;6;true;;false;;false;0;false;NULL;baixo
+CRIANCA;basofilos;12;NULL;NULL;6;true;;false;0;true;0;true;NULL;limite inferior
+CRIANCA;basofilos;13;NULL;NULL;6;true;;false;0;false;204;false;NULL;normal
+CRIANCA;basofilos;14;NULL;NULL;6;true;;false;204;false;;false;NULL;limite superior
+CRIANCA;basofilos;15;NULL;NULL;6;true;;false;204;false;;false;NULL;alto
+CRIANCA;bastonetes;1;NULL;NULL;;false;;false;;false;500;false;NULL;normal
+CRIANCA;bastonetes;2;NULL;NULL;;false;;false;500;true;500;true;NULL;limite
+CRIANCA;bastonetes;3;NULL;NULL;;false;;false;500;false;;false;NULL;alto
+CRIANCA;blastos;1;NULL;NULL;;false;;false;0;true;0;true;NULL;normal
+CRIANCA;blastos;2;NULL;NULL;;false;;false;0;false;;false;NULL;alto
+CRIANCA;eosinofilos;1;NULL;NULL;;false;2;false;;false;160;false;NULL;baixo
+CRIANCA;eosinofilos;2;NULL;NULL;;false;2;false;160;true;160;true;NULL;limite inferior
+CRIANCA;eosinofilos;3;NULL;NULL;;false;2;false;160;false;480;false;NULL;normal
+CRIANCA;eosinofilos;4;NULL;NULL;;false;2;false;480;false;;false;NULL;limite superior
+CRIANCA;eosinofilos;5;NULL;NULL;;false;2;false;480;false;;false;NULL;alto
+CRIANCA;eosinofilos;6;NULL;NULL;2;true;6;false;;false;0;false;NULL;baixo
+CRIANCA;eosinofilos;7;NULL;NULL;2;true;6;false;0;true;0;true;NULL;limite inferior
+CRIANCA;eosinofilos;8;NULL;NULL;2;true;6;false;0;false;400;false;NULL;normal
+CRIANCA;eosinofilos;9;NULL;NULL;2;true;6;false;400;false;;false;NULL;limite superior
+CRIANCA;eosinofilos;10;NULL;NULL;2;true;6;false;400;false;;false;NULL;alto
+CRIANCA;eosinofilos;11;NULL;NULL;6;true;;false;;false;0;false;NULL;baixo
+CRIANCA;eosinofilos;12;NULL;NULL;6;true;;false;0;true;0;true;NULL;limite inferior
+CRIANCA;eosinofilos;13;NULL;NULL;6;true;;false;0;false;714;false;NULL;normal
+CRIANCA;eosinofilos;14;NULL;NULL;6;true;;false;714;false;;false;NULL;limite superior
+CRIANCA;eosinofilos;15;NULL;NULL;6;true;;false;714;false;;false;NULL;alto
+CRIANCA;linfocitos;1;NULL;NULL;;false;2;false;;false;3280;false;NULL;baixo
+CRIANCA;linfocitos;2;NULL;NULL;;false;2;false;3280;true;3280;true;NULL;limite inferior
+CRIANCA;linfocitos;3;NULL;NULL;;false;2;false;3280;false;3520;false;NULL;normal
+CRIANCA;linfocitos;4;NULL;NULL;;false;2;false;3520;false;;false;NULL;limite superior
+CRIANCA;linfocitos;5;NULL;NULL;;false;2;false;3520;false;;false;NULL;alto
+CRIANCA;linfocitos;6;NULL;NULL;2;true;6;false;;false;1750;false;NULL;baixo
+CRIANCA;linfocitos;7;NULL;NULL;2;true;6;false;1750;true;1750;true;NULL;limite inferior
+CRIANCA;linfocitos;8;NULL;NULL;2;true;6;false;1750;false;6500;false;NULL;normal
+CRIANCA;linfocitos;9;NULL;NULL;2;true;6;false;6500;false;;false;NULL;limite superior
+CRIANCA;linfocitos;10;NULL;NULL;2;true;6;false;6500;false;;false;NULL;alto
+CRIANCA;linfocitos;11;NULL;NULL;6;true;;false;;false;1150;false;NULL;baixo
+CRIANCA;linfocitos;12;NULL;NULL;6;true;;false;1150;true;1150;true;NULL;limite inferior
+CRIANCA;linfocitos;13;NULL;NULL;6;true;;false;1150;false;4590;false;NULL;normal
+CRIANCA;linfocitos;14;NULL;NULL;6;true;;false;4590;false;;false;NULL;limite superior
+CRIANCA;linfocitos;15;NULL;NULL;6;true;;false;4590;false;;false;NULL;alto
+CRIANCA;metamielocitos;1;NULL;NULL;;false;;false;0;true;0;true;NULL;normal
+CRIANCA;metamielocitos;2;NULL;NULL;;false;;false;0;false;;false;NULL;alto
+CRIANCA;mielocitos;1;NULL;NULL;;false;;false;0;true;0;true;NULL;normal
+CRIANCA;mielocitos;2;NULL;NULL;;false;;false;0;false;;false;NULL;alto
+CRIANCA;monocitos;1;NULL;NULL;;false;2;false;;false;0;false;NULL;baixo
+CRIANCA;monocitos;2;NULL;NULL;;false;2;false;0;true;0;true;NULL;limite inferior
+CRIANCA;monocitos;3;NULL;NULL;;false;2;false;0;false;480;false;NULL;normal
+CRIANCA;monocitos;4;NULL;NULL;;false;2;false;480;false;;false;NULL;limite superior
+CRIANCA;monocitos;5;NULL;NULL;;false;2;false;480;false;;false;NULL;alto
+CRIANCA;monocitos;6;NULL;NULL;2;true;6;false;;false;0;false;NULL;baixo
+CRIANCA;monocitos;7;NULL;NULL;2;true;6;false;0;true;0;true;NULL;limite inferior
+CRIANCA;monocitos;8;NULL;NULL;2;true;6;false;0;false;1200;false;NULL;normal
+CRIANCA;monocitos;9;NULL;NULL;2;true;6;false;1200;false;;false;NULL;limite superior
+CRIANCA;monocitos;10;NULL;NULL;2;true;6;false;1200;false;;false;NULL;alto
+CRIANCA;monocitos;11;NULL;NULL;6;true;;false;;false;0;false;NULL;baixo
+CRIANCA;monocitos;12;NULL;NULL;6;true;;false;0;true;0;true;NULL;limite inferior
+CRIANCA;monocitos;13;NULL;NULL;6;true;;false;0;false;1224;false;NULL;normal
+CRIANCA;monocitos;14;NULL;NULL;6;true;;false;1224;false;;false;NULL;limite superior
+CRIANCA;monocitos;15;NULL;NULL;6;true;;false;1224;false;;false;NULL;alto
+CRIANCA;neutrofilos;1;NULL;NULL;;false;;false;;false;1800;false;NULL;baixo
+CRIANCA;neutrofilos;2;NULL;NULL;;false;;false;1800;true;1800;true;NULL;limite inferior
+CRIANCA;neutrofilos;3;NULL;NULL;;false;;false;1800;false;8000;false;NULL;normal
+CRIANCA;neutrofilos;4;NULL;NULL;;false;;false;8000;true;8000;true;NULL;limite superior
+CRIANCA;neutrofilos;5;NULL;NULL;;false;;false;8000;false;;false;NULL;alto
+CRIANCA;plasmocitos;1;NULL;NULL;;false;;false;;false;100;false;NULL;normal
+CRIANCA;plasmocitos;2;NULL;NULL;;false;;false;100;true;100;true;NULL;limite superior
+CRIANCA;plasmocitos;3;NULL;NULL;;false;;false;100;false;;false;NULL;alto
+CRIANCA;promielocitos;1;NULL;NULL;;false;;false;0;true;0;true;NULL;normal
+CRIANCA;promielocitos;2;NULL;NULL;;false;;false;0;false;;false;NULL;alto
+CRIANCA;reticulocitos;1;NULL;NULL;;false;;false;;false;0.5;false;NULL;baixo
+CRIANCA;reticulocitos;2;NULL;NULL;;false;;false;0.5;true;0.5;true;NULL;limite inferior
+CRIANCA;reticulocitos;3;NULL;NULL;;false;;false;0.5;false;2;false;NULL;normal
+CRIANCA;reticulocitos;4;NULL;NULL;;false;;false;2;true;2;true;NULL;limite superior
+CRIANCA;reticulocitos;5;NULL;NULL;;false;;false;2;false;;false;NULL;alto
+CRIANCA;segmentados;1;NULL;NULL;;false;2;false;;false;1360;false;NULL;baixo
+CRIANCA;segmentados;2;NULL;NULL;;false;2;false;1360;true;1360;true;NULL;limite inferior
+CRIANCA;segmentados;3;NULL;NULL;;false;2;false;1360;false;5400;false;NULL;normal
+CRIANCA;segmentados;4;NULL;NULL;;false;2;false;5400;false;;false;NULL;limite superior
+CRIANCA;segmentados;5;NULL;NULL;;false;2;false;5400;false;;false;NULL;alto
+CRIANCA;segmentados;6;NULL;NULL;2;true;6;false;;false;1400;false;NULL;baixo
+CRIANCA;segmentados;7;NULL;NULL;2;true;6;false;1400;true;1400;true;NULL;limite inferior
+CRIANCA;segmentados;8;NULL;NULL;2;true;6;false;1400;false;5500;false;NULL;normal
+CRIANCA;segmentados;9;NULL;NULL;2;true;6;false;5500;false;;false;NULL;limite superior
+CRIANCA;segmentados;10;NULL;NULL;2;true;6;false;5500;false;;false;NULL;alto
+CRIANCA;segmentados;11;NULL;NULL;6;true;;false;;false;1380;false;NULL;baixo
+CRIANCA;segmentados;12;NULL;NULL;6;true;;false;1380;true;1380;true;NULL;limite inferior
+CRIANCA;segmentados;13;NULL;NULL;6;true;;false;1380;false;6120;false;NULL;normal
+CRIANCA;segmentados;14;NULL;NULL;6;true;;false;6120;false;;false;NULL;limite superior
+CRIANCA;segmentados;15;NULL;NULL;6;true;;false;6120;false;;false;NULL;alto
+CRIANCA;plaquetas;1;NULL;NULL;;false;;false;;false;150000;false;NULL;baixo
+CRIANCA;plaquetas;2;NULL;NULL;;false;;false;150000;true;150000;true;NULL;limite inferior
+CRIANCA;plaquetas;3;NULL;NULL;;false;;false;150000;false;500000;false;NULL;normal
+CRIANCA;plaquetas;4;NULL;NULL;;false;;false;500000;true;500000;true;NULL;limite superior
+CRIANCA;plaquetas;5;NULL;NULL;;false;;false;500000;false;;false;NULL;alto
+CRIANCA;lipideos-totais;1;NULL;NULL;;false;;false;;false;400;false;NULL;baixo
+CRIANCA;lipideos-totais;2;NULL;NULL;;false;;false;400;true;400;true;NULL;limite inferior
+CRIANCA;lipideos-totais;3;NULL;NULL;;false;;false;400;false;800;false;NULL;normal
+CRIANCA;lipideos-totais;4;NULL;NULL;;false;;false;800;true;800;true;NULL;limite superior
+CRIANCA;lipideos-totais;5;NULL;NULL;;false;;false;800;false;;false;NULL;alto
+CRIANCA;fosfolipides;1;NULL;NULL;;false;;false;;false;85;false;NULL;baixo
+CRIANCA;fosfolipides;2;NULL;NULL;;false;;false;85;true;85;true;NULL;limite inferior
+CRIANCA;fosfolipides;3;NULL;NULL;;false;;false;85;false;250;false;NULL;normal
+CRIANCA;fosfolipides;4;NULL;NULL;;false;;false;250;true;250;true;NULL;limite superior
+CRIANCA;fosfolipides;5;NULL;NULL;;false;;false;250;false;;false;NULL;alto
+CRIANCA;triglicerides;1;NULL;NULL;;false;;false;;false;100;true;NULL;desejável
+CRIANCA;triglicerides;2;NULL;NULL;;false;;false;100;false;;false;NULL;aumentado
+CRIANCA;colesterol-total;1;NULL;NULL;;false;;false;;false;170;false;NULL;desejável
+CRIANCA;colesterol-total;2;NULL;NULL;;false;;false;170;true;200;false;NULL;limítrofe
+CRIANCA;colesterol-total;3;NULL;NULL;;false;;false;200;true;;false;NULL;elevado
+CRIANCA;ldl;1;NULL;NULL;;false;;false;;false;110;false;NULL;desejável
+CRIANCA;ldl;2;NULL;NULL;;false;;false;110;true;130;false;NULL;aceitável
+CRIANCA;ldl;3;NULL;NULL;;false;;false;130;true;;false;NULL;aumentado
+CRIANCA;vldl;1;NULL;NULL;;false;;false;;false;40;false;NULL;normal
+CRIANCA;vldl;2;NULL;NULL;;false;;false;40;true;40;true;NULL;limite
+CRIANCA;vldl;3;NULL;NULL;;false;;false;40;false;;false;NULL;alto
+CRIANCA;hdl;1;NULL;NULL;;false;;false;;false;40;false;NULL;baixo
+CRIANCA;hdl;2;NULL;NULL;;false;;false;40;true;;false;NULL;normal
+CRIANCA;apolipoproteina-a;1;feminino;NULL;;false;;false;;false;101;false;NULL;baixo
+CRIANCA;apolipoproteina-a;2;feminino;NULL;;false;;false;101;true;101;true;NULL;limite inferior
+CRIANCA;apolipoproteina-a;3;feminino;NULL;;false;;false;101;false;199;false;NULL;normal
+CRIANCA;apolipoproteina-a;4;feminino;NULL;;false;;false;199;true;199;true;NULL;limite superior
+CRIANCA;apolipoproteina-a;5;feminino;NULL;;false;;false;199;false;;false;NULL;alto
+CRIANCA;apolipoproteina-a;6;masculino;NULL;;false;;false;;false;94;false;NULL;baixo
+CRIANCA;apolipoproteina-a;7;masculino;NULL;;false;;false;94;true;94;true;NULL;limite inferior
+CRIANCA;apolipoproteina-a;8;masculino;NULL;;false;;false;94;false;189;false;NULL;normal
+CRIANCA;apolipoproteina-a;9;masculino;NULL;;false;;false;189;true;189;true;NULL;limite superior
+CRIANCA;apolipoproteina-a;10;masculino;NULL;;false;;false;189;false;;false;NULL;alto
+CRIANCA;apolipoproteina-b;1;feminino;NULL;;false;;false;;false;49;false;NULL;baixo
+CRIANCA;apolipoproteina-b;2;feminino;NULL;;false;;false;49;true;49;true;NULL;limite inferior
+CRIANCA;apolipoproteina-b;3;feminino;NULL;;false;;false;49;false;103;false;NULL;normal
+CRIANCA;apolipoproteina-b;4;feminino;NULL;;false;;false;103;true;103;true;NULL;limite superior
+CRIANCA;apolipoproteina-b;5;feminino;NULL;;false;;false;103;false;;false;NULL;alto
+CRIANCA;apolipoproteina-b;6;masculino;NULL;;false;;false;;false;52;false;NULL;baixo
+CRIANCA;apolipoproteina-b;7;masculino;NULL;;false;;false;52;true;52;true;NULL;limite inferior
+CRIANCA;apolipoproteina-b;8;masculino;NULL;;false;;false;52;false;109;false;NULL;normal
+CRIANCA;apolipoproteina-b;9;masculino;NULL;;false;;false;109;true;109;true;NULL;limite superior
+CRIANCA;apolipoproteina-b;10;masculino;NULL;;false;;false;109;false;;false;NULL;alto
+CRIANCA;indice-de-castelli-i;1;NULL;NULL;;false;;false;;false;4.4;false;NULL;normal
+CRIANCA;indice-de-castelli-i;2;NULL;NULL;;false;;false;4.4;true;4.4;true;NULL;limite
+CRIANCA;indice-de-castelli-i;3;NULL;NULL;;false;;false;4.4;false;;false;NULL;alto
+CRIANCA;indice-de-castelli-ii;1;NULL;NULL;;false;;false;;false;3.2;false;NULL;normal
+CRIANCA;indice-de-castelli-ii;2;NULL;NULL;;false;;false;3.2;true;3.2;true;NULL;limite
+CRIANCA;indice-de-castelli-ii;3;NULL;NULL;;false;;false;3.2;false;;false;NULL;alto
+CRIANCA;densidade;1;NULL;NULL;;false;;false;;false;1.01;false;NULL;baixo
+CRIANCA;densidade;2;NULL;NULL;;false;;false;1.01;true;1.01;true;NULL;limite inferior
+CRIANCA;densidade;3;NULL;NULL;;false;;false;1.01;false;1.025;false;NULL;normal
+CRIANCA;densidade;4;NULL;NULL;;false;;false;1.025;true;1.025;true;NULL;limite superior
+CRIANCA;densidade;5;NULL;NULL;;false;;false;1.025;false;;false;NULL;alto
+CRIANCA;ph;1;NULL;NULL;;false;;false;;false;5.5;false;NULL;ácida
+CRIANCA;ph;2;NULL;NULL;;false;;false;5.5;true;7;true;NULL;normal
+CRIANCA;ph;3;NULL;NULL;;false;;false;7;false;;false;NULL;alcalina
+CRIANCA;calcio;1;NULL;NULL;;false;;false;;false;55;false;NULL;baixo
+CRIANCA;calcio;2;NULL;NULL;;false;;false;55;true;55;true;NULL;limite inferior
+CRIANCA;calcio;3;NULL;NULL;;false;;false;55;false;220;false;NULL;normal
+CRIANCA;calcio;4;NULL;NULL;;false;;false;220;true;220;true;NULL;limite superior
+CRIANCA;calcio;5;NULL;NULL;;false;;false;220;false;;false;NULL;alto
+CRIANCA;cetonas-ou-corpos-cetonicos;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+CRIANCA;cetonas-ou-corpos-cetonicos;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+CRIANCA;citrato;1;NULL;NULL;;false;;false;;false;400;false;NULL;normal
+CRIANCA;citrato;2;NULL;NULL;;false;;false;400;true;400;true;NULL;limite
+CRIANCA;citrato;3;NULL;NULL;;false;;false;400;false;;false;NULL;alto
+CRIANCA;glicose;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+CRIANCA;glicose;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+CRIANCA;nitrito;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+CRIANCA;nitrito;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+CRIANCA;proteinas;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+CRIANCA;proteinas;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+CRIANCA;sangue-hemoglobina-ou-hemacias;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+CRIANCA;sangue-hemoglobina-ou-hemacias;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+CRIANCA;urobilinogenio-ou-bilirrubina;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+CRIANCA;urobilinogenio-ou-bilirrubina;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+CRIANCA;cilindros;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+CRIANCA;cilindros;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+CRIANCA;granulosos;1;NULL;NULL;;false;;false;;false;1000;false;NULL;normal
+CRIANCA;granulosos;2;NULL;NULL;;false;;false;1000;true;1000;true;NULL;limite
+CRIANCA;granulosos;3;NULL;NULL;;false;;false;1000;false;;false;NULL;alto
+CRIANCA;hematicos;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+CRIANCA;hematicos;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+CRIANCA;hialinos;1;NULL;NULL;;false;;false;;false;1000;false;NULL;normal
+CRIANCA;hialinos;2;NULL;NULL;;false;;false;1000;true;1000;true;NULL;limite
+CRIANCA;hialinos;3;NULL;NULL;;false;;false;1000;false;;false;NULL;alto
+CRIANCA;leucocitarios;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+CRIANCA;leucocitarios;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+CRIANCA;leucocitos-ou-piocitos;1;NULL;NULL;;false;;false;;false;10000;false;NULL;normal
+CRIANCA;leucocitos-ou-piocitos;2;NULL;NULL;;false;;false;10000;true;10000;true;NULL;limite
+CRIANCA;leucocitos-ou-piocitos;3;NULL;NULL;;false;;false;10000;false;;false;NULL;alto
+CRIANCA;albumina;1;NULL;NULL;;false;;false;;false;3.8;false;NULL;baixo
+CRIANCA;albumina;2;NULL;NULL;;false;;false;3.8;true;3.8;true;NULL;limite inferior
+CRIANCA;albumina;3;NULL;NULL;;false;;false;3.8;false;5.4;false;NULL;normal
+CRIANCA;albumina;4;NULL;NULL;;false;;false;5.4;true;5.4;true;NULL;limite superior
+CRIANCA;albumina;5;NULL;NULL;;false;;false;5.4;false;;false;NULL;alto
+CRIANCA;pre-albumina;1;NULL;NULL;;false;;false;;false;19;false;NULL;baixo
+CRIANCA;pre-albumina;2;NULL;NULL;;false;;false;19;true;19;true;NULL;limite inferior
+CRIANCA;pre-albumina;3;NULL;NULL;;false;;false;19;false;38;false;NULL;normal
+CRIANCA;pre-albumina;4;NULL;NULL;;false;;false;38;true;38;true;NULL;limite superior
+CRIANCA;pre-albumina;5;NULL;NULL;;false;;false;38;false;;false;NULL;alto
+CRIANCA;proteina-c-reativa-pcr;1;NULL;NULL;;false;;false;;false;0.8;false;NULL;normal
+CRIANCA;proteina-c-reativa-pcr;2;NULL;NULL;;false;;false;0.8;true;0.8;true;NULL;limite
+CRIANCA;proteina-c-reativa-pcr;3;NULL;NULL;;false;;false;0.8;false;;false;NULL;alto
+CRIANCA;proteinas-totais;1;NULL;NULL;;false;;false;;false;6.3;false;NULL;baixo
+CRIANCA;proteinas-totais;2;NULL;NULL;;false;;false;6.3;true;6.3;true;NULL;limite inferior
+CRIANCA;proteinas-totais;3;NULL;NULL;;false;;false;6.3;false;8.1;false;NULL;normal
+CRIANCA;proteinas-totais;4;NULL;NULL;;false;;false;8.1;true;8.1;true;NULL;limite superior
+CRIANCA;proteinas-totais;5;NULL;NULL;;false;;false;8.1;false;;false;NULL;alto
+CRIANCA;proteina-transportadora-de-retinol;1;NULL;NULL;;false;;false;;false;0.4;false;NULL;normal
+CRIANCA;proteina-transportadora-de-retinol;2;NULL;NULL;;false;;false;0.4;true;0.4;true;NULL;limite
+CRIANCA;proteina-transportadora-de-retinol;3;NULL;NULL;;false;;false;0.4;false;;false;NULL;alto
+CRIANCA;calcio-total;1;NULL;NULL;;false;;false;;false;8.8;false;NULL;baixo
+CRIANCA;calcio-total;2;NULL;NULL;;false;;false;8.8;true;8.8;true;NULL;limite inferior
+CRIANCA;calcio-total;3;NULL;NULL;;false;;false;8.8;false;10.8;false;NULL;normal
+CRIANCA;calcio-total;4;NULL;NULL;;false;;false;10.8;true;10.8;true;NULL;limite superior
+CRIANCA;calcio-total;5;NULL;NULL;;false;;false;10.8;false;;false;NULL;alto
+CRIANCA;calcio-ionico;1;NULL;NULL;;false;;false;;false;1.15;false;NULL;baixo
+CRIANCA;calcio-ionico;2;NULL;NULL;;false;;false;1.15;true;1.15;true;NULL;limite inferior
+CRIANCA;calcio-ionico;3;NULL;NULL;;false;;false;1.15;false;1.32;false;NULL;normal
+CRIANCA;calcio-ionico;4;NULL;NULL;;false;;false;1.32;true;1.32;true;NULL;limite superior
+CRIANCA;calcio-ionico;5;NULL;NULL;;false;;false;1.32;false;;false;NULL;alto
+CRIANCA;cloro;1;NULL;NULL;;false;;false;;false;97;false;NULL;baixo
+CRIANCA;cloro;2;NULL;NULL;;false;;false;97;true;97;true;NULL;limite inferior
+CRIANCA;cloro;3;NULL;NULL;;false;;false;97;false;106;false;NULL;normal
+CRIANCA;cloro;4;NULL;NULL;;false;;false;106;true;106;true;NULL;limite superior
+CRIANCA;cloro;5;NULL;NULL;;false;;false;106;false;;false;NULL;alto
+CRIANCA;cobre;1;NULL;NULL;;false;6;false;;false;90;false;NULL;baixo
+CRIANCA;cobre;2;NULL;NULL;;false;6;false;90;true;90;true;NULL;limite inferior
+CRIANCA;cobre;3;NULL;NULL;;false;6;false;90;false;190;false;NULL;normal
+CRIANCA;cobre;4;NULL;NULL;;false;6;false;190;true;190;true;NULL;limite superior
+CRIANCA;cobre;5;NULL;NULL;;false;6;false;190;false;;false;NULL;alto
+CRIANCA;cobre;6;NULL;NULL;6;true;;false;;false;80;false;NULL;baixo
+CRIANCA;cobre;7;NULL;NULL;6;true;;false;80;true;80;true;NULL;limite inferior
+CRIANCA;cobre;8;NULL;NULL;6;true;;false;80;false;160;false;NULL;normal
+CRIANCA;cobre;9;NULL;NULL;6;true;;false;160;true;160;true;NULL;limite superior
+CRIANCA;cobre;10;NULL;NULL;6;true;;false;160;false;;false;NULL;alto
+CRIANCA;cromo;1;NULL;NULL;;false;;false;;false;0.7;false;NULL;baixo
+CRIANCA;cromo;2;NULL;NULL;;false;;false;0.7;true;0.7;true;NULL;limite inferior
+CRIANCA;cromo;3;NULL;NULL;;false;;false;0.7;false;2.2;false;NULL;normal
+CRIANCA;cromo;4;NULL;NULL;;false;;false;2.2;true;2.2;true;NULL;limite superior
+CRIANCA;cromo;5;NULL;NULL;;false;;false;2.2;false;;false;NULL;alto
+CRIANCA;ferro;1;feminino;NULL;;false;;false;;false;37;false;NULL;baixo
+CRIANCA;ferro;2;feminino;NULL;;false;;false;37;true;37;true;NULL;limite inferior
+CRIANCA;ferro;3;feminino;NULL;;false;;false;37;false;170;false;NULL;normal
+CRIANCA;ferro;4;feminino;NULL;;false;;false;170;true;170;true;NULL;limite superior
+CRIANCA;ferro;5;feminino;NULL;;false;;false;170;false;;false;NULL;alto
+CRIANCA;ferro;6;masculino;NULL;;false;;false;;false;49;false;NULL;baixo
+CRIANCA;ferro;7;masculino;NULL;;false;;false;49;true;49;true;NULL;limite inferior
+CRIANCA;ferro;8;masculino;NULL;;false;;false;49;false;181;false;NULL;normal
+CRIANCA;ferro;9;masculino;NULL;;false;;false;181;true;181;true;NULL;limite superior
+CRIANCA;ferro;10;masculino;NULL;;false;;false;181;false;;false;NULL;alto
+CRIANCA;folato;1;NULL;NULL;;false;;false;;false;3;false;NULL;baixo
+CRIANCA;folato;2;NULL;NULL;;false;;false;3;true;3;true;NULL;limite inferior
+CRIANCA;folato;3;NULL;NULL;;false;;false;3;false;17;false;NULL;normal
+CRIANCA;folato;4;NULL;NULL;;false;;false;17;true;17;true;NULL;limite superior
+CRIANCA;folato;5;NULL;NULL;;false;;false;17;false;;false;NULL;alto
+CRIANCA;fosforo;1;feminino;NULL;;false;;false;;false;2.3;false;NULL;baixo
+CRIANCA;fosforo;2;feminino;NULL;;false;;false;2.3;true;2.3;true;NULL;limite inferior
+CRIANCA;fosforo;3;feminino;NULL;;false;;false;2.3;false;4.3;false;NULL;normal
+CRIANCA;fosforo;4;feminino;NULL;;false;;false;4.3;true;4.3;true;NULL;limite superior
+CRIANCA;fosforo;5;feminino;NULL;;false;;false;4.3;false;;false;NULL;alto
+CRIANCA;fosforo;6;masculino;NULL;;false;;false;;false;2.4;false;NULL;baixo
+CRIANCA;fosforo;7;masculino;NULL;;false;;false;2.4;true;2.4;true;NULL;limite inferior
+CRIANCA;fosforo;8;masculino;NULL;;false;;false;2.4;false;4.6;false;NULL;normal
+CRIANCA;fosforo;9;masculino;NULL;;false;;false;4.6;true;4.6;true;NULL;limite superior
+CRIANCA;fosforo;10;masculino;NULL;;false;;false;4.6;false;;false;NULL;alto
+CRIANCA;magnesio;1;NULL;NULL;;false;;false;;false;1.9;false;NULL;baixo
+CRIANCA;magnesio;2;NULL;NULL;;false;;false;1.9;true;1.9;true;NULL;limite inferior
+CRIANCA;magnesio;3;NULL;NULL;;false;;false;1.9;false;2.5;false;NULL;normal
+CRIANCA;magnesio;4;NULL;NULL;;false;;false;2.5;true;2.5;true;NULL;limite superior
+CRIANCA;magnesio;5;NULL;NULL;;false;;false;2.5;false;;false;NULL;alto
+CRIANCA;potassio;1;NULL;NULL;;false;;false;;false;3.5;false;NULL;baixo
+CRIANCA;potassio;2;NULL;NULL;;false;;false;3.5;true;3.5;true;NULL;limite inferior
+CRIANCA;potassio;3;NULL;NULL;;false;;false;3.5;false;5;false;NULL;normal
+CRIANCA;potassio;4;NULL;NULL;;false;;false;5;true;5;true;NULL;limite superior
+CRIANCA;potassio;5;NULL;NULL;;false;;false;5;false;;false;NULL;alto
+CRIANCA;selenio;1;NULL;NULL;;false;;false;;false;46;false;NULL;baixo
+CRIANCA;selenio;2;NULL;NULL;;false;;false;46;true;46;true;NULL;limite inferior
+CRIANCA;selenio;3;NULL;NULL;;false;;false;46;false;143;false;NULL;normal
+CRIANCA;selenio;4;NULL;NULL;;false;;false;143;true;143;true;NULL;limite superior
+CRIANCA;selenio;5;NULL;NULL;;false;;false;143;false;;false;NULL;alto
+CRIANCA;sodio;1;NULL;NULL;;false;;false;;false;137;false;NULL;baixo
+CRIANCA;sodio;2;NULL;NULL;;false;;false;137;true;137;true;NULL;limite inferior
+CRIANCA;sodio;3;NULL;NULL;;false;;false;137;false;145;false;NULL;normal
+CRIANCA;sodio;4;NULL;NULL;;false;;false;145;true;145;true;NULL;limite superior
+CRIANCA;sodio;5;NULL;NULL;;false;;false;145;false;;false;NULL;alto
+CRIANCA;zinco;1;NULL;NULL;;false;;false;;false;70;false;NULL;baixo
+CRIANCA;zinco;2;NULL;NULL;;false;;false;70;true;70;true;NULL;limite inferior
+CRIANCA;zinco;3;NULL;NULL;;false;;false;70;false;150;false;NULL;normal
+CRIANCA;zinco;4;NULL;NULL;;false;;false;150;true;150;true;NULL;limite superior
+CRIANCA;zinco;5;NULL;NULL;;false;;false;150;false;;false;NULL;alto
+CRIANCA;vitamina-a-retinol;1;NULL;NULL;;false;;false;;false;30;false;NULL;baixo
+CRIANCA;vitamina-a-retinol;2;NULL;NULL;;false;;false;30;true;30;true;NULL;limite inferior
+CRIANCA;vitamina-a-retinol;3;NULL;NULL;;false;;false;30;false;80;false;NULL;normal
+CRIANCA;vitamina-a-retinol;4;NULL;NULL;;false;;false;80;true;80;true;NULL;limite superior
+CRIANCA;vitamina-a-retinol;5;NULL;NULL;;false;;false;80;false;;false;NULL;alto
+CRIANCA;vitamina-b2;1;NULL;NULL;;false;;false;;false;40;false;NULL;baixo
+CRIANCA;vitamina-b2;2;NULL;NULL;;false;;false;40;true;40;true;NULL;limite
+CRIANCA;vitamina-b2;3;NULL;NULL;;false;;false;40;true;;false;NULL;normal
+CRIANCA;vitamina-b6;1;NULL;NULL;;false;;false;;false;0.5;false;NULL;baixo
+CRIANCA;vitamina-b6;2;NULL;NULL;;false;;false;0.5;true;0.5;true;NULL;limite inferior
+CRIANCA;vitamina-b6;3;NULL;NULL;;false;;false;0.5;false;3;false;NULL;normal
+CRIANCA;vitamina-b6;4;NULL;NULL;;false;;false;3;true;3;true;NULL;limite superior
+CRIANCA;vitamina-b6;5;NULL;NULL;;false;;false;3;false;;false;NULL;alto
+CRIANCA;vitamina-b12;1;NULL;NULL;;false;;false;;false;200;false;NULL;baixo
+CRIANCA;vitamina-b12;2;NULL;NULL;;false;;false;200;true;200;true;NULL;limite inferior
+CRIANCA;vitamina-b12;3;NULL;NULL;;false;;false;200;false;1000;false;NULL;normal
+CRIANCA;vitamina-b12;4;NULL;NULL;;false;;false;1000;true;1000;true;NULL;limite superior
+CRIANCA;vitamina-b12;5;NULL;NULL;;false;;false;1000;false;;false;NULL;alto
+CRIANCA;vitamina-c;1;NULL;NULL;;false;;false;;false;0.6;false;NULL;baixo
+CRIANCA;vitamina-c;2;NULL;NULL;;false;;false;0.6;true;0.6;true;NULL;limite inferior
+CRIANCA;vitamina-c;3;NULL;NULL;;false;;false;0.6;false;2;false;NULL;normal
+CRIANCA;vitamina-c;4;NULL;NULL;;false;;false;2;true;2;true;NULL;limite superior
+CRIANCA;vitamina-c;5;NULL;NULL;;false;;false;2;false;;false;NULL;alto
+CRIANCA;vitamina-d3-colecalciferol;1;NULL;NULL;;false;;false;;false;25;false;NULL;baixo
+CRIANCA;vitamina-d3-colecalciferol;2;NULL;NULL;;false;;false;25;true;25;true;NULL;limite inferior
+CRIANCA;vitamina-d3-colecalciferol;3;NULL;NULL;;false;;false;25;false;100;false;NULL;normal
+CRIANCA;vitamina-d3-colecalciferol;4;NULL;NULL;;false;;false;100;true;100;true;NULL;limite superior
+CRIANCA;vitamina-d3-colecalciferol;5;NULL;NULL;;false;;false;100;false;;false;NULL;alto
+CRIANCA;vitamina-e;1;NULL;NULL;;false;;false;;false;0.5;false;NULL;baixo
+CRIANCA;vitamina-e;2;NULL;NULL;;false;;false;0.5;true;0.5;true;NULL;limite inferior
+CRIANCA;vitamina-e;3;NULL;NULL;;false;;false;0.5;false;1.8;false;NULL;normal
+CRIANCA;vitamina-e;4;NULL;NULL;;false;;false;1.8;true;1.8;true;NULL;limite superior
+CRIANCA;vitamina-e;5;NULL;NULL;;false;;false;1.8;false;;false;NULL;alto
+CRIANCA;vitamina-k;1;NULL;NULL;;false;;false;;false;10.4;false;NULL;baixo
+CRIANCA;vitamina-k;2;NULL;NULL;;false;;false;10.4;true;10.4;true;NULL;limite inferior
+CRIANCA;vitamina-k;3;NULL;NULL;;false;;false;10.4;false;12.8;false;NULL;normal
+CRIANCA;vitamina-k;4;NULL;NULL;;false;;false;12.8;true;12.8;true;NULL;limite superior
+CRIANCA;vitamina-k;5;NULL;NULL;;false;;false;12.8;false;;false;NULL;alto
+CRIANCA;cultura;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+CRIANCA;cultura;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+CRIANCA;gordura;1;NULL;NULL;;false;;false;;false;7;false;NULL;normal
+CRIANCA;gordura;2;NULL;NULL;;false;;false;7;true;7;true;NULL;limite
+CRIANCA;gordura;3;NULL;NULL;;false;;false;7;false;;false;NULL;alto
+CRIANCA;nitrogenio;1;NULL;NULL;;false;;false;;false;2.5;false;NULL;normal
+CRIANCA;nitrogenio;2;NULL;NULL;;false;;false;2.5;true;2.5;true;NULL;limite
+CRIANCA;nitrogenio;3;NULL;NULL;;false;;false;2.5;false;;false;NULL;alto
+CRIANCA;sangue-oculto;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+CRIANCA;sangue-oculto;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+CRIANCA;acth;1;NULL;NULL;;false;;false;;false;46;false;NULL;normal
+CRIANCA;acth;2;NULL;NULL;;false;;false;46;true;46;true;NULL;limite
+CRIANCA;acth;3;NULL;NULL;;false;;false;46;false;;false;NULL;alto
+CRIANCA;adh;1;NULL;NULL;;false;;false;;false;6.7;false;NULL;normal
+CRIANCA;adh;2;NULL;NULL;;false;;false;6.7;true;6.7;true;NULL;limite
+CRIANCA;adh;3;NULL;NULL;;false;;false;6.7;false;;false;NULL;alto
+CRIANCA;calcitonina;1;feminino;NULL;;false;;false;;false;5;false;NULL;normal
+CRIANCA;calcitonina;2;feminino;NULL;;false;;false;5;true;5;true;NULL;limite
+CRIANCA;calcitonina;3;feminino;NULL;;false;;false;5;false;;false;NULL;alto
+CRIANCA;calcitonina;4;masculino;NULL;;false;;false;;false;8.4;false;NULL;normal
+CRIANCA;calcitonina;5;masculino;NULL;;false;;false;8.4;true;8.4;true;NULL;limite
+CRIANCA;calcitonina;6;masculino;NULL;;false;;false;8.4;false;;false;NULL;alto
+CRIANCA;cortisol-8-h;1;NULL;NULL;;false;;false;;false;5;false;NULL;baixo
+CRIANCA;cortisol-8-h;2;NULL;NULL;;false;;false;5;true;5;true;NULL;limite inferior
+CRIANCA;cortisol-8-h;3;NULL;NULL;;false;;false;5;false;25;false;NULL;normal
+CRIANCA;cortisol-8-h;4;NULL;NULL;;false;;false;25;true;25;true;NULL;limite superior
+CRIANCA;cortisol-8-h;5;NULL;NULL;;false;;false;25;false;;false;NULL;alto
+CRIANCA;cortisol-16-h;1;NULL;NULL;;false;;false;;false;2.5;false;NULL;baixo
+CRIANCA;cortisol-16-h;2;NULL;NULL;;false;;false;2.5;true;2.5;true;NULL;limite inferior
+CRIANCA;cortisol-16-h;3;NULL;NULL;;false;;false;2.5;false;12.5;false;NULL;normal
+CRIANCA;cortisol-16-h;4;NULL;NULL;;false;;false;12.5;true;12.5;true;NULL;limite superior
+CRIANCA;cortisol-16-h;5;NULL;NULL;;false;;false;12.5;false;;false;NULL;alto
+CRIANCA;cortisol-23-h;1;NULL;NULL;;false;;false;;false;2;false;NULL;baixo
+CRIANCA;cortisol-23-h;2;NULL;NULL;;false;;false;2;true;2;true;NULL;limite inferior
+CRIANCA;cortisol-23-h;3;NULL;NULL;;false;;false;2;false;5;false;NULL;normal
+CRIANCA;cortisol-23-h;4;NULL;NULL;;false;;false;5;true;5;true;NULL;limite superior
+CRIANCA;cortisol-23-h;5;NULL;NULL;;false;;false;5;false;;false;NULL;alto
+CRIANCA;fsh;1;feminino;NULL;;false;2;false;;false;0.2;false;NULL;baixo
+CRIANCA;fsh;2;feminino;NULL;;false;2;false;0.2;true;0.2;true;NULL;limite inferior
+CRIANCA;fsh;3;feminino;NULL;;false;2;false;0.2;false;6.6;false;NULL;normal
+CRIANCA;fsh;4;feminino;NULL;;false;2;false;6.6;true;6.6;true;NULL;limite superior
+CRIANCA;fsh;5;feminino;NULL;;false;2;false;6.6;false;;false;NULL;alto
+CRIANCA;fsh;6;feminino;NULL;2;true;6;false;;false;0.2;false;NULL;baixo
+CRIANCA;fsh;7;feminino;NULL;2;true;6;false;0.2;true;0.2;true;NULL;limite inferior
+CRIANCA;fsh;8;feminino;NULL;2;true;6;false;0.2;false;3.8;false;NULL;normal
+CRIANCA;fsh;9;feminino;NULL;2;true;6;false;3.8;true;3.8;true;NULL;limite superior
+CRIANCA;fsh;10;feminino;NULL;2;true;6;false;3.8;false;;false;NULL;alto
+CRIANCA;fsh;11;feminino;NULL;6;true;;false;;false;0.2;false;NULL;baixo
+CRIANCA;fsh;12;feminino;NULL;6;true;;false;0.2;true;0.2;true;NULL;limite inferior
+CRIANCA;fsh;13;feminino;NULL;6;true;;false;0.2;false;2.7;false;NULL;normal
+CRIANCA;fsh;14;feminino;NULL;6;true;;false;2.7;true;2.7;true;NULL;limite superior
+CRIANCA;fsh;15;feminino;NULL;6;true;;false;2.7;false;;false;NULL;alto
+CRIANCA;fsh;16;masculino;NULL;;false;2;false;;false;0.2;false;NULL;baixo
+CRIANCA;fsh;17;masculino;NULL;;false;2;false;0.2;true;0.2;true;NULL;limite inferior
+CRIANCA;fsh;18;masculino;NULL;;false;2;false;0.2;false;1.8;false;NULL;normal
+CRIANCA;fsh;19;masculino;NULL;;false;2;false;1.8;true;1.8;true;NULL;limite superior
+CRIANCA;fsh;20;masculino;NULL;;false;2;false;1.8;false;;false;NULL;alto
+CRIANCA;fsh;21;masculino;NULL;2;true;6;false;;false;0.2;false;NULL;baixo
+CRIANCA;fsh;22;masculino;NULL;2;true;6;false;0.2;true;0.2;true;NULL;limite inferior
+CRIANCA;fsh;23;masculino;NULL;2;true;6;false;0.2;false;1.4;false;NULL;normal
+CRIANCA;fsh;24;masculino;NULL;2;true;6;false;1.4;true;1.4;true;NULL;limite superior
+CRIANCA;fsh;25;masculino;NULL;2;true;6;false;1.4;false;;false;NULL;alto
+CRIANCA;fsh;26;masculino;NULL;6;true;;false;;false;0.2;false;NULL;baixo
+CRIANCA;fsh;27;masculino;NULL;6;true;;false;0.2;true;0.2;true;NULL;limite inferior
+CRIANCA;fsh;28;masculino;NULL;6;true;;false;0.2;false;1.3;false;NULL;normal
+CRIANCA;fsh;29;masculino;NULL;6;true;;false;1.3;true;1.3;true;NULL;limite superior
+CRIANCA;fsh;30;masculino;NULL;6;true;;false;1.3;false;;false;NULL;alto
+CRIANCA;gh;1;NULL;NULL;;false;;false;;false;7;false;NULL;normal
+CRIANCA;gh;2;NULL;NULL;;false;;false;7;true;7;true;NULL;limite
+CRIANCA;gh;3;NULL;NULL;;false;;false;7;false;;false;NULL;alto
+CRIANCA;progesterona;1;feminino;NULL;;false;;false;;false;1;false;NULL;normal
+CRIANCA;progesterona;2;feminino;NULL;;false;;false;1;true;1;true;NULL;limite
+CRIANCA;progesterona;3;feminino;NULL;;false;;false;1;false;;false;NULL;alto
+CRIANCA;progesterona;4;masculino;NULL;;false;;false;;false;0.9;false;NULL;normal
+CRIANCA;progesterona;5;masculino;NULL;;false;;false;0.9;true;0.9;true;NULL;limite
+CRIANCA;progesterona;6;masculino;NULL;;false;;false;0.9;false;;false;NULL;alto
+CRIANCA;prolactina;1;feminino;NULL;;false;1;false;;false;0.2;false;NULL;baixo
+CRIANCA;prolactina;2;feminino;NULL;;false;1;false;0.2;true;0.2;true;NULL;limite inferior
+CRIANCA;prolactina;3;feminino;NULL;;false;1;false;0.2;false;29;false;NULL;normal
+CRIANCA;prolactina;4;feminino;NULL;;false;1;false;29;true;29;true;NULL;limite superior
+CRIANCA;prolactina;5;feminino;NULL;;false;1;false;29;false;;false;NULL;alto
+CRIANCA;prolactina;6;feminino;NULL;1;true;4;false;;false;1;false;NULL;baixo
+CRIANCA;prolactina;7;feminino;NULL;1;true;4;false;1;true;1;true;NULL;limite inferior
+CRIANCA;prolactina;8;feminino;NULL;1;true;4;false;1;false;17;false;NULL;normal
+CRIANCA;prolactina;9;feminino;NULL;1;true;4;false;17;true;17;true;NULL;limite superior
+CRIANCA;prolactina;10;feminino;NULL;1;true;4;false;17;false;;false;NULL;alto
+CRIANCA;prolactina;11;feminino;NULL;4;true;7;false;;false;1.6;false;NULL;baixo
+CRIANCA;prolactina;12;feminino;NULL;4;true;7;false;1.6;true;1.6;true;NULL;limite inferior
+CRIANCA;prolactina;13;feminino;NULL;4;true;7;false;1.6;false;13.1;false;NULL;normal
+CRIANCA;prolactina;14;feminino;NULL;4;true;7;false;13.1;true;13.1;true;NULL;limite superior
+CRIANCA;prolactina;15;feminino;NULL;4;true;7;false;13.1;false;;false;NULL;alto
+CRIANCA;prolactina;16;feminino;NULL;7;true;;false;;false;0.3;false;NULL;baixo
+CRIANCA;prolactina;17;feminino;NULL;7;true;;false;0.3;true;0.3;true;NULL;limite inferior
+CRIANCA;prolactina;18;feminino;NULL;7;true;;false;0.3;false;12.9;false;NULL;normal
+CRIANCA;prolactina;19;feminino;NULL;7;true;;false;12.9;true;12.9;true;NULL;limite superior
+CRIANCA;prolactina;20;feminino;NULL;7;true;;false;12.9;false;;false;NULL;alto
+CRIANCA;prolactina;21;masculino;NULL;;false;1;false;;false;0.3;false;NULL;baixo
+CRIANCA;prolactina;22;masculino;NULL;;false;1;false;0.3;true;0.3;true;NULL;limite inferior
+CRIANCA;prolactina;23;masculino;NULL;;false;1;false;0.3;false;28.9;false;NULL;normal
+CRIANCA;prolactina;24;masculino;NULL;;false;1;false;28.9;true;28.9;true;NULL;limite superior
+CRIANCA;prolactina;25;masculino;NULL;;false;1;false;28.9;false;;false;NULL;alto
+CRIANCA;prolactina;26;masculino;NULL;1;true;4;false;;false;3.3;false;NULL;baixo
+CRIANCA;prolactina;27;masculino;NULL;1;true;4;false;3.3;true;3.3;true;NULL;limite inferior
+CRIANCA;prolactina;28;masculino;NULL;1;true;4;false;3.3;false;13.2;false;NULL;normal
+CRIANCA;prolactina;29;masculino;NULL;1;true;4;false;13.2;true;13.2;true;NULL;limite superior
+CRIANCA;prolactina;30;masculino;NULL;1;true;4;false;13.2;false;;false;NULL;alto
+CRIANCA;prolactina;31;masculino;NULL;4;true;7;false;;false;0.8;false;NULL;baixo
+CRIANCA;prolactina;32;masculino;NULL;4;true;7;false;0.8;true;0.8;true;NULL;limite inferior
+CRIANCA;prolactina;33;masculino;NULL;4;true;7;false;0.8;false;16.9;false;NULL;normal
+CRIANCA;prolactina;34;masculino;NULL;4;true;7;false;16.9;true;16.9;true;NULL;limite superior
+CRIANCA;prolactina;35;masculino;NULL;4;true;7;false;16.9;false;;false;NULL;alto
+CRIANCA;prolactina;36;masculino;NULL;7;true;;false;;false;1;false;NULL;baixo
+CRIANCA;prolactina;37;masculino;NULL;7;true;;false;1;true;1;true;NULL;limite inferior
+CRIANCA;prolactina;38;masculino;NULL;7;true;;false;1;false;11.6;false;NULL;normal
+CRIANCA;prolactina;39;masculino;NULL;7;true;;false;11.6;true;11.6;true;NULL;limite superior
+CRIANCA;prolactina;40;masculino;NULL;7;true;;false;11.6;false;;false;NULL;alto
+CRIANCA;t-3;1;NULL;NULL;;false;1;false;;false;105;false;NULL;baixo
+CRIANCA;t-3;2;NULL;NULL;;false;1;false;105;true;105;true;NULL;limite inferior
+CRIANCA;t-3;3;NULL;NULL;;false;1;false;105;false;245;false;NULL;normal
+CRIANCA;t-3;4;NULL;NULL;;false;1;false;245;true;245;true;NULL;limite superior
+CRIANCA;t-3;5;NULL;NULL;;false;1;false;245;false;;false;NULL;alto
+CRIANCA;t-3;6;NULL;NULL;1;true;6;false;;false;105;false;NULL;baixo
+CRIANCA;t-3;7;NULL;NULL;1;true;6;false;105;true;105;true;NULL;limite inferior
+CRIANCA;t-3;8;NULL;NULL;1;true;6;false;105;false;269;false;NULL;normal
+CRIANCA;t-3;9;NULL;NULL;1;true;6;false;269;true;269;true;NULL;limite superior
+CRIANCA;t-3;10;NULL;NULL;1;true;6;false;269;false;;false;NULL;alto
+CRIANCA;t-3;11;NULL;NULL;6;true;;false;;false;94;false;NULL;baixo
+CRIANCA;t-3;12;NULL;NULL;6;true;;false;94;true;94;true;NULL;limite inferior
+CRIANCA;t-3;13;NULL;NULL;6;true;;false;94;false;241;false;NULL;normal
+CRIANCA;t-3;14;NULL;NULL;6;true;;false;241;true;241;true;NULL;limite superior
+CRIANCA;t-3;15;NULL;NULL;6;true;;false;241;false;;false;NULL;alto
+CRIANCA;t-4-livre;1;NULL;NULL;;false;;false;;false;0.71;false;NULL;baixo
+CRIANCA;t-4-livre;2;NULL;NULL;;false;;false;0.71;true;0.71;true;NULL;limite inferior
+CRIANCA;t-4-livre;3;NULL;NULL;;false;;false;0.71;false;1.85;false;NULL;normal
+CRIANCA;t-4-livre;4;NULL;NULL;;false;;false;1.85;true;1.85;true;NULL;limite superior
+CRIANCA;t-4-livre;5;NULL;NULL;;false;;false;1.85;false;;false;NULL;alto
+CRIANCA;testosterona;1;feminino;NULL;;false;6;false;;false;2;false;NULL;baixo
+CRIANCA;testosterona;2;feminino;NULL;;false;6;false;2;true;2;true;NULL;limite inferior
+CRIANCA;testosterona;3;feminino;NULL;;false;6;false;2;false;10;false;NULL;normal
+CRIANCA;testosterona;4;feminino;NULL;;false;6;false;10;true;10;true;NULL;limite superior
+CRIANCA;testosterona;5;feminino;NULL;;false;6;false;10;false;;false;NULL;alto
+CRIANCA;testosterona;6;feminino;NULL;6;true;;false;;false;2;false;NULL;baixo
+CRIANCA;testosterona;7;feminino;NULL;6;true;;false;2;true;2;true;NULL;limite inferior
+CRIANCA;testosterona;8;feminino;NULL;6;true;;false;2;false;20;false;NULL;normal
+CRIANCA;testosterona;9;feminino;NULL;6;true;;false;20;true;20;true;NULL;limite superior
+CRIANCA;testosterona;10;feminino;NULL;6;true;;false;20;false;;false;NULL;alto
+CRIANCA;testosterona;11;masculino;NULL;;false;1;false;;false;12;false;NULL;baixo
+CRIANCA;testosterona;12;masculino;NULL;;false;1;false;12;true;12;true;NULL;limite inferior
+CRIANCA;testosterona;13;masculino;NULL;;false;1;false;12;false;21;false;NULL;normal
+CRIANCA;testosterona;14;masculino;NULL;;false;1;false;21;true;21;true;NULL;limite superior
+CRIANCA;testosterona;15;masculino;NULL;;false;1;false;21;false;;false;NULL;alto
+CRIANCA;testosterona;16;masculino;NULL;1;true;6;false;;false;2;false;NULL;baixo
+CRIANCA;testosterona;17;masculino;NULL;1;true;6;false;2;true;2;true;NULL;limite inferior
+CRIANCA;testosterona;18;masculino;NULL;1;true;6;false;2;false;25;false;NULL;normal
+CRIANCA;testosterona;19;masculino;NULL;1;true;6;false;25;true;25;true;NULL;limite superior
+CRIANCA;testosterona;20;masculino;NULL;1;true;6;false;25;false;;false;NULL;alto
+CRIANCA;testosterona;21;masculino;NULL;6;true;;false;;false;3;false;NULL;baixo
+CRIANCA;testosterona;22;masculino;NULL;6;true;;false;3;true;3;true;NULL;limite inferior
+CRIANCA;testosterona;23;masculino;NULL;6;true;;false;3;false;30;false;NULL;normal
+CRIANCA;testosterona;24;masculino;NULL;6;true;;false;30;true;30;true;NULL;limite superior
+CRIANCA;testosterona;25;masculino;NULL;6;true;;false;30;false;;false;NULL;alto
+CRIANCA;tsh;1;NULL;NULL;;false;1;false;;false;0.8;false;NULL;baixo
+CRIANCA;tsh;2;NULL;NULL;;false;1;false;0.8;true;0.8;true;NULL;limite inferior
+CRIANCA;tsh;3;NULL;NULL;;false;1;false;0.8;false;6.3;false;NULL;normal
+CRIANCA;tsh;4;NULL;NULL;;false;1;false;6.3;true;6.3;true;NULL;limite superior
+CRIANCA;tsh;5;NULL;NULL;;false;1;false;6.3;false;;false;NULL;alto
+CRIANCA;tsh;6;NULL;NULL;1;true;5;true;;false;0.7;false;NULL;baixo
+CRIANCA;tsh;7;NULL;NULL;1;true;5;true;0.7;true;0.7;true;NULL;limite inferior
+CRIANCA;tsh;8;NULL;NULL;1;true;5;true;0.7;false;6;false;NULL;normal
+CRIANCA;tsh;9;NULL;NULL;1;true;5;true;6;true;6;true;NULL;limite superior
+CRIANCA;tsh;10;NULL;NULL;1;true;5;true;6;false;;false;NULL;alto
+CRIANCA;tsh;11;NULL;NULL;6;true;;false;;false;0.6;false;NULL;baixo
+CRIANCA;tsh;12;NULL;NULL;6;true;;false;0.6;true;0.6;true;NULL;limite inferior
+CRIANCA;tsh;13;NULL;NULL;6;true;;false;0.6;false;5.4;false;NULL;normal
+CRIANCA;tsh;14;NULL;NULL;6;true;;false;5.4;true;5.4;true;NULL;limite superior
+CRIANCA;tsh;15;NULL;NULL;6;true;;false;5.4;false;;false;NULL;alto
+CRIANCA;ig-a;1;NULL;NULL;;false;;false;;false;;false;não reagente;normal
+CRIANCA;ig-a;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+CRIANCA;ig-e;1;NULL;NULL;;false;;false;;false;;false;não reagente;normal
+CRIANCA;ig-e;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+CRIANCA;ig-f;1;NULL;NULL;;false;;false;;false;;false;não reagente;normal
+CRIANCA;ig-f;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+CRIANCA;ig-g;1;NULL;NULL;;false;;false;;false;;false;não reagente;normal
+CRIANCA;ig-g;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+CRIANCA;ig-m;1;NULL;NULL;;false;;false;;false;;false;não reagente;normal
+CRIANCA;ig-m;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+CRIANCA;amilase;1;NULL;NULL;;false;;false;;false;115;false;NULL;normal
+CRIANCA;amilase;2;NULL;NULL;;false;;false;115;true;115;true;NULL;limite
+CRIANCA;amilase;3;NULL;NULL;;false;;false;115;false;;false;NULL;alto
+CRIANCA;amonia;1;NULL;NULL;;false;;false;;false;11;false;NULL;baixo
+CRIANCA;amonia;2;NULL;NULL;;false;;false;11;true;11;true;NULL;limite inferior
+CRIANCA;amonia;3;NULL;NULL;;false;;false;11;false;33;false;NULL;normal
+CRIANCA;amonia;4;NULL;NULL;;false;;false;33;true;33;true;NULL;limite superior
+CRIANCA;amonia;5;NULL;NULL;;false;;false;33;false;;false;NULL;alto
+CRIANCA;beta-hcg;1;feminino;NULL;;false;;false;;false;1;false;NULL;não gestante
+CRIANCA;beta-hcg;2;feminino;NULL;;false;;false;1;true;30;true;NULL;não definido
+CRIANCA;beta-hcg;3;feminino;NULL;;false;;false;30;false;;false;NULL;gestante
+CRIANCA;beta-hcg;4;masculino;NULL;;false;;false;;false;1;false;NULL;normal
+CRIANCA;beta-hcg;5;masculino;NULL;;false;;false;1;true;;false;NULL;alto
+CRIANCA;bilirrubina-direta;1;NULL;NULL;;false;;false;;false;0.4;false;NULL;normal
+CRIANCA;bilirrubina-direta;2;NULL;NULL;;false;;false;0.4;true;0.4;true;NULL;limite
+CRIANCA;bilirrubina-direta;3;NULL;NULL;;false;;false;0.4;false;;false;NULL;alto
+CRIANCA;bilirrubina-indireta;1;NULL;NULL;;false;;false;;false;0.6;false;NULL;normal
+CRIANCA;bilirrubina-indireta;2;NULL;NULL;;false;;false;0.6;true;0.6;true;NULL;limite
+CRIANCA;bilirrubina-indireta;3;NULL;NULL;;false;;false;0.6;false;;false;NULL;alto
+CRIANCA;bilirrubina-total;1;NULL;NULL;;false;;false;;false;1;false;NULL;normal
+CRIANCA;bilirrubina-total;2;NULL;NULL;;false;;false;1;true;1;true;NULL;limite
+CRIANCA;bilirrubina-total;3;NULL;NULL;;false;;false;1;false;;false;NULL;alto
+CRIANCA;ceruloplasmina;1;NULL;NULL;;false;;false;;false;30;false;NULL;baixo
+CRIANCA;ceruloplasmina;2;NULL;NULL;;false;;false;30;true;30;true;NULL;limite inferior
+CRIANCA;ceruloplasmina;3;NULL;NULL;;false;;false;30;false;70;false;NULL;normal
+CRIANCA;ceruloplasmina;4;NULL;NULL;;false;;false;70;true;70;true;NULL;limite superior
+CRIANCA;ceruloplasmina;5;NULL;NULL;;false;;false;70;false;;false;NULL;alto
+CRIANCA;creatinina-urinaria;1;NULL;NULL;;false;;false;;false;25;false;NULL;normal
+CRIANCA;creatinina-urinaria;2;NULL;NULL;;false;;false;25;true;25;true;NULL;limite
+CRIANCA;creatinina-urinaria;3;NULL;NULL;;false;;false;25;false;;false;NULL;alto
+CRIANCA;filtracao-glomerular;1;NULL;NULL;;false;;false;;false;60;false;NULL;baixo
+CRIANCA;filtracao-glomerular;2;NULL;NULL;;false;;false;60;true;60;true;NULL;limite
+CRIANCA;filtracao-glomerular;3;NULL;NULL;;false;;false;60;false;;false;NULL;normal
+CRIANCA;fosfatase-alcalina;1;NULL;NULL;;false;;false;;false;250;false;NULL;baixo
+CRIANCA;fosfatase-alcalina;2;NULL;NULL;;false;;false;250;true;250;true;NULL;limite inferior
+CRIANCA;fosfatase-alcalina;3;NULL;NULL;;false;;false;250;false;950;false;NULL;normal
+CRIANCA;fosfatase-alcalina;4;NULL;NULL;;false;;false;950;true;950;true;NULL;limite superior
+CRIANCA;fosfatase-alcalina;5;NULL;NULL;;false;;false;950;false;;false;NULL;alto
+CRIANCA;frutosamina;1;NULL;NULL;;false;;false;;false;205;false;NULL;baixo
+CRIANCA;frutosamina;2;NULL;NULL;;false;;false;205;true;205;true;NULL;limite inferior
+CRIANCA;frutosamina;3;NULL;NULL;;false;;false;205;false;285;false;NULL;normal
+CRIANCA;frutosamina;4;NULL;NULL;;false;;false;285;true;285;true;NULL;limite superior
+CRIANCA;frutosamina;5;NULL;NULL;;false;;false;285;false;;false;NULL;alto
+CRIANCA;gama-gt;1;feminino;NULL;;false;;false;;false;5;false;NULL;baixo
+CRIANCA;gama-gt;2;feminino;NULL;;false;;false;5;true;5;true;NULL;limite inferior
+CRIANCA;gama-gt;3;feminino;NULL;;false;;false;5;false;36;false;NULL;normal
+CRIANCA;gama-gt;4;feminino;NULL;;false;;false;36;true;36;true;NULL;limite superior
+CRIANCA;gama-gt;5;feminino;NULL;;false;;false;36;false;;false;NULL;alto
+CRIANCA;gama-gt;6;masculino;NULL;;false;;false;;false;8;false;NULL;baixo
+CRIANCA;gama-gt;7;masculino;NULL;;false;;false;8;true;8;true;NULL;limite inferior
+CRIANCA;gama-gt;8;masculino;NULL;;false;;false;8;false;61;false;NULL;normal
+CRIANCA;gama-gt;9;masculino;NULL;;false;;false;61;true;61;true;NULL;limite superior
+CRIANCA;gama-gt;10;masculino;NULL;;false;;false;61;false;;false;NULL;alto
+CRIANCA;gastrina;1;NULL;NULL;;false;;false;;false;200;false;NULL;normal
+CRIANCA;gastrina;2;NULL;NULL;;false;;false;200;true;200;true;NULL;limite
+CRIANCA;gastrina;3;NULL;NULL;;false;;false;200;false;;false;NULL;alto
+CRIANCA;lipase;1;NULL;NULL;;false;;false;;false;60;false;NULL;normal
+CRIANCA;lipase;2;NULL;NULL;;false;;false;60;true;60;true;NULL;limite
+CRIANCA;lipase;3;NULL;NULL;;false;;false;60;false;;false;NULL;alto
+CRIANCA;oxalato;1;NULL;NULL;;false;;false;;false;13;false;NULL;baixo
+CRIANCA;oxalato;2;NULL;NULL;;false;;false;13;true;13;true;NULL;limite inferior
+CRIANCA;oxalato;3;NULL;NULL;;false;;false;13;false;38;false;NULL;normal
+CRIANCA;oxalato;4;NULL;NULL;;false;;false;38;true;38;true;NULL;limite superior
+CRIANCA;oxalato;5;NULL;NULL;;false;;false;38;false;;false;NULL;alto
+CRIANCA;superoxido-dismutase-sod;1;NULL;NULL;;false;;false;;false;1102;false;NULL;baixo
+CRIANCA;superoxido-dismutase-sod;2;NULL;NULL;;false;;false;1102;true;1102;true;NULL;limite inferior
+CRIANCA;superoxido-dismutase-sod;3;NULL;NULL;;false;;false;1102;false;1601;false;NULL;normal
+CRIANCA;superoxido-dismutase-sod;4;NULL;NULL;;false;;false;1601;true;1601;true;NULL;limite superior
+CRIANCA;superoxido-dismutase-sod;5;NULL;NULL;;false;;false;1601;false;;false;NULL;alto
+CRIANCA;tempo-de-protrombina;1;NULL;NULL;;false;;false;;false;70;false;NULL;baixo
+CRIANCA;tempo-de-protrombina;2;NULL;NULL;;false;;false;;false;;false;NULL;normal
+CRIANCA;tempo-de-tromboplastina-parcial-ttp;1;NULL;NULL;;false;;false;;false;0.8;false;NULL;baixo
+CRIANCA;tempo-de-tromboplastina-parcial-ttp;2;NULL;NULL;;false;;false;0.8;true;0.8;true;NULL;limite inferior
+CRIANCA;tempo-de-tromboplastina-parcial-ttp;3;NULL;NULL;;false;;false;0.8;false;1.25;false;NULL;normal
+CRIANCA;tempo-de-tromboplastina-parcial-ttp;4;NULL;NULL;;false;;false;1.25;true;1.25;true;NULL;limite superior
+CRIANCA;tempo-de-tromboplastina-parcial-ttp;5;NULL;NULL;;false;;false;1.25;false;;false;NULL;alto
+ADOLESCENTE;acido-urico;1;feminino;NULL;;false;;false;;false;2.4;false;NULL;baixo
+ADOLESCENTE;acido-urico;2;feminino;NULL;;false;;false;2.4;true;2.4;true;NULL;limite inferior
+ADOLESCENTE;acido-urico;3;feminino;NULL;;false;;false;2.4;false;6;false;NULL;normal
+ADOLESCENTE;acido-urico;4;feminino;NULL;;false;;false;6;true;6;true;NULL;limite superior
+ADOLESCENTE;acido-urico;5;feminino;NULL;;false;;false;6;false;;false;NULL;alto
+ADOLESCENTE;acido-urico;6;masculino;NULL;;false;;false;;false;3.4;false;NULL;baixo
+ADOLESCENTE;acido-urico;7;masculino;NULL;;false;;false;3.4;true;3.4;true;NULL;limite inferior
+ADOLESCENTE;acido-urico;8;masculino;NULL;;false;;false;3.4;false;7;false;NULL;normal
+ADOLESCENTE;acido-urico;9;masculino;NULL;;false;;false;7;true;7;true;NULL;limite superior
+ADOLESCENTE;acido-urico;10;masculino;NULL;;false;;false;7;false;;false;NULL;alto
+ADOLESCENTE;creatinina;1;NULL;NULL;;false;;false;;false;0.4;false;NULL;baixo
+ADOLESCENTE;creatinina;2;NULL;NULL;;false;;false;0.4;true;0.4;true;NULL;limite inferior
+ADOLESCENTE;creatinina;3;NULL;NULL;;false;;false;0.4;false;0.7;false;NULL;normal
+ADOLESCENTE;creatinina;4;NULL;NULL;;false;;false;0.7;true;0.7;true;NULL;limite superior
+ADOLESCENTE;creatinina;5;NULL;NULL;;false;;false;0.7;false;;false;NULL;alto
+ADOLESCENTE;ferritina;1;feminino;menarca;;false;;false;;false;10;false;NULL;baixo
+ADOLESCENTE;ferritina;2;feminino;menarca;;false;;false;10;true;10;true;NULL;limite inferior
+ADOLESCENTE;ferritina;3;feminino;menarca;;false;;false;10;false;64;false;NULL;normal
+ADOLESCENTE;ferritina;4;feminino;menarca;;false;;false;64;true;64;true;NULL;limite superior
+ADOLESCENTE;ferritina;5;feminino;menarca;;false;;false;64;false;;false;NULL;alto
+ADOLESCENTE;ferritina;6;feminino;não menarca;;false;;false;;false;36;false;NULL;baixo
+ADOLESCENTE;ferritina;7;feminino;não menarca;;false;;false;36;true;36;true;NULL;limite inferior
+ADOLESCENTE;ferritina;8;feminino;não menarca;;false;;false;36;false;262;false;NULL;normal
+ADOLESCENTE;ferritina;9;feminino;não menarca;;false;;false;262;true;262;true;NULL;limite superior
+ADOLESCENTE;ferritina;10;feminino;não menarca;;false;;false;262;false;;false;NULL;alto
+ADOLESCENTE;ferritina;11;masculino;homem;;false;;false;;false;36;false;NULL;baixo
+ADOLESCENTE;ferritina;12;masculino;homem;;false;;false;36;true;36;true;NULL;limite inferior
+ADOLESCENTE;ferritina;13;masculino;homem;;false;;false;36;false;262;false;NULL;normal
+ADOLESCENTE;ferritina;14;masculino;homem;;false;;false;262;true;262;true;NULL;limite superior
+ADOLESCENTE;ferritina;15;masculino;homem;;false;;false;262;false;;false;NULL;alto
+ADOLESCENTE;glicemia-de-jejum;1;NULL;NULL;;false;;false;;false;70;false;NULL;baixo
+ADOLESCENTE;glicemia-de-jejum;2;NULL;NULL;;false;;false;70;true;70;true;NULL;limite inferior
+ADOLESCENTE;glicemia-de-jejum;3;NULL;NULL;;false;;false;70;false;100;false;NULL;normal
+ADOLESCENTE;glicemia-de-jejum;4;NULL;NULL;;false;;false;100;true;125;true;NULL;int. à glicose
+ADOLESCENTE;glicemia-de-jejum;5;NULL;NULL;;false;;false;125;false;;false;NULL;diabetes
+ADOLESCENTE;ureia;1;NULL;NULL;;false;;false;;false;10;false;NULL;baixo
+ADOLESCENTE;ureia;2;NULL;NULL;;false;;false;10;true;10;true;NULL;limite inferior
+ADOLESCENTE;ureia;3;NULL;NULL;;false;;false;10;false;50;false;NULL;normal
+ADOLESCENTE;ureia;4;NULL;NULL;;false;;false;50;true;50;true;NULL;limite superior
+ADOLESCENTE;ureia;5;NULL;NULL;;false;;false;50;false;;false;NULL;alto
+ADOLESCENTE;capac-fixacao-do-ferro;1;NULL;NULL;;false;;false;;false;170;false;NULL;baixo
+ADOLESCENTE;capac-fixacao-do-ferro;2;NULL;NULL;;false;;false;170;true;230;false;NULL;latente
+ADOLESCENTE;capac-fixacao-do-ferro;3;NULL;NULL;;false;;false;230;true;370;true;NULL;total
+ADOLESCENTE;capac-fixacao-do-ferro;4;NULL;NULL;;false;;false;370;false;;false;NULL;alto
+ADOLESCENTE;creatina-fosfoquinase-ck-ou-cpk;1;feminino;NULL;;false;;false;;false;215;false;NULL;normal
+ADOLESCENTE;creatina-fosfoquinase-ck-ou-cpk;2;feminino;NULL;;false;;false;215;true;215;true;NULL;limite superior
+ADOLESCENTE;creatina-fosfoquinase-ck-ou-cpk;3;feminino;NULL;;false;;false;215;false;;false;NULL;alto
+ADOLESCENTE;creatina-fosfoquinase-ck-ou-cpk;4;masculino;NULL;;false;;false;;false;232;false;NULL;normal
+ADOLESCENTE;creatina-fosfoquinase-ck-ou-cpk;5;masculino;NULL;;false;;false;232;true;232;true;NULL;limite superior
+ADOLESCENTE;creatina-fosfoquinase-ck-ou-cpk;6;masculino;NULL;;false;;false;232;false;;false;NULL;alto
+ADOLESCENTE;glicemia-pos-prandial;1;NULL;NULL;;false;;false;;false;140;false;NULL;normal
+ADOLESCENTE;glicemia-pos-prandial;2;NULL;NULL;;false;;false;140;true;200;false;NULL;int. à glicose
+ADOLESCENTE;glicemia-pos-prandial;3;NULL;NULL;;false;;false;200;true;;false;NULL;diabetes
+ADOLESCENTE;hemoglobina-glicada-hba1c;1;NULL;NULL;;false;12;true;;false;8;false;NULL;normal
+ADOLESCENTE;hemoglobina-glicada-hba1c;2;NULL;NULL;;false;12;true;8;true;8;true;NULL;limite
+ADOLESCENTE;hemoglobina-glicada-hba1c;3;NULL;NULL;;false;12;true;8;false;;false;NULL;alto
+ADOLESCENTE;hemoglobina-glicada-hba1c;4;NULL;NULL;12;false;;false;;false;7.5;false;NULL;normal
+ADOLESCENTE;hemoglobina-glicada-hba1c;5;NULL;NULL;12;false;;false;7.5;true;7.5;true;NULL;limite
+ADOLESCENTE;hemoglobina-glicada-hba1c;6;NULL;NULL;12;false;;false;7.5;false;;false;NULL;alto
+ADOLESCENTE;homocisteina;1;NULL;NULL;;false;;false;;false;5.5;false;NULL;baixo
+ADOLESCENTE;homocisteina;2;NULL;NULL;;false;;false;5.5;true;5.5;true;NULL;limite inferior
+ADOLESCENTE;homocisteina;3;NULL;NULL;;false;;false;5.5;false;17;false;NULL;normal
+ADOLESCENTE;homocisteina;4;NULL;NULL;;false;;false;17;true;17;true;NULL;limite superior
+ADOLESCENTE;homocisteina;5;NULL;NULL;;false;;false;17;false;;false;NULL;alto
+ADOLESCENTE;insulina;1;NULL;NULL;;false;;false;;false;3;false;NULL;baixo
+ADOLESCENTE;insulina;2;NULL;NULL;;false;;false;3;true;3;true;NULL;limite inferior
+ADOLESCENTE;insulina;3;NULL;NULL;;false;;false;3;false;25;false;NULL;normal
+ADOLESCENTE;insulina;4;NULL;NULL;;false;;false;25;true;25;true;NULL;limite superior
+ADOLESCENTE;insulina;5;NULL;NULL;;false;;false;25;false;;false;NULL;alto
+ADOLESCENTE;saturacao-de-transferrina;1;NULL;NULL;;false;;false;;false;20;false;NULL;baixo
+ADOLESCENTE;saturacao-de-transferrina;2;NULL;NULL;;false;;false;20;true;20;true;NULL;limite inferior
+ADOLESCENTE;saturacao-de-transferrina;3;NULL;NULL;;false;;false;20;false;50;false;NULL;normal
+ADOLESCENTE;saturacao-de-transferrina;4;NULL;NULL;;false;;false;50;true;50;true;NULL;limite superior
+ADOLESCENTE;saturacao-de-transferrina;5;NULL;NULL;;false;;false;50;false;;false;NULL;alto
+ADOLESCENTE;transferrina;1;NULL;NULL;;false;;false;;false;200;false;NULL;baixo
+ADOLESCENTE;transferrina;2;NULL;NULL;;false;;false;200;true;200;true;NULL;limite inferior
+ADOLESCENTE;transferrina;3;NULL;NULL;;false;;false;200;false;400;false;NULL;normal
+ADOLESCENTE;transferrina;4;NULL;NULL;;false;;false;400;true;400;true;NULL;limite superior
+ADOLESCENTE;transferrina;5;NULL;NULL;;false;;false;400;false;;false;NULL;alto
+ADOLESCENTE;tgo;1;feminino;NULL;;false;;false;;false;32;false;NULL;normal
+ADOLESCENTE;tgo;2;feminino;NULL;;false;;false;32;true;32;true;NULL;limite
+ADOLESCENTE;tgo;3;feminino;NULL;;false;;false;32;false;;false;NULL;alto
+ADOLESCENTE;tgo;4;masculino;NULL;;false;;false;;false;38;false;NULL;normal
+ADOLESCENTE;tgo;5;masculino;NULL;;false;;false;38;true;38;true;NULL;limite
+ADOLESCENTE;tgo;6;masculino;NULL;;false;;false;38;false;;false;NULL;alto
+ADOLESCENTE;tgp;1;feminino;NULL;;false;;false;;false;31;false;NULL;normal
+ADOLESCENTE;tgp;2;feminino;NULL;;false;;false;31;true;31;true;NULL;limite
+ADOLESCENTE;tgp;3;feminino;NULL;;false;;false;31;false;;false;NULL;alto
+ADOLESCENTE;tgp;4;masculino;NULL;;false;;false;;false;41;false;NULL;normal
+ADOLESCENTE;tgp;5;masculino;NULL;;false;;false;41;true;41;true;NULL;limite
+ADOLESCENTE;tgp;6;masculino;NULL;;false;;false;41;false;;false;NULL;alto
+ADOLESCENTE;eritrocitos;1;feminino;NULL;;false;;false;;false;4;false;NULL;baixo
+ADOLESCENTE;eritrocitos;2;feminino;NULL;;false;;false;4;true;4;true;NULL;limite inferior
+ADOLESCENTE;eritrocitos;3;feminino;NULL;;false;;false;4;false;5.6;false;NULL;normal
+ADOLESCENTE;eritrocitos;4;feminino;NULL;;false;;false;5.6;true;5.6;true;NULL;limite superior
+ADOLESCENTE;eritrocitos;5;feminino;NULL;;false;;false;5.6;false;;false;NULL;alto
+ADOLESCENTE;eritrocitos;6;masculino;NULL;;false;;false;;false;4.5;false;NULL;baixo
+ADOLESCENTE;eritrocitos;7;masculino;NULL;;false;;false;4.5;true;4.5;true;NULL;limite inferior
+ADOLESCENTE;eritrocitos;8;masculino;NULL;;false;;false;4.5;false;6.5;false;NULL;normal
+ADOLESCENTE;eritrocitos;9;masculino;NULL;;false;;false;6.5;true;6.5;true;NULL;limite superior
+ADOLESCENTE;eritrocitos;10;masculino;NULL;;false;;false;6.5;false;;false;NULL;alto
+ADOLESCENTE;hematocrito;1;feminino;NULL;;false;;false;;false;35;false;NULL;baixo
+ADOLESCENTE;hematocrito;2;feminino;NULL;;false;;false;35;true;35;true;NULL;limite inferior
+ADOLESCENTE;hematocrito;3;feminino;NULL;;false;;false;35;false;47;false;NULL;normal
+ADOLESCENTE;hematocrito;4;feminino;NULL;;false;;false;47;true;47;true;NULL;limite superior
+ADOLESCENTE;hematocrito;5;feminino;NULL;;false;;false;47;false;;false;NULL;alto
+ADOLESCENTE;hematocrito;6;masculino;NULL;;false;;false;;false;40;false;NULL;baixo
+ADOLESCENTE;hematocrito;7;masculino;NULL;;false;;false;40;true;40;true;NULL;limite inferior
+ADOLESCENTE;hematocrito;8;masculino;NULL;;false;;false;40;false;54;false;NULL;normal
+ADOLESCENTE;hematocrito;9;masculino;NULL;;false;;false;54;true;54;true;NULL;limite superior
+ADOLESCENTE;hematocrito;10;masculino;NULL;;false;;false;54;false;;false;NULL;alto
+ADOLESCENTE;hemoglobina;1;feminino;NULL;;false;;false;;false;12;false;NULL;baixo
+ADOLESCENTE;hemoglobina;2;feminino;NULL;;false;;false;12;true;12;true;NULL;limite inferior
+ADOLESCENTE;hemoglobina;3;feminino;NULL;;false;;false;12;false;16.5;false;NULL;normal
+ADOLESCENTE;hemoglobina;4;feminino;NULL;;false;;false;16.5;true;16.5;true;NULL;limite superior
+ADOLESCENTE;hemoglobina;5;feminino;NULL;;false;;false;16.5;false;;false;NULL;alto
+ADOLESCENTE;hemoglobina;6;masculino;NULL;;false;;false;;false;13.5;false;NULL;baixo
+ADOLESCENTE;hemoglobina;7;masculino;NULL;;false;;false;13.5;true;13.5;true;NULL;limite inferior
+ADOLESCENTE;hemoglobina;8;masculino;NULL;;false;;false;13.5;false;18;false;NULL;normal
+ADOLESCENTE;hemoglobina;9;masculino;NULL;;false;;false;18;true;18;true;NULL;limite superior
+ADOLESCENTE;hemoglobina;10;masculino;NULL;;false;;false;18;false;;false;NULL;alto
+ADOLESCENTE;vcm;1;feminino;NULL;;false;;false;;false;81;false;NULL;baixo
+ADOLESCENTE;vcm;2;feminino;NULL;;false;;false;81;true;81;true;NULL;limite inferior
+ADOLESCENTE;vcm;3;feminino;NULL;;false;;false;81;false;101;false;NULL;normal
+ADOLESCENTE;vcm;4;feminino;NULL;;false;;false;101;true;101;true;NULL;limite superior
+ADOLESCENTE;vcm;5;feminino;NULL;;false;;false;101;false;;false;NULL;alto
+ADOLESCENTE;vcm;6;masculino;NULL;;false;;false;;false;82;false;NULL;baixo
+ADOLESCENTE;vcm;7;masculino;NULL;;false;;false;82;true;82;true;NULL;limite inferior
+ADOLESCENTE;vcm;8;masculino;NULL;;false;;false;82;false;101;false;NULL;normal
+ADOLESCENTE;vcm;9;masculino;NULL;;false;;false;101;true;101;true;NULL;limite superior
+ADOLESCENTE;vcm;10;masculino;NULL;;false;;false;101;false;;false;NULL;alto
+ADOLESCENTE;hcm;1;NULL;NULL;;false;;false;;false;27;false;NULL;baixo
+ADOLESCENTE;hcm;2;NULL;NULL;;false;;false;27;true;27;true;NULL;limite inferior
+ADOLESCENTE;hcm;3;NULL;NULL;;false;;false;27;false;34;false;NULL;normal
+ADOLESCENTE;hcm;4;NULL;NULL;;false;;false;34;true;34;true;NULL;limite superior
+ADOLESCENTE;hcm;5;NULL;NULL;;false;;false;34;false;;false;NULL;alto
+ADOLESCENTE;rdw;1;feminino;NULL;;false;;false;;false;11.6;false;NULL;baixo
+ADOLESCENTE;rdw;2;feminino;NULL;;false;;false;11.6;true;11.6;true;NULL;limite inferior
+ADOLESCENTE;rdw;3;feminino;NULL;;false;;false;11.6;false;14.8;false;NULL;normal
+ADOLESCENTE;rdw;4;feminino;NULL;;false;;false;14.8;true;14.8;true;NULL;limite superior
+ADOLESCENTE;rdw;5;feminino;NULL;;false;;false;14.8;false;;false;NULL;alto
+ADOLESCENTE;rdw;6;masculino;NULL;;false;;false;;false;11.6;false;NULL;baixo
+ADOLESCENTE;rdw;7;masculino;NULL;;false;;false;11.6;true;11.6;true;NULL;limite inferior
+ADOLESCENTE;rdw;8;masculino;NULL;;false;;false;11.6;false;14;false;NULL;normal
+ADOLESCENTE;rdw;9;masculino;NULL;;false;;false;14;true;14;true;NULL;limite superior
+ADOLESCENTE;rdw;10;masculino;NULL;;false;;false;14;false;;false;NULL;alto
+ADOLESCENTE;chcm;1;NULL;NULL;;false;;false;;false;31.5;false;NULL;baixo
+ADOLESCENTE;chcm;2;NULL;NULL;;false;;false;31.5;true;31.5;true;NULL;limite inferior
+ADOLESCENTE;chcm;3;NULL;NULL;;false;;false;31.5;false;36;false;NULL;normal
+ADOLESCENTE;chcm;4;NULL;NULL;;false;;false;36;true;36;true;NULL;limite superior
+ADOLESCENTE;chcm;5;NULL;NULL;;false;;false;36;false;;false;NULL;alto
+ADOLESCENTE;leucocitos-totais;1;NULL;NULL;;false;;false;;false;4500;false;NULL;baixo
+ADOLESCENTE;leucocitos-totais;2;NULL;NULL;;false;;false;4500;true;4500;true;NULL;limite inferior
+ADOLESCENTE;leucocitos-totais;3;NULL;NULL;;false;;false;4500;false;11000;false;NULL;normal
+ADOLESCENTE;leucocitos-totais;4;NULL;NULL;;false;;false;11000;true;11000;true;NULL;limite superior
+ADOLESCENTE;leucocitos-totais;5;NULL;NULL;;false;;false;11000;false;;false;NULL;alto
+ADOLESCENTE;basofilos;1;NULL;NULL;;false;;false;;false;200;false;NULL;normal
+ADOLESCENTE;basofilos;2;NULL;NULL;;false;;false;200;true;200;true;NULL;limite
+ADOLESCENTE;basofilos;3;NULL;NULL;;false;;false;200;false;;false;NULL;alto
+ADOLESCENTE;bastonetes;1;NULL;NULL;;false;;false;;false;500;false;NULL;normal
+ADOLESCENTE;bastonetes;2;NULL;NULL;;false;;false;500;true;500;true;NULL;limite
+ADOLESCENTE;bastonetes;3;NULL;NULL;;false;;false;500;false;;false;NULL;alto
+ADOLESCENTE;blastos;1;NULL;NULL;;false;;false;0;true;0;true;NULL;normal
+ADOLESCENTE;blastos;2;NULL;NULL;;false;;false;0;false;;false;NULL;alto
+ADOLESCENTE;eosinofilos;1;NULL;NULL;;false;;false;;false;50;false;NULL;baixo
+ADOLESCENTE;eosinofilos;2;NULL;NULL;;false;;false;50;true;50;true;NULL;limite inferior
+ADOLESCENTE;eosinofilos;3;NULL;NULL;;false;;false;50;false;500;false;NULL;normal
+ADOLESCENTE;eosinofilos;4;NULL;NULL;;false;;false;500;true;500;true;NULL;limite superior
+ADOLESCENTE;eosinofilos;5;NULL;NULL;;false;;false;500;false;;false;NULL;alto
+ADOLESCENTE;linfocitos;1;NULL;NULL;;false;;false;;false;1500;false;NULL;baixo
+ADOLESCENTE;linfocitos;2;NULL;NULL;;false;;false;1500;true;1500;true;NULL;limite inferior
+ADOLESCENTE;linfocitos;3;NULL;NULL;;false;;false;1500;false;5000;false;NULL;normal
+ADOLESCENTE;linfocitos;4;NULL;NULL;;false;;false;5000;true;5000;true;NULL;limite superior
+ADOLESCENTE;linfocitos;5;NULL;NULL;;false;;false;5000;false;;false;NULL;alto
+ADOLESCENTE;metamielocitos;1;NULL;NULL;;false;;false;0;true;0;true;NULL;normal
+ADOLESCENTE;metamielocitos;2;NULL;NULL;;false;;false;0;false;;false;NULL;alto
+ADOLESCENTE;mielocitos;1;NULL;NULL;;false;;false;0;true;0;true;NULL;normal
+ADOLESCENTE;mielocitos;2;NULL;NULL;;false;;false;0;false;;false;NULL;alto
+ADOLESCENTE;monocitos;1;NULL;NULL;;false;;false;;false;90;false;NULL;baixo
+ADOLESCENTE;monocitos;2;NULL;NULL;;false;;false;90;true;90;true;NULL;limite inferior
+ADOLESCENTE;monocitos;3;NULL;NULL;;false;;false;90;false;900;false;NULL;normal
+ADOLESCENTE;monocitos;4;NULL;NULL;;false;;false;900;true;900;true;NULL;limite superior
+ADOLESCENTE;monocitos;5;NULL;NULL;;false;;false;900;false;;false;NULL;alto
+ADOLESCENTE;neutrofilos;1;NULL;NULL;;false;;false;;false;1800;false;NULL;baixo
+ADOLESCENTE;neutrofilos;2;NULL;NULL;;false;;false;1800;true;1800;true;NULL;limite inferior
+ADOLESCENTE;neutrofilos;3;NULL;NULL;;false;;false;1800;false;8000;false;NULL;normal
+ADOLESCENTE;neutrofilos;4;NULL;NULL;;false;;false;8000;true;8000;true;NULL;limite superior
+ADOLESCENTE;neutrofilos;5;NULL;NULL;;false;;false;8000;false;;false;NULL;alto
+ADOLESCENTE;plasmocitos;1;NULL;NULL;;false;;false;;false;100;false;NULL;normal
+ADOLESCENTE;plasmocitos;2;NULL;NULL;;false;;false;100;true;100;true;NULL;limite superior
+ADOLESCENTE;plasmocitos;3;NULL;NULL;;false;;false;100;false;;false;NULL;alto
+ADOLESCENTE;promielocitos;1;NULL;NULL;;false;;false;0;true;0;true;NULL;normal
+ADOLESCENTE;promielocitos;2;NULL;NULL;;false;;false;0;false;;false;NULL;alto
+ADOLESCENTE;reticulocitos;1;NULL;NULL;;false;;false;;false;0.5;false;NULL;baixo
+ADOLESCENTE;reticulocitos;2;NULL;NULL;;false;;false;0.5;true;0.5;true;NULL;limite inferior
+ADOLESCENTE;reticulocitos;3;NULL;NULL;;false;;false;0.5;false;2;false;NULL;normal
+ADOLESCENTE;reticulocitos;4;NULL;NULL;;false;;false;2;true;2;true;NULL;limite superior
+ADOLESCENTE;reticulocitos;5;NULL;NULL;;false;;false;2;false;;false;NULL;alto
+ADOLESCENTE;segmentados;1;NULL;NULL;;false;;false;;false;1500;false;NULL;baixo
+ADOLESCENTE;segmentados;2;NULL;NULL;;false;;false;1500;true;1500;true;NULL;limite inferior
+ADOLESCENTE;segmentados;3;NULL;NULL;;false;;false;1500;false;7000;false;NULL;normal
+ADOLESCENTE;segmentados;4;NULL;NULL;;false;;false;7000;true;7000;true;NULL;limite superior
+ADOLESCENTE;segmentados;5;NULL;NULL;;false;;false;7000;false;;false;NULL;alto
+ADOLESCENTE;plaquetas;1;NULL;NULL;;false;;false;;false;150000;false;NULL;baixo
+ADOLESCENTE;plaquetas;2;NULL;NULL;;false;;false;150000;true;150000;true;NULL;limite inferior
+ADOLESCENTE;plaquetas;3;NULL;NULL;;false;;false;150000;false;500000;false;NULL;normal
+ADOLESCENTE;plaquetas;4;NULL;NULL;;false;;false;500000;true;500000;true;NULL;limite superior
+ADOLESCENTE;plaquetas;5;NULL;NULL;;false;;false;500000;false;;false;NULL;alto
+ADOLESCENTE;lipideos-totais;1;NULL;NULL;;false;;false;;false;400;false;NULL;baixo
+ADOLESCENTE;lipideos-totais;2;NULL;NULL;;false;;false;400;true;400;true;NULL;limite inferior
+ADOLESCENTE;lipideos-totais;3;NULL;NULL;;false;;false;400;false;800;false;NULL;normal
+ADOLESCENTE;lipideos-totais;4;NULL;NULL;;false;;false;800;true;800;true;NULL;limite superior
+ADOLESCENTE;lipideos-totais;5;NULL;NULL;;false;;false;800;false;;false;NULL;alto
+ADOLESCENTE;fosfolipides;1;NULL;NULL;;false;;false;;false;85;false;NULL;baixo
+ADOLESCENTE;fosfolipides;2;NULL;NULL;;false;;false;85;true;85;true;NULL;limite inferior
+ADOLESCENTE;fosfolipides;3;NULL;NULL;;false;;false;85;false;250;false;NULL;normal
+ADOLESCENTE;fosfolipides;4;NULL;NULL;;false;;false;250;true;250;true;NULL;limite superior
+ADOLESCENTE;fosfolipides;5;NULL;NULL;;false;;false;250;false;;false;NULL;alto
+ADOLESCENTE;triglicerides;1;NULL;NULL;;false;;false;;false;130;true;NULL;desejável
+ADOLESCENTE;triglicerides;2;NULL;NULL;;false;;false;130;false;;false;NULL;aumentado
+ADOLESCENTE;colesterol-total;1;NULL;NULL;;false;;false;;false;170;false;NULL;desejável
+ADOLESCENTE;colesterol-total;2;NULL;NULL;;false;;false;170;true;200;false;NULL;limítrofe
+ADOLESCENTE;colesterol-total;3;NULL;NULL;;false;;false;200;true;;false;NULL;elevado
+ADOLESCENTE;ldl;1;NULL;NULL;;false;;false;;false;110;false;NULL;desejável
+ADOLESCENTE;ldl;2;NULL;NULL;;false;;false;110;true;130;false;NULL;aceitável
+ADOLESCENTE;ldl;3;NULL;NULL;;false;;false;130;true;;false;NULL;aumentado
+ADOLESCENTE;vldl;1;NULL;NULL;;false;;false;;false;40;false;NULL;normal
+ADOLESCENTE;vldl;2;NULL;NULL;;false;;false;40;true;40;true;NULL;limite
+ADOLESCENTE;vldl;3;NULL;NULL;;false;;false;40;false;;false;NULL;alto
+ADOLESCENTE;hdl;1;NULL;NULL;;false;;false;;false;35;false;NULL;baixo
+ADOLESCENTE;hdl;2;NULL;NULL;;false;;false;35;true;;false;NULL;normal
+ADOLESCENTE;apolipoproteina-a;1;feminino;NULL;;false;;false;;false;101;false;NULL;baixo
+ADOLESCENTE;apolipoproteina-a;2;feminino;NULL;;false;;false;101;true;101;true;NULL;limite inferior
+ADOLESCENTE;apolipoproteina-a;3;feminino;NULL;;false;;false;101;false;199;false;NULL;normal
+ADOLESCENTE;apolipoproteina-a;4;feminino;NULL;;false;;false;199;true;199;true;NULL;limite superior
+ADOLESCENTE;apolipoproteina-a;5;feminino;NULL;;false;;false;199;false;;false;NULL;alto
+ADOLESCENTE;apolipoproteina-a;6;masculino;NULL;;false;;false;;false;94;false;NULL;baixo
+ADOLESCENTE;apolipoproteina-a;7;masculino;NULL;;false;;false;94;true;94;true;NULL;limite inferior
+ADOLESCENTE;apolipoproteina-a;8;masculino;NULL;;false;;false;94;false;189;false;NULL;normal
+ADOLESCENTE;apolipoproteina-a;9;masculino;NULL;;false;;false;189;true;189;true;NULL;limite superior
+ADOLESCENTE;apolipoproteina-a;10;masculino;NULL;;false;;false;189;false;;false;NULL;alto
+ADOLESCENTE;apolipoproteina-b;1;feminino;NULL;;false;;false;;false;49;false;NULL;baixo
+ADOLESCENTE;apolipoproteina-b;2;feminino;NULL;;false;;false;49;true;49;true;NULL;limite inferior
+ADOLESCENTE;apolipoproteina-b;3;feminino;NULL;;false;;false;49;false;103;false;NULL;normal
+ADOLESCENTE;apolipoproteina-b;4;feminino;NULL;;false;;false;103;true;103;true;NULL;limite superior
+ADOLESCENTE;apolipoproteina-b;5;feminino;NULL;;false;;false;103;false;;false;NULL;alto
+ADOLESCENTE;apolipoproteina-b;6;masculino;NULL;;false;;false;;false;52;false;NULL;baixo
+ADOLESCENTE;apolipoproteina-b;7;masculino;NULL;;false;;false;52;true;52;true;NULL;limite inferior
+ADOLESCENTE;apolipoproteina-b;8;masculino;NULL;;false;;false;52;false;109;false;NULL;normal
+ADOLESCENTE;apolipoproteina-b;9;masculino;NULL;;false;;false;109;true;109;true;NULL;limite superior
+ADOLESCENTE;apolipoproteina-b;10;masculino;NULL;;false;;false;109;false;;false;NULL;alto
+ADOLESCENTE;indice-de-castelli-i;1;NULL;NULL;;false;;false;;false;4.4;false;NULL;normal
+ADOLESCENTE;indice-de-castelli-i;2;NULL;NULL;;false;;false;4.4;true;4.4;true;NULL;limite
+ADOLESCENTE;indice-de-castelli-i;3;NULL;NULL;;false;;false;4.4;false;;false;NULL;alto
+ADOLESCENTE;indice-de-castelli-ii;1;NULL;NULL;;false;;false;;false;3.2;false;NULL;normal
+ADOLESCENTE;indice-de-castelli-ii;2;NULL;NULL;;false;;false;3.2;true;3.2;true;NULL;limite
+ADOLESCENTE;indice-de-castelli-ii;3;NULL;NULL;;false;;false;3.2;false;;false;NULL;alto
+ADOLESCENTE;densidade;1;NULL;NULL;;false;;false;;false;1.01;false;NULL;baixo
+ADOLESCENTE;densidade;2;NULL;NULL;;false;;false;1.01;true;1.01;true;NULL;limite inferior
+ADOLESCENTE;densidade;3;NULL;NULL;;false;;false;1.01;false;1.025;false;NULL;normal
+ADOLESCENTE;densidade;4;NULL;NULL;;false;;false;1.025;true;1.025;true;NULL;limite superior
+ADOLESCENTE;densidade;5;NULL;NULL;;false;;false;1.025;false;;false;NULL;alto
+ADOLESCENTE;ph;1;NULL;NULL;;false;;false;;false;5.5;false;NULL;ácida
+ADOLESCENTE;ph;2;NULL;NULL;;false;;false;5.5;true;7;true;NULL;normal
+ADOLESCENTE;ph;3;NULL;NULL;;false;;false;7;false;;false;NULL;alcalina
+ADOLESCENTE;calcio;1;NULL;NULL;;false;;false;;false;55;false;NULL;baixo
+ADOLESCENTE;calcio;2;NULL;NULL;;false;;false;55;true;55;true;NULL;limite inferior
+ADOLESCENTE;calcio;3;NULL;NULL;;false;;false;55;false;220;false;NULL;normal
+ADOLESCENTE;calcio;4;NULL;NULL;;false;;false;220;true;220;true;NULL;limite superior
+ADOLESCENTE;calcio;5;NULL;NULL;;false;;false;220;false;;false;NULL;alto
+ADOLESCENTE;cetonas-ou-corpos-cetonicos;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADOLESCENTE;cetonas-ou-corpos-cetonicos;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADOLESCENTE;citrato;1;NULL;NULL;;false;;false;;false;400;false;NULL;normal
+ADOLESCENTE;citrato;2;NULL;NULL;;false;;false;400;true;400;true;NULL;limite
+ADOLESCENTE;citrato;3;NULL;NULL;;false;;false;400;false;;false;NULL;alto
+ADOLESCENTE;glicose;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADOLESCENTE;glicose;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADOLESCENTE;nitrito;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADOLESCENTE;nitrito;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADOLESCENTE;proteinas;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADOLESCENTE;proteinas;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADOLESCENTE;sangue-hemoglobina-ou-hemacias;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADOLESCENTE;sangue-hemoglobina-ou-hemacias;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADOLESCENTE;urobilinogenio-ou-bilirrubina;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADOLESCENTE;urobilinogenio-ou-bilirrubina;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADOLESCENTE;cilindros;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADOLESCENTE;cilindros;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADOLESCENTE;granulosos;1;NULL;NULL;;false;;false;;false;1000;false;NULL;normal
+ADOLESCENTE;granulosos;2;NULL;NULL;;false;;false;1000;true;1000;true;NULL;limite
+ADOLESCENTE;granulosos;3;NULL;NULL;;false;;false;1000;false;;false;NULL;alto
+ADOLESCENTE;hematicos;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADOLESCENTE;hematicos;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADOLESCENTE;hialinos;1;NULL;NULL;;false;;false;;false;1000;false;NULL;normal
+ADOLESCENTE;hialinos;2;NULL;NULL;;false;;false;1000;true;1000;true;NULL;limite
+ADOLESCENTE;hialinos;3;NULL;NULL;;false;;false;1000;false;;false;NULL;alto
+ADOLESCENTE;leucocitarios;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADOLESCENTE;leucocitarios;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADOLESCENTE;leucocitos-ou-piocitos;1;NULL;NULL;;false;;false;;false;10000;false;NULL;normal
+ADOLESCENTE;leucocitos-ou-piocitos;2;NULL;NULL;;false;;false;10000;true;10000;true;NULL;limite
+ADOLESCENTE;leucocitos-ou-piocitos;3;NULL;NULL;;false;;false;10000;false;;false;NULL;alto
+ADOLESCENTE;albumina;1;NULL;NULL;;false;;false;;false;3.2;false;NULL;baixo
+ADOLESCENTE;albumina;2;NULL;NULL;;false;;false;3.2;true;3.2;true;NULL;limite inferior
+ADOLESCENTE;albumina;3;NULL;NULL;;false;;false;3.2;false;4.5;false;NULL;normal
+ADOLESCENTE;albumina;4;NULL;NULL;;false;;false;4.5;true;4.5;true;NULL;limite superior
+ADOLESCENTE;albumina;5;NULL;NULL;;false;;false;4.5;false;;false;NULL;alto
+ADOLESCENTE;pre-albumina;1;NULL;NULL;;false;;false;;false;19;false;NULL;baixo
+ADOLESCENTE;pre-albumina;2;NULL;NULL;;false;;false;19;true;19;true;NULL;limite inferior
+ADOLESCENTE;pre-albumina;3;NULL;NULL;;false;;false;19;false;38;false;NULL;normal
+ADOLESCENTE;pre-albumina;4;NULL;NULL;;false;;false;38;true;38;true;NULL;limite superior
+ADOLESCENTE;pre-albumina;5;NULL;NULL;;false;;false;38;false;;false;NULL;alto
+ADOLESCENTE;proteina-c-reativa-pcr;1;NULL;NULL;;false;;false;;false;0.8;false;NULL;normal
+ADOLESCENTE;proteina-c-reativa-pcr;2;NULL;NULL;;false;;false;0.8;true;0.8;true;NULL;limite
+ADOLESCENTE;proteina-c-reativa-pcr;3;NULL;NULL;;false;;false;0.8;false;;false;NULL;alto
+ADOLESCENTE;proteinas-totais;1;NULL;NULL;;false;;false;;false;6.3;false;NULL;baixo
+ADOLESCENTE;proteinas-totais;2;NULL;NULL;;false;;false;6.3;true;6.3;true;NULL;limite inferior
+ADOLESCENTE;proteinas-totais;3;NULL;NULL;;false;;false;6.3;false;8.1;false;NULL;normal
+ADOLESCENTE;proteinas-totais;4;NULL;NULL;;false;;false;8.1;true;8.1;true;NULL;limite superior
+ADOLESCENTE;proteinas-totais;5;NULL;NULL;;false;;false;8.1;false;;false;NULL;alto
+ADOLESCENTE;proteina-transportadora-de-retinol;1;NULL;NULL;;false;;false;;false;0.4;false;NULL;normal
+ADOLESCENTE;proteina-transportadora-de-retinol;2;NULL;NULL;;false;;false;0.4;true;0.4;true;NULL;limite
+ADOLESCENTE;proteina-transportadora-de-retinol;3;NULL;NULL;;false;;false;0.4;false;;false;NULL;alto
+ADOLESCENTE;calcio-total;1;NULL;NULL;;false;;false;;false;8.4;false;NULL;baixo
+ADOLESCENTE;calcio-total;2;NULL;NULL;;false;;false;8.4;true;8.4;true;NULL;limite inferior
+ADOLESCENTE;calcio-total;3;NULL;NULL;;false;;false;8.4;false;10.2;false;NULL;normal
+ADOLESCENTE;calcio-total;4;NULL;NULL;;false;;false;10.2;true;10.2;true;NULL;limite superior
+ADOLESCENTE;calcio-total;5;NULL;NULL;;false;;false;10.2;false;;false;NULL;alto
+ADOLESCENTE;calcio-ionico;1;NULL;NULL;;false;;false;;false;1.15;false;NULL;baixo
+ADOLESCENTE;calcio-ionico;2;NULL;NULL;;false;;false;1.15;true;1.15;true;NULL;limite inferior
+ADOLESCENTE;calcio-ionico;3;NULL;NULL;;false;;false;1.15;false;1.32;false;NULL;normal
+ADOLESCENTE;calcio-ionico;4;NULL;NULL;;false;;false;1.32;true;1.32;true;NULL;limite superior
+ADOLESCENTE;calcio-ionico;5;NULL;NULL;;false;;false;1.32;false;;false;NULL;alto
+ADOLESCENTE;cloro;1;NULL;NULL;;false;;false;;false;97;false;NULL;baixo
+ADOLESCENTE;cloro;2;NULL;NULL;;false;;false;97;true;97;true;NULL;limite inferior
+ADOLESCENTE;cloro;3;NULL;NULL;;false;;false;97;false;106;false;NULL;normal
+ADOLESCENTE;cloro;4;NULL;NULL;;false;;false;106;true;106;true;NULL;limite superior
+ADOLESCENTE;cloro;5;NULL;NULL;;false;;false;106;false;;false;NULL;alto
+ADOLESCENTE;cobre;1;NULL;NULL;;false;60;false;;false;80;false;NULL;baixo
+ADOLESCENTE;cobre;2;NULL;NULL;;false;60;false;80;true;80;true;NULL;limite inferior
+ADOLESCENTE;cobre;3;NULL;NULL;;false;60;false;80;false;140;false;NULL;normal
+ADOLESCENTE;cobre;4;NULL;NULL;;false;60;false;140;true;140;true;NULL;limite superior
+ADOLESCENTE;cobre;5;NULL;NULL;;false;60;false;140;false;;false;NULL;alto
+ADOLESCENTE;cobre;6;NULL;NULL;60;true;;false;;false;85;false;NULL;baixo
+ADOLESCENTE;cobre;7;NULL;NULL;60;true;;false;85;true;85;true;NULL;limite inferior
+ADOLESCENTE;cobre;8;NULL;NULL;60;true;;false;85;false;170;false;NULL;normal
+ADOLESCENTE;cobre;9;NULL;NULL;60;true;;false;170;true;170;true;NULL;limite superior
+ADOLESCENTE;cobre;10;NULL;NULL;60;true;;false;170;false;;false;NULL;alto
+ADOLESCENTE;cromo;1;NULL;NULL;;false;;false;;false;0.7;false;NULL;baixo
+ADOLESCENTE;cromo;2;NULL;NULL;;false;;false;0.7;true;0.7;true;NULL;limite inferior
+ADOLESCENTE;cromo;3;NULL;NULL;;false;;false;0.7;false;2.2;false;NULL;normal
+ADOLESCENTE;cromo;4;NULL;NULL;;false;;false;2.2;true;2.2;true;NULL;limite superior
+ADOLESCENTE;cromo;5;NULL;NULL;;false;;false;2.2;false;;false;NULL;alto
+ADOLESCENTE;ferro;1;feminino;NULL;;false;;false;;false;37;false;NULL;baixo
+ADOLESCENTE;ferro;2;feminino;NULL;;false;;false;37;true;37;true;NULL;limite inferior
+ADOLESCENTE;ferro;3;feminino;NULL;;false;;false;37;false;170;false;NULL;normal
+ADOLESCENTE;ferro;4;feminino;NULL;;false;;false;170;true;170;true;NULL;limite superior
+ADOLESCENTE;ferro;5;feminino;NULL;;false;;false;170;false;;false;NULL;alto
+ADOLESCENTE;ferro;6;masculino;NULL;;false;;false;;false;49;false;NULL;baixo
+ADOLESCENTE;ferro;7;masculino;NULL;;false;;false;49;true;49;true;NULL;limite inferior
+ADOLESCENTE;ferro;8;masculino;NULL;;false;;false;49;false;181;false;NULL;normal
+ADOLESCENTE;ferro;9;masculino;NULL;;false;;false;181;true;181;true;NULL;limite superior
+ADOLESCENTE;ferro;10;masculino;NULL;;false;;false;181;false;;false;NULL;alto
+ADOLESCENTE;folato;1;NULL;NULL;;false;;false;;false;3;false;NULL;baixo
+ADOLESCENTE;folato;2;NULL;NULL;;false;;false;3;true;3;true;NULL;limite inferior
+ADOLESCENTE;folato;3;NULL;NULL;;false;;false;3;false;17;false;NULL;normal
+ADOLESCENTE;folato;4;NULL;NULL;;false;;false;17;true;17;true;NULL;limite superior
+ADOLESCENTE;folato;5;NULL;NULL;;false;;false;17;false;;false;NULL;alto
+ADOLESCENTE;fosforo;1;feminino;NULL;;false;;false;;false;2.3;false;NULL;baixo
+ADOLESCENTE;fosforo;2;feminino;NULL;;false;;false;2.3;true;2.3;true;NULL;limite inferior
+ADOLESCENTE;fosforo;3;feminino;NULL;;false;;false;2.3;false;4.3;false;NULL;normal
+ADOLESCENTE;fosforo;4;feminino;NULL;;false;;false;4.3;true;4.3;true;NULL;limite superior
+ADOLESCENTE;fosforo;5;feminino;NULL;;false;;false;4.3;false;;false;NULL;alto
+ADOLESCENTE;fosforo;6;masculino;NULL;;false;;false;;false;2.4;false;NULL;baixo
+ADOLESCENTE;fosforo;7;masculino;NULL;;false;;false;2.4;true;2.4;true;NULL;limite inferior
+ADOLESCENTE;fosforo;8;masculino;NULL;;false;;false;2.4;false;4.6;false;NULL;normal
+ADOLESCENTE;fosforo;9;masculino;NULL;;false;;false;4.6;true;4.6;true;NULL;limite superior
+ADOLESCENTE;fosforo;10;masculino;NULL;;false;;false;4.6;false;;false;NULL;alto
+ADOLESCENTE;magnesio;1;NULL;NULL;;false;;false;;false;1.9;false;NULL;baixo
+ADOLESCENTE;magnesio;2;NULL;NULL;;false;;false;1.9;true;1.9;true;NULL;limite inferior
+ADOLESCENTE;magnesio;3;NULL;NULL;;false;;false;1.9;false;2.5;false;NULL;normal
+ADOLESCENTE;magnesio;4;NULL;NULL;;false;;false;2.5;true;2.5;true;NULL;limite superior
+ADOLESCENTE;magnesio;5;NULL;NULL;;false;;false;2.5;false;;false;NULL;alto
+ADOLESCENTE;potassio;1;NULL;NULL;;false;;false;;false;3.5;false;NULL;baixo
+ADOLESCENTE;potassio;2;NULL;NULL;;false;;false;3.5;true;3.5;true;NULL;limite inferior
+ADOLESCENTE;potassio;3;NULL;NULL;;false;;false;3.5;false;5;false;NULL;normal
+ADOLESCENTE;potassio;4;NULL;NULL;;false;;false;5;true;5;true;NULL;limite superior
+ADOLESCENTE;potassio;5;NULL;NULL;;false;;false;5;false;;false;NULL;alto
+ADOLESCENTE;selenio;1;NULL;NULL;;false;;false;;false;46;false;NULL;baixo
+ADOLESCENTE;selenio;2;NULL;NULL;;false;;false;46;true;46;true;NULL;limite inferior
+ADOLESCENTE;selenio;3;NULL;NULL;;false;;false;46;false;143;false;NULL;normal
+ADOLESCENTE;selenio;4;NULL;NULL;;false;;false;143;true;143;true;NULL;limite superior
+ADOLESCENTE;selenio;5;NULL;NULL;;false;;false;143;false;;false;NULL;alto
+ADOLESCENTE;sodio;1;NULL;NULL;;false;;false;;false;137;false;NULL;baixo
+ADOLESCENTE;sodio;2;NULL;NULL;;false;;false;137;true;137;true;NULL;limite inferior
+ADOLESCENTE;sodio;3;NULL;NULL;;false;;false;137;false;145;false;NULL;normal
+ADOLESCENTE;sodio;4;NULL;NULL;;false;;false;145;true;145;true;NULL;limite superior
+ADOLESCENTE;sodio;5;NULL;NULL;;false;;false;145;false;;false;NULL;alto
+ADOLESCENTE;zinco;1;NULL;NULL;;false;;false;;false;70;false;NULL;baixo
+ADOLESCENTE;zinco;2;NULL;NULL;;false;;false;70;true;70;true;NULL;limite inferior
+ADOLESCENTE;zinco;3;NULL;NULL;;false;;false;70;false;150;false;NULL;normal
+ADOLESCENTE;zinco;4;NULL;NULL;;false;;false;150;true;150;true;NULL;limite superior
+ADOLESCENTE;zinco;5;NULL;NULL;;false;;false;150;false;;false;NULL;alto
+ADOLESCENTE;vitamina-a-retinol;1;NULL;NULL;;false;;false;;false;30;false;NULL;baixo
+ADOLESCENTE;vitamina-a-retinol;2;NULL;NULL;;false;;false;30;true;30;true;NULL;limite inferior
+ADOLESCENTE;vitamina-a-retinol;3;NULL;NULL;;false;;false;30;false;80;false;NULL;normal
+ADOLESCENTE;vitamina-a-retinol;4;NULL;NULL;;false;;false;80;true;80;true;NULL;limite superior
+ADOLESCENTE;vitamina-a-retinol;5;NULL;NULL;;false;;false;80;false;;false;NULL;alto
+ADOLESCENTE;vitamina-b2;1;NULL;NULL;;false;;false;;false;40;false;NULL;baixo
+ADOLESCENTE;vitamina-b2;2;NULL;NULL;;false;;false;40;true;40;true;NULL;limite
+ADOLESCENTE;vitamina-b2;3;NULL;NULL;;false;;false;40;true;;false;NULL;normal
+ADOLESCENTE;vitamina-b6;1;NULL;NULL;;false;;false;;false;0.5;false;NULL;baixo
+ADOLESCENTE;vitamina-b6;2;NULL;NULL;;false;;false;0.5;true;0.5;true;NULL;limite inferior
+ADOLESCENTE;vitamina-b6;3;NULL;NULL;;false;;false;0.5;false;3;false;NULL;normal
+ADOLESCENTE;vitamina-b6;4;NULL;NULL;;false;;false;3;true;3;true;NULL;limite superior
+ADOLESCENTE;vitamina-b6;5;NULL;NULL;;false;;false;3;false;;false;NULL;alto
+ADOLESCENTE;vitamina-b12;1;NULL;NULL;;false;;false;;false;200;false;NULL;baixo
+ADOLESCENTE;vitamina-b12;2;NULL;NULL;;false;;false;200;true;200;true;NULL;limite inferior
+ADOLESCENTE;vitamina-b12;3;NULL;NULL;;false;;false;200;false;1000;false;NULL;normal
+ADOLESCENTE;vitamina-b12;4;NULL;NULL;;false;;false;1000;true;1000;true;NULL;limite superior
+ADOLESCENTE;vitamina-b12;5;NULL;NULL;;false;;false;1000;false;;false;NULL;alto
+ADOLESCENTE;vitamina-c;1;NULL;NULL;;false;;false;;false;0.6;false;NULL;baixo
+ADOLESCENTE;vitamina-c;2;NULL;NULL;;false;;false;0.6;true;0.6;true;NULL;limite inferior
+ADOLESCENTE;vitamina-c;3;NULL;NULL;;false;;false;0.6;false;2;false;NULL;normal
+ADOLESCENTE;vitamina-c;4;NULL;NULL;;false;;false;2;true;2;true;NULL;limite superior
+ADOLESCENTE;vitamina-c;5;NULL;NULL;;false;;false;2;false;;false;NULL;alto
+ADOLESCENTE;vitamina-d3-colecalciferol;1;NULL;NULL;;false;;false;;false;25;false;NULL;baixo
+ADOLESCENTE;vitamina-d3-colecalciferol;2;NULL;NULL;;false;;false;25;true;25;true;NULL;limite inferior
+ADOLESCENTE;vitamina-d3-colecalciferol;3;NULL;NULL;;false;;false;25;false;100;false;NULL;normal
+ADOLESCENTE;vitamina-d3-colecalciferol;4;NULL;NULL;;false;;false;100;true;100;true;NULL;limite superior
+ADOLESCENTE;vitamina-d3-colecalciferol;5;NULL;NULL;;false;;false;100;false;;false;NULL;alto
+ADOLESCENTE;vitamina-e;1;NULL;NULL;;false;;false;;false;0.5;false;NULL;baixo
+ADOLESCENTE;vitamina-e;2;NULL;NULL;;false;;false;0.5;true;0.5;true;NULL;limite inferior
+ADOLESCENTE;vitamina-e;3;NULL;NULL;;false;;false;0.5;false;1.8;false;NULL;normal
+ADOLESCENTE;vitamina-e;4;NULL;NULL;;false;;false;1.8;true;1.8;true;NULL;limite superior
+ADOLESCENTE;vitamina-e;5;NULL;NULL;;false;;false;1.8;false;;false;NULL;alto
+ADOLESCENTE;vitamina-k;1;NULL;NULL;;false;;false;;false;10.4;false;NULL;baixo
+ADOLESCENTE;vitamina-k;2;NULL;NULL;;false;;false;10.4;true;10.4;true;NULL;limite inferior
+ADOLESCENTE;vitamina-k;3;NULL;NULL;;false;;false;10.4;false;12.8;false;NULL;normal
+ADOLESCENTE;vitamina-k;4;NULL;NULL;;false;;false;12.8;true;12.8;true;NULL;limite superior
+ADOLESCENTE;vitamina-k;5;NULL;NULL;;false;;false;12.8;false;;false;NULL;alto
+ADOLESCENTE;cultura;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADOLESCENTE;cultura;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADOLESCENTE;gordura;1;NULL;NULL;;false;;false;;false;7;false;NULL;normal
+ADOLESCENTE;gordura;2;NULL;NULL;;false;;false;7;true;7;true;NULL;limite
+ADOLESCENTE;gordura;3;NULL;NULL;;false;;false;7;false;;false;NULL;alto
+ADOLESCENTE;nitrogenio;1;NULL;NULL;;false;;false;;false;2.5;false;NULL;normal
+ADOLESCENTE;nitrogenio;2;NULL;NULL;;false;;false;2.5;true;2.5;true;NULL;limite
+ADOLESCENTE;nitrogenio;3;NULL;NULL;;false;;false;2.5;false;;false;NULL;alto
+ADOLESCENTE;sangue-oculto;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADOLESCENTE;sangue-oculto;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADOLESCENTE;acth;1;NULL;NULL;;false;;false;;false;46;false;NULL;normal
+ADOLESCENTE;acth;2;NULL;NULL;;false;;false;46;true;46;true;NULL;limite
+ADOLESCENTE;acth;3;NULL;NULL;;false;;false;46;false;;false;NULL;alto
+ADOLESCENTE;adh;1;NULL;NULL;;false;;false;;false;6.7;false;NULL;normal
+ADOLESCENTE;adh;2;NULL;NULL;;false;;false;6.7;true;6.7;true;NULL;limite
+ADOLESCENTE;adh;3;NULL;NULL;;false;;false;6.7;false;;false;NULL;alto
+ADOLESCENTE;calcitonina;1;feminino;NULL;;false;;false;;false;5;false;NULL;normal
+ADOLESCENTE;calcitonina;2;feminino;NULL;;false;;false;5;true;5;true;NULL;limite
+ADOLESCENTE;calcitonina;3;feminino;NULL;;false;;false;5;false;;false;NULL;alto
+ADOLESCENTE;calcitonina;4;masculino;NULL;;false;;false;;false;8.4;false;NULL;normal
+ADOLESCENTE;calcitonina;5;masculino;NULL;;false;;false;8.4;true;8.4;true;NULL;limite
+ADOLESCENTE;calcitonina;6;masculino;NULL;;false;;false;8.4;false;;false;NULL;alto
+ADOLESCENTE;cortisol-8-h;1;NULL;NULL;;false;;false;;false;5;false;NULL;baixo
+ADOLESCENTE;cortisol-8-h;2;NULL;NULL;;false;;false;5;true;5;true;NULL;limite inferior
+ADOLESCENTE;cortisol-8-h;3;NULL;NULL;;false;;false;5;false;25;false;NULL;normal
+ADOLESCENTE;cortisol-8-h;4;NULL;NULL;;false;;false;25;true;25;true;NULL;limite superior
+ADOLESCENTE;cortisol-8-h;5;NULL;NULL;;false;;false;25;false;;false;NULL;alto
+ADOLESCENTE;cortisol-16-h;1;NULL;NULL;;false;;false;;false;2.5;false;NULL;baixo
+ADOLESCENTE;cortisol-16-h;2;NULL;NULL;;false;;false;2.5;true;2.5;true;NULL;limite inferior
+ADOLESCENTE;cortisol-16-h;3;NULL;NULL;;false;;false;2.5;false;12.5;false;NULL;normal
+ADOLESCENTE;cortisol-16-h;4;NULL;NULL;;false;;false;12.5;true;12.5;true;NULL;limite superior
+ADOLESCENTE;cortisol-16-h;5;NULL;NULL;;false;;false;12.5;false;;false;NULL;alto
+ADOLESCENTE;cortisol-23-h;1;NULL;NULL;;false;;false;;false;2;false;NULL;baixo
+ADOLESCENTE;cortisol-23-h;2;NULL;NULL;;false;;false;2;true;2;true;NULL;limite inferior
+ADOLESCENTE;cortisol-23-h;3;NULL;NULL;;false;;false;2;false;5;false;NULL;normal
+ADOLESCENTE;cortisol-23-h;4;NULL;NULL;;false;;false;5;true;5;true;NULL;limite superior
+ADOLESCENTE;cortisol-23-h;5;NULL;NULL;;false;;false;5;false;;false;NULL;alto
+ADOLESCENTE;fsh;1;feminino;fase folicular;;false;;false;;false;3.1;false;NULL;baixo
+ADOLESCENTE;fsh;2;feminino;fase folicular;;false;;false;3.1;true;3.1;true;NULL;limite inferior
+ADOLESCENTE;fsh;3;feminino;fase folicular;;false;;false;3.1;false;15.7;false;NULL;normal
+ADOLESCENTE;fsh;4;feminino;fase folicular;;false;;false;15.7;true;15.7;true;NULL;limite superior
+ADOLESCENTE;fsh;5;feminino;fase folicular;;false;;false;15.7;false;;false;NULL;alto
+ADOLESCENTE;fsh;6;feminino;meio do ciclo;;false;;false;;false;7.7;false;NULL;baixo
+ADOLESCENTE;fsh;7;feminino;meio do ciclo;;false;;false;7.7;true;7.7;true;NULL;limite inferior
+ADOLESCENTE;fsh;8;feminino;meio do ciclo;;false;;false;7.7;false;32;false;NULL;normal
+ADOLESCENTE;fsh;9;feminino;meio do ciclo;;false;;false;32;true;32;true;NULL;limite superior
+ADOLESCENTE;fsh;10;feminino;meio do ciclo;;false;;false;32;false;;false;NULL;alto
+ADOLESCENTE;fsh;11;feminino;fase lútea;;false;;false;;false;2;false;NULL;baixo
+ADOLESCENTE;fsh;12;feminino;fase lútea;;false;;false;2;true;2;true;NULL;limite inferior
+ADOLESCENTE;fsh;13;feminino;fase lútea;;false;;false;2;false;10.3;false;NULL;normal
+ADOLESCENTE;fsh;14;feminino;fase lútea;;false;;false;10.3;true;10.3;true;NULL;limite superior
+ADOLESCENTE;fsh;15;feminino;fase lútea;;false;;false;10.3;false;;false;NULL;alto
+ADOLESCENTE;fsh;16;feminino;pós-menopausa;;false;;false;;false;16.6;false;NULL;baixo
+ADOLESCENTE;fsh;17;feminino;pós-menopausa;;false;;false;16.6;true;16.6;true;NULL;limite inferior
+ADOLESCENTE;fsh;18;feminino;pós-menopausa;;false;;false;16.6;false;165;false;NULL;normal
+ADOLESCENTE;fsh;19;feminino;pós-menopausa;;false;;false;165;true;165;true;NULL;limite superior
+ADOLESCENTE;fsh;20;feminino;pós-menopausa;;false;;false;165;false;;false;NULL;alto
+ADOLESCENTE;fsh;21;masculino;homem;;false;;false;;false;2;false;NULL;baixo
+ADOLESCENTE;fsh;22;masculino;homem;;false;;false;2;true;2;true;NULL;limite inferior
+ADOLESCENTE;fsh;23;masculino;homem;;false;;false;2;false;12.8;false;NULL;normal
+ADOLESCENTE;fsh;24;masculino;homem;;false;;false;12.8;true;12.8;true;NULL;limite superior
+ADOLESCENTE;fsh;25;masculino;homem;;false;;false;12.8;false;;false;NULL;alto
+ADOLESCENTE;gh;1;NULL;NULL;;false;;false;;false;7;false;NULL;normal
+ADOLESCENTE;gh;2;NULL;NULL;;false;;false;7;true;7;true;NULL;limite
+ADOLESCENTE;gh;3;NULL;NULL;;false;;false;7;false;;false;NULL;alto
+ADOLESCENTE;progesterona;1;feminino;fase folicular;;false;;false;;false;0.1;false;NULL;baixo
+ADOLESCENTE;progesterona;2;feminino;fase folicular;;false;;false;0.1;true;0.1;true;NULL;limite inferior
+ADOLESCENTE;progesterona;3;feminino;fase folicular;;false;;false;0.1;false;15;false;NULL;normal
+ADOLESCENTE;progesterona;4;feminino;fase folicular;;false;;false;15;true;15;true;NULL;limite superior
+ADOLESCENTE;progesterona;5;feminino;fase folicular;;false;;false;15;false;;false;NULL;alto
+ADOLESCENTE;progesterona;6;feminino;fase lútea;;false;;false;;false;3.8;false;NULL;baixo
+ADOLESCENTE;progesterona;7;feminino;fase lútea;;false;;false;3.8;true;3.8;true;NULL;limite inferior
+ADOLESCENTE;progesterona;8;feminino;fase lútea;;false;;false;3.8;false;28;false;NULL;normal
+ADOLESCENTE;progesterona;9;feminino;fase lútea;;false;;false;28;true;28;true;NULL;limite superior
+ADOLESCENTE;progesterona;10;feminino;fase lútea;;false;;false;28;false;;false;NULL;alto
+ADOLESCENTE;progesterona;11;feminino;pico ovulatório;;false;;false;;false;2.5;false;NULL;baixo
+ADOLESCENTE;progesterona;12;feminino;pico ovulatório;;false;;false;2.5;true;2.5;true;NULL;limite inferior
+ADOLESCENTE;progesterona;13;feminino;pico ovulatório;;false;;false;2.5;false;20;false;NULL;normal
+ADOLESCENTE;progesterona;14;feminino;pico ovulatório;;false;;false;20;true;20;true;NULL;limite superior
+ADOLESCENTE;progesterona;15;feminino;pico ovulatório;;false;;false;20;false;;false;NULL;alto
+ADOLESCENTE;progesterona;16;feminino;menopausa;;false;;false;;false;0.1;false;NULL;baixo
+ADOLESCENTE;progesterona;17;feminino;menopausa;;false;;false;0.1;true;0.1;true;NULL;limite inferior
+ADOLESCENTE;progesterona;18;feminino;menopausa;;false;;false;0.1;false;1;false;NULL;normal
+ADOLESCENTE;progesterona;19;feminino;menopausa;;false;;false;1;true;1;true;NULL;limite superior
+ADOLESCENTE;progesterona;20;feminino;menopausa;;false;;false;1;false;;false;NULL;alto
+ADOLESCENTE;progesterona;21;masculino;homem;;false;;false;;false;0.1;false;NULL;baixo
+ADOLESCENTE;progesterona;22;masculino;homem;;false;;false;0.1;true;0.1;true;NULL;limite inferior
+ADOLESCENTE;progesterona;23;masculino;homem;;false;;false;0.1;false;0.8;false;NULL;normal
+ADOLESCENTE;progesterona;24;masculino;homem;;false;;false;0.8;true;0.8;true;NULL;limite superior
+ADOLESCENTE;progesterona;25;masculino;homem;;false;;false;0.8;false;;false;NULL;alto
+ADOLESCENTE;prolactina;1;feminino;NULL;10;true;12;true;;false;1.9;false;NULL;baixo
+ADOLESCENTE;prolactina;2;feminino;NULL;10;true;12;true;1.9;true;1.9;true;NULL;limite inferior
+ADOLESCENTE;prolactina;3;feminino;NULL;10;true;12;true;1.9;false;9.6;false;NULL;normal
+ADOLESCENTE;prolactina;4;feminino;NULL;10;true;12;true;9.6;true;9.6;true;NULL;limite superior
+ADOLESCENTE;prolactina;5;feminino;NULL;10;true;12;true;9.6;false;;false;NULL;alto
+ADOLESCENTE;prolactina;6;feminino;NULL;13;true;15;true;;false;3;false;NULL;baixo
+ADOLESCENTE;prolactina;7;feminino;NULL;13;true;15;true;3;true;3;true;NULL;limite inferior
+ADOLESCENTE;prolactina;8;feminino;NULL;13;true;15;true;3;false;14.4;false;NULL;normal
+ADOLESCENTE;prolactina;9;feminino;NULL;13;true;15;true;14.4;true;14.4;true;NULL;limite superior
+ADOLESCENTE;prolactina;10;feminino;NULL;13;true;15;true;14.4;false;;false;NULL;alto
+ADOLESCENTE;prolactina;11;feminino;NULL;16;true;;false;;false;2.8;false;NULL;baixo
+ADOLESCENTE;prolactina;12;feminino;NULL;16;true;;false;2.8;true;2.8;true;NULL;limite inferior
+ADOLESCENTE;prolactina;13;feminino;NULL;16;true;;false;2.8;false;29.2;false;NULL;normal
+ADOLESCENTE;prolactina;14;feminino;NULL;16;true;;false;29.2;true;29.2;true;NULL;limite superior
+ADOLESCENTE;prolactina;15;feminino;NULL;16;true;;false;29.2;false;;false;NULL;alto
+ADOLESCENTE;prolactina;16;masculino;NULL;10;true;12;true;;false;0.9;false;NULL;baixo
+ADOLESCENTE;prolactina;17;masculino;NULL;10;true;12;true;0.9;true;0.9;true;NULL;limite inferior
+ADOLESCENTE;prolactina;18;masculino;NULL;10;true;12;true;0.9;false;12.9;false;NULL;normal
+ADOLESCENTE;prolactina;19;masculino;NULL;10;true;12;true;12.9;true;12.9;true;NULL;limite superior
+ADOLESCENTE;prolactina;20;masculino;NULL;10;true;12;true;12.9;false;;false;NULL;alto
+ADOLESCENTE;prolactina;21;masculino;NULL;13;true;15;true;;false;1.6;false;NULL;baixo
+ADOLESCENTE;prolactina;22;masculino;NULL;13;true;15;true;1.6;true;1.6;true;NULL;limite inferior
+ADOLESCENTE;prolactina;23;masculino;NULL;13;true;15;true;1.6;false;16.6;false;NULL;normal
+ADOLESCENTE;prolactina;24;masculino;NULL;13;true;15;true;16.6;true;16.6;true;NULL;limite superior
+ADOLESCENTE;prolactina;25;masculino;NULL;13;true;15;true;16.6;false;;false;NULL;alto
+ADOLESCENTE;prolactina;26;masculino;NULL;16;true;;false;;false;2.1;false;NULL;baixo
+ADOLESCENTE;prolactina;27;masculino;NULL;16;true;;false;2.1;true;2.1;true;NULL;limite inferior
+ADOLESCENTE;prolactina;28;masculino;NULL;16;true;;false;2.1;false;17.7;false;NULL;normal
+ADOLESCENTE;prolactina;29;masculino;NULL;16;true;;false;17.7;true;17.7;true;NULL;limite superior
+ADOLESCENTE;prolactina;30;masculino;NULL;16;true;;false;17.7;false;;false;NULL;alto
+ADOLESCENTE;t-3;1;NULL;NULL;;false;15;true;;false;82;false;NULL;baixo
+ADOLESCENTE;t-3;2;NULL;NULL;;false;15;true;82;true;82;true;NULL;limite inferior
+ADOLESCENTE;t-3;3;NULL;NULL;;false;15;true;82;false;213;false;NULL;normal
+ADOLESCENTE;t-3;4;NULL;NULL;;false;15;true;213;true;213;true;NULL;limite superior
+ADOLESCENTE;t-3;5;NULL;NULL;;false;15;true;213;false;;false;NULL;alto
+ADOLESCENTE;t-3;6;NULL;NULL;15;false;;false;;false;80;false;NULL;baixo
+ADOLESCENTE;t-3;7;NULL;NULL;15;false;;false;80;true;80;true;NULL;limite inferior
+ADOLESCENTE;t-3;8;NULL;NULL;15;false;;false;80;false;210;false;NULL;normal
+ADOLESCENTE;t-3;9;NULL;NULL;15;false;;false;210;true;210;true;NULL;limite superior
+ADOLESCENTE;t-3;10;NULL;NULL;15;false;;false;210;false;;false;NULL;alto
+ADOLESCENTE;t-4-livre;1;NULL;NULL;;false;;false;;false;0.71;false;NULL;baixo
+ADOLESCENTE;t-4-livre;2;NULL;NULL;;false;;false;0.71;true;0.71;true;NULL;limite inferior
+ADOLESCENTE;t-4-livre;3;NULL;NULL;;false;;false;0.71;false;1.85;false;NULL;normal
+ADOLESCENTE;t-4-livre;4;NULL;NULL;;false;;false;1.85;true;1.85;true;NULL;limite superior
+ADOLESCENTE;t-4-livre;5;NULL;NULL;;false;;false;1.85;false;;false;NULL;alto
+ADOLESCENTE;testosterona;1;feminino;NULL;;false;11;true;;false;3;false;NULL;baixo
+ADOLESCENTE;testosterona;2;feminino;NULL;;false;11;true;3;true;3;true;NULL;limite inferior
+ADOLESCENTE;testosterona;3;feminino;NULL;;false;11;true;3;false;25;false;NULL;normal
+ADOLESCENTE;testosterona;4;feminino;NULL;;false;11;true;25;true;25;true;NULL;limite superior
+ADOLESCENTE;testosterona;5;feminino;NULL;;false;11;true;25;false;;false;NULL;alto
+ADOLESCENTE;testosterona;6;feminino;NULL;12;true;14;true;;false;10;false;NULL;baixo
+ADOLESCENTE;testosterona;7;feminino;NULL;12;true;14;true;10;true;10;true;NULL;limite inferior
+ADOLESCENTE;testosterona;8;feminino;NULL;12;true;14;true;10;false;40;false;NULL;normal
+ADOLESCENTE;testosterona;9;feminino;NULL;12;true;14;true;40;true;40;true;NULL;limite superior
+ADOLESCENTE;testosterona;10;feminino;NULL;12;true;14;true;40;false;;false;NULL;alto
+ADOLESCENTE;testosterona;11;feminino;NULL;15;true;;false;;false;5;false;NULL;baixo
+ADOLESCENTE;testosterona;12;feminino;NULL;15;true;;false;5;true;5;true;NULL;limite inferior
+ADOLESCENTE;testosterona;13;feminino;NULL;5;true;;false;2;false;80;false;NULL;normal
+ADOLESCENTE;testosterona;14;feminino;NULL;15;true;;false;80;true;80;true;NULL;limite superior
+ADOLESCENTE;testosterona;15;feminino;NULL;15;true;;false;80;false;;false;NULL;alto
+ADOLESCENTE;testosterona;16;masculino;NULL;;false;11;true;;false;5;false;NULL;baixo
+ADOLESCENTE;testosterona;17;masculino;NULL;;false;11;true;5;true;5;true;NULL;limite inferior
+ADOLESCENTE;testosterona;18;masculino;NULL;;false;11;true;5;false;50;false;NULL;normal
+ADOLESCENTE;testosterona;19;masculino;NULL;;false;11;true;50;true;50;true;NULL;limite superior
+ADOLESCENTE;testosterona;20;masculino;NULL;;false;11;true;50;false;;false;NULL;alto
+ADOLESCENTE;testosterona;21;masculino;NULL;12;true;14;true;;false;10;false;NULL;baixo
+ADOLESCENTE;testosterona;22;masculino;NULL;12;true;14;true;10;true;10;true;NULL;limite inferior
+ADOLESCENTE;testosterona;23;masculino;NULL;12;true;14;true;10;false;572;false;NULL;normal
+ADOLESCENTE;testosterona;24;masculino;NULL;12;true;14;true;572;true;572;true;NULL;limite superior
+ADOLESCENTE;testosterona;25;masculino;NULL;12;true;14;true;572;false;;false;NULL;alto
+ADOLESCENTE;testosterona;26;masculino;NULL;15;true;;false;;false;220;false;NULL;baixo
+ADOLESCENTE;testosterona;27;masculino;NULL;15;true;;false;220;true;220;true;NULL;limite inferior
+ADOLESCENTE;testosterona;28;masculino;NULL;15;true;;false;220;false;800;false;NULL;normal
+ADOLESCENTE;testosterona;29;masculino;NULL;15;true;;false;800;true;800;true;NULL;limite superior
+ADOLESCENTE;testosterona;30;masculino;NULL;15;true;;false;800;false;;false;NULL;alto
+ADOLESCENTE;tsh;1;NULL;NULL;;false;15;true;;false;0.5;false;NULL;baixo
+ADOLESCENTE;tsh;2;NULL;NULL;;false;15;true;0.5;true;0.5;true;NULL;limite inferior
+ADOLESCENTE;tsh;3;NULL;NULL;;false;15;true;0.5;false;4.9;false;NULL;normal
+ADOLESCENTE;tsh;4;NULL;NULL;;false;15;true;4.9;true;4.9;true;NULL;limite superior
+ADOLESCENTE;tsh;5;NULL;NULL;;false;15;true;4.9;false;;false;NULL;alto
+ADOLESCENTE;tsh;6;NULL;NULL;15;false;;false;;false;0.4;false;NULL;baixo
+ADOLESCENTE;tsh;7;NULL;NULL;15;false;;false;0.4;true;0.4;true;NULL;limite inferior
+ADOLESCENTE;tsh;8;NULL;NULL;15;false;;false;0.4;false;4.2;false;NULL;normal
+ADOLESCENTE;tsh;9;NULL;NULL;15;false;;false;4.2;true;4.2;true;NULL;limite superior
+ADOLESCENTE;tsh;10;NULL;NULL;15;false;;false;402;false;;false;NULL;alto
+ADOLESCENTE;ig-a;1;NULL;NULL;;false;;false;;false;;false;não reagente;normal
+ADOLESCENTE;ig-a;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADOLESCENTE;ig-e;1;NULL;NULL;;false;;false;;false;;false;não reagente;normal
+ADOLESCENTE;ig-e;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADOLESCENTE;ig-f;1;NULL;NULL;;false;;false;;false;;false;não reagente;normal
+ADOLESCENTE;ig-f;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADOLESCENTE;ig-g;1;NULL;NULL;;false;;false;;false;;false;não reagente;normal
+ADOLESCENTE;ig-g;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADOLESCENTE;ig-m;1;NULL;NULL;;false;;false;;false;;false;não reagente;normal
+ADOLESCENTE;ig-m;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADOLESCENTE;amilase;1;NULL;NULL;;false;;false;;false;115;false;NULL;normal
+ADOLESCENTE;amilase;2;NULL;NULL;;false;;false;115;true;115;true;NULL;limite
+ADOLESCENTE;amilase;3;NULL;NULL;;false;;false;115;false;;false;NULL;alto
+ADOLESCENTE;amonia;1;NULL;NULL;;false;;false;;false;11;false;NULL;baixo
+ADOLESCENTE;amonia;2;NULL;NULL;;false;;false;11;true;11;true;NULL;limite inferior
+ADOLESCENTE;amonia;3;NULL;NULL;;false;;false;11;false;33;false;NULL;normal
+ADOLESCENTE;amonia;4;NULL;NULL;;false;;false;33;true;33;true;NULL;limite superior
+ADOLESCENTE;amonia;5;NULL;NULL;;false;;false;33;false;;false;NULL;alto
+ADOLESCENTE;beta-hcg;1;feminino;NULL;;false;;false;;false;1;false;NULL;não gestante
+ADOLESCENTE;beta-hcg;2;feminino;NULL;;false;;false;1;true;30;true;NULL;não definido
+ADOLESCENTE;beta-hcg;3;feminino;NULL;;false;;false;30;false;;false;NULL;gestante
+ADOLESCENTE;beta-hcg;4;masculino;NULL;;false;;false;;false;1;false;NULL;normal
+ADOLESCENTE;beta-hcg;5;masculino;NULL;;false;;false;1;true;;false;NULL;alto
+ADOLESCENTE;bilirrubina-direta;1;NULL;NULL;;false;;false;;false;0.4;false;NULL;normal
+ADOLESCENTE;bilirrubina-direta;2;NULL;NULL;;false;;false;0.4;true;0.4;true;NULL;limite
+ADOLESCENTE;bilirrubina-direta;3;NULL;NULL;;false;;false;0.4;false;;false;NULL;alto
+ADOLESCENTE;bilirrubina-indireta;1;NULL;NULL;;false;;false;;false;0.6;false;NULL;normal
+ADOLESCENTE;bilirrubina-indireta;2;NULL;NULL;;false;;false;0.6;true;0.6;true;NULL;limite
+ADOLESCENTE;bilirrubina-indireta;3;NULL;NULL;;false;;false;0.6;false;;false;NULL;alto
+ADOLESCENTE;bilirrubina-total;1;NULL;NULL;;false;;false;;false;1;false;NULL;normal
+ADOLESCENTE;bilirrubina-total;2;NULL;NULL;;false;;false;1;true;1;true;NULL;limite
+ADOLESCENTE;bilirrubina-total;3;NULL;NULL;;false;;false;1;false;;false;NULL;alto
+ADOLESCENTE;ceruloplasmina;1;NULL;NULL;;false;;false;;false;21;false;NULL;baixo
+ADOLESCENTE;ceruloplasmina;2;NULL;NULL;;false;;false;21;true;21;true;NULL;limite inferior
+ADOLESCENTE;ceruloplasmina;3;NULL;NULL;;false;;false;21;false;53;false;NULL;normal
+ADOLESCENTE;ceruloplasmina;4;NULL;NULL;;false;;false;53;true;53;true;NULL;limite superior
+ADOLESCENTE;ceruloplasmina;5;NULL;NULL;;false;;false;53;false;;false;NULL;alto
+ADOLESCENTE;creatinina-urinaria;1;NULL;NULL;;false;;false;;false;25;false;NULL;normal
+ADOLESCENTE;creatinina-urinaria;2;NULL;NULL;;false;;false;25;true;25;true;NULL;limite
+ADOLESCENTE;creatinina-urinaria;3;NULL;NULL;;false;;false;25;false;;false;NULL;alto
+ADOLESCENTE;filtracao-glomerular;1;NULL;NULL;;false;;false;;false;60;false;NULL;baixo
+ADOLESCENTE;filtracao-glomerular;2;NULL;NULL;;false;;false;60;true;60;true;NULL;limite
+ADOLESCENTE;filtracao-glomerular;3;NULL;NULL;;false;;false;60;false;;false;NULL;normal
+ADOLESCENTE;fosfatase-alcalina;1;feminino;NULL;10;true;11;true;;false;250;false;NULL;baixo
+ADOLESCENTE;fosfatase-alcalina;2;feminino;NULL;10;true;11;true;250;true;250;true;NULL;limite inferior
+ADOLESCENTE;fosfatase-alcalina;3;feminino;NULL;10;true;11;true;250;false;950;false;NULL;normal
+ADOLESCENTE;fosfatase-alcalina;4;feminino;NULL;10;true;11;true;950;true;950;true;NULL;limite superior
+ADOLESCENTE;fosfatase-alcalina;5;feminino;NULL;10;true;11;true;950;false;;false;NULL;alto
+ADOLESCENTE;fosfatase-alcalina;6;feminino;NULL;12;true;13;true;;false;200;false;NULL;baixo
+ADOLESCENTE;fosfatase-alcalina;7;feminino;NULL;12;true;13;true;200;true;200;true;NULL;limite inferior
+ADOLESCENTE;fosfatase-alcalina;8;feminino;NULL;12;true;13;true;200;false;730;false;NULL;normal
+ADOLESCENTE;fosfatase-alcalina;9;feminino;NULL;12;true;13;true;730;true;730;true;NULL;limite superior
+ADOLESCENTE;fosfatase-alcalina;10;feminino;NULL;12;true;13;true;730;false;;false;NULL;alto
+ADOLESCENTE;fosfatase-alcalina;11;feminino;NULL;14;true;15;true;;false;170;false;NULL;baixo
+ADOLESCENTE;fosfatase-alcalina;12;feminino;NULL;14;true;15;true;170;true;170;true;NULL;limite inferior
+ADOLESCENTE;fosfatase-alcalina;13;feminino;NULL;14;true;15;true;170;false;460;false;NULL;normal
+ADOLESCENTE;fosfatase-alcalina;14;feminino;NULL;14;true;15;true;460;true;460;true;NULL;limite superior
+ADOLESCENTE;fosfatase-alcalina;15;feminino;NULL;14;true;15;true;460;false;;false;NULL;alto
+ADOLESCENTE;fosfatase-alcalina;16;feminino;NULL;16;true;;false;;false;75;false;NULL;baixo
+ADOLESCENTE;fosfatase-alcalina;17;feminino;NULL;16;true;;false;75;true;75;true;NULL;limite inferior
+ADOLESCENTE;fosfatase-alcalina;18;feminino;NULL;16;true;;false;75;false;720;false;NULL;normal
+ADOLESCENTE;fosfatase-alcalina;19;feminino;NULL;16;true;;false;720;true;720;true;NULL;limite superior
+ADOLESCENTE;fosfatase-alcalina;20;feminino;NULL;16;true;;false;720;false;;false;NULL;alto
+ADOLESCENTE;fosfatase-alcalina;21;masculino;NULL;10;true;11;true;;false;250;false;NULL;baixo
+ADOLESCENTE;fosfatase-alcalina;22;masculino;NULL;10;true;11;true;250;true;250;true;NULL;limite inferior
+ADOLESCENTE;fosfatase-alcalina;23;masculino;NULL;10;true;11;true;250;false;730;false;NULL;normal
+ADOLESCENTE;fosfatase-alcalina;24;masculino;NULL;10;true;11;true;730;true;730;true;NULL;limite superior
+ADOLESCENTE;fosfatase-alcalina;25;masculino;NULL;10;true;11;true;730;false;;false;NULL;alto
+ADOLESCENTE;fosfatase-alcalina;26;masculino;NULL;12;true;13;true;;false;275;false;NULL;baixo
+ADOLESCENTE;fosfatase-alcalina;27;masculino;NULL;12;true;13;true;275;true;275;true;NULL;limite inferior
+ADOLESCENTE;fosfatase-alcalina;28;masculino;NULL;12;true;13;true;275;false;875;false;NULL;normal
+ADOLESCENTE;fosfatase-alcalina;29;masculino;NULL;12;true;13;true;875;true;875;true;NULL;limite superior
+ADOLESCENTE;fosfatase-alcalina;30;masculino;NULL;12;true;13;true;875;false;;false;NULL;alto
+ADOLESCENTE;fosfatase-alcalina;31;masculino;NULL;14;true;15;true;;false;170;false;NULL;baixo
+ADOLESCENTE;fosfatase-alcalina;32;masculino;NULL;14;true;15;true;170;true;170;true;NULL;limite inferior
+ADOLESCENTE;fosfatase-alcalina;33;masculino;NULL;14;true;15;true;170;false;970;false;NULL;normal
+ADOLESCENTE;fosfatase-alcalina;34;masculino;NULL;14;true;15;true;970;true;970;true;NULL;limite superior
+ADOLESCENTE;fosfatase-alcalina;35;masculino;NULL;14;true;15;true;970;false;;false;NULL;alto
+ADOLESCENTE;fosfatase-alcalina;36;masculino;NULL;16;true;;false;;false;125;false;NULL;baixo
+ADOLESCENTE;fosfatase-alcalina;37;masculino;NULL;16;true;;false;125;true;125;true;NULL;limite inferior
+ADOLESCENTE;fosfatase-alcalina;38;masculino;NULL;16;true;;false;125;false;720;false;NULL;normal
+ADOLESCENTE;fosfatase-alcalina;39;masculino;NULL;16;true;;false;720;true;720;true;NULL;limite superior
+ADOLESCENTE;fosfatase-alcalina;40;masculino;NULL;16;true;;false;720;false;;false;NULL;alto
+ADOLESCENTE;frutosamina;1;NULL;NULL;;false;;false;;false;205;false;NULL;baixo
+ADOLESCENTE;frutosamina;2;NULL;NULL;;false;;false;205;true;205;true;NULL;limite inferior
+ADOLESCENTE;frutosamina;3;NULL;NULL;;false;;false;205;false;285;false;NULL;normal
+ADOLESCENTE;frutosamina;4;NULL;NULL;;false;;false;285;true;285;true;NULL;limite superior
+ADOLESCENTE;frutosamina;5;NULL;NULL;;false;;false;285;false;;false;NULL;alto
+ADOLESCENTE;gama-gt;1;feminino;NULL;;false;;false;;false;5;false;NULL;baixo
+ADOLESCENTE;gama-gt;2;feminino;NULL;;false;;false;5;true;5;true;NULL;limite inferior
+ADOLESCENTE;gama-gt;3;feminino;NULL;;false;;false;5;false;36;false;NULL;normal
+ADOLESCENTE;gama-gt;4;feminino;NULL;;false;;false;36;true;36;true;NULL;limite superior
+ADOLESCENTE;gama-gt;5;feminino;NULL;;false;;false;36;false;;false;NULL;alto
+ADOLESCENTE;gama-gt;6;masculino;NULL;;false;;false;;false;8;false;NULL;baixo
+ADOLESCENTE;gama-gt;7;masculino;NULL;;false;;false;8;true;8;true;NULL;limite inferior
+ADOLESCENTE;gama-gt;8;masculino;NULL;;false;;false;8;false;61;false;NULL;normal
+ADOLESCENTE;gama-gt;9;masculino;NULL;;false;;false;61;true;61;true;NULL;limite superior
+ADOLESCENTE;gama-gt;10;masculino;NULL;;false;;false;61;false;;false;NULL;alto
+ADOLESCENTE;gastrina;1;NULL;NULL;;false;;false;;false;200;false;NULL;normal
+ADOLESCENTE;gastrina;2;NULL;NULL;;false;;false;200;true;200;true;NULL;limite
+ADOLESCENTE;gastrina;3;NULL;NULL;;false;;false;200;false;;false;NULL;alto
+ADOLESCENTE;leptina;1;feminino;IMC < 27;;false;;false;;false;15.1;false;NULL;normal
+ADOLESCENTE;leptina;2;feminino;IMC < 27;;false;;false;15.1;true;15.1;true;NULL;limite
+ADOLESCENTE;leptina;3;feminino;IMC < 27;;false;;false;15.1;false;;false;NULL;alto
+ADOLESCENTE;leptina;4;masculino;IMC < 27;;false;;false;;false;2;false;NULL;baixo
+ADOLESCENTE;leptina;5;masculino;IMC < 27;;false;;false;2;true;2;true;NULL;limite inferior
+ADOLESCENTE;leptina;6;masculino;IMC < 27;;false;;false;2;false;5.63;false;NULL;normal
+ADOLESCENTE;leptina;7;masculino;IMC < 27;;false;;false;5.63;true;5.63;true;NULL;limite superior
+ADOLESCENTE;leptina;8;masculino;IMC < 27;;false;;false;5.63;false;;false;NULL;alto
+ADOLESCENTE;leptina;9;NULL;IMC > 27;;false;;false;;false;7.02;false;NULL;baixo
+ADOLESCENTE;leptina;10;NULL;IMC > 27;;false;;false;7.02;true;7.02;true;NULL;limite inferior
+ADOLESCENTE;leptina;11;NULL;IMC > 27;;false;;false;7.02;false;55.04;false;NULL;normal
+ADOLESCENTE;leptina;12;NULL;IMC > 27;;false;;false;55.04;true;55.04;true;NULL;limite superior
+ADOLESCENTE;leptina;13;NULL;IMC > 27;;false;;false;55.04;false;;false;NULL;alto
+ADOLESCENTE;lipase;1;NULL;NULL;;false;;false;;false;60;false;NULL;normal
+ADOLESCENTE;lipase;2;NULL;NULL;;false;;false;60;true;60;true;NULL;limite
+ADOLESCENTE;lipase;3;NULL;NULL;;false;;false;60;false;;false;NULL;alto
+ADOLESCENTE;oxalato;1;feminino;NULL;;false;;false;;false;4;false;NULL;baixo
+ADOLESCENTE;oxalato;2;feminino;NULL;;false;;false;4;true;4;true;NULL;limite inferior
+ADOLESCENTE;oxalato;3;feminino;NULL;;false;;false;4;false;31;false;NULL;normal
+ADOLESCENTE;oxalato;4;feminino;NULL;;false;;false;31;true;31;true;NULL;limite superior
+ADOLESCENTE;oxalato;5;feminino;NULL;;false;;false;31;false;;false;NULL;alto
+ADOLESCENTE;oxalato;6;masculino;NULL;;false;;false;;false;7;false;NULL;baixo
+ADOLESCENTE;oxalato;7;masculino;NULL;;false;;false;7;true;7;true;NULL;limite inferior
+ADOLESCENTE;oxalato;8;masculino;NULL;;false;;false;7;false;44;false;NULL;normal
+ADOLESCENTE;oxalato;9;masculino;NULL;;false;;false;44;true;44;true;NULL;limite superior
+ADOLESCENTE;oxalato;10;masculino;NULL;;false;;false;44;false;;false;NULL;alto
+ADOLESCENTE;superoxido-dismutase-sod;1;NULL;NULL;;false;;false;;false;1102;false;NULL;baixo
+ADOLESCENTE;superoxido-dismutase-sod;2;NULL;NULL;;false;;false;1102;true;1102;true;NULL;limite inferior
+ADOLESCENTE;superoxido-dismutase-sod;3;NULL;NULL;;false;;false;1102;false;1601;false;NULL;normal
+ADOLESCENTE;superoxido-dismutase-sod;4;NULL;NULL;;false;;false;1601;true;1601;true;NULL;limite superior
+ADOLESCENTE;superoxido-dismutase-sod;5;NULL;NULL;;false;;false;1601;false;;false;NULL;alto
+ADOLESCENTE;tempo-de-protrombina;1;NULL;NULL;;false;;false;;false;70;false;NULL;baixo
+ADOLESCENTE;tempo-de-protrombina;2;NULL;NULL;;false;;false;;false;;false;NULL;normal
+ADOLESCENTE;tempo-de-tromboplastina-parcial-ttp;1;NULL;NULL;;false;;false;;false;0.8;false;NULL;baixo
+ADOLESCENTE;tempo-de-tromboplastina-parcial-ttp;2;NULL;NULL;;false;;false;0.8;true;0.8;true;NULL;limite inferior
+ADOLESCENTE;tempo-de-tromboplastina-parcial-ttp;3;NULL;NULL;;false;;false;0.8;false;1.25;false;NULL;normal
+ADOLESCENTE;tempo-de-tromboplastina-parcial-ttp;4;NULL;NULL;;false;;false;1.25;true;1.25;true;NULL;limite superior
+ADOLESCENTE;tempo-de-tromboplastina-parcial-ttp;5;NULL;NULL;;false;;false;1.25;false;;false;NULL;alto
+ADULTO;acido-urico;1;feminino;NULL;;false;;false;;false;2.4;false;NULL;baixo
+ADULTO;acido-urico;2;feminino;NULL;;false;;false;2.4;true;2.4;true;NULL;limite inferior
+ADULTO;acido-urico;3;feminino;NULL;;false;;false;2.4;false;6;false;NULL;normal
+ADULTO;acido-urico;4;feminino;NULL;;false;;false;6;true;6;true;NULL;limite superior
+ADULTO;acido-urico;5;feminino;NULL;;false;;false;6;false;;false;NULL;alto
+ADULTO;acido-urico;6;masculino;NULL;;false;;false;;false;3.4;false;NULL;baixo
+ADULTO;acido-urico;7;masculino;NULL;;false;;false;3.4;true;3.4;true;NULL;limite inferior
+ADULTO;acido-urico;8;masculino;NULL;;false;;false;3.4;false;7;false;NULL;normal
+ADULTO;acido-urico;9;masculino;NULL;;false;;false;7;true;7;true;NULL;limite superior
+ADULTO;acido-urico;10;masculino;NULL;;false;;false;7;false;;false;NULL;alto
+ADULTO;creatinina;1;feminino;NULL;;false;;false;;false;0.6;false;NULL;baixo
+ADULTO;creatinina;2;feminino;NULL;;false;;false;0.6;true;0.6;true;NULL;limite inferior
+ADULTO;creatinina;3;feminino;NULL;;false;;false;0.6;false;1;false;NULL;normal
+ADULTO;creatinina;4;feminino;NULL;;false;;false;1;true;1;true;NULL;limite superior
+ADULTO;creatinina;5;feminino;NULL;;false;;false;1;false;;false;NULL;alto
+ADULTO;creatinina;6;masculino;NULL;;false;;false;;false;0.8;false;NULL;baixo
+ADULTO;creatinina;7;masculino;NULL;;false;;false;0.8;true;0.8;true;NULL;limite inferior
+ADULTO;creatinina;8;masculino;NULL;;false;;false;0.8;false;1.2;false;NULL;normal
+ADULTO;creatinina;9;masculino;NULL;;false;;false;1.2;true;1.2;true;NULL;limite superior
+ADULTO;creatinina;10;masculino;NULL;;false;;false;1.2;false;;false;NULL;alto
+ADULTO;ferritina;1;feminino;menarca;;false;;false;;false;10;false;NULL;baixo
+ADULTO;ferritina;2;feminino;menarca;;false;;false;10;true;10;true;NULL;limite inferior
+ADULTO;ferritina;3;feminino;menarca;;false;;false;10;false;64;false;NULL;normal
+ADULTO;ferritina;4;feminino;menarca;;false;;false;64;true;64;true;NULL;limite superior
+ADULTO;ferritina;5;feminino;menarca;;false;;false;64;false;;false;NULL;alto
+ADULTO;ferritina;6;feminino;pós-menopausa;;false;;false;;false;24;false;NULL;baixo
+ADULTO;ferritina;7;feminino;pós-menopausa;;false;;false;24;true;24;true;NULL;limite inferior
+ADULTO;ferritina;8;feminino;pós-menopausa;;false;;false;24;false;155;false;NULL;normal
+ADULTO;ferritina;9;feminino;pós-menopausa;;false;;false;155;true;155;true;NULL;limite superior
+ADULTO;ferritina;10;feminino;pós-menopausa;;false;;false;155;false;;false;NULL;alto
+ADULTO;ferritina;11;feminino;nenhuma delas;;false;;false;;false;36;false;NULL;baixo
+ADULTO;ferritina;12;feminino;nenhuma delas;;false;;false;36;true;36;true;NULL;limite inferior
+ADULTO;ferritina;13;feminino;nenhuma delas;;false;;false;36;false;262;false;NULL;normal
+ADULTO;ferritina;14;feminino;nenhuma delas;;false;;false;262;true;262;true;NULL;limite superior
+ADULTO;ferritina;15;feminino;nenhuma delas;;false;;false;262;false;;false;NULL;alto
+ADULTO;ferritina;16;masculino;homem;;false;;false;;false;36;false;NULL;baixo
+ADULTO;ferritina;17;masculino;homem;;false;;false;36;true;36;true;NULL;limite inferior
+ADULTO;ferritina;18;masculino;homem;;false;;false;36;false;262;false;NULL;normal
+ADULTO;ferritina;19;masculino;homem;;false;;false;262;true;262;true;NULL;limite superior
+ADULTO;ferritina;20;masculino;homem;;false;;false;262;false;;false;NULL;alto
+ADULTO;glicemia-de-jejum;1;NULL;NULL;;false;;false;;false;70;false;NULL;baixo
+ADULTO;glicemia-de-jejum;2;NULL;NULL;;false;;false;70;true;70;true;NULL;limite inferior
+ADULTO;glicemia-de-jejum;3;NULL;NULL;;false;;false;70;false;100;false;NULL;normal
+ADULTO;glicemia-de-jejum;4;NULL;NULL;;false;;false;100;true;125;true;NULL;int. à glicose
+ADULTO;glicemia-de-jejum;5;NULL;NULL;;false;;false;125;false;;false;NULL;diabetes
+ADULTO;ureia;1;NULL;NULL;;false;;false;;false;10;false;NULL;baixo
+ADULTO;ureia;2;NULL;NULL;;false;;false;10;true;10;true;NULL;limite inferior
+ADULTO;ureia;3;NULL;NULL;;false;;false;10;false;50;false;NULL;normal
+ADULTO;ureia;4;NULL;NULL;;false;;false;50;true;50;true;NULL;limite superior
+ADULTO;ureia;5;NULL;NULL;;false;;false;50;false;;false;NULL;alto
+ADULTO;capac-fixacao-do-ferro;1;NULL;NULL;;false;;false;;false;170;false;NULL;baixo
+ADULTO;capac-fixacao-do-ferro;2;NULL;NULL;;false;;false;170;true;230;false;NULL;latente
+ADULTO;capac-fixacao-do-ferro;3;NULL;NULL;;false;;false;230;true;370;true;NULL;total
+ADULTO;capac-fixacao-do-ferro;4;NULL;NULL;;false;;false;370;false;;false;NULL;alto
+ADULTO;creatina-fosfoquinase-ck-ou-cpk;1;feminino;NULL;;false;;false;;false;215;false;NULL;normal
+ADULTO;creatina-fosfoquinase-ck-ou-cpk;2;feminino;NULL;;false;;false;215;true;215;true;NULL;limite superior
+ADULTO;creatina-fosfoquinase-ck-ou-cpk;3;feminino;NULL;;false;;false;215;false;;false;NULL;alto
+ADULTO;creatina-fosfoquinase-ck-ou-cpk;4;masculino;NULL;;false;;false;;false;232;false;NULL;normal
+ADULTO;creatina-fosfoquinase-ck-ou-cpk;5;masculino;NULL;;false;;false;232;true;232;true;NULL;limite superior
+ADULTO;creatina-fosfoquinase-ck-ou-cpk;6;masculino;NULL;;false;;false;232;false;;false;NULL;alto
+ADULTO;glicemia-pos-prandial;1;NULL;NULL;;false;;false;;false;140;false;NULL;normal
+ADULTO;glicemia-pos-prandial;2;NULL;NULL;;false;;false;140;true;200;false;NULL;int. à glicose
+ADULTO;glicemia-pos-prandial;3;NULL;NULL;;false;;false;200;true;;false;NULL;diabetes
+ADULTO;hemoglobina-glicada-hba1c;1;NULL;NULL;;false;60;false;;false;6.5;false;NULL;normal
+ADULTO;hemoglobina-glicada-hba1c;2;NULL;NULL;;false;60;false;6.5;true;6.5;true;NULL;limite
+ADULTO;hemoglobina-glicada-hba1c;3;NULL;NULL;;false;60;false;6.5;false;;false;NULL;alto
+ADULTO;hemoglobina-glicada-hba1c;4;NULL;NULL;60;true;;false;;false;8;false;NULL;normal
+ADULTO;hemoglobina-glicada-hba1c;5;NULL;NULL;60;true;;false;8;true;8;true;NULL;limite
+ADULTO;hemoglobina-glicada-hba1c;6;NULL;NULL;60;true;;false;8;false;;false;NULL;alto
+ADULTO;homocisteina;1;NULL;NULL;;false;;false;;false;5.5;false;NULL;baixo
+ADULTO;homocisteina;2;NULL;NULL;;false;;false;5.5;true;5.5;true;NULL;limite inferior
+ADULTO;homocisteina;3;NULL;NULL;;false;;false;5.5;false;17;false;NULL;normal
+ADULTO;homocisteina;4;NULL;NULL;;false;;false;17;true;17;true;NULL;limite superior
+ADULTO;homocisteina;5;NULL;NULL;;false;;false;17;false;;false;NULL;alto
+ADULTO;insulina;1;NULL;NULL;;false;;false;;false;3;false;NULL;baixo
+ADULTO;insulina;2;NULL;NULL;;false;;false;3;true;3;true;NULL;limite inferior
+ADULTO;insulina;3;NULL;NULL;;false;;false;3;false;25;false;NULL;normal
+ADULTO;insulina;4;NULL;NULL;;false;;false;25;true;25;true;NULL;limite superior
+ADULTO;insulina;5;NULL;NULL;;false;;false;25;false;;false;NULL;alto
+ADULTO;saturacao-de-transferrina;1;NULL;NULL;;false;;false;;false;20;false;NULL;baixo
+ADULTO;saturacao-de-transferrina;2;NULL;NULL;;false;;false;20;true;20;true;NULL;limite inferior
+ADULTO;saturacao-de-transferrina;3;NULL;NULL;;false;;false;20;false;50;false;NULL;normal
+ADULTO;saturacao-de-transferrina;4;NULL;NULL;;false;;false;50;true;50;true;NULL;limite superior
+ADULTO;saturacao-de-transferrina;5;NULL;NULL;;false;;false;50;false;;false;NULL;alto
+ADULTO;transferrina;1;NULL;NULL;;false;;false;;false;200;false;NULL;baixo
+ADULTO;transferrina;2;NULL;NULL;;false;;false;200;true;200;true;NULL;limite inferior
+ADULTO;transferrina;3;NULL;NULL;;false;;false;200;false;400;false;NULL;normal
+ADULTO;transferrina;4;NULL;NULL;;false;;false;400;true;400;true;NULL;limite superior
+ADULTO;transferrina;5;NULL;NULL;;false;;false;400;false;;false;NULL;alto
+ADULTO;tgo;1;feminino;NULL;;false;;false;;false;32;false;NULL;normal
+ADULTO;tgo;2;feminino;NULL;;false;;false;32;true;32;true;NULL;limite
+ADULTO;tgo;3;feminino;NULL;;false;;false;32;false;;false;NULL;alto
+ADULTO;tgo;4;masculino;NULL;;false;;false;;false;38;false;NULL;normal
+ADULTO;tgo;5;masculino;NULL;;false;;false;38;true;38;true;NULL;limite
+ADULTO;tgo;6;masculino;NULL;;false;;false;38;false;;false;NULL;alto
+ADULTO;tgp;1;feminino;NULL;;false;;false;;false;31;false;NULL;normal
+ADULTO;tgp;2;feminino;NULL;;false;;false;31;true;31;true;NULL;limite
+ADULTO;tgp;3;feminino;NULL;;false;;false;31;false;;false;NULL;alto
+ADULTO;tgp;4;masculino;NULL;;false;;false;;false;41;false;NULL;normal
+ADULTO;tgp;5;masculino;NULL;;false;;false;41;true;41;true;NULL;limite
+ADULTO;tgp;6;masculino;NULL;;false;;false;41;false;;false;NULL;alto
+ADULTO;eritrocitos;1;feminino;NULL;;false;;false;;false;4;false;NULL;baixo
+ADULTO;eritrocitos;2;feminino;NULL;;false;;false;4;true;4;true;NULL;limite inferior
+ADULTO;eritrocitos;3;feminino;NULL;;false;;false;4;false;5.6;false;NULL;normal
+ADULTO;eritrocitos;4;feminino;NULL;;false;;false;5.6;true;5.6;true;NULL;limite superior
+ADULTO;eritrocitos;5;feminino;NULL;;false;;false;5.6;false;;false;NULL;alto
+ADULTO;eritrocitos;6;masculino;NULL;;false;;false;;false;4.5;false;NULL;baixo
+ADULTO;eritrocitos;7;masculino;NULL;;false;;false;4.5;true;4.5;true;NULL;limite inferior
+ADULTO;eritrocitos;8;masculino;NULL;;false;;false;4.5;false;6.5;false;NULL;normal
+ADULTO;eritrocitos;9;masculino;NULL;;false;;false;6.5;true;6.5;true;NULL;limite superior
+ADULTO;eritrocitos;10;masculino;NULL;;false;;false;6.5;false;;false;NULL;alto
+ADULTO;hematocrito;1;feminino;NULL;;false;;false;;false;35;false;NULL;baixo
+ADULTO;hematocrito;2;feminino;NULL;;false;;false;35;true;35;true;NULL;limite inferior
+ADULTO;hematocrito;3;feminino;NULL;;false;;false;35;false;47;false;NULL;normal
+ADULTO;hematocrito;4;feminino;NULL;;false;;false;47;true;47;true;NULL;limite superior
+ADULTO;hematocrito;5;feminino;NULL;;false;;false;47;false;;false;NULL;alto
+ADULTO;hematocrito;6;masculino;NULL;;false;;false;;false;40;false;NULL;baixo
+ADULTO;hematocrito;7;masculino;NULL;;false;;false;40;true;40;true;NULL;limite inferior
+ADULTO;hematocrito;8;masculino;NULL;;false;;false;40;false;54;false;NULL;normal
+ADULTO;hematocrito;9;masculino;NULL;;false;;false;54;true;54;true;NULL;limite superior
+ADULTO;hematocrito;10;masculino;NULL;;false;;false;54;false;;false;NULL;alto
+ADULTO;hemoglobina;1;feminino;NULL;;false;;false;;false;12;false;NULL;baixo
+ADULTO;hemoglobina;2;feminino;NULL;;false;;false;12;true;12;true;NULL;limite inferior
+ADULTO;hemoglobina;3;feminino;NULL;;false;;false;12;false;16.5;false;NULL;normal
+ADULTO;hemoglobina;4;feminino;NULL;;false;;false;16.5;true;16.5;true;NULL;limite superior
+ADULTO;hemoglobina;5;feminino;NULL;;false;;false;16.5;false;;false;NULL;alto
+ADULTO;hemoglobina;6;masculino;NULL;;false;;false;;false;13.5;false;NULL;baixo
+ADULTO;hemoglobina;7;masculino;NULL;;false;;false;13.5;true;13.5;true;NULL;limite inferior
+ADULTO;hemoglobina;8;masculino;NULL;;false;;false;13.5;false;18;false;NULL;normal
+ADULTO;hemoglobina;9;masculino;NULL;;false;;false;18;true;18;true;NULL;limite superior
+ADULTO;hemoglobina;10;masculino;NULL;;false;;false;18;false;;false;NULL;alto
+ADULTO;vcm;1;feminino;NULL;;false;;false;;false;81;false;NULL;baixo
+ADULTO;vcm;2;feminino;NULL;;false;;false;81;true;81;true;NULL;limite inferior
+ADULTO;vcm;3;feminino;NULL;;false;;false;81;false;101;false;NULL;normal
+ADULTO;vcm;4;feminino;NULL;;false;;false;101;true;101;true;NULL;limite superior
+ADULTO;vcm;5;feminino;NULL;;false;;false;101;false;;false;NULL;alto
+ADULTO;vcm;6;masculino;NULL;;false;;false;;false;82;false;NULL;baixo
+ADULTO;vcm;7;masculino;NULL;;false;;false;82;true;82;true;NULL;limite inferior
+ADULTO;vcm;8;masculino;NULL;;false;;false;82;false;101;false;NULL;normal
+ADULTO;vcm;9;masculino;NULL;;false;;false;101;true;101;true;NULL;limite superior
+ADULTO;vcm;10;masculino;NULL;;false;;false;101;false;;false;NULL;alto
+ADULTO;hcm;1;NULL;NULL;;false;;false;;false;27;false;NULL;baixo
+ADULTO;hcm;2;NULL;NULL;;false;;false;27;true;27;true;NULL;limite inferior
+ADULTO;hcm;3;NULL;NULL;;false;;false;27;false;34;false;NULL;normal
+ADULTO;hcm;4;NULL;NULL;;false;;false;34;true;34;true;NULL;limite superior
+ADULTO;hcm;5;NULL;NULL;;false;;false;34;false;;false;NULL;alto
+ADULTO;rdw;1;feminino;NULL;;false;;false;;false;11.6;false;NULL;baixo
+ADULTO;rdw;2;feminino;NULL;;false;;false;11.6;true;11.6;true;NULL;limite inferior
+ADULTO;rdw;3;feminino;NULL;;false;;false;11.6;false;14.8;false;NULL;normal
+ADULTO;rdw;4;feminino;NULL;;false;;false;14.8;true;14.8;true;NULL;limite superior
+ADULTO;rdw;5;feminino;NULL;;false;;false;14.8;false;;false;NULL;alto
+ADULTO;rdw;6;masculino;NULL;;false;;false;;false;11.6;false;NULL;baixo
+ADULTO;rdw;7;masculino;NULL;;false;;false;11.6;true;11.6;true;NULL;limite inferior
+ADULTO;rdw;8;masculino;NULL;;false;;false;11.6;false;14;false;NULL;normal
+ADULTO;rdw;9;masculino;NULL;;false;;false;14;true;14;true;NULL;limite superior
+ADULTO;rdw;10;masculino;NULL;;false;;false;14;false;;false;NULL;alto
+ADULTO;chcm;1;NULL;NULL;;false;;false;;false;31.5;false;NULL;baixo
+ADULTO;chcm;2;NULL;NULL;;false;;false;31.5;true;31.5;true;NULL;limite inferior
+ADULTO;chcm;3;NULL;NULL;;false;;false;31.5;false;36;false;NULL;normal
+ADULTO;chcm;4;NULL;NULL;;false;;false;36;true;36;true;NULL;limite superior
+ADULTO;chcm;5;NULL;NULL;;false;;false;36;false;;false;NULL;alto
+ADULTO;leucocitos-totais;1;NULL;NULL;;false;;false;;false;4500;false;NULL;baixo
+ADULTO;leucocitos-totais;2;NULL;NULL;;false;;false;4500;true;4500;true;NULL;limite inferior
+ADULTO;leucocitos-totais;3;NULL;NULL;;false;;false;4500;false;11000;false;NULL;normal
+ADULTO;leucocitos-totais;4;NULL;NULL;;false;;false;11000;true;11000;true;NULL;limite superior
+ADULTO;leucocitos-totais;5;NULL;NULL;;false;;false;11000;false;;false;NULL;alto
+ADULTO;basofilos;1;NULL;NULL;;false;;false;;false;200;false;NULL;normal
+ADULTO;basofilos;2;NULL;NULL;;false;;false;200;true;200;true;NULL;limite
+ADULTO;basofilos;3;NULL;NULL;;false;;false;200;false;;false;NULL;alto
+ADULTO;bastonetes;1;NULL;NULL;;false;;false;;false;500;false;NULL;normal
+ADULTO;bastonetes;2;NULL;NULL;;false;;false;500;true;500;true;NULL;limite
+ADULTO;bastonetes;3;NULL;NULL;;false;;false;500;false;;false;NULL;alto
+ADULTO;blastos;1;NULL;NULL;;false;;false;0;true;0;true;NULL;normal
+ADULTO;blastos;2;NULL;NULL;;false;;false;0;false;;false;NULL;alto
+ADULTO;eosinofilos;1;NULL;NULL;;false;;false;;false;50;false;NULL;baixo
+ADULTO;eosinofilos;2;NULL;NULL;;false;;false;50;true;50;true;NULL;limite inferior
+ADULTO;eosinofilos;3;NULL;NULL;;false;;false;50;false;500;false;NULL;normal
+ADULTO;eosinofilos;4;NULL;NULL;;false;;false;500;true;500;true;NULL;limite superior
+ADULTO;eosinofilos;5;NULL;NULL;;false;;false;500;false;;false;NULL;alto
+ADULTO;linfocitos;1;NULL;NULL;;false;;false;;false;1500;false;NULL;baixo
+ADULTO;linfocitos;2;NULL;NULL;;false;;false;1500;true;1500;true;NULL;limite inferior
+ADULTO;linfocitos;3;NULL;NULL;;false;;false;1500;false;5000;false;NULL;normal
+ADULTO;linfocitos;4;NULL;NULL;;false;;false;5000;true;5000;true;NULL;limite superior
+ADULTO;linfocitos;5;NULL;NULL;;false;;false;5000;false;;false;NULL;alto
+ADULTO;metamielocitos;1;NULL;NULL;;false;;false;0;true;0;true;NULL;normal
+ADULTO;metamielocitos;2;NULL;NULL;;false;;false;0;false;;false;NULL;alto
+ADULTO;mielocitos;1;NULL;NULL;;false;;false;0;true;0;true;NULL;normal
+ADULTO;mielocitos;2;NULL;NULL;;false;;false;0;false;;false;NULL;alto
+ADULTO;monocitos;1;NULL;NULL;;false;;false;;false;90;false;NULL;baixo
+ADULTO;monocitos;2;NULL;NULL;;false;;false;90;true;90;true;NULL;limite inferior
+ADULTO;monocitos;3;NULL;NULL;;false;;false;90;false;900;false;NULL;normal
+ADULTO;monocitos;4;NULL;NULL;;false;;false;900;true;900;true;NULL;limite superior
+ADULTO;monocitos;5;NULL;NULL;;false;;false;900;false;;false;NULL;alto
+ADULTO;neutrofilos;1;NULL;NULL;;false;;false;;false;1800;false;NULL;baixo
+ADULTO;neutrofilos;2;NULL;NULL;;false;;false;1800;true;1800;true;NULL;limite inferior
+ADULTO;neutrofilos;3;NULL;NULL;;false;;false;1800;false;8000;false;NULL;normal
+ADULTO;neutrofilos;4;NULL;NULL;;false;;false;8000;true;8000;true;NULL;limite superior
+ADULTO;neutrofilos;5;NULL;NULL;;false;;false;8000;false;;false;NULL;alto
+ADULTO;plasmocitos;1;NULL;NULL;;false;;false;;false;100;false;NULL;normal
+ADULTO;plasmocitos;2;NULL;NULL;;false;;false;100;true;100;true;NULL;limite superior
+ADULTO;plasmocitos;3;NULL;NULL;;false;;false;100;false;;false;NULL;alto
+ADULTO;promielocitos;1;NULL;NULL;;false;;false;0;true;0;true;NULL;normal
+ADULTO;promielocitos;2;NULL;NULL;;false;;false;0;false;;false;NULL;alto
+ADULTO;reticulocitos;1;NULL;NULL;;false;;false;;false;0.5;false;NULL;baixo
+ADULTO;reticulocitos;2;NULL;NULL;;false;;false;0.5;true;0.5;true;NULL;limite inferior
+ADULTO;reticulocitos;3;NULL;NULL;;false;;false;0.5;false;2;false;NULL;normal
+ADULTO;reticulocitos;4;NULL;NULL;;false;;false;2;true;2;true;NULL;limite superior
+ADULTO;reticulocitos;5;NULL;NULL;;false;;false;2;false;;false;NULL;alto
+ADULTO;segmentados;1;NULL;NULL;;false;;false;;false;1500;false;NULL;baixo
+ADULTO;segmentados;2;NULL;NULL;;false;;false;1500;true;1500;true;NULL;limite inferior
+ADULTO;segmentados;3;NULL;NULL;;false;;false;1500;false;7000;false;NULL;normal
+ADULTO;segmentados;4;NULL;NULL;;false;;false;7000;true;7000;true;NULL;limite superior
+ADULTO;segmentados;5;NULL;NULL;;false;;false;7000;false;;false;NULL;alto
+ADULTO;plaquetas;1;NULL;NULL;;false;;false;;false;150000;false;NULL;baixo
+ADULTO;plaquetas;2;NULL;NULL;;false;;false;150000;true;150000;true;NULL;limite inferior
+ADULTO;plaquetas;3;NULL;NULL;;false;;false;150000;false;500000;false;NULL;normal
+ADULTO;plaquetas;4;NULL;NULL;;false;;false;500000;true;500000;true;NULL;limite superior
+ADULTO;plaquetas;5;NULL;NULL;;false;;false;500000;false;;false;NULL;alto
+ADULTO;lipideos-totais;1;NULL;NULL;;false;;false;;false;400;false;NULL;baixo
+ADULTO;lipideos-totais;2;NULL;NULL;;false;;false;400;true;400;true;NULL;limite inferior
+ADULTO;lipideos-totais;3;NULL;NULL;;false;;false;400;false;800;false;NULL;normal
+ADULTO;lipideos-totais;4;NULL;NULL;;false;;false;800;true;800;true;NULL;limite superior
+ADULTO;lipideos-totais;5;NULL;NULL;;false;;false;800;false;;false;NULL;alto
+ADULTO;fosfolipides;1;NULL;NULL;;false;;false;;false;85;false;NULL;baixo
+ADULTO;fosfolipides;2;NULL;NULL;;false;;false;85;true;85;true;NULL;limite inferior
+ADULTO;fosfolipides;3;NULL;NULL;;false;;false;85;false;250;false;NULL;normal
+ADULTO;fosfolipides;4;NULL;NULL;;false;;false;250;true;250;true;NULL;limite superior
+ADULTO;fosfolipides;5;NULL;NULL;;false;;false;250;false;;false;NULL;alto
+ADULTO;triglicerides;1;NULL;NULL;;false;;false;;false;150;false;NULL;ótimo
+ADULTO;triglicerides;2;NULL;NULL;;false;;false;150;true;200;true;NULL;limítrofe
+ADULTO;triglicerides;3;NULL;NULL;;false;;false;200;false;500;false;NULL;alto
+ADULTO;triglicerides;4;NULL;NULL;;false;;false;500;true;;false;NULL;muito alto
+ADULTO;colesterol-total;1;NULL;NULL;;false;;false;;false;200;false;NULL;ótimo
+ADULTO;colesterol-total;2;NULL;NULL;;false;;false;200;true;240;false;NULL;limítrofe
+ADULTO;colesterol-total;3;NULL;NULL;;false;;false;240;true;;false;NULL;alto
+ADULTO;ldl;1;NULL;NULL;;false;;false;;false;100;false;NULL;ótimo
+ADULTO;ldl;2;NULL;NULL;;false;;false;100;true;130;false;NULL;desejável
+ADULTO;ldl;3;NULL;NULL;;false;;false;130;true;160;false;NULL;limítrofe
+ADULTO;ldl;4;NULL;NULL;;false;;false;160;true;190;false;NULL;alto
+ADULTO;ldl;5;NULL;NULL;;false;;false;190;true;;false;NULL;muito alto
+ADULTO;vldl;1;NULL;NULL;;false;;false;;false;40;false;NULL;normal
+ADULTO;vldl;2;NULL;NULL;;false;;false;40;true;40;true;NULL;limite
+ADULTO;vldl;3;NULL;NULL;;false;;false;40;false;;false;NULL;alto
+ADULTO;hdl;1;NULL;NULL;;false;;false;;false;40;false;NULL;baixo
+ADULTO;hdl;2;NULL;NULL;;false;;false;40;true;40;true;NULL;limite inferior
+ADULTO;hdl;3;NULL;NULL;;false;;false;40;false;60;false;NULL;normal
+ADULTO;hdl;4;NULL;NULL;;false;;false;60;true;60;true;NULL;limite superior
+ADULTO;hdl;5;NULL;NULL;;false;;false;60;false;;false;NULL;alto
+ADULTO;apolipoproteina-a;1;feminino;NULL;;false;;false;;false;101;false;NULL;baixo
+ADULTO;apolipoproteina-a;2;feminino;NULL;;false;;false;101;true;101;true;NULL;limite inferior
+ADULTO;apolipoproteina-a;3;feminino;NULL;;false;;false;101;false;199;false;NULL;normal
+ADULTO;apolipoproteina-a;4;feminino;NULL;;false;;false;199;true;199;true;NULL;limite superior
+ADULTO;apolipoproteina-a;5;feminino;NULL;;false;;false;199;false;;false;NULL;alto
+ADULTO;apolipoproteina-a;6;masculino;NULL;;false;;false;;false;94;false;NULL;baixo
+ADULTO;apolipoproteina-a;7;masculino;NULL;;false;;false;94;true;94;true;NULL;limite inferior
+ADULTO;apolipoproteina-a;8;masculino;NULL;;false;;false;94;false;189;false;NULL;normal
+ADULTO;apolipoproteina-a;9;masculino;NULL;;false;;false;189;true;189;true;NULL;limite superior
+ADULTO;apolipoproteina-a;10;masculino;NULL;;false;;false;189;false;;false;NULL;alto
+ADULTO;apolipoproteina-b;1;feminino;NULL;;false;;false;;false;49;false;NULL;baixo
+ADULTO;apolipoproteina-b;2;feminino;NULL;;false;;false;49;true;49;true;NULL;limite inferior
+ADULTO;apolipoproteina-b;3;feminino;NULL;;false;;false;49;false;103;false;NULL;normal
+ADULTO;apolipoproteina-b;4;feminino;NULL;;false;;false;103;true;103;true;NULL;limite superior
+ADULTO;apolipoproteina-b;5;feminino;NULL;;false;;false;103;false;;false;NULL;alto
+ADULTO;apolipoproteina-b;6;masculino;NULL;;false;;false;;false;52;false;NULL;baixo
+ADULTO;apolipoproteina-b;7;masculino;NULL;;false;;false;52;true;52;true;NULL;limite inferior
+ADULTO;apolipoproteina-b;8;masculino;NULL;;false;;false;52;false;109;false;NULL;normal
+ADULTO;apolipoproteina-b;9;masculino;NULL;;false;;false;109;true;109;true;NULL;limite superior
+ADULTO;apolipoproteina-b;10;masculino;NULL;;false;;false;109;false;;false;NULL;alto
+ADULTO;indice-de-castelli-i;1;NULL;NULL;;false;;false;;false;4.4;false;NULL;normal
+ADULTO;indice-de-castelli-i;2;NULL;NULL;;false;;false;4.4;true;4.4;true;NULL;limite
+ADULTO;indice-de-castelli-i;3;NULL;NULL;;false;;false;4.4;false;;false;NULL;alto
+ADULTO;indice-de-castelli-ii;1;NULL;NULL;;false;;false;;false;3.2;false;NULL;normal
+ADULTO;indice-de-castelli-ii;2;NULL;NULL;;false;;false;3.2;true;3.2;true;NULL;limite
+ADULTO;indice-de-castelli-ii;3;NULL;NULL;;false;;false;3.2;false;;false;NULL;alto
+ADULTO;densidade;1;NULL;NULL;;false;;false;;false;1.01;false;NULL;baixo
+ADULTO;densidade;2;NULL;NULL;;false;;false;1.01;true;1.01;true;NULL;limite inferior
+ADULTO;densidade;3;NULL;NULL;;false;;false;1.01;false;1.025;false;NULL;normal
+ADULTO;densidade;4;NULL;NULL;;false;;false;1.025;true;1.025;true;NULL;limite superior
+ADULTO;densidade;5;NULL;NULL;;false;;false;1.025;false;;false;NULL;alto
+ADULTO;ph;1;NULL;NULL;;false;;false;;false;5.5;false;NULL;ácida
+ADULTO;ph;2;NULL;NULL;;false;;false;5.5;true;7;true;NULL;normal
+ADULTO;ph;3;NULL;NULL;;false;;false;7;false;;false;NULL;alcalina
+ADULTO;calcio;1;NULL;NULL;;false;;false;;false;55;false;NULL;baixo
+ADULTO;calcio;2;NULL;NULL;;false;;false;55;true;55;true;NULL;limite inferior
+ADULTO;calcio;3;NULL;NULL;;false;;false;55;false;220;false;NULL;normal
+ADULTO;calcio;4;NULL;NULL;;false;;false;220;true;220;true;NULL;limite superior
+ADULTO;calcio;5;NULL;NULL;;false;;false;220;false;;false;NULL;alto
+ADULTO;cetonas-ou-corpos-cetonicos;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADULTO;cetonas-ou-corpos-cetonicos;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADULTO;citrato;1;NULL;NULL;;false;;false;;false;400;false;NULL;normal
+ADULTO;citrato;2;NULL;NULL;;false;;false;400;true;400;true;NULL;limite
+ADULTO;citrato;3;NULL;NULL;;false;;false;400;false;;false;NULL;alto
+ADULTO;glicose;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADULTO;glicose;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADULTO;nitrito;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADULTO;nitrito;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADULTO;proteinas;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADULTO;proteinas;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADULTO;sangue-hemoglobina-ou-hemacias;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADULTO;sangue-hemoglobina-ou-hemacias;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADULTO;urobilinogenio-ou-bilirrubina;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADULTO;urobilinogenio-ou-bilirrubina;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADULTO;cilindros;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADULTO;cilindros;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADULTO;granulosos;1;NULL;NULL;;false;;false;;false;1000;false;NULL;normal
+ADULTO;granulosos;2;NULL;NULL;;false;;false;1000;true;1000;true;NULL;limite
+ADULTO;granulosos;3;NULL;NULL;;false;;false;1000;false;;false;NULL;alto
+ADULTO;hematicos;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADULTO;hematicos;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADULTO;hialinos;1;NULL;NULL;;false;;false;;false;1000;false;NULL;normal
+ADULTO;hialinos;2;NULL;NULL;;false;;false;1000;true;1000;true;NULL;limite
+ADULTO;hialinos;3;NULL;NULL;;false;;false;1000;false;;false;NULL;alto
+ADULTO;leucocitarios;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADULTO;leucocitarios;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADULTO;leucocitos-ou-piocitos;1;NULL;NULL;;false;;false;;false;10000;false;NULL;normal
+ADULTO;leucocitos-ou-piocitos;2;NULL;NULL;;false;;false;10000;true;10000;true;NULL;limite
+ADULTO;leucocitos-ou-piocitos;3;NULL;NULL;;false;;false;10000;false;;false;NULL;alto
+ADULTO;albumina;1;NULL;NULL;;false;;false;;false;3.2;false;NULL;baixo
+ADULTO;albumina;2;NULL;NULL;;false;;false;3.2;true;3.2;true;NULL;limite inferior
+ADULTO;albumina;3;NULL;NULL;;false;;false;3.2;false;4.5;false;NULL;normal
+ADULTO;albumina;4;NULL;NULL;;false;;false;4.5;true;4.5;true;NULL;limite superior
+ADULTO;albumina;5;NULL;NULL;;false;;false;4.5;false;;false;NULL;alto
+ADULTO;pre-albumina;1;NULL;NULL;;false;;false;;false;19;false;NULL;baixo
+ADULTO;pre-albumina;2;NULL;NULL;;false;;false;19;true;19;true;NULL;limite inferior
+ADULTO;pre-albumina;3;NULL;NULL;;false;;false;19;false;38;false;NULL;normal
+ADULTO;pre-albumina;4;NULL;NULL;;false;;false;38;true;38;true;NULL;limite superior
+ADULTO;pre-albumina;5;NULL;NULL;;false;;false;38;false;;false;NULL;alto
+ADULTO;proteina-c-reativa-pcr;1;NULL;NULL;;false;;false;;false;0.8;false;NULL;normal
+ADULTO;proteina-c-reativa-pcr;2;NULL;NULL;;false;;false;0.8;true;0.8;true;NULL;limite
+ADULTO;proteina-c-reativa-pcr;3;NULL;NULL;;false;;false;0.8;false;;false;NULL;alto
+ADULTO;proteinas-totais;1;NULL;NULL;;false;;false;;false;6.3;false;NULL;baixo
+ADULTO;proteinas-totais;2;NULL;NULL;;false;;false;6.3;true;6.3;true;NULL;limite inferior
+ADULTO;proteinas-totais;3;NULL;NULL;;false;;false;6.3;false;8.1;false;NULL;normal
+ADULTO;proteinas-totais;4;NULL;NULL;;false;;false;8.1;true;8.1;true;NULL;limite superior
+ADULTO;proteinas-totais;5;NULL;NULL;;false;;false;8.1;false;;false;NULL;alto
+ADULTO;proteina-transportadora-de-retinol;1;NULL;NULL;;false;;false;;false;0.4;false;NULL;normal
+ADULTO;proteina-transportadora-de-retinol;2;NULL;NULL;;false;;false;0.4;true;0.4;true;NULL;limite
+ADULTO;proteina-transportadora-de-retinol;3;NULL;NULL;;false;;false;0.4;false;;false;NULL;alto
+ADULTO;calcio-total;1;NULL;NULL;;false;;false;;false;8.4;false;NULL;baixo
+ADULTO;calcio-total;2;NULL;NULL;;false;;false;8.4;true;8.4;true;NULL;limite inferior
+ADULTO;calcio-total;3;NULL;NULL;;false;;false;8.4;false;10.2;false;NULL;normal
+ADULTO;calcio-total;4;NULL;NULL;;false;;false;10.2;true;10.2;true;NULL;limite superior
+ADULTO;calcio-total;5;NULL;NULL;;false;;false;10.2;false;;false;NULL;alto
+ADULTO;calcio-ionico;1;NULL;NULL;;false;;false;;false;1.15;false;NULL;baixo
+ADULTO;calcio-ionico;2;NULL;NULL;;false;;false;1.15;true;1.15;true;NULL;limite inferior
+ADULTO;calcio-ionico;3;NULL;NULL;;false;;false;1.15;false;1.32;false;NULL;normal
+ADULTO;calcio-ionico;4;NULL;NULL;;false;;false;1.32;true;1.32;true;NULL;limite superior
+ADULTO;calcio-ionico;5;NULL;NULL;;false;;false;1.32;false;;false;NULL;alto
+ADULTO;cloro;1;NULL;NULL;;false;;false;;false;97;false;NULL;baixo
+ADULTO;cloro;2;NULL;NULL;;false;;false;97;true;97;true;NULL;limite inferior
+ADULTO;cloro;3;NULL;NULL;;false;;false;97;false;106;false;NULL;normal
+ADULTO;cloro;4;NULL;NULL;;false;;false;106;true;106;true;NULL;limite superior
+ADULTO;cloro;5;NULL;NULL;;false;;false;106;false;;false;NULL;alto
+ADULTO;cobre;1;NULL;NULL;;false;60;false;;false;80;false;NULL;baixo
+ADULTO;cobre;2;NULL;NULL;;false;60;false;80;true;80;true;NULL;limite inferior
+ADULTO;cobre;3;NULL;NULL;;false;60;false;80;false;140;false;NULL;normal
+ADULTO;cobre;4;NULL;NULL;;false;60;false;140;true;140;true;NULL;limite superior
+ADULTO;cobre;5;NULL;NULL;;false;60;false;140;false;;false;NULL;alto
+ADULTO;cobre;6;NULL;NULL;60;true;;false;;false;85;false;NULL;baixo
+ADULTO;cobre;7;NULL;NULL;60;true;;false;85;true;85;true;NULL;limite inferior
+ADULTO;cobre;8;NULL;NULL;60;true;;false;85;false;170;false;NULL;normal
+ADULTO;cobre;9;NULL;NULL;60;true;;false;170;true;170;true;NULL;limite superior
+ADULTO;cobre;10;NULL;NULL;60;true;;false;170;false;;false;NULL;alto
+ADULTO;cromo;1;NULL;NULL;;false;;false;;false;0.7;false;NULL;baixo
+ADULTO;cromo;2;NULL;NULL;;false;;false;0.7;true;0.7;true;NULL;limite inferior
+ADULTO;cromo;3;NULL;NULL;;false;;false;0.7;false;2.2;false;NULL;normal
+ADULTO;cromo;4;NULL;NULL;;false;;false;2.2;true;2.2;true;NULL;limite superior
+ADULTO;cromo;5;NULL;NULL;;false;;false;2.2;false;;false;NULL;alto
+ADULTO;ferro;1;feminino;NULL;;false;;false;;false;37;false;NULL;baixo
+ADULTO;ferro;2;feminino;NULL;;false;;false;37;true;37;true;NULL;limite inferior
+ADULTO;ferro;3;feminino;NULL;;false;;false;37;false;170;false;NULL;normal
+ADULTO;ferro;4;feminino;NULL;;false;;false;170;true;170;true;NULL;limite superior
+ADULTO;ferro;5;feminino;NULL;;false;;false;170;false;;false;NULL;alto
+ADULTO;ferro;6;masculino;NULL;;false;;false;;false;49;false;NULL;baixo
+ADULTO;ferro;7;masculino;NULL;;false;;false;49;true;49;true;NULL;limite inferior
+ADULTO;ferro;8;masculino;NULL;;false;;false;49;false;181;false;NULL;normal
+ADULTO;ferro;9;masculino;NULL;;false;;false;181;true;181;true;NULL;limite superior
+ADULTO;ferro;10;masculino;NULL;;false;;false;181;false;;false;NULL;alto
+ADULTO;folato;1;NULL;NULL;;false;;false;;false;3;false;NULL;baixo
+ADULTO;folato;2;NULL;NULL;;false;;false;3;true;3;true;NULL;limite inferior
+ADULTO;folato;3;NULL;NULL;;false;;false;3;false;17;false;NULL;normal
+ADULTO;folato;4;NULL;NULL;;false;;false;17;true;17;true;NULL;limite superior
+ADULTO;folato;5;NULL;NULL;;false;;false;17;false;;false;NULL;alto
+ADULTO;fosforo;1;feminino;NULL;;false;;false;;false;2.3;false;NULL;baixo
+ADULTO;fosforo;2;feminino;NULL;;false;;false;2.3;true;2.3;true;NULL;limite inferior
+ADULTO;fosforo;3;feminino;NULL;;false;;false;2.3;false;4.3;false;NULL;normal
+ADULTO;fosforo;4;feminino;NULL;;false;;false;4.3;true;4.3;true;NULL;limite superior
+ADULTO;fosforo;5;feminino;NULL;;false;;false;4.3;false;;false;NULL;alto
+ADULTO;fosforo;6;masculino;NULL;;false;;false;;false;2.4;false;NULL;baixo
+ADULTO;fosforo;7;masculino;NULL;;false;;false;2.4;true;2.4;true;NULL;limite inferior
+ADULTO;fosforo;8;masculino;NULL;;false;;false;2.4;false;4.6;false;NULL;normal
+ADULTO;fosforo;9;masculino;NULL;;false;;false;4.6;true;4.6;true;NULL;limite superior
+ADULTO;fosforo;10;masculino;NULL;;false;;false;4.6;false;;false;NULL;alto
+ADULTO;magnesio;1;NULL;NULL;;false;;false;;false;1.9;false;NULL;baixo
+ADULTO;magnesio;2;NULL;NULL;;false;;false;1.9;true;1.9;true;NULL;limite inferior
+ADULTO;magnesio;3;NULL;NULL;;false;;false;1.9;false;2.5;false;NULL;normal
+ADULTO;magnesio;4;NULL;NULL;;false;;false;2.5;true;2.5;true;NULL;limite superior
+ADULTO;magnesio;5;NULL;NULL;;false;;false;2.5;false;;false;NULL;alto
+ADULTO;potassio;1;NULL;NULL;;false;;false;;false;3.5;false;NULL;baixo
+ADULTO;potassio;2;NULL;NULL;;false;;false;3.5;true;3.5;true;NULL;limite inferior
+ADULTO;potassio;3;NULL;NULL;;false;;false;3.5;false;5;false;NULL;normal
+ADULTO;potassio;4;NULL;NULL;;false;;false;5;true;5;true;NULL;limite superior
+ADULTO;potassio;5;NULL;NULL;;false;;false;5;false;;false;NULL;alto
+ADULTO;selenio;1;NULL;NULL;;false;;false;;false;46;false;NULL;baixo
+ADULTO;selenio;2;NULL;NULL;;false;;false;46;true;46;true;NULL;limite inferior
+ADULTO;selenio;3;NULL;NULL;;false;;false;46;false;143;false;NULL;normal
+ADULTO;selenio;4;NULL;NULL;;false;;false;143;true;143;true;NULL;limite superior
+ADULTO;selenio;5;NULL;NULL;;false;;false;143;false;;false;NULL;alto
+ADULTO;sodio;1;NULL;NULL;;false;;false;;false;137;false;NULL;baixo
+ADULTO;sodio;2;NULL;NULL;;false;;false;137;true;137;true;NULL;limite inferior
+ADULTO;sodio;3;NULL;NULL;;false;;false;137;false;145;false;NULL;normal
+ADULTO;sodio;4;NULL;NULL;;false;;false;145;true;145;true;NULL;limite superior
+ADULTO;sodio;5;NULL;NULL;;false;;false;145;false;;false;NULL;alto
+ADULTO;zinco;1;NULL;NULL;;false;;false;;false;70;false;NULL;baixo
+ADULTO;zinco;2;NULL;NULL;;false;;false;70;true;70;true;NULL;limite inferior
+ADULTO;zinco;3;NULL;NULL;;false;;false;70;false;150;false;NULL;normal
+ADULTO;zinco;4;NULL;NULL;;false;;false;150;true;150;true;NULL;limite superior
+ADULTO;zinco;5;NULL;NULL;;false;;false;150;false;;false;NULL;alto
+ADULTO;vitamina-a-retinol;1;NULL;NULL;;false;;false;;false;30;false;NULL;baixo
+ADULTO;vitamina-a-retinol;2;NULL;NULL;;false;;false;30;true;30;true;NULL;limite inferior
+ADULTO;vitamina-a-retinol;3;NULL;NULL;;false;;false;30;false;80;false;NULL;normal
+ADULTO;vitamina-a-retinol;4;NULL;NULL;;false;;false;80;true;80;true;NULL;limite superior
+ADULTO;vitamina-a-retinol;5;NULL;NULL;;false;;false;80;false;;false;NULL;alto
+ADULTO;vitamina-b2;1;NULL;NULL;;false;;false;;false;40;false;NULL;baixo
+ADULTO;vitamina-b2;2;NULL;NULL;;false;;false;40;true;40;true;NULL;limite
+ADULTO;vitamina-b2;3;NULL;NULL;;false;;false;40;true;;false;NULL;normal
+ADULTO;vitamina-b6;1;NULL;NULL;;false;;false;;false;0.5;false;NULL;baixo
+ADULTO;vitamina-b6;2;NULL;NULL;;false;;false;0.5;true;0.5;true;NULL;limite inferior
+ADULTO;vitamina-b6;3;NULL;NULL;;false;;false;0.5;false;3;false;NULL;normal
+ADULTO;vitamina-b6;4;NULL;NULL;;false;;false;3;true;3;true;NULL;limite superior
+ADULTO;vitamina-b6;5;NULL;NULL;;false;;false;3;false;;false;NULL;alto
+ADULTO;vitamina-b12;1;NULL;NULL;;false;;false;;false;200;false;NULL;baixo
+ADULTO;vitamina-b12;2;NULL;NULL;;false;;false;200;true;200;true;NULL;limite inferior
+ADULTO;vitamina-b12;3;NULL;NULL;;false;;false;200;false;1000;false;NULL;normal
+ADULTO;vitamina-b12;4;NULL;NULL;;false;;false;1000;true;1000;true;NULL;limite superior
+ADULTO;vitamina-b12;5;NULL;NULL;;false;;false;1000;false;;false;NULL;alto
+ADULTO;vitamina-c;1;NULL;NULL;;false;;false;;false;0.6;false;NULL;baixo
+ADULTO;vitamina-c;2;NULL;NULL;;false;;false;0.6;true;0.6;true;NULL;limite inferior
+ADULTO;vitamina-c;3;NULL;NULL;;false;;false;0.6;false;2;false;NULL;normal
+ADULTO;vitamina-c;4;NULL;NULL;;false;;false;2;true;2;true;NULL;limite superior
+ADULTO;vitamina-c;5;NULL;NULL;;false;;false;2;false;;false;NULL;alto
+ADULTO;vitamina-d3-colecalciferol;1;NULL;NULL;;false;;false;;false;25;false;NULL;baixo
+ADULTO;vitamina-d3-colecalciferol;2;NULL;NULL;;false;;false;25;true;25;true;NULL;limite inferior
+ADULTO;vitamina-d3-colecalciferol;3;NULL;NULL;;false;;false;25;false;100;false;NULL;normal
+ADULTO;vitamina-d3-colecalciferol;4;NULL;NULL;;false;;false;100;true;100;true;NULL;limite superior
+ADULTO;vitamina-d3-colecalciferol;5;NULL;NULL;;false;;false;100;false;;false;NULL;alto
+ADULTO;vitamina-e;1;NULL;NULL;;false;;false;;false;0.5;false;NULL;baixo
+ADULTO;vitamina-e;2;NULL;NULL;;false;;false;0.5;true;0.5;true;NULL;limite inferior
+ADULTO;vitamina-e;3;NULL;NULL;;false;;false;0.5;false;1.8;false;NULL;normal
+ADULTO;vitamina-e;4;NULL;NULL;;false;;false;1.8;true;1.8;true;NULL;limite superior
+ADULTO;vitamina-e;5;NULL;NULL;;false;;false;1.8;false;;false;NULL;alto
+ADULTO;vitamina-k;1;NULL;NULL;;false;;false;;false;10.4;false;NULL;baixo
+ADULTO;vitamina-k;2;NULL;NULL;;false;;false;10.4;true;10.4;true;NULL;limite inferior
+ADULTO;vitamina-k;3;NULL;NULL;;false;;false;10.4;false;12.8;false;NULL;normal
+ADULTO;vitamina-k;4;NULL;NULL;;false;;false;12.8;true;12.8;true;NULL;limite superior
+ADULTO;vitamina-k;5;NULL;NULL;;false;;false;12.8;false;;false;NULL;alto
+ADULTO;cultura;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADULTO;cultura;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADULTO;gordura;1;NULL;NULL;;false;;false;;false;7;false;NULL;normal
+ADULTO;gordura;2;NULL;NULL;;false;;false;7;true;7;true;NULL;limite
+ADULTO;gordura;3;NULL;NULL;;false;;false;7;false;;false;NULL;alto
+ADULTO;nitrogenio;1;NULL;NULL;;false;;false;;false;2.5;false;NULL;normal
+ADULTO;nitrogenio;2;NULL;NULL;;false;;false;2.5;true;2.5;true;NULL;limite
+ADULTO;nitrogenio;3;NULL;NULL;;false;;false;2.5;false;;false;NULL;alto
+ADULTO;sangue-oculto;1;NULL;NULL;;false;;false;;false;;false;ausente;normal
+ADULTO;sangue-oculto;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADULTO;acth;1;NULL;NULL;;false;;false;;false;46;false;NULL;normal
+ADULTO;acth;2;NULL;NULL;;false;;false;46;true;46;true;NULL;limite
+ADULTO;acth;3;NULL;NULL;;false;;false;46;false;;false;NULL;alto
+ADULTO;adh;1;NULL;NULL;;false;;false;;false;6.7;false;NULL;normal
+ADULTO;adh;2;NULL;NULL;;false;;false;6.7;true;6.7;true;NULL;limite
+ADULTO;adh;3;NULL;NULL;;false;;false;6.7;false;;false;NULL;alto
+ADULTO;calcitonina;1;feminino;NULL;;false;;false;;false;5;false;NULL;normal
+ADULTO;calcitonina;2;feminino;NULL;;false;;false;5;true;5;true;NULL;limite
+ADULTO;calcitonina;3;feminino;NULL;;false;;false;5;false;;false;NULL;alto
+ADULTO;calcitonina;4;masculino;NULL;;false;;false;;false;8.4;false;NULL;normal
+ADULTO;calcitonina;5;masculino;NULL;;false;;false;8.4;true;8.4;true;NULL;limite
+ADULTO;calcitonina;6;masculino;NULL;;false;;false;8.4;false;;false;NULL;alto
+ADULTO;cortisol-8-h;1;NULL;NULL;;false;;false;;false;5;false;NULL;baixo
+ADULTO;cortisol-8-h;2;NULL;NULL;;false;;false;5;true;5;true;NULL;limite inferior
+ADULTO;cortisol-8-h;3;NULL;NULL;;false;;false;5;false;25;false;NULL;normal
+ADULTO;cortisol-8-h;4;NULL;NULL;;false;;false;25;true;25;true;NULL;limite superior
+ADULTO;cortisol-8-h;5;NULL;NULL;;false;;false;25;false;;false;NULL;alto
+ADULTO;cortisol-16-h;1;NULL;NULL;;false;;false;;false;2.5;false;NULL;baixo
+ADULTO;cortisol-16-h;2;NULL;NULL;;false;;false;2.5;true;2.5;true;NULL;limite inferior
+ADULTO;cortisol-16-h;3;NULL;NULL;;false;;false;2.5;false;12.5;false;NULL;normal
+ADULTO;cortisol-16-h;4;NULL;NULL;;false;;false;12.5;true;12.5;true;NULL;limite superior
+ADULTO;cortisol-16-h;5;NULL;NULL;;false;;false;12.5;false;;false;NULL;alto
+ADULTO;cortisol-23-h;1;NULL;NULL;;false;;false;;false;2;false;NULL;baixo
+ADULTO;cortisol-23-h;2;NULL;NULL;;false;;false;2;true;2;true;NULL;limite inferior
+ADULTO;cortisol-23-h;3;NULL;NULL;;false;;false;2;false;5;false;NULL;normal
+ADULTO;cortisol-23-h;4;NULL;NULL;;false;;false;5;true;5;true;NULL;limite superior
+ADULTO;cortisol-23-h;5;NULL;NULL;;false;;false;5;false;;false;NULL;alto
+ADULTO;fsh;1;feminino;fase folicular;;false;;false;;false;3.1;false;NULL;baixo
+ADULTO;fsh;2;feminino;fase folicular;;false;;false;3.1;true;3.1;true;NULL;limite inferior
+ADULTO;fsh;3;feminino;fase folicular;;false;;false;3.1;false;15.7;false;NULL;normal
+ADULTO;fsh;4;feminino;fase folicular;;false;;false;15.7;true;15.7;true;NULL;limite superior
+ADULTO;fsh;5;feminino;fase folicular;;false;;false;15.7;false;;false;NULL;alto
+ADULTO;fsh;6;feminino;meio do ciclo;;false;;false;;false;7.7;false;NULL;baixo
+ADULTO;fsh;7;feminino;meio do ciclo;;false;;false;7.7;true;7.7;true;NULL;limite inferior
+ADULTO;fsh;8;feminino;meio do ciclo;;false;;false;7.7;false;32;false;NULL;normal
+ADULTO;fsh;9;feminino;meio do ciclo;;false;;false;32;true;32;true;NULL;limite superior
+ADULTO;fsh;10;feminino;meio do ciclo;;false;;false;32;false;;false;NULL;alto
+ADULTO;fsh;11;feminino;fase lútea;;false;;false;;false;2;false;NULL;baixo
+ADULTO;fsh;12;feminino;fase lútea;;false;;false;2;true;2;true;NULL;limite inferior
+ADULTO;fsh;13;feminino;fase lútea;;false;;false;2;false;10.3;false;NULL;normal
+ADULTO;fsh;14;feminino;fase lútea;;false;;false;10.3;true;10.3;true;NULL;limite superior
+ADULTO;fsh;15;feminino;fase lútea;;false;;false;10.3;false;;false;NULL;alto
+ADULTO;fsh;16;feminino;pós-menopausa;;false;;false;;false;16.6;false;NULL;baixo
+ADULTO;fsh;17;feminino;pós-menopausa;;false;;false;16.6;true;16.6;true;NULL;limite inferior
+ADULTO;fsh;18;feminino;pós-menopausa;;false;;false;16.6;false;165;false;NULL;normal
+ADULTO;fsh;19;feminino;pós-menopausa;;false;;false;165;true;165;true;NULL;limite superior
+ADULTO;fsh;20;feminino;pós-menopausa;;false;;false;165;false;;false;NULL;alto
+ADULTO;fsh;21;masculino;homem;;false;;false;;false;2;false;NULL;baixo
+ADULTO;fsh;22;masculino;homem;;false;;false;2;true;2;true;NULL;limite inferior
+ADULTO;fsh;23;masculino;homem;;false;;false;2;false;12.8;false;NULL;normal
+ADULTO;fsh;24;masculino;homem;;false;;false;12.8;true;12.8;true;NULL;limite superior
+ADULTO;fsh;25;masculino;homem;;false;;false;12.8;false;;false;NULL;alto
+ADULTO;gh;1;NULL;NULL;;false;;false;;false;7;false;NULL;normal
+ADULTO;gh;2;NULL;NULL;;false;;false;7;true;7;true;NULL;limite
+ADULTO;gh;3;NULL;NULL;;false;;false;7;false;;false;NULL;alto
+ADULTO;progesterona;1;feminino;fase folicular;;false;;false;;false;0.1;false;NULL;baixo
+ADULTO;progesterona;2;feminino;fase folicular;;false;;false;0.1;true;0.1;true;NULL;limite inferior
+ADULTO;progesterona;3;feminino;fase folicular;;false;;false;0.1;false;15;false;NULL;normal
+ADULTO;progesterona;4;feminino;fase folicular;;false;;false;15;true;15;true;NULL;limite superior
+ADULTO;progesterona;5;feminino;fase folicular;;false;;false;15;false;;false;NULL;alto
+ADULTO;progesterona;6;feminino;fase lútea;;false;;false;;false;3.8;false;NULL;baixo
+ADULTO;progesterona;7;feminino;fase lútea;;false;;false;3.8;true;3.8;true;NULL;limite inferior
+ADULTO;progesterona;8;feminino;fase lútea;;false;;false;3.8;false;28;false;NULL;normal
+ADULTO;progesterona;9;feminino;fase lútea;;false;;false;28;true;28;true;NULL;limite superior
+ADULTO;progesterona;10;feminino;fase lútea;;false;;false;28;false;;false;NULL;alto
+ADULTO;progesterona;11;feminino;pico ovulatório;;false;;false;;false;2.5;false;NULL;baixo
+ADULTO;progesterona;12;feminino;pico ovulatório;;false;;false;2.5;true;2.5;true;NULL;limite inferior
+ADULTO;progesterona;13;feminino;pico ovulatório;;false;;false;2.5;false;20;false;NULL;normal
+ADULTO;progesterona;14;feminino;pico ovulatório;;false;;false;20;true;20;true;NULL;limite superior
+ADULTO;progesterona;15;feminino;pico ovulatório;;false;;false;20;false;;false;NULL;alto
+ADULTO;progesterona;16;feminino;menopausa;;false;;false;;false;0.1;false;NULL;baixo
+ADULTO;progesterona;17;feminino;menopausa;;false;;false;0.1;true;0.1;true;NULL;limite inferior
+ADULTO;progesterona;18;feminino;menopausa;;false;;false;0.1;false;1;false;NULL;normal
+ADULTO;progesterona;19;feminino;menopausa;;false;;false;1;true;1;true;NULL;limite superior
+ADULTO;progesterona;20;feminino;menopausa;;false;;false;1;false;;false;NULL;alto
+ADULTO;progesterona;21;masculino;homem;;false;;false;;false;0.1;false;NULL;baixo
+ADULTO;progesterona;22;masculino;homem;;false;;false;0.1;true;0.1;true;NULL;limite inferior
+ADULTO;progesterona;23;masculino;homem;;false;;false;0.1;false;0.8;false;NULL;normal
+ADULTO;progesterona;24;masculino;homem;;false;;false;0.8;true;0.8;true;NULL;limite superior
+ADULTO;progesterona;25;masculino;homem;;false;;false;0.8;false;;false;NULL;alto
+ADULTO;prolactina;1;feminino;NULL;;false;;false;;false;2.1;false;NULL;baixo
+ADULTO;prolactina;2;feminino;NULL;;false;;false;2.1;true;2.1;true;NULL;limite inferior
+ADULTO;prolactina;3;feminino;NULL;;false;;false;2.1;false;17.7;false;NULL;normal
+ADULTO;prolactina;4;feminino;NULL;;false;;false;17.7;true;17.7;true;NULL;limite superior
+ADULTO;prolactina;5;feminino;NULL;;false;;false;17.7;false;;false;NULL;alto
+ADULTO;prolactina;6;masculino;NULL;;false;;false;;false;2.8;false;NULL;baixo
+ADULTO;prolactina;7;masculino;NULL;;false;;false;2.8;true;2.8;true;NULL;limite inferior
+ADULTO;prolactina;8;masculino;NULL;;false;;false;2.8;false;29.2;false;NULL;normal
+ADULTO;prolactina;9;masculino;NULL;;false;;false;29.2;true;29.2;true;NULL;limite superior
+ADULTO;prolactina;10;masculino;NULL;;false;;false;29.2;false;;false;NULL;alto
+ADULTO;t-3;1;NULL;NULL;;false;;false;;false;70;false;NULL;baixo
+ADULTO;t-3;2;NULL;NULL;;false;;false;70;true;70;true;NULL;limite inferior
+ADULTO;t-3;3;NULL;NULL;;false;;false;70;false;205;false;NULL;normal
+ADULTO;t-3;4;NULL;NULL;;false;;false;205;true;205;true;NULL;limite superior
+ADULTO;t-3;5;NULL;NULL;;false;;false;205;false;;false;NULL;alto
+ADULTO;t-4-livre;1;NULL;NULL;;false;;false;;false;0.71;false;NULL;baixo
+ADULTO;t-4-livre;2;NULL;NULL;;false;;false;0.71;true;0.71;true;NULL;limite inferior
+ADULTO;t-4-livre;3;NULL;NULL;;false;;false;0.71;false;1.85;false;NULL;normal
+ADULTO;t-4-livre;4;NULL;NULL;;false;;false;1.85;true;1.85;true;NULL;limite superior
+ADULTO;t-4-livre;5;NULL;NULL;;false;;false;1.85;false;;false;NULL;alto
+ADULTO;testosterona;1;feminino;NULL;;false;50;true;;false;12;false;NULL;baixo
+ADULTO;testosterona;2;feminino;NULL;;false;50;true;12;true;12;true;NULL;limite inferior
+ADULTO;testosterona;3;feminino;NULL;;false;50;true;12;false;90;false;NULL;normal
+ADULTO;testosterona;4;feminino;NULL;;false;50;true;90;true;90;true;NULL;limite superior
+ADULTO;testosterona;5;feminino;NULL;;false;50;true;90;false;;false;NULL;alto
+ADULTO;testosterona;6;feminino;NULL;50;false;;false;;false;4;false;NULL;baixo
+ADULTO;testosterona;7;feminino;NULL;50;false;;false;4;true;4;true;NULL;limite inferior
+ADULTO;testosterona;8;feminino;NULL;50;false;;false;4;false;75;false;NULL;normal
+ADULTO;testosterona;9;feminino;NULL;50;false;;false;75;true;75;true;NULL;limite superior
+ADULTO;testosterona;10;feminino;NULL;50;false;;false;75;false;;false;NULL;alto
+ADULTO;testosterona;11;masculino;NULL;;false;50;true;;false;250;false;NULL;baixo
+ADULTO;testosterona;12;masculino;NULL;;false;50;true;250;true;250;true;NULL;limite inferior
+ADULTO;testosterona;13;masculino;NULL;;false;50;true;250;false;1400;false;NULL;normal
+ADULTO;testosterona;14;masculino;NULL;;false;50;true;1400;true;1400;true;NULL;limite superior
+ADULTO;testosterona;15;masculino;NULL;;false;50;true;1400;false;;false;NULL;alto
+ADULTO;testosterona;16;masculino;NULL;50;false;;false;;false;150;false;NULL;baixo
+ADULTO;testosterona;17;masculino;NULL;50;false;;false;150;true;150;true;NULL;limite inferior
+ADULTO;testosterona;18;masculino;NULL;50;false;;false;150;false;1000;false;NULL;normal
+ADULTO;testosterona;19;masculino;NULL;50;false;;false;1000;true;1000;true;NULL;limite superior
+ADULTO;testosterona;20;masculino;NULL;50;false;;false;1000;false;;false;NULL;alto
+ADULTO;tsh;1;NULL;NULL;;false;55;false;;false;0.4;false;NULL;baixo
+ADULTO;tsh;2;NULL;NULL;;false;55;false;0.4;true;0.4;true;NULL;limite inferior
+ADULTO;tsh;3;NULL;NULL;;false;55;false;0.4;false;4.2;false;NULL;normal
+ADULTO;tsh;4;NULL;NULL;;false;55;false;4.2;true;4.2;true;NULL;limite superior
+ADULTO;tsh;5;NULL;NULL;;false;55;false;4.2;false;;false;NULL;alto
+ADULTO;tsh;6;NULL;NULL;55;true;;false;;false;0.5;false;NULL;baixo
+ADULTO;tsh;7;NULL;NULL;55;true;;false;0.5;true;0.5;true;NULL;limite inferior
+ADULTO;tsh;8;NULL;NULL;55;true;;false;0.5;false;8.9;false;NULL;normal
+ADULTO;tsh;9;NULL;NULL;55;true;;false;8.9;true;8.9;true;NULL;limite superior
+ADULTO;tsh;10;NULL;NULL;55;true;;false;8.9;false;;false;NULL;alto
+ADULTO;ig-a;1;NULL;NULL;;false;;false;;false;;false;não reagente;normal
+ADULTO;ig-a;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADULTO;ig-e;1;NULL;NULL;;false;;false;;false;;false;não reagente;normal
+ADULTO;ig-e;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADULTO;ig-f;1;NULL;NULL;;false;;false;;false;;false;não reagente;normal
+ADULTO;ig-f;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADULTO;ig-g;1;NULL;NULL;;false;;false;;false;;false;não reagente;normal
+ADULTO;ig-g;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADULTO;ig-m;1;NULL;NULL;;false;;false;;false;;false;não reagente;normal
+ADULTO;ig-m;2;NULL;NULL;;false;;false;;false;;false;NULL;alterado
+ADULTO;amilase;1;NULL;NULL;;false;;false;;false;115;false;NULL;normal
+ADULTO;amilase;2;NULL;NULL;;false;;false;115;true;115;true;NULL;limite
+ADULTO;amilase;3;NULL;NULL;;false;;false;115;false;;false;NULL;alto
+ADULTO;amonia;1;NULL;NULL;;false;;false;;false;11;false;NULL;baixo
+ADULTO;amonia;2;NULL;NULL;;false;;false;11;true;11;true;NULL;limite inferior
+ADULTO;amonia;3;NULL;NULL;;false;;false;11;false;33;false;NULL;normal
+ADULTO;amonia;4;NULL;NULL;;false;;false;33;true;33;true;NULL;limite superior
+ADULTO;amonia;5;NULL;NULL;;false;;false;33;false;;false;NULL;alto
+ADULTO;beta-hcg;1;feminino;NULL;;false;;false;;false;1;false;NULL;não gestante
+ADULTO;beta-hcg;2;feminino;NULL;;false;;false;1;true;30;true;NULL;não definido
+ADULTO;beta-hcg;3;feminino;NULL;;false;;false;30;false;;false;NULL;gestante
+ADULTO;beta-hcg;4;masculino;NULL;;false;;false;;false;1;false;NULL;normal
+ADULTO;beta-hcg;5;masculino;NULL;;false;;false;1;true;;false;NULL;alto
+ADULTO;bilirrubina-direta;1;NULL;NULL;;false;;false;;false;0.4;false;NULL;normal
+ADULTO;bilirrubina-direta;2;NULL;NULL;;false;;false;0.4;true;0.4;true;NULL;limite
+ADULTO;bilirrubina-direta;3;NULL;NULL;;false;;false;0.4;false;;false;NULL;alto
+ADULTO;bilirrubina-indireta;1;NULL;NULL;;false;;false;;false;0.6;false;NULL;normal
+ADULTO;bilirrubina-indireta;2;NULL;NULL;;false;;false;0.6;true;0.6;true;NULL;limite
+ADULTO;bilirrubina-indireta;3;NULL;NULL;;false;;false;0.6;false;;false;NULL;alto
+ADULTO;bilirrubina-total;1;NULL;NULL;;false;;false;;false;1;false;NULL;normal
+ADULTO;bilirrubina-total;2;NULL;NULL;;false;;false;1;true;1;true;NULL;limite
+ADULTO;bilirrubina-total;3;NULL;NULL;;false;;false;1;false;;false;NULL;alto
+ADULTO;ceruloplasmina;1;NULL;NULL;;false;;false;;false;21;false;NULL;baixo
+ADULTO;ceruloplasmina;2;NULL;NULL;;false;;false;21;true;21;true;NULL;limite inferior
+ADULTO;ceruloplasmina;3;NULL;NULL;;false;;false;21;false;53;false;NULL;normal
+ADULTO;ceruloplasmina;4;NULL;NULL;;false;;false;53;true;53;true;NULL;limite superior
+ADULTO;ceruloplasmina;5;NULL;NULL;;false;;false;53;false;;false;NULL;alto
+ADULTO;creatinina-urinaria;1;NULL;NULL;;false;;false;;false;25;false;NULL;normal
+ADULTO;creatinina-urinaria;2;NULL;NULL;;false;;false;25;true;25;true;NULL;limite
+ADULTO;creatinina-urinaria;3;NULL;NULL;;false;;false;25;false;;false;NULL;alto
+ADULTO;filtracao-glomerular;1;NULL;NULL;;false;;false;;false;60;false;NULL;baixo
+ADULTO;filtracao-glomerular;2;NULL;NULL;;false;;false;60;true;60;true;NULL;limite
+ADULTO;filtracao-glomerular;3;NULL;NULL;;false;;false;60;false;;false;NULL;normal
+ADULTO;fosfatase-alcalina;1;NULL;NULL;;false;;false;;false;50;false;NULL;baixo
+ADULTO;fosfatase-alcalina;2;NULL;NULL;;false;;false;50;true;50;true;NULL;limite inferior
+ADULTO;fosfatase-alcalina;3;NULL;NULL;;false;;false;50;false;136;false;NULL;normal
+ADULTO;fosfatase-alcalina;4;NULL;NULL;;false;;false;136;true;136;true;NULL;limite superior
+ADULTO;fosfatase-alcalina;5;NULL;NULL;;false;;false;136;false;;false;NULL;alto
+ADULTO;frutosamina;1;NULL;NULL;;false;;false;;false;205;false;NULL;baixo
+ADULTO;frutosamina;2;NULL;NULL;;false;;false;205;true;205;true;NULL;limite inferior
+ADULTO;frutosamina;3;NULL;NULL;;false;;false;205;false;285;false;NULL;normal
+ADULTO;frutosamina;4;NULL;NULL;;false;;false;285;true;285;true;NULL;limite superior
+ADULTO;frutosamina;5;NULL;NULL;;false;;false;285;false;;false;NULL;alto
+ADULTO;gama-gt;1;feminino;NULL;;false;;false;;false;5;false;NULL;baixo
+ADULTO;gama-gt;2;feminino;NULL;;false;;false;5;true;5;true;NULL;limite inferior
+ADULTO;gama-gt;3;feminino;NULL;;false;;false;5;false;36;false;NULL;normal
+ADULTO;gama-gt;4;feminino;NULL;;false;;false;36;true;36;true;NULL;limite superior
+ADULTO;gama-gt;5;feminino;NULL;;false;;false;36;false;;false;NULL;alto
+ADULTO;gama-gt;6;masculino;NULL;;false;;false;;false;8;false;NULL;baixo
+ADULTO;gama-gt;7;masculino;NULL;;false;;false;8;true;8;true;NULL;limite inferior
+ADULTO;gama-gt;8;masculino;NULL;;false;;false;8;false;61;false;NULL;normal
+ADULTO;gama-gt;9;masculino;NULL;;false;;false;61;true;61;true;NULL;limite superior
+ADULTO;gama-gt;10;masculino;NULL;;false;;false;61;false;;false;NULL;alto
+ADULTO;gastrina;1;NULL;NULL;;false;;false;;false;200;false;NULL;normal
+ADULTO;gastrina;2;NULL;NULL;;false;;false;200;true;200;true;NULL;limite
+ADULTO;gastrina;3;NULL;NULL;;false;;false;200;false;;false;NULL;alto
+ADULTO;leptina;1;feminino;IMC < 27;;false;;false;;false;15.1;false;NULL;normal
+ADULTO;leptina;2;feminino;IMC < 27;;false;;false;15.1;true;15.1;true;NULL;limite
+ADULTO;leptina;3;feminino;IMC < 27;;false;;false;15.1;false;;false;NULL;alto
+ADULTO;leptina;4;masculino;IMC < 27;;false;;false;;false;2;false;NULL;baixo
+ADULTO;leptina;5;masculino;IMC < 27;;false;;false;2;true;2;true;NULL;limite inferior
+ADULTO;leptina;6;masculino;IMC < 27;;false;;false;2;false;5.63;false;NULL;normal
+ADULTO;leptina;7;masculino;IMC < 27;;false;;false;5.63;true;5.63;true;NULL;limite superior
+ADULTO;leptina;8;masculino;IMC < 27;;false;;false;5.63;false;;false;NULL;alto
+ADULTO;leptina;9;NULL;IMC > 27;;false;;false;;false;7.02;false;NULL;baixo
+ADULTO;leptina;10;NULL;IMC > 27;;false;;false;7.02;true;7.02;true;NULL;limite inferior
+ADULTO;leptina;11;NULL;IMC > 27;;false;;false;7.02;false;55.04;false;NULL;normal
+ADULTO;leptina;12;NULL;IMC > 27;;false;;false;55.04;true;55.04;true;NULL;limite superior
+ADULTO;leptina;13;NULL;IMC > 27;;false;;false;55.04;false;;false;NULL;alto
+ADULTO;lipase;1;NULL;NULL;;false;;false;;false;60;false;NULL;normal
+ADULTO;lipase;2;NULL;NULL;;false;;false;60;true;60;true;NULL;limite
+ADULTO;lipase;3;NULL;NULL;;false;;false;60;false;;false;NULL;alto
+ADULTO;oxalato;1;feminino;NULL;;false;;false;;false;4;false;NULL;baixo
+ADULTO;oxalato;2;feminino;NULL;;false;;false;4;true;4;true;NULL;limite inferior
+ADULTO;oxalato;3;feminino;NULL;;false;;false;4;false;31;false;NULL;normal
+ADULTO;oxalato;4;feminino;NULL;;false;;false;31;true;31;true;NULL;limite superior
+ADULTO;oxalato;5;feminino;NULL;;false;;false;31;false;;false;NULL;alto
+ADULTO;oxalato;6;masculino;NULL;;false;;false;;false;7;false;NULL;baixo
+ADULTO;oxalato;7;masculino;NULL;;false;;false;7;true;7;true;NULL;limite inferior
+ADULTO;oxalato;8;masculino;NULL;;false;;false;7;false;44;false;NULL;normal
+ADULTO;oxalato;9;masculino;NULL;;false;;false;44;true;44;true;NULL;limite superior
+ADULTO;oxalato;10;masculino;NULL;;false;;false;44;false;;false;NULL;alto
+ADULTO;superoxido-dismutase-sod;1;NULL;NULL;;false;;false;;false;1102;false;NULL;baixo
+ADULTO;superoxido-dismutase-sod;2;NULL;NULL;;false;;false;1102;true;1102;true;NULL;limite inferior
+ADULTO;superoxido-dismutase-sod;3;NULL;NULL;;false;;false;1102;false;1601;false;NULL;normal
+ADULTO;superoxido-dismutase-sod;4;NULL;NULL;;false;;false;1601;true;1601;true;NULL;limite superior
+ADULTO;superoxido-dismutase-sod;5;NULL;NULL;;false;;false;1601;false;;false;NULL;alto
+ADULTO;tempo-de-protrombina;1;NULL;NULL;;false;;false;;false;70;false;NULL;baixo
+ADULTO;tempo-de-protrombina;2;NULL;NULL;;false;;false;;false;;false;NULL;normal
+ADULTO;tempo-de-tromboplastina-parcial-ttp;1;NULL;NULL;;false;;false;;false;0.8;false;NULL;baixo
+ADULTO;tempo-de-tromboplastina-parcial-ttp;2;NULL;NULL;;false;;false;0.8;true;0.8;true;NULL;limite inferior
+ADULTO;tempo-de-tromboplastina-parcial-ttp;3;NULL;NULL;;false;;false;0.8;false;1.25;false;NULL;normal
+ADULTO;tempo-de-tromboplastina-parcial-ttp;4;NULL;NULL;;false;;false;1.25;true;1.25;true;NULL;limite superior
+ADULTO;tempo-de-tromboplastina-parcial-ttp;5;NULL;NULL;;false;;false;1.25;false;;false;NULL;alto

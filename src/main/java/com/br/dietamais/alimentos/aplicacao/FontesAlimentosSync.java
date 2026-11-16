@@ -30,6 +30,16 @@ public final class FontesAlimentosSync {
 		@Override public AlimentoResposta carregar(ReferenciaSync referencia,ContextoUsuario usuario){return listas.alimento(referencia.id(),usuario.exigirNutricionista(),false);}
 	}
 
+	/** Produtos e suplementos da nutri (BE-48b): outra nutri recebe tombstone. */
+	@Component
+	public static class Produtos implements FonteSync<ProdutoResposta> {
+		private final DiarioSync diario;private final ProdutosNutriStore produtos;
+		public Produtos(DiarioSync diario,ProdutosNutriStore produtos){this.diario=diario;this.produtos=produtos;}
+		@Override public ColecaoSync colecao(){return ColecaoSync.PRODUTOS;}
+		@Override public List<ReferenciaSync> mudancasDesde(long seq,ContextoUsuario usuario,int limite){return diario.mudancasDesde(colecao(),seq,usuario,limite);}
+		@Override public ProdutoResposta carregar(ReferenciaSync referencia,ContextoUsuario usuario){return produtos.produto(referencia.id(),usuario.exigirNutricionista(),false);}
+	}
+
 	/** O id do envelope é o do vínculo; o paciente atual vem do vínculo (pode ter sido trocado no aceite). */
 	@Component
 	public static class Listas implements FonteSync<ListaSubstituicaoResposta> {

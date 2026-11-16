@@ -1,0 +1,114 @@
+ordem;codigo;nome;met;fonte;versao_referencia
+1;alpinismo;Alpinismo;6.9;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+2;alpinismo_carregando_5_kg;Alpinismo carregando 5 Kg;7.4;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+3;andar_a_cavalo_lentamente;Andar a cavalo lentamente;2.3;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+4;andar_de_barco;Andar de barco;4.64;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+5;artes_marciais;Artes marciais;10;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+6;automobilismo;Automobilismo;3.3;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+7;ballet;Ballet;4.8;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+8;baseball;Baseball;5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+9;basquete_casual;Basquete casual;6;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+10;basquete_competicao;Basquete competição;8;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+11;bicicleta_32_3_km_h;Bicicleta > 32,3 Km/h;16;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+12;bicicleta_16_0_km_h;Bicicleta 16,0 Km/ h;5.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+13;bicicleta_18_5_km_h;Bicicleta 18,5 Km/h;6;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+14;bicicleta_20_9_km_h;Bicicleta 20,9 Km/h;8;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+15;bicicleta_24_1_km_h;Bicicleta 24,1 Km/h;10;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+16;bicicleta_28_2_km_h;Bicicleta 28,2 Km/h;12;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+17;bicicleta_8_0_km_h;Bicicleta 8,0 Km/h;2.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+18;bicicleta_carga_forte;Bicicleta carga forte;10.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+19;bicicleta_carga_leve;Bicicleta carga leve;3;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+20;bicicleta_carga_moderada;Bicicleta carga moderada;5.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+21;bicicleta_carga_moderada_a_forte;Bicicleta carga moderada a forte;7;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+22;bicicleta_carga_muito_forte;Bicicleta carga muito forte;12.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+23;bicicleta_pedalando_lentamente;Bicicleta, pedalando lentamente;3.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+24;bicicleta_pedalando_moderadamente;Bicicleta, pedalando moderadamente;5.7;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+25;bilhar;Bilhar;2.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+26;boliche;Boliche;3;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+27;boxe_luta;Boxe luta;12;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+28;boxe_sparring;Boxe sparring;9;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+29;boxe_treino_saco;Boxe treino saco;6;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+30;caca;Caça;4.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+31;caminhada_1_6_km_h;Caminhada 1,6 Km/ h;1.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+32;caminhada_3_2_km_h;Caminhada 3,2 Km/ h;2.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+33;caminhada_3_2_km_h_2;Caminhada 3,2 Km/h;2.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+34;caminhada_4_8_km_h_leve;Caminhada 4,8 Km/h, leve;3.3;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+35;caminhada_5_6_km_h;Caminhada 5,6 Km/ h;3.7;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+36;caminhada_5_63_km_h_media;Caminhada 5,63 Km/h, média;3.8;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+37;caminhada_6_4_km_h;Caminhada 6,4 Km/ h;5.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+38;caminhada_6_5_km_h_moderada_a_forte;Caminhada 6,5 Km/h, moderada a forte;5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+39;caminhada_7_24_km_h_forte;Caminhada 7,24 Km/h, forte;6.3;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+40;caminhada_8_0_km_h;Caminhada 8,0 Km/h;8;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+41;caminhada_marcha;Caminhada, marcha;6.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+42;corrida_10_7_km_h;Corrida 10,7 Km/h;11;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+43;corrida_11_3_km_h;Corrida 11,3 km/h;11.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+44;corrida_12_0_km_h;Corrida 12,0 km/h;12.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+45;corrida_12_7_km_h;Corrida 12,7 km/h;13.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+46;corrida_13_6_km_h;Corrida 13,6 km/h;14;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+47;corrida_14_7_kmjh;Corrida 14,7 kmjh;15;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+48;corrida_16_0_km_h;Corrida 16,0 km/h;16;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+49;corrida_19_2_km_h;Corrida 19,2 km/h;18;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+50;corrida_8_0_km_h;Corrida 8,0 Km/h;8;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+51;corrida_8_3_km_h;Corrida 8,3 Km/h;9;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+52;corrida_9_6_km_h;Corrida 9,6 Km/h;10;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+53;danca_aerobica_alto_impacto;Dança aeróbica alto impacto;7;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+54;danca_aerobica_baixo_impacto;Dança aeróbica baixo impacto;5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+55;danca_de_salao;Dança de salão;4.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+56;danca_de_salao_lenta;Dança de salão lenta;2.9;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+57;danca_de_salao_rapida;Dança de salão rápida;5.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+58;esgrima;Esgrima;6;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+59;esqui_agua_ou_morro;Esqui, água ou morro;6.8;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+60;futebol_americano;Futebol americano;8;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+61;futebol_casual;Futebol casual;7;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+62;futebol_competicao;Futebol competição;10;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+63;ginastica_localizada;Ginástica localizada;4;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+64;golf;Golf;3.75;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+65;hidroginastica;Hidroginástica;4;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+66;hockey;Hockey;8;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+67;ioga;Ioga;3;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+68;jazz;Jazz;4.8;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+69;jiu_jitsu;Jiu-jitsu;10;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+70;judo;Judô;10;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+71;karate;Karatê;10;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+72;luta_romana_livre_ou_olimpica;Luta romana, livre ou olímpica;6;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+73;mergulho;Mergulho;3;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+74;motocross;Motocross;4;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+75;musculacao_leve;Musculação leve;3;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+76;musculacao_media;Musculação média;4.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+77;musculacao_pesada;Musculação pesada;6;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+78;nadar_lentamente;Nadar lentamente;4.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+79;natacao_45_m_min;Natação 45 m/min;8;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+80;natacao_68_m_min;Natação 68 m/min;11;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+81;natacao_livre_forte;Natação livre, forte;10;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+82;natacao_livre_leve;Natação livre, leve;7;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+83;natacao_livre_medio;Natação livre, médio;8.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+84;natacao_peito;Natação peito;8.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+85;patinacao_no_gelo;Patinação no gelo;5.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+86;patinacao_patins_de_rodas;Patinação, patins de rodas;6.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+87;pescar;Pescar;4.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+88;pular_corda;Pular corda;12;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+89;remar_canoa_lentamente;Remar canoa lentamente;2.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+90;remo_ergometrico;Remo ergométrico;7;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+91;remo_forte;Remo forte;8.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+92;remo_leve;Remo leve;3.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+93;remo_moderado;Remo moderado;7;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+94;remo_muito_forte;Remo muito forte;12;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+95;rodeio;Rodeio;6;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+96;rugby;Rugby;10;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+97;salto_80_min;Salto < 80/ min;9;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+98;salto_120_a_140_min;Salto 120 a 140/ min;11;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+99;snowboard;Snowboard;7;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+100;softball;Softball;5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+101;spinning;Spinning;9.14;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+102;squash;Squash;12;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+103;step_aula;Step aula;7.5;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+104;step_transport_ou_rotex;Step, transport ou rotex;9;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+105;surfe;Surfe;6;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+106;tenis;Tenis;7;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+107;tenis_de_mesa;Tenis de mesa;4;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+108;trilha;Trilha;6;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+109;volei_casual;Vôlei casual;4;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+110;volei_competicao_no_ginasio;Vôlei competição no ginásio;8;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+111;volei_de_praia;Vôlei de praia;8;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+112;volei_de_quadra;Vôlei de quadra;3;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0
+113;waterpolo;Waterpolo;10;planilha da Nut. Luciana, aba MET (compêndio de atividades físicas);met-1.0.0

@@ -69,7 +69,7 @@ class QuestionariosApiTest extends TesteComPaciente {
 
 		// salvar parcial: tipos e perguntas validados
 		String objetivo=pergunta(q,"Qual é o seu principal objetivo com a dieta?").path("id").asString(),sexo=pergunta(q,"Sexo").path("id").asString();
-		String esc=pergunta(q,"Frutas e verduras").path("id").asString();
+		String esc=pergunta(q,"Hortaliças").path("id").asString();
 		var parcial=requisitar("PUT","/eu/questionarios/"+id+"/respostas",p.token(),Map.of("respostas",Map.of(objetivo,"Emagrecer")));
 		assertThat(parcial.statusCode()).as(parcial.body()).isEqualTo(200);assertThat(json(parcial).path("respostas").path(objetivo).asString()).isEqualTo("Emagrecer");assertThat(json(parcial).path("versao").asLong()).isEqualTo(2);
 		erro(requisitar("PUT","/eu/questionarios/"+id+"/respostas",p.token(),Map.of("respostas",Map.of(objetivo,"Invalido"))),400,"FORMATO_INVALIDO");

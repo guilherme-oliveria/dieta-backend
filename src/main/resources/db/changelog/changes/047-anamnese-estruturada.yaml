@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: 047-anamnese-estruturada
+      author: dietamais
+      changes:
+        - addColumn:
+            tableName: pergunta
+            columns:
+              - column: { name: codigo, type: varchar(80) }
+        - addColumn:
+            tableName: modelo_questionario
+            columns:
+              - column: { name: origem, type: varchar(40) }
+        - addColumn:
+            tableName: questionario
+            columns:
+              - column: { name: derivados, type: jsonb }
+        - sql:
+            sql: >-
+              CREATE UNIQUE INDEX ux_modelo_questionario_origem ON modelo_questionario(nutricionista_id,origem) WHERE origem IS NOT NULL AND excluido_em IS NULL;
+              CREATE UNIQUE INDEX ux_pergunta_codigo ON pergunta(modelo_id,codigo) WHERE codigo IS NOT NULL;
+              ALTER TABLE pergunta ADD CONSTRAINT ck_pergunta_codigo CHECK (codigo IS NULL OR codigo ~ '^[A-Z][A-Z0-9_]*$');
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE FUNCTION proteger_derivados_questionario() RETURNS trigger LANGUAGE plpgsql AS $$
+              BEGIN
+                IF OLD.status='RESPONDIDO' AND NEW.derivados IS DISTINCT FROM OLD.derivados THEN
+                  RAISE EXCEPTION 'Resultados do questionário respondido são imutáveis (RN-ANA-03)';
+                END IF;
+                RETURN NEW;
+              END;
+              $$;
+        - sql:
+            sql: >-
+              CREATE TRIGGER questionario_derivados_imutaveis BEFORE UPDATE ON questionario FOR EACH ROW EXECUTE FUNCTION proteger_derivados_questionario();

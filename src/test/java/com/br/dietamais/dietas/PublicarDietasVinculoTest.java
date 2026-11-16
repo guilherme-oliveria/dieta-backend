@@ -25,7 +25,7 @@ class PublicarDietasVinculoTest {
 	final Instant agora=Instant.parse("2026-10-28T08:00:00Z");
 	final Dieta origem=new Dieta(id,antigo,paciente,"Fictício",null,StatusDieta.RASCUNHO,1L,agora,agora);
 	final Dieta copia=new Dieta(gerado,antigo,paciente,"Fictício (cópia)",null,StatusDieta.RASCUNHO,1L,agora,agora);
-	final PublicarDietas caso=new PublicarDietas(montador,dietas,alimentos,listas,nutricionistas,fichas,usuario,guarda,auditoria,ids,Clock.fixed(agora,ZoneOffset.UTC),JsonMapper.builder().build(),eventos);
+	final PublicarDietas caso=new PublicarDietas(montador,dietas,alimentos,mock(com.br.dietamais.alimentos.api.ConsultarProdutosParaDieta.class),listas,nutricionistas,fichas,usuario,guarda,auditoria,ids,Clock.fixed(agora,ZoneOffset.UTC),JsonMapper.builder().build(),eventos);
 	@BeforeEach void configurar(){
 		when(usuario.obter()).thenReturn(new ContextoUsuario(new UsuarioResposta(UUID.randomUUID(),"Fictício","ficticio@example.invalid",true,List.of(Perfil.NUTRICIONISTA),Perfil.NUTRICIONISTA,nutri,null,"UTC"),UUID.randomUUID()));
 		when(dietas.dieta(id,nutri,true)).thenReturn(origem);when(dietas.dieta(id,nutri,false)).thenReturn(origem);when(dietas.dieta(gerado,nutri,false)).thenReturn(copia);when(ids.novo()).thenReturn(gerado);
@@ -49,8 +49,8 @@ class PublicarDietasVinculoTest {
 	@Test void mesmoVinculoAtivoContinuaPermitindoPublicarEDuplicar(){
 		when(fichas.consultar(paciente,true)).thenReturn(new FichaParaLista(antigo,paciente,StatusVinculo.ATIVO));
 		assertThat(caso.publicar(id,"\"1\"").vinculoId()).isEqualTo(antigo);verify(dietas).marcarPublicada(id,nutri,agora);verify(eventos).publishEvent(isA(DietaPublicada.class));
-		assertThat(caso.duplicar(id).vinculoId()).isEqualTo(antigo);verify(dietas).inserir(gerado,antigo,nutri,paciente,"Fictício (cópia)",null,agora);
+		assertThat(caso.duplicar(id).vinculoId()).isEqualTo(antigo);verify(dietas).inserir(gerado,antigo,nutri,paciente,"Fictício (cópia)",null,new DietaStore.Extras(null,null,null,null,java.util.List.of()),agora);
 	}
 	void negado(Runnable acao){assertThatThrownBy(acao::run).isInstanceOfSatisfying(ExcecaoNegocio.class,e->{assertThat(e.codigo()).isEqualTo(CodigoErro.ACESSO_NEGADO);assertThat(e.regra()).isEqualTo("RN-VIN-05");});}
-	void semEscrita(){verify(dietas,never()).marcarPublicada(any(),any(),any());verify(dietas,never()).inserirSnapshot(any(),any(),any(),any(),any(),any(),any());verify(dietas,never()).inserir(any(),any(),any(),any(),any(),any(),any());verifyNoInteractions(eventos);verify(auditoria,never()).escrita(any());}
+	void semEscrita(){verify(dietas,never()).marcarPublicada(any(),any(),any());verify(dietas,never()).inserirSnapshot(any(),any(),any(),any(),any(),any(),any());verify(dietas,never()).inserir(any(),any(),any(),any(),any(),any(),any(),any());verifyNoInteractions(eventos);verify(auditoria,never()).escrita(any());}
 }

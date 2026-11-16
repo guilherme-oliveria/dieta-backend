@@ -38,6 +38,13 @@ public class AvaliacaoController {
 		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(avaliacoes.listar(id));
 	}
 
+	@PostMapping("/pacientes/{id}/avaliacoes/previa")
+	@Operation(operationId="preverAvaliacao",summary="Calcular avaliação sem gravar",description="BE-55c: devolve os resultados que a gravação congelaria (RN-AVA-01/02, BE-55b), sem persistir. Só a nutri dona do vínculo; paciente de outra nutri é 404.")
+	@ApiResponse(responseCode="200",description="Resultados calculados",content=@Content(mediaType="application/json",schema=@Schema(implementation=PreviaAvaliacao.class)))
+	public ResponseEntity<PreviaAvaliacao> preverAvaliacao(@PathVariable UUID id,@Valid @RequestBody SalvarAvaliacaoRequisicao requisicao){
+		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(avaliacoes.previa(id,requisicao));
+	}
+
 	@PostMapping("/pacientes/{id}/avaliacoes")
 	@Idempotente
 	@Operation(operationId="criarAvaliacao",summary="Registrar avaliação",description="RN-AVA-01/02/03/05; o IMC e a classificação vêm do backend; BE-19.")

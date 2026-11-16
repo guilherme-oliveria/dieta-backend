@@ -37,6 +37,26 @@ public class GerenciarListaPaciente {
 		listas.atualizarAjuste(ficha.vinculoId(),nutri,dados,relogio.instant());
 		var resposta=montar(ficha,ajuste(ficha,nutri,false),nutri);auditoria.escrita(referencia(ficha,contexto));return resposta;
 	}
+	/**
+	 * G-19 / RN-ALI-06: copia a lista efetiva de outro paciente da mesma nutri para este, trocando só as diferenças sobre a lista-base daqui.
+	 * Alimentos desativados ficam de fora. Mesma regra de versão (If-Match), de isolamento (outra nutri = 404) e de vínculo encerrado do PUT.
+	 */
+	@Transactional
+	public ListaSubstituicaoResposta copiarDe(UUID paciente,UUID origem,String ifMatch){
+		var contexto=usuario.obter();var nutri=contexto.exigirNutricionista();guarda.validar();listas.bloquear(nutri);
+		if(paciente.equals(origem))throw new ExcecaoNegocio(CodigoErro.FORMATO_INVALIDO,"RN-ALI-06");
+		var ficha=fichas.consultar(paciente,true);var fichaOrigem=fichas.consultar(origem,false);
+		if(ficha.status()==StatusVinculo.ENCERRADO)throw new ExcecaoNegocio(CodigoErro.ACESSO_NEGADO,"RN-VIN-05");
+		var atual=ajuste(ficha,nutri,true);
+		if(VersaoLista.ler(ifMatch)!=atual.versao()){
+			auditoria.leitura(referencia(ficha,contexto));throw new ExcecaoNegocio(CodigoErro.CONFLITO_VERSAO,"RN-SYN-02","A lista foi atualizada. Revise os dados atuais.",List.of(),mapper.valueToTree(montar(ficha,atual,nutri)));
+		}
+		var alvo=new LinkedHashSet<UUID>();for(var a:listas.efetivos(ajuste(fichaOrigem,nutri,false),nutri))if(a.ativo())alvo.add(a.id());
+		var base=new LinkedHashSet<>(atual.base());
+		var adicionados=alvo.stream().filter(i->!base.contains(i)).toList();var removidos=base.stream().filter(i->!alvo.contains(i)).toList();
+		listas.atualizarAjuste(ficha.vinculoId(),nutri,new DadosAjusteLista(adicionados,removidos),relogio.instant());
+		var resposta=montar(ficha,ajuste(ficha,nutri,false),nutri);auditoria.escrita(referencia(ficha,contexto));return resposta;
+	}
 	private AjusteLista ajuste(FichaParaLista ficha,UUID nutri,boolean bloquear){
 		var ajuste=listas.ajuste(ficha.vinculoId(),nutri,bloquear);if(ajuste==null)throw new ExcecaoNegocio(CodigoErro.RECURSO_NAO_ENCONTRADO,null);return ajuste;
 	}

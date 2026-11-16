@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 052-item-produto
+      author: dietamais
+      changes:
+        - addColumn:
+            tableName: item_refeicao
+            columns:
+              - column: { name: produto_id, type: uuid, remarks: 'Produto da nutri como item da dieta (BE-48c, RN-ALI-05)', constraints: { foreignKeyName: fk_item_produto, references: produto_nutri(id) } }
+              - column: { name: gramas, type: 'numeric(10,2)', remarks: 'Quantidade em gramas (ou mL) do item por produto' }
+        - sql:
+            sql: >-
+              ALTER TABLE item_refeicao DROP CONSTRAINT ck_item_origem;
+              ALTER TABLE item_refeicao ADD CONSTRAINT ck_item_origem CHECK (
+                (num_nonnulls(alimento_id,grupo_id,produto_id)=1 AND (a_vontade OR porcoes IS NOT NULL OR (produto_id IS NOT NULL AND gramas IS NOT NULL)))
+                OR (num_nonnulls(alimento_id,grupo_id,produto_id)=0 AND a_vontade AND texto_livre IS NOT NULL));
+              ALTER TABLE item_refeicao ADD CONSTRAINT ck_item_gramas CHECK (gramas IS NULL OR (gramas>0 AND produto_id IS NOT NULL));

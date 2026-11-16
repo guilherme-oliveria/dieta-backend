@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: 054-exame-parasitologico-fezes
+      author: dietamais
+      comment: >-
+        BE-63: conferência da aba av. bioquimica das três planilhas contra o catálogo (038). Faltava "Parasitológico de fezes" (seção Fezes, texto livre, sem fórmula de
+        classificação na planilha). Entra depois de Sangue oculto (ordem 95) e o que vinha depois desce uma posição; a regra única devolve o rótulo "informado".
+      changes:
+        - sql:
+            sql: >-
+              UPDATE referencia_exame SET ordem = ordem + 1 WHERE ordem > 94;
+              INSERT INTO referencia_exame (faixa_etaria, codigo, secao, nome, unidade, ordem, qualitativo, condicoes)
+              SELECT f, 'parasitologico-de-fezes', 'Fezes', 'Parasitológico de fezes', NULL, 95, true, NULL FROM (VALUES ('CRIANCA'),('ADOLESCENTE'),('ADULTO')) AS t(f);
+              INSERT INTO referencia_exame_regra (faixa_etaria, exame_codigo, ordem, rotulo)
+              SELECT f, 'parasitologico-de-fezes', 1, 'informado' FROM (VALUES ('CRIANCA'),('ADOLESCENTE'),('ADULTO')) AS t(f);

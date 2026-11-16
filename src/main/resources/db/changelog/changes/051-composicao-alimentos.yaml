@@ -1,0 +1,57 @@
+databaseChangeLog:
+  - changeSet:
+      id: 051-composicao-alimentos
+      author: dietamais
+      comment: >-
+        BE-47c: composição por 100 g (34 nutrientes da aba Alimentos de "Dieta sem restrições") dos 571 alimentos do catálogo e 89 alimentos novos
+        (Embutido, Vegetal cru ou cozido, Bebida e 2 frutas). A TACO vale onde analisou o nutriente (campo fonte); a planilha completa o resto.
+        Os alimentos novos entram também na lista das nutris que já existem (só inclusão; nada que elas editaram muda e as listas dos pacientes ficam como estão).
+      changes:
+        - loadData:
+            tableName: alimento
+            file: db/changelog/dados/alimento-planilha.csv
+            encoding: UTF-8
+            separator: ";"
+            usePreparedStatements: true
+            columns:
+              - column: { header: id, name: id, type: UUID }
+              - column: { header: grupo_id, name: grupo_id, type: UUID }
+              - column: { header: nome, name: nome, type: STRING }
+              - column: { header: medida_caseira, name: medida_caseira, type: STRING }
+              - column: { header: gramas_por_porcao, name: gramas_por_porcao, type: NUMERIC }
+              - column: { header: ativo, name: ativo, type: BOOLEAN }
+        - createTable:
+            tableName: alimento_composicao
+            remarks: Nutrientes por 100 g do alimento do catálogo (BE-47c). Só o que a fonte informa (RN-CAL-04). Códigos como em grupo_porcao_nutriente (energia, gli, pro, lip, sat, ... agua). Dado, não código.
+            columns:
+              - column: { name: alimento_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_alimento_composicao_alimento, references: alimento(id) } }
+              - column: { name: nutriente, type: varchar(10), constraints: { nullable: false } }
+              - column: { name: valor, type: 'numeric(14,4)', constraints: { nullable: false } }
+              - column: { name: fonte, type: varchar(10), constraints: { nullable: false } }
+        - addPrimaryKey:
+            tableName: alimento_composicao
+            columnNames: alimento_id, nutriente
+            constraintName: pk_alimento_composicao
+        - sql:
+            sql: ALTER TABLE alimento_composicao ADD CONSTRAINT ck_alimento_composicao_fonte CHECK (fonte IN ('TACO','PLANILHA'))
+        - loadData:
+            tableName: alimento_composicao
+            file: db/changelog/dados/alimento-composicao.csv
+            encoding: UTF-8
+            separator: ";"
+            usePreparedStatements: true
+            columns:
+              - column: { header: alimento_id, name: alimento_id, type: UUID }
+              - column: { header: nutriente, name: nutriente, type: STRING }
+              - column: { header: valor, name: valor, type: NUMERIC }
+              - column: { header: fonte, name: fonte, type: STRING }
+        - sql:
+            sql: >-
+              INSERT INTO alimento_nutri(nutricionista_id,catalogo_id,grupo_id,nome,medida_caseira,gramas_por_porcao,ativo,marcadores)
+              SELECT n.id,a.id,a.grupo_id,a.nome,a.medida_caseira,a.gramas_por_porcao,a.ativo,a.marcadores
+              FROM nutricionista n
+              JOIN lista_alimentos_nutri l ON l.nutricionista_id=n.id
+              CROSS JOIN alimento a
+              JOIN grupo_alimento_nutri g ON g.nutricionista_id=n.id AND g.grupo_id=a.grupo_id
+              WHERE a.id>='019a0000-0001-7000-8000-000000000501'::uuid AND a.excluido_em IS NULL
+              ON CONFLICT(nutricionista_id,catalogo_id) DO NOTHING

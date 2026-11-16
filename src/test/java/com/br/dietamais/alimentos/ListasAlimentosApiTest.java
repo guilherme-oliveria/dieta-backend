@@ -45,6 +45,27 @@ class ListasAlimentosApiTest extends TesteIsolamento {
 		erro(requisitar("PATCH","/alimentos/"+id,a.token(),editar(alimento,true),Map.of("If-Match",tag(alimento))),409,"CONFLITO_VERSAO");
 		erro(requisitar("GET","/alimentos?pagina=-1",a.token(),null),400,"FORMATO_INVALIDO");
 	}
+	/** BE-51: marcadores de restrição sugeridos pelo catálogo, editáveis só na cópia da nutri e usados como filtro. */
+	@Test void marcadoresVemDoCatalogoSaoEditaveisSoNaCopiaPropriaEFiltram() throws Exception {
+		var a=cadastrarNutri();var b=cadastrarNutri();
+		var queijo=json(requisitar("GET","/alimentos?busca=Catupiry&tamanho=5",a.token(),null)).path("itens").get(0);
+		assertThat(queijo.path("marcadores").toString()).contains("CONTEM_LACTOSE");
+		var comLactose=json(requisitar("GET","/alimentos?busca=Catupiry&semMarcador=CONTEM_LACTOSE",a.token(),null));assertThat(comLactose.path("total").asLong()).isZero();
+		// criar sem marcadores = vazio; criar e editar com marcadores
+		String grupo=grupos(a.token()).get(0).path("id").asString();var corpo=new HashMap<>(novo(grupo,"Marcador ficticio"));corpo.put("marcadores",List.of("ALTO_SODIO","ALTO_SODIO","ACUCAR_ADICIONADO"));
+		var criado=json(requisitar("POST","/alimentos",a.token(),corpo));assertThat(criado.path("marcadores")).hasSize(2);
+		assertThat(json(requisitar("GET","/alimentos?busca=Marcador%20ficticio&semMarcador=ALTO_SODIO",a.token(),null)).path("total").asLong()).isZero();
+		assertThat(json(requisitar("GET","/alimentos?busca=Marcador%20ficticio&semMarcador=CONTEM_GLUTEN",a.token(),null)).path("total").asLong()).isEqualTo(1);
+		var editar=new HashMap<>(editar(criado,true));editar.put("marcadores",List.of());
+		var limpo=requisitar("PATCH","/alimentos/"+criado.path("id").asString(),a.token(),editar,Map.of("If-Match",tag(criado)));assertThat(limpo.statusCode()).isEqualTo(200);assertThat(json(limpo).path("marcadores")).isEmpty();
+		// sem o campo na edição, os marcadores ficam como estão
+		var depois=json(limpo);var manter=editar(depois,true);
+		var mantido=json(requisitar("PATCH","/alimentos/"+depois.path("id").asString(),a.token(),manter,Map.of("If-Match",tag(depois))));assertThat(mantido.path("marcadores")).isEmpty();
+		erro(requisitar("POST","/alimentos",a.token(),Map.of("grupoId",grupo,"nome","Invalido ficticio","medidaCaseira","1","gramasPorPorcao",1,"marcadores",List.of("NAO_EXISTE"))),400,"FORMATO_INVALIDO");
+		// a outra nutri tem a própria cópia, intacta
+		assertThat(json(requisitar("GET","/alimentos?busca=Catupiry",b.token(),null)).path("itens").get(0).path("marcadores").toString()).contains("CONTEM_LACTOSE");
+		assertThat(json(requisitar("GET","/alimentos?busca=Marcador%20ficticio",b.token(),null)).path("total").asLong()).isZero();
+	}
 	@Test void diferencasPorPacienteNaoAfetamOutroPacienteEHistoricoSoPermiteLeitura() throws Exception {
 		var a=cadastrarNutri();var b=cadastrarNutri();var p=criarPaciente(a.token());var outro=criarPaciente(a.token());String pid=p.path("id").asString();String outroId=outro.path("id").asString();
 		var antes=lista(a.token(),pid);String grupo=grupos(a.token()).get(0).path("id").asString();var novo=requisitar("POST","/alimentos",a.token(),novo(grupo,"Somente um paciente ficticio"));assertThat(novo.statusCode()).isEqualTo(201);String food=json(novo).path("id").asString();
@@ -60,6 +81,31 @@ class ListasAlimentosApiTest extends TesteIsolamento {
 		var historico=lista(a.token(),pid);assertThat(contem(historico,food)).isTrue();
 		erro(requisitar("PUT","/pacientes/"+pid+"/lista-substituicao",a.token(),Map.of("adicionados",List.of(),"removidos",List.of()),Map.of("If-Match",tag(historico))),403,"ACESSO_NEGADO");
 		assertThat(jdbc.queryForObject("select count(*) from log_acesso where usuario_id=? and registro_id=? and entidade='lista_substituicao' and acao='ESCRITA'",Integer.class,a.usuario(),UUID.fromString(p.path("vinculoId").asString()))).isEqualTo(1);
+	}
+	/** G-19, RN-ALI-06: copiar a lista de outro paciente da mesma nutri. */
+	@Test void copiaAListaDeOutroPacienteDaMesmaNutri() throws Exception {
+		var a=cadastrarNutri();var b=cadastrarNutri();var origem=criarPaciente(a.token());var destino=criarPaciente(a.token());var estranho=criarPaciente(b.token());
+		String o=origem.path("id").asString();String d=destino.path("id").asString();
+		String grupo=grupos(a.token()).get(0).path("id").asString();String extra=json(requisitar("POST","/alimentos",a.token(),novo(grupo,"Copiado ficticio"))).path("id").asString();
+		var la=lista(a.token(),o);String tirado=la.path("alimentos").get(0).path("id").asString();
+		assertThat(requisitar("PUT","/pacientes/"+o+"/lista-substituicao",a.token(),Map.of("adicionados",List.of(extra),"removidos",List.of(tirado)),Map.of("If-Match",tag(la))).statusCode()).isEqualTo(200);
+		var antes=lista(a.token(),d);assertThat(contem(antes,tirado)).isTrue();assertThat(contem(antes,extra)).isFalse();
+		// versão velha: 409
+		erro(requisitar("POST","/pacientes/"+d+"/lista-substituicao/copiar-de/"+o,a.token(),null,Map.of("If-Match","\"0\"")),409,"CONFLITO_VERSAO");
+		var feito=requisitar("POST","/pacientes/"+d+"/lista-substituicao/copiar-de/"+o,a.token(),null,Map.of("If-Match",tag(antes)));assertThat(feito.statusCode()).as(feito.body()).isEqualTo(200);
+		var depois=json(feito);assertThat(contem(depois,tirado)).isFalse();assertThat(contem(depois,extra)).isTrue();
+		assertThat(depois.path("alimentos").size()).isEqualTo(lista(a.token(),o).path("alimentos").size());
+		assertThat(feito.headers().firstValue("ETag").orElseThrow()).isEqualTo(tag(depois));
+		// o paciente de origem não muda; copiar para si mesmo não pode; paciente de outra nutri é 404 nas duas pontas
+		assertThat(contem(lista(a.token(),o),extra)).isTrue();
+		erro(requisitar("POST","/pacientes/"+d+"/lista-substituicao/copiar-de/"+d,a.token(),null,Map.of("If-Match",tag(depois))),400,"FORMATO_INVALIDO");
+		erro(requisitar("POST","/pacientes/"+d+"/lista-substituicao/copiar-de/"+estranho.path("id").asString(),a.token(),null,Map.of("If-Match",tag(depois))),404,"RECURSO_NAO_ENCONTRADO");
+		erro(requisitar("POST","/pacientes/"+d+"/lista-substituicao/copiar-de/"+o,b.token(),null,Map.of("If-Match",tag(depois))),404,"RECURSO_NAO_ENCONTRADO");
+		// alimento desativado na origem não é copiado
+		var alimento=json(requisitar("GET","/alimentos?busca=Copiado%20ficticio",a.token(),null)).path("itens").get(0);
+		var edicao=new HashMap<String,Object>(editar(alimento,false));assertThat(requisitar("PATCH","/alimentos/"+extra,a.token(),edicao,Map.of("If-Match",tag(alimento))).statusCode()).isEqualTo(200);
+		var outro=criarPaciente(a.token());String t=outro.path("id").asString();var lt=lista(a.token(),t);
+		var copia=json(requisitar("POST","/pacientes/"+t+"/lista-substituicao/copiar-de/"+o,a.token(),null,Map.of("If-Match",tag(lt))));assertThat(contem(copia,extra)).isFalse();assertThat(contem(copia,tirado)).isFalse();
 	}
 	@Test void pacienteGlobalCompartilhadoMantemListasPorVinculo() throws Exception {
 		var a=cadastrarNutri();var b=cadastrarNutri();var pa=criarPaciente(a.token());var pb=criarPaciente(b.token());UUID pid=UUID.fromString(pa.path("id").asString());UUID vb=UUID.fromString(pb.path("vinculoId").asString());
@@ -82,7 +128,7 @@ class ListasAlimentosApiTest extends TesteIsolamento {
 	}
 	@Test void inicializacaoDeLegadoEOcorrenciaUnicaPreservamAjustes() throws Exception {
 		var a=cadastrarNutri();jdbc.update("delete from alimento_nutri where nutricionista_id=?",a.nutri());jdbc.update("delete from grupo_alimento_nutri where nutricionista_id=?",a.nutri());jdbc.update("delete from lista_alimentos_nutri where nutricionista_id=?",a.nutri());
-		jdbc.queryForObject("select copiar_catalogo_nutri(?)",Object.class,a.nutri());assertThat(jdbc.queryForObject("select count(*) from alimento_nutri where nutricionista_id=?",Integer.class,a.nutri())).isEqualTo(482);
+		jdbc.queryForObject("select copiar_catalogo_nutri(?)",Object.class,a.nutri());assertThat(jdbc.queryForObject("select count(*) from alimento_nutri where nutricionista_id=?",Integer.class,a.nutri())).isEqualTo(571);
 		UUID id=jdbc.queryForObject("select id from alimento_nutri where nutricionista_id=? order by id limit 1",UUID.class,a.nutri());jdbc.update("update alimento_nutri set nome='Ajuste fictício preservado' where id=?",id);
 		jdbc.queryForObject("select copiar_catalogo_nutri(?)",Object.class,a.nutri());assertThat(jdbc.queryForObject("select nome from alimento_nutri where id=?",String.class,id)).isEqualTo("Ajuste fictício preservado");
 	}

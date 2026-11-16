@@ -11,14 +11,16 @@ class CatalogoApiTest extends TesteIsolamento {
 		var a=cadastrarNutri();var b=cadastrarNutri();
 		var resposta=requisitar("GET","/grupos-alimentos?nutricionistaId="+b.nutri(),a.token(),null);
 		assertThat(resposta.statusCode()).isEqualTo(200);assertThat(resposta.headers().firstValue("Cache-Control").orElseThrow()).contains("no-store");
-		assertThat(json(resposta).path("itens").size()).isEqualTo(12);
-		for(var grupo:json(resposta).path("itens"))assertThat(grupo.path("macrosEstimados").asBoolean()).isTrue();
+		assertThat(json(resposta).path("itens").size()).isEqualTo(15);
+		// os 12 grupos da carga inicial têm macros estimados pela TACO; os 3 de BE-47b (Vegetal cru ou cozido, Embutido e Bebida) vêm das médias da planilha
+		int estimados=0;for(var grupo:json(resposta).path("itens"))if(grupo.path("macrosEstimados").asBoolean())estimados++;
+		assertThat(estimados).isEqualTo(12);
 		assertThat(json(requisitar("GET","/grupos-alimentos",b.token(),null))).isEqualTo(json(resposta));
 		assertThat(resposta.body()).doesNotContain(a.email(),b.email(),"usuarioId","nutricionistaId","senha","paciente");
-		assertThat(jdbc.queryForObject("select count(*) from alimento where ativo",Integer.class)).isEqualTo(482);
+		assertThat(jdbc.queryForObject("select count(*) from alimento where ativo",Integer.class)).isEqualTo(571);
 		assertThat(jdbc.queryForObject("select count(*) from fonte_macros_grupo where estimativa",Integer.class)).isEqualTo(12);
 		assertThat(jdbc.queryForObject("select count(*) from grupo_alimento where carboidratos_por_porcao is null or proteinas_por_porcao is null or gorduras_por_porcao is null",Integer.class)).isZero();
-		var lista=requisitar("GET","/alimentos",a.token(),null);assertThat(lista.statusCode()).isEqualTo(200);assertThat(json(lista).path("total").asLong()).isEqualTo(482);
+		var lista=requisitar("GET","/alimentos",a.token(),null);assertThat(lista.statusCode()).isEqualTo(200);assertThat(json(lista).path("total").asLong()).isEqualTo(571);
 	}
 	@Test void identidadePerfilEPlanoSaoConferidosSemDarEscritaNoCatalogo() throws Exception {
 		erro(requisitar("GET","/grupos-alimentos",null,null),401,"NAO_AUTENTICADO");var a=cadastrarNutri();
