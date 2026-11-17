@@ -30,7 +30,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-security-oauth2-resource-server")
-	implementation("org.bouncycastle:bcprov-jdk18on:1.86")
+	implementation("org.bouncycastle:bcprov-jdk18on:1.87")
 	implementation("com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10")
 	implementation("org.apache.pdfbox:pdfbox:2.0.35")
 	implementation("org.apache.pdfbox:fontbox:2.0.35")
